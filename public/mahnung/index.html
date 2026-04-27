@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -34,18 +33,15 @@
 
 <section class="hero">
   <div class="container">
-    <a href="/" class="back-link">&#8592; Alle Kategorien</a>
-
     <div class="hero__eyebrow" style="justify-content:center;text-align:center;display:block;margin:0 auto 20px;">
       Viele Mahnungen enthalten Fehler &mdash; pr&uuml;fe, bevor du zahlst
     </div>
 
     <h1 style="text-align:center;">Zahlst du diese Mahnung<br>wirklich zu Recht?</h1>
 
-    <p class="hero__sub" style="text-align:center;margin:0 auto;max-width:620px;">
-      Viele Mahnungen und Inkassoschreiben enthalten Fehler, &uuml;berh&ouml;hte Kosten oder unklare Forderungen.<br><br>
-      Lade dein Schreiben hoch und erhalte eine vollst&auml;ndige Analyse + fertigen Widerspruch innerhalb von 24&nbsp;Stunden.<br><br>
-      <strong>Bevor du zahlst.</strong>
+    <p class="hero__sub" style="text-align:center;margin:0 auto;max-width:560px;">
+      Viele Mahnungen enthalten Fehler, &uuml;berh&ouml;hte Kosten oder verj&auml;hrte Forderungen.<br><br>
+      Lade dein Schreiben hoch &mdash; Analyse + fertiger Widerspruch innerhalb von 24&nbsp;Stunden.
     </p>
 
     <div class="hinweis-box">
@@ -83,42 +79,19 @@
         <p class="optie-guarantee" style="font-size:.76rem;color:var(--muted);text-align:center;margin-top:6px;">Unvollst&auml;ndige Analyse? Geld zur&uuml;ck.</p>
       </div>
 
-      <div class="optie-card optie-card--gratis" id="free-card" style="opacity:0;transform:scale(.97);transform-origin:top center;transition:opacity .4s ease;pointer-events:none;">
-        <div class="optie-badge optie-badge--gratis">Kostenlos</div>
-        <h3 class="optie-title" style="font-size:.98rem;">Noch unsicher?</h3>
-        <p class="optie-desc" style="font-size:.82rem;">Lade dein Schreiben hoch und erhalte eine kostenlose Ersteinsch&auml;tzung per E-Mail.</p>
-        <ul class="optie-list" style="font-size:.82rem;">
-          <li>&#10003; Absender und Forderungstyp erkannt</li>
-          <li>&#10003; Erstes Widerspruchspotenzial: hoch, mittel oder gering</li>
-          <li>&#10003; Bis zum n&auml;chsten Werktag vor 16:00&nbsp;Uhr</li>
-        </ul>
-        <div class="optie-price" style="font-size:1.2rem;">Kostenlos</div>
-        <input type="file" id="gratis-file-input" accept=".pdf,.jpg,.jpeg,.png" onchange="handleGratisFileSelect(this)" style="display:none;">
-        <label class="upload-section upload-section--small" id="gratis-upload-zone" for="gratis-file-input">
-          <div class="upload-label">Schreiben hochladen</div>
-          <div class="upload-hint">PDF, JPG oder PNG &middot; max.&nbsp;8&nbsp;MB</div>
-        </label>
-        <div id="gratis-contact-fields" style="display:none;gap:8px;flex-direction:column;">
-          <input type="text" id="gratis-name" placeholder="Dein Name" class="optie-input">
-          <input type="email" id="gratis-email" placeholder="Deine E-Mail-Adresse" class="optie-input">
-        </div>
-        <button class="optie-btn optie-btn--gratis" id="gratis-btn" onclick="startGratisUpload()" disabled>Kostenlose Einsch&auml;tzung anfordern</button>
-        <div class="optie-status" id="gratis-status"></div>
-      </div>
-
     </div>
 
     <div class="teaser" id="teaser">
       <div class="teaser__header">
         <div>
-          <div style="font-size:.72rem;color:#9CA3AF;margin-bottom:4px;letter-spacing:.05em;text-transform:uppercase;">Erkannt</div>
-          <div class="teaser__company" id="teaser-company">Wir haben m&ouml;gliche Ansatzpunkte identifiziert</div>
+          <div style="font-size:.72rem;color:#9CA3AF;margin-bottom:4px;letter-spacing:.05em;text-transform:uppercase;">Nach der Zahlung</div>
+          <div class="teaser__company" id="teaser-company">Dein Schreiben wird nach der Zahlung vollst&auml;ndig gepr&uuml;ft.</div>
         </div>
         <div class="teaser__status-label">Bereit</div>
       </div>
       <div class="teaser__body">
-        <div class="teaser__found">Erste Einsch&auml;tzung:</div>
-        <div class="teaser__sub" id="teaser-sub">Dein Schreiben wurde gepr&uuml;ft.</div>
+        <div class="teaser__found">Was dich erwartet:</div>
+        <div class="teaser__sub" id="teaser-sub">Vollst&auml;ndige Pr&uuml;fung + fertiger Widerspruch &mdash; innerhalb von 24&nbsp;Stunden per E-Mail.</div>
         <div class="teaser__locked">
           <div class="lock-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
           <div class="teaser__locked-text" id="teaser-locked-text">
