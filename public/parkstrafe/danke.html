@@ -1,1 +1,156 @@
 
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zahlung erfolgreich &mdash; Bescheid hochladen | MussIchZahlen.de</title>
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    .thankyou-wrap{max-width:760px;margin:0 auto;padding:56px 24px 140px}
+    .thankyou-card{background:var(--white);border:1.5px solid var(--line);border-radius:16px;padding:36px 28px;box-shadow:0 10px 24px rgba(17,24,39,.06)}
+    .thankyou-badge{display:inline-flex;align-items:center;gap:8px;background:var(--green-soft);color:var(--green);border-radius:100px;padding:6px 14px;font-size:.78rem;font-weight:700;margin-bottom:18px}
+    .thankyou-dot{width:8px;height:8px;background:var(--green);border-radius:50%}
+    .progress-bar{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted);margin-bottom:18px}
+    .progress-bar__step--done{color:var(--green);font-weight:700}
+    .progress-bar__step--current{color:var(--accent);font-weight:700}
+    .progress-bar__divider{width:24px;height:1px;background:var(--line)}
+    .thankyou-steps{display:grid;gap:14px;margin-bottom:30px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 18px 8px}
+    .thankyou-step{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+    .thankyou-step-num{width:28px;height:28px;flex-shrink:0;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:700}
+    .thankyou-step-title{font-weight:700;color:var(--ink);font-size:.95rem;margin-bottom:2px}
+    .thankyou-step-desc{color:var(--muted);font-size:.86rem;line-height:1.7}
+    .form-grid{display:grid;gap:16px;margin-bottom:18px}
+    .field label{display:block;font-size:.84rem;font-weight:700;color:var(--ink);margin-bottom:8px}
+    .field input{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:14px 15px;font-size:.95rem;color:var(--ink);background:var(--white);outline:none;transition:border-color .2s;box-sizing:border-box}
+    .field input:focus{border-color:var(--accent-2)}
+    .upload-panel{background:var(--surface);border:1.5px dashed var(--line);border-radius:12px;padding:28px 22px;text-align:center;margin-bottom:12px;cursor:pointer;display:block;transition:border-color .2s,background .2s}
+    .upload-panel:hover,.upload-panel.drag-over{border-color:var(--accent-2);background:var(--accent-soft)}
+    .upload-panel__icon{width:52px;height:52px;margin:0 auto 14px;border-radius:10px;border:1.5px solid var(--line);background:var(--white);display:flex;align-items:center;justify-content:center}
+    .upload-panel__title{font-weight:700;font-size:1rem;color:var(--ink);margin-bottom:6px}
+    .upload-panel__sub{font-size:.84rem;color:var(--muted)}
+    .upload-security{display:flex;align-items:center;justify-content:center;gap:6px;font-size:.76rem;color:var(--muted);margin-bottom:18px}
+    #real-file-input{display:none}
+    .selected-file{display:none;background:var(--green-soft);color:var(--green);border:1px solid #b7e4c7;border-radius:10px;padding:14px 16px;margin-bottom:16px}
+    .selected-file.show{display:flex;align-items:center;gap:12px}
+    .selected-file__check{width:24px;height:24px;flex-shrink:0;background:var(--green);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem}
+    .selected-file__name{font-weight:700;font-size:.9rem}
+    .selected-file__meta{font-size:.78rem;opacity:.8;margin-top:2px}
+    .selected-file__remove{margin-left:auto;background:none;border:none;color:var(--green);cursor:pointer;font-size:.82rem;font-weight:700;text-decoration:underline}
+    .cta-main{width:100%;padding:16px;font-size:1rem;font-weight:700}
+    .cta-sub-note{text-align:center;font-size:.78rem;color:var(--muted);margin-top:10px}
+    .status-box{display:none;border-radius:10px;padding:13px 15px;font-size:.86rem;font-weight:600;margin-top:14px;line-height:1.6}
+    .status-box.success{display:block;background:var(--green-soft);color:var(--green);border:1px solid #b7e4c7}
+    .status-box.error{display:block;background:var(--red-soft);color:var(--red);border:1px solid #f5b7b1}
+    .status-box.info{display:block;background:var(--amber-soft);color:var(--amber);border:1px solid #f6d58a}
+    .frist-reminder{background:#fef2f2;border-left:4px solid #ef4444;border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:.86rem;color:#7f1d1d;line-height:1.6}
+    .fallback-box{margin-top:28px;padding:18px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+    .fallback-box strong{display:block;margin-bottom:6px;color:var(--ink);font-size:.9rem}
+    .fallback-box p{color:var(--muted);font-size:.83rem;line-height:1.7;margin:0}
+    .fallback-email{font-weight:700;font-size:.98rem;color:var(--accent);margin-top:6px;display:inline-block}
+    .locked-screen{max-width:700px;margin:0 auto;padding:80px 24px;text-align:center}
+    .locked-screen p{color:var(--muted);line-height:1.7}
+    .locked-screen a{display:inline-block;margin-top:16px;color:var(--accent);font-weight:700}
+    .success-screen{text-align:center;padding:20px 0}
+    .success-screen__icon{width:64px;height:64px;margin:0 auto 18px;border-radius:50%;background:var(--green-soft);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700}
+    .success-screen h2{color:var(--ink);margin-bottom:10px}
+    .success-screen p{color:var(--ink-3);line-height:1.7;max-width:480px;margin:0 auto 18px}
+    @media(max-width:600px){.thankyou-wrap{padding:32px 16px 120px}.thankyou-card{padding:24px 18px}}
+  </style>
+</head>
+<body>
+
+  <div id="locked-screen" class="locked-screen" style="display:none;">
+    <h2>Kein Zugang</h2>
+    <p>Diese Seite ist nur nach einer erfolgreichen Zahlung erreichbar.</p>
+    <a href="/parkstrafe/">Zur&uuml;ck zur Bescheidpr&uuml;fung</a>
+  </div>
+
+  <div id="thankyou-app" class="thankyou-wrap" style="display:none;">
+    <div class="thankyou-card">
+
+      <div class="thankyou-badge"><span class="thankyou-dot"></span>Zahlung erfolgreich</div>
+
+      <div class="progress-bar">
+        <span class="progress-bar__step progress-bar__step--done">&#10003; Bezahlt</span>
+        <span class="progress-bar__divider"></span>
+        <span class="progress-bar__step progress-bar__step--current">Schritt 2: Bescheid hochladen</span>
+      </div>
+
+      <div class="frist-reminder">
+        &#9888;&#65039; <strong>Einspruchsfrist beachten:</strong> Die Frist betr&auml;gt 2 Wochen ab Zustellung (&sect;&nbsp;67&nbsp;OWiG). Du erh&auml;ltst dein Einspruchsschreiben innerhalb von 24&nbsp;Stunden &mdash; noch rechtzeitig versendbar.
+      </div>
+
+      <h1 style="font-size:clamp(1.7rem,4vw,2.3rem);margin-bottom:12px;line-height:1.25;">Letzter Schritt &mdash; lade jetzt deinen Bescheid hoch</h1>
+
+      <p style="font-size:1rem;color:var(--ink-3);line-height:1.75;margin-bottom:28px;">
+        Wir starten sofort mit der Analyse. Du erh&auml;ltst die vollst&auml;ndige Analyse und das fertige Einspruchsschreiben
+        <strong style="background:var(--amber-soft);padding:2px 6px;border-radius:4px;">innerhalb von 24&nbsp;Stunden</strong> per E-Mail.
+      </p>
+
+      <div class="thankyou-steps">
+        <div class="thankyou-step">
+          <div class="thankyou-step-num">1</div>
+          <div><div class="thankyou-step-title">Bescheid hochladen</div><div class="thankyou-step-desc">Bu&szlig;geldbescheid, Verwarnung oder Parkzettel. PDF, JPG oder PNG.</div></div>
+        </div>
+        <div class="thankyou-step">
+          <div class="thankyou-step-num">2</div>
+          <div><div class="thankyou-step-title">Wir pr&uuml;fen alles</div><div class="thankyou-step-desc">Bescheidtyp, Formfehler, Verj&auml;hrung (&sect;&nbsp;26&nbsp;Abs.&nbsp;3&nbsp;StVG), Fahrzeugidentifikation und Beschilderung.</div></div>
+        </div>
+        <div class="thankyou-step">
+          <div class="thankyou-step-num">3</div>
+          <div><div class="thankyou-step-title">Einspruch per E-Mail</div><div class="thankyou-step-desc">Vollst&auml;ndige Analyse + fertiges Einspruchsschreiben <strong>innerhalb von 24&nbsp;Stunden</strong>. Rechtzeitig versenden.</div></div>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="customer-name">Dein Name</label>
+          <input type="text" id="customer-name" placeholder="Vor- und Nachname" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="customer-email">E-Mail-Adresse f&uuml;r dein Ergebnis</label>
+          <input type="email" id="customer-email" placeholder="name@beispiel.de" autocomplete="email">
+        </div>
+      </div>
+
+      <label class="upload-panel" id="upload-panel" for="real-file-input">
+        <input type="file" id="real-file-input" accept=".pdf,.jpg,.jpeg,.png">
+        <div class="upload-panel__icon">
+          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#6B7A90" stroke-width="1.8">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <div class="upload-panel__title">Klicken oder Datei hierher ziehen</div>
+        <div class="upload-panel__sub">PDF, JPG oder PNG &middot; max.&nbsp;8&nbsp;MB</div>
+      </label>
+
+      <div class="upload-security">&#128274; Sichere SSL-Verbindung &middot; Dokument wird nach der Analyse gel&ouml;scht</div>
+
+      <div class="selected-file" id="selected-file">
+        <div class="selected-file__check">&#10003;</div>
+        <div>
+          <div class="selected-file__name" id="selected-file-name"></div>
+          <div class="selected-file__meta" id="selected-file-meta"></div>
+        </div>
+        <button type="button" class="selected-file__remove" id="remove-file">entfernen</button>
+      </div>
+
+      <button class="cta-main" id="submit-btn" type="button" disabled>Zuerst eine Datei ausw&auml;hlen</button>
+      <div class="cta-sub-note">Nach dem Upload starten wir sofort &mdash; Einspruch in 24&nbsp;Stunden.</div>
+      <div class="status-box" id="status-box"></div>
+
+      <div class="fallback-box">
+        <strong>Upload funktioniert nicht?</strong>
+        <p>Sende deinen Bescheid direkt per E-Mail an uns &mdash; wir bearbeiten ihn genauso schnell. Bitte deinen Namen und die E-Mail-Adresse angeben, mit der du bezahlt hast.</p>
+        <a href="mailto:support@mussichzahlen.de" class="fallback-email">support@mussichzahlen.de</a>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
