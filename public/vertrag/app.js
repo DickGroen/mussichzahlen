@@ -1,1 +1,223 @@
 
+import { validateFile, formatFileSize, submitFree, submitPaid, initFaq, initModal, initStickyFooter, openModal, closeModal } from '../app.js';
+
+// Expose to HTML onclick handlers
+window.openModal  = openModal;
+window.closeModal = closeModal;
+window.toggleFaq  = (el) => { /* handled by initFaq */ };
+
+const TYPE = 'vertrag';
+let selectedFile = null;
+let gratisFile   = null;
+
+// ── Kostenlose Einschätzung ───────────────────────────────────────────────────
+
+window.handleGratisFileSelect = function(input) {
+  if (!input.files?.[0]) return;
+  gratisFile = input.files[0];
+  const err = validateFile(gratisFile);
+  if (err) {
+    const s = document.getElementById('gratis-status');
+    s.className = 'optie-status optie-status--error';
+    s.textContent = err;
+    return;
+  }
+  const zone = document.getElementById('gratis-upload-zone');
+  zone.innerHTML = `<div class="upload-label" style="color:var(--green);">&#10003; ${esc(gratisFile.name)}</div><div class="upload-hint">${formatFileSize(gratisFile.size)}</div>`;
+  document.getElementById('gratis-contact-fields').style.display = 'flex';
+  checkGratisReady();
+};
+
+function checkGratisReady() {
+  const name  = document.getElementById('gratis-name').value.trim();
+  const email = document.getElementById('gratis-email').value.trim();
+  document.getElementById('gratis-btn').disabled = !(name && email.includes('@') && email.includes('.') && gratisFile);
+}
+
+document.getElementById('gratis-name')?.addEventListener('input', checkGratisReady);
+document.getElementById('gratis-email')?.addEventListener('input', checkGratisReady);
+
+window.startGratisUpload = async function() {
+  const name   = document.getElementById('gratis-name').value.trim();
+  const email  = document.getElementById('gratis-email').value.trim();
+  const btn    = document.getElementById('gratis-btn');
+  const status = document.getElementById('gratis-status');
+  if (!gratisFile) return;
+
+  btn.disabled    = true;
+  btn.textContent = 'Wird gesendet\u2026';
+
+  try {
+    const data = await submitFree({
+      file: gratisFile, name, email, type: TYPE,
+      onStatus: (t, msg) => { status.className = `optie-status optie-status--${t}`; status.textContent = msg; }
+    });
+
+    showTeaser(data.triage);
+    status.className = 'optie-status optie-status--success';
+    status.textContent = 'Erledigt! Deine Einsch\u00e4tzung erh\u00e4ltst du bis zum n\u00e4chsten Werktag vor 16:00\u00a0Uhr per E-Mail.';
+    btn.textContent = 'Gesendet \u2713';
+  } catch (err) {
+    status.className = 'optie-status optie-status--error';
+    status.textContent = 'Fehler: ' + err.message;
+    btn.disabled    = false;
+    btn.textContent = 'Kostenlose Einsch\u00e4tzung anfordern';
+  }
+};
+
+// ── Teaser ────────────────────────────────────────────────────────────────────
+
+function showTeaser(triage) {
+  const teaser = document.getElementById('teaser');
+  if (!teaser || !triage) return;
+  teaser.style.display = 'block';
+  setTimeout(() => teaser.classList.add('teaser--visible'), 10);
+
+  const sender        = triage.sender;
+  const monatlich     = triage.monatliche_kosten;
+  const risk          = triage.risk || 'medium';
+
+  const company = document.getElementById('teaser-company');
+  if (monatlich && sender) {
+    company.textContent = `${sender} \u2014 m\u00f6gliche K\u00fcndigungsszenarien f\u00fcr ${monatlich}\u00a0\u20ac/Monat identifiziert`;
+  } else if (sender) {
+    company.textContent = `${sender} \u2014 wir haben m\u00f6gliche K\u00fcndigungsszenarien identifiziert`;
+  } else {
+    company.textContent = 'Wir haben m\u00f6gliche K\u00fcndigungsszenarien identifiziert';
+  }
+
+  const riskMsg = {
+    high:   '\uD83D\uDFE2 Gute Chancen \u2014 m\u00f6glicherweise unwirksame Klauseln gefunden.',
+    medium: '\uD83D\uDFE0 M\u00f6gliche Ans\u00e4tzpunkte \u2014 eine vollst\u00e4ndige Pr\u00fcfung gibt Sicherheit.',
+    low:    '\uD83D\uDFE1 Begrenzte Ans\u00e4tzpunkte \u2014 aber eine Pr\u00fcfung kann Optionen aufzeigen.'
+  };
+  document.getElementById('teaser-sub').textContent = riskMsg[risk] || '';
+
+  const locked = document.getElementById('teaser-locked-text');
+  if (locked) {
+    locked.innerHTML = `<strong>Vollst\u00e4ndige Analyse + K\u00fcndigungsschreiben nach Zahlung</strong>
+      Wir pr\u00fcfen alle K\u00fcndigungsm\u00f6glichkeiten und erstellen ein fertiges Schreiben \u2014 innerhalb von 24\u00a0Stunden.`;
+  }
+
+  const modalCopy = document.getElementById('modal-dynamic-copy');
+  if (modalCopy) {
+    modalCopy.textContent = sender
+      ? `Wir haben m\u00f6gliche K\u00fcndigungsszenarien f\u00fcr deinen ${esc(sender)}-Vertrag identifiziert \u2014 vollst\u00e4ndige Analyse nach der Zahlung.`
+      : 'Wir haben m\u00f6gliche K\u00fcndigungsszenarien identifiziert \u2014 vollst\u00e4ndige Analyse nach der Zahlung.';
+  }
+
+  teaser.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ── Bezahlt-Upload (danke.html) ───────────────────────────────────────────────
+
+if (document.getElementById('submit-btn')) {
+  const fileInput = document.getElementById('real-file-input');
+
+  fileInput?.addEventListener('change', () => {
+    if (fileInput.files?.[0]) updateSelectedFile(fileInput.files[0]);
+  });
+
+  const uploadPanel = document.getElementById('upload-panel');
+  uploadPanel?.addEventListener('dragover', e => { e.preventDefault(); uploadPanel.classList.add('drag-over'); });
+  uploadPanel?.addEventListener('dragleave', () => uploadPanel.classList.remove('drag-over'));
+  uploadPanel?.addEventListener('drop', e => {
+    e.preventDefault(); uploadPanel.classList.remove('drag-over');
+    if (e.dataTransfer.files?.[0]) { fileInput.files = e.dataTransfer.files; updateSelectedFile(e.dataTransfer.files[0]); }
+  });
+
+  document.getElementById('remove-file')?.addEventListener('click', e => { e.preventDefault(); clearFile(); });
+  document.getElementById('submit-btn')?.addEventListener('click', doSubmit);
+
+  validateSession();
+}
+
+function validateSession() {
+  const params    = new URLSearchParams(window.location.search);
+  const sessionId = params.get('session_id');
+  if (sessionId?.startsWith('cs_')) {
+    document.getElementById('thankyou-app').style.display = 'block';
+    const emailEl = document.getElementById('customer-email');
+    if (emailEl && params.get('email')) emailEl.value = params.get('email');
+  } else {
+    document.getElementById('locked-screen').style.display = 'block';
+  }
+}
+
+function updateSelectedFile(file) {
+  const err = validateFile(file);
+  if (err) { showStatus(err, 'error'); return; }
+  selectedFile = file;
+  document.getElementById('selected-file').classList.add('show');
+  document.getElementById('selected-file-name').textContent = file.name;
+  document.getElementById('selected-file-meta').textContent = formatFileSize(file.size) + ' \u00b7 bereit';
+  const btn = document.getElementById('submit-btn');
+  btn.disabled    = false;
+  btn.textContent = 'Jetzt hochladen und Analyse starten';
+}
+
+function clearFile() {
+  selectedFile = null;
+  document.getElementById('real-file-input').value = '';
+  document.getElementById('selected-file').classList.remove('show');
+  const btn = document.getElementById('submit-btn');
+  btn.disabled    = true;
+  btn.textContent = 'Zuerst eine Datei ausw\u00e4hlen';
+}
+
+function showStatus(msg, type) {
+  const box = document.getElementById('status-box');
+  box.className = 'status-box ' + type;
+  box.innerHTML  = msg;
+}
+
+async function doSubmit() {
+  const name      = document.getElementById('customer-name').value.trim();
+  const email     = document.getElementById('customer-email').value.trim();
+  const params    = new URLSearchParams(window.location.search);
+  const file      = document.getElementById('real-file-input').files[0] || selectedFile;
+
+  if (!name || !email.includes('@') || !file) {
+    showStatus('Bitte alle Felder ausf\u00fcllen und eine Datei ausw\u00e4hlen.', 'error');
+    return;
+  }
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled    = true;
+  btn.textContent = 'Wird hochgeladen\u2026';
+
+  try {
+    await submitPaid({
+      file, name, email, type: TYPE,
+      sessionId: params.get('session_id'),
+      onStatus:  showStatus
+    });
+
+    document.querySelector('.thankyou-card').innerHTML = `
+      <div class="success-screen">
+        <div class="success-screen__icon">&#10003;</div>
+        <h2>Upload erfolgreich!</h2>
+        <p>Wir analysieren deinen Vertrag und senden dir die vollst\u00e4ndige Analyse sowie das fertige K\u00fcndigungsschreiben an <strong>${esc(email)}</strong> innerhalb von 24\u00a0Stunden.</p>
+        <p style="font-size:.82rem;color:var(--muted);">Bitte auch den Spam-Ordner pr\u00fcfen.</p>
+      </div>`;
+  } catch (err) {
+    showStatus('Upload fehlgeschlagen: ' + err.message + '. Bitte erneut versuchen oder an support@mussichzahlen.de schreiben.', 'error');
+    btn.disabled    = false;
+    btn.textContent = 'Jetzt hochladen und Analyse starten';
+  }
+}
+
+function esc(str) {
+  return String(str || '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+
+initFaq();
+initModal();
+initStickyFooter();
+
+setTimeout(() => {
+  const card = document.getElementById('free-card');
+  if (card) { card.style.opacity = '0.85'; card.style.pointerEvents = 'auto'; }
+}, 4000);
