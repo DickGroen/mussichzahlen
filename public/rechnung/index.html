@@ -1,258 +1,241 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zahlst du diese Rechnung wirklich zu Recht? | MussIchZahlen.de</title>
-  <meta name="description" content="Falsche Betr&auml;ge, doppelte Positionen oder unklare Geb&uuml;hren kommen h&auml;ufiger vor als gedacht. Pr&uuml;fe deine Rechnung und erhalte ein fertiges Widerspruchsschreiben. Einmalig 29 Euro.">
+  <meta name="description" content="Falsche Betr&auml;ge, doppelte Positionen oder unklare Geb&uuml;hren. Pr&uuml;fe deine Rechnung und erhalte ein fertiges Widerspruchsschreiben. Einmalig &euro;29.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
-    @media(max-width:680px){.trust-grid{grid-template-columns:1fr}}
-    .trust-item{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:20px 16px}
-    .trust-item__label{font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:6px}
-    .trust-item__text{font-size:.88rem;color:var(--ink-3);line-height:1.65}
-    .back-link{display:inline-flex;align-items:center;gap:6px;font-size:.84rem;color:var(--muted);text-decoration:none;margin-bottom:12px}
-    .back-link:hover{color:var(--accent)}
-    .hinweis-box{background:#fff7ed;border-left:4px solid #f97316;border-radius:8px;padding:13px 16px;margin:18px 0;font-size:.88rem;color:#7c2d12;line-height:1.6}
+    :root{--ink:#0f1923;--ink-2:#2d3748;--ink-3:#4a5568;--muted:#718096;--line:#e2e8f0;--surface:#f7f9fc;--white:#ffffff;--accent:#1a3a6b;--accent-2:#2d5499;--green:#166534;--green-soft:#dcfce7;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.65;color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased;}
+    h1,h2,h3{font-family:'Lora',Georgia,serif;line-height:1.2;}
+    a{color:var(--accent);}
+    .container{max-width:860px;margin:0 auto;padding:0 24px;}
+    .hinweis-banner{background:#fff7ed;border-bottom:2px solid #fdba74;padding:10px 0;text-align:center;font-size:.84rem;font-weight:600;color:#92400e;}
+    .header{background:var(--white);border-bottom:1px solid var(--line);padding:16px 0;position:sticky;top:0;z-index:100;}
+    .header__inner{display:flex;align-items:center;justify-content:space-between;}
+    .logo{font-family:'Lora',serif;font-size:1.15rem;font-weight:700;color:var(--accent);}
+    .logo-dot{display:inline-block;width:8px;height:8px;background:var(--accent-2);border-radius:50%;margin-right:6px;vertical-align:middle;}
+    .header-cta{background:var(--accent);color:var(--white);border:none;border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;}
+    .header-cta:hover{background:var(--accent-2);}
+    .hero{padding:64px 0 48px;text-align:center;}
+    .hero h1{font-size:clamp(1.9rem,5vw,2.9rem);margin-bottom:20px;max-width:700px;margin-left:auto;margin-right:auto;}
+    .hero__sub{font-size:1.05rem;color:var(--ink-3);max-width:540px;margin:0 auto 32px;line-height:1.7;}
+    .hero-cta{display:inline-block;background:var(--accent);color:var(--white);text-decoration:none;padding:18px 40px;border-radius:10px;font-size:1.1rem;font-weight:700;}
+    .hero-cta:hover{background:var(--accent-2);}
+    .hero-sub-note{font-size:.82rem;color:var(--muted);margin-top:10px;}
+    .trust-triggers{background:var(--green-soft);border:1px solid #bbf7d0;border-radius:12px;padding:20px 24px;margin:40px 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+    @media(max-width:600px){.trust-triggers{grid-template-columns:1fr;}}
+    .trust-trigger{display:flex;align-items:flex-start;gap:10px;font-size:.87rem;color:var(--green);line-height:1.55;}
+    .trust-trigger strong{display:block;font-weight:700;color:#14532d;margin-bottom:2px;}
+    .section{padding:72px 0;}
+    .section--alt{background:var(--surface);}
+    .section-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-2);margin-bottom:10px;}
+    .section h2{font-size:clamp(1.5rem,3vw,2rem);margin-bottom:32px;}
+    .value-strip{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 36px;justify-content:center;}
+    .value-item{display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--line);border-radius:100px;padding:8px 16px;font-size:.86rem;color:var(--ink-2);font-weight:500;}
+    .vi-check{color:var(--green);font-weight:700;}
+    .offer-card{background:var(--white);border:2px solid var(--accent);border-radius:16px;padding:36px 32px;max-width:580px;margin:0 auto;box-shadow:0 12px 40px rgba(26,58,107,.1);}
+    @media(max-width:600px){.offer-card{padding:24px 20px;}}
+    .offer-badge{display:inline-block;background:var(--accent);color:var(--white);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 12px;border-radius:100px;margin-bottom:16px;}
+    .offer-title{font-family:'Lora',serif;font-size:1.45rem;margin-bottom:8px;}
+    .offer-desc{color:var(--ink-3);font-size:.93rem;margin-bottom:20px;line-height:1.65;}
+    .offer-list{list-style:none;margin-bottom:24px;display:grid;gap:8px;}
+    .offer-list li{display:flex;align-items:flex-start;gap:10px;font-size:.93rem;color:var(--ink-2);line-height:1.55;}
+    .offer-list li::before{content:"✓";color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px;}
+    hr.offer-divider{border:none;border-top:1px solid var(--line);margin:20px 0;}
+    .offer-price{font-size:2rem;font-weight:700;color:var(--accent);font-family:'Lora',serif;}
+    .offer-price span{font-size:.95rem;color:var(--muted);font-weight:400;font-family:'DM Sans',sans-serif;}
+    .offer-cta{display:block;background:var(--accent);color:var(--white);text-decoration:none;text-align:center;padding:17px;border-radius:10px;font-size:1.05rem;font-weight:700;margin-top:20px;}
+    .offer-cta:hover{background:var(--accent-2);}
+    .offer-security{text-align:center;font-size:.78rem;color:var(--muted);margin-top:10px;}
+    .offer-refund{text-align:center;font-size:.76rem;color:var(--muted);margin-top:6px;}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+    @media(max-width:640px){.steps{grid-template-columns:1fr;}}
+    .step__num{font-family:'Lora',serif;font-size:2.2rem;font-weight:700;color:var(--line);margin-bottom:10px;line-height:1;}
+    .step__title{font-weight:700;margin-bottom:6px;font-size:.98rem;}
+    .step__desc{font-size:.87rem;color:var(--ink-3);line-height:1.65;}
+    .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+    @media(max-width:680px){.trust-grid{grid-template-columns:1fr;}}
+    .trust-item{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:20px;}
+    .trust-item__label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:8px;}
+    .trust-item__text{font-size:.87rem;color:var(--ink-3);line-height:1.65;}
+    .fit-rows{display:grid;gap:10px;max-width:560px;}
+    .fit-row{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;background:var(--green-soft);border:1px solid #bbf7d0;border-radius:10px;font-size:.93rem;color:#14532d;}
+    .fit-row span:first-child{font-weight:700;flex-shrink:0;}
+    .faq-list{display:grid;gap:4px;}
+    .faq-item{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--white);}
+    .faq-q{display:flex;align-items:center;justify-content:space-between;padding:17px 20px;cursor:pointer;font-weight:600;font-size:.93rem;user-select:none;gap:12px;}
+    .faq-q:hover{background:var(--surface);}
+    .faq-chevron{flex-shrink:0;color:var(--muted);transition:transform .25s;}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;font-size:.9rem;color:var(--ink-3);line-height:1.7;padding:0 20px;}
+    .faq-item--open .faq-a{max-height:300px;padding:0 20px 17px;}
+    .faq-item--open .faq-chevron{transform:rotate(180deg);}
+    .final-cta{background:var(--accent);color:var(--white);padding:72px 0;text-align:center;}
+    .final-cta h2{color:var(--white);font-size:clamp(1.6rem,3.5vw,2.1rem);margin-bottom:12px;}
+    .final-cta p{color:rgba(255,255,255,.75);margin-bottom:32px;}
+    .final-cta-btn{display:inline-block;background:var(--white);color:var(--accent);text-decoration:none;padding:17px 40px;border-radius:10px;font-size:1.05rem;font-weight:700;}
+    .final-cta-note{color:rgba(255,255,255,.6);font-size:.8rem;margin-top:12px;}
+    .sticky-footer{position:fixed;bottom:0;left:0;right:0;background:var(--ink);color:var(--white);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;transform:translateY(100%);transition:transform .3s ease;z-index:200;}
+    .sticky-footer.visible{transform:translateY(0);}
+    .sticky-footer__text{font-size:.9rem;font-weight:600;}
+    .sticky-footer__sub{font-size:.76rem;color:rgba(255,255,255,.6);margin-top:2px;}
+    .sticky-cta{background:var(--white);color:var(--accent);border:none;border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+    @media(max-width:500px){.sticky-footer{flex-direction:column;text-align:center;}.sticky-cta{width:100%;}}
+    .modal-overlay{position:fixed;inset:0;background:rgba(15,25,35,.6);backdrop-filter:blur(4px);z-index:300;display:none;align-items:center;justify-content:center;padding:24px;}
+    .modal-overlay.open{display:flex;}
+    .modal{background:var(--white);border-radius:16px;max-width:480px;width:100%;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.2);}
+    .modal__header{background:var(--accent);color:var(--white);padding:28px 28px 24px;}
+    .modal__eyebrow{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;opacity:.7;margin-bottom:8px;}
+    .modal__title{font-family:'Lora',serif;font-size:1.25rem;font-weight:700;margin-bottom:8px;}
+    .modal__price{font-size:1.6rem;font-weight:700;font-family:'Lora',serif;}
+    .modal__price span{font-size:.95rem;opacity:.7;font-weight:400;font-family:'DM Sans',sans-serif;}
+    .modal__body{padding:24px 28px;}
+    .modal__feature{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;font-size:.92rem;color:var(--ink-2);}
+    .modal__feature .check{color:var(--green);font-weight:700;flex-shrink:0;}
+    .modal__disclaimer{background:var(--surface);border-radius:8px;padding:10px 14px;font-size:.8rem;color:var(--muted);margin:16px 0;line-height:1.55;}
+    .modal__cta{display:block;background:var(--accent);color:var(--white);text-decoration:none;text-align:center;padding:16px;border-radius:10px;font-size:1rem;font-weight:700;margin-bottom:10px;}
+    .modal__security{text-align:center;font-size:.78rem;color:var(--muted);}
+    .modal__close{display:block;text-align:center;margin-top:14px;font-size:.84rem;color:var(--muted);cursor:pointer;}
+    .modal__close:hover{color:var(--ink);}
+    .footer-trust{padding:32px 0 16px;font-size:.85rem;color:var(--ink-3);line-height:1.75;border-top:1px solid var(--line);}
+    .disclaimer{padding:16px 0 80px;font-size:.78rem;color:var(--muted);line-height:1.7;}
   </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="container--wide">
-    <div class="site-header__inner">
-      <div class="logo"><a href="/" style="text-decoration:none;display:flex;align-items:center;gap:8px;color:inherit;"><span class="logo-dot"></span>MussIchZahlen</a></div>
-      <button class="header-cta" onclick="openModal()">Rechnung pr&uuml;fen &mdash; &euro;29</button>
+<div class="hinweis-banner">&#9200;&nbsp; Nicht einfach zahlen &mdash; viele Rechnungen enthalten Fehler</div>
+
+<header class="header">
+  <div class="container">
+    <div class="header__inner">
+      <div class="logo"><span class="logo-dot"></span>MussIchZahlen</div>
     </div>
   </div>
 </header>
 
 <section class="hero">
   <div class="container">
-    <a href="/" class="back-link">&#8592; Alle Kategorien</a>
-
-    <div class="hero__eyebrow" style="justify-content:center;text-align:center;display:block;margin:0 auto 20px;">
-      Falsche Betr&auml;ge und doppelte Positionen kommen h&auml;ufiger vor als gedacht
-    </div>
-
-    <h1 style="text-align:center;">Zahlst du diese Rechnung<br>wirklich zu Recht?</h1>
-
-    <p class="hero__sub" style="text-align:center;margin:0 auto;max-width:620px;">
-      Falsche Betr&auml;ge, doppelte Positionen oder unklare Geb&uuml;hren &mdash; Fehler in Rechnungen sind h&auml;ufiger als gedacht.<br><br>
-      Lade deine Rechnung hoch und erhalte eine vollst&auml;ndige Analyse + fertiges Widerspruchsschreiben innerhalb von 24&nbsp;Stunden.<br><br>
-      <strong>Bevor du zahlst.</strong>
-    </p>
-
-    <div class="hinweis-box">
-      &#9200; <strong>Wichtig:</strong> Zahle eine fehlerhafte Rechnung nicht einfach, um Ruhe zu haben. Ein Widerspruch stoppt die Forderung und gibt dir Zeit zur Kl&auml;rung.
-    </div>
-
-    <div class="value-strip">
-      <span class="value-item"><span class="vi-check">&#10004;</span> Pr&uuml;fung auf falsche Positionen, Doppelberechnungen und unberechtigte Geb&uuml;hren</span>
-      <span class="value-item"><span class="vi-check">&#10004;</span> Fertiges Widerspruchsschreiben innerhalb von 24&nbsp;Stunden</span>
-      <span class="value-item"><span class="vi-check">&#10004;</span> Einmalig &euro;29 &middot; kein Abo</span>
-      <span class="value-item"><span class="vi-check">&#10004;</span> Dokument wird nach der Analyse gel&ouml;scht</span>
-    </div>
-
-    <div class="optie-grid">
-
-      <div class="optie-card optie-card--betaald">
-        <div class="optie-badge optie-badge--betaald">Meistgew&auml;hlt</div>
-        <h3 class="optie-title">Vollst&auml;ndige Analyse + Widerspruchsschreiben</h3>
-        <p class="optie-desc">Wir pr&uuml;fen deine Rechnung auf alle m&ouml;glichen Fehler und erstellen ein fertiges Widerspruchsschreiben. Du versendest es &mdash; und zahlst nur, was du schuldest.</p>
-        <ul class="optie-list">
-          <li>&#10003; Pr&uuml;fung auf falsche oder nicht vereinbarte Positionen</li>
-          <li>&#10003; Pr&uuml;fung auf Doppelberechnungen</li>
-          <li>&#10003; Pr&uuml;fung auf nicht erbrachte Leistungen</li>
-          <li>&#10003; Pr&uuml;fung der Pflichtangaben (&sect;&nbsp;14&nbsp;UStG)</li>
-          <li>&#10003; Bei Energie: Pr&uuml;fung auf Sch&auml;tzwerte (&sect;&nbsp;40&nbsp;EnWG)</li>
-          <li>&#10003; Fertiges Widerspruchsschreiben auf deinen Namen</li>
-          <li>&#10003; Ergebnis innerhalb von 24&nbsp;Stunden</li>
-        </ul>
-        <div style="background:var(--accent-soft);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:.82rem;color:var(--accent);margin-bottom:16px;line-height:1.55;">
-          Du versendest das Schreiben selbst &mdash; 5&nbsp;Minuten Aufwand, um nur das zu zahlen, was du wirklich schuldest.
-        </div>
-        <div class="optie-price">&euro;29 <span>einmalig &middot; kein Abo</span></div>
-        <a href="https://buy.stripe.com/DEIN_STRIPE_LINK_RECHNUNG" class="optie-btn optie-btn--betaald">Rechnung jetzt pr&uuml;fen lassen &rarr;</a>
-        <p class="optie-security">&#128274; Sichere Zahlung &uuml;ber Stripe</p>
-        <p class="optie-guarantee" style="font-size:.76rem;color:var(--muted);text-align:center;margin-top:6px;">Unvollst&auml;ndige Analyse? Geld zur&uuml;ck.</p>
-      </div>
-
-      <div class="optie-card optie-card--gratis" id="free-card" style="opacity:0;transform:scale(.97);transform-origin:top center;transition:opacity .4s ease;pointer-events:none;">
-        <div class="optie-badge optie-badge--gratis">Kostenlos</div>
-        <h3 class="optie-title" style="font-size:.98rem;">Noch unsicher?</h3>
-        <p class="optie-desc" style="font-size:.82rem;">Lade deine Rechnung hoch und erhalte eine kostenlose Ersteinsch&auml;tzung.</p>
-        <ul class="optie-list" style="font-size:.82rem;">
-          <li>&#10003; Rechnungstyp und Absender erkannt</li>
-          <li>&#10003; Erstes Widerspruchspotenzial: hoch, mittel oder gering</li>
-          <li>&#10003; Bis zum n&auml;chsten Werktag vor 16:00&nbsp;Uhr</li>
-        </ul>
-        <div class="optie-price" style="font-size:1.2rem;">Kostenlos</div>
-        <input type="file" id="gratis-file-input" accept=".pdf,.jpg,.jpeg,.png" onchange="handleGratisFileSelect(this)" style="display:none;">
-        <label class="upload-section upload-section--small" id="gratis-upload-zone" for="gratis-file-input">
-          <div class="upload-label">Rechnung hochladen</div>
-          <div class="upload-hint">PDF, JPG oder PNG &middot; max.&nbsp;8&nbsp;MB</div>
-        </label>
-        <div id="gratis-contact-fields" style="display:none;gap:8px;flex-direction:column;">
-          <input type="text" id="gratis-name" placeholder="Dein Name" class="optie-input">
-          <input type="email" id="gratis-email" placeholder="Deine E-Mail-Adresse" class="optie-input">
-        </div>
-        <button class="optie-btn optie-btn--gratis" id="gratis-btn" onclick="startGratisUpload()" disabled>Kostenlose Einsch&auml;tzung anfordern</button>
-        <div class="optie-status" id="gratis-status"></div>
-      </div>
-
-    </div>
-
-    <div class="teaser" id="teaser">
-      <div class="teaser__header">
-        <div>
-          <div style="font-size:.72rem;color:#9CA3AF;margin-bottom:4px;letter-spacing:.05em;text-transform:uppercase;">Erkannt</div>
-          <div class="teaser__company" id="teaser-company">Wir haben m&ouml;gliche Ansatzpunkte in deiner Rechnung identifiziert</div>
-        </div>
-        <div class="teaser__status-label">Bereit</div>
-      </div>
-      <div class="teaser__body">
-        <div class="teaser__found">Erste Einsch&auml;tzung:</div>
-        <div class="teaser__sub" id="teaser-sub">Deine Rechnung wurde gepr&uuml;ft.</div>
-        <div class="teaser__locked">
-          <div class="lock-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-          <div class="teaser__locked-text" id="teaser-locked-text">
-            <strong>Vollst&auml;ndige Analyse + Widerspruchsschreiben nach Zahlung</strong>
-            Wir pr&uuml;fen alle Ansatzpunkte und erstellen ein fertiges Schreiben &mdash; innerhalb von 24&nbsp;Stunden.
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="cta-wrap">
-      <button class="cta-main" onclick="openModal()">Rechnung jetzt pr&uuml;fen &mdash; &euro;29 &middot; Ergebnis in 24&nbsp;Stunden</button>
-      <div class="cta-sub">Einmalige Zahlung &middot; kein Abo &middot; &#128274; Sicher &uuml;ber Stripe</div>
+    <h1>Zahlst du diese Rechnung<br>wirklich zu Recht?</h1>
+    <p class="hero__sub">Falsche Betr&auml;ge, doppelte Positionen oder unklare Geb&uuml;hren kommen h&auml;ufiger vor als gedacht.<br><br>Du zahlst oft mehr als du musst &mdash; ohne es zu merken. Fehler in Rechnungen bleiben oft unbemerkt &mdash; und werden einfach bezahlt.<br><br>Pr&uuml;fe deine Rechnung und erhalte ein fertiges Widerspruchsschreiben innerhalb von 24&nbsp;Stunden.</p>
+    <a href="https://buy.stripe.com/DEIN_STRIPE_LINK_RECHNUNG" class="hero-cta">Rechnung jetzt pr&uuml;fen &mdash; &euro;29 &rarr;</a>
+    <div class="hero-sub-note">Einmalig &euro;29 &middot; kein Abo &middot; &#128274; Sichere Zahlung &uuml;ber Stripe</div>
+    <div class="trust-triggers" style="grid-template-columns:repeat(2,1fr);max-width:600px;margin-left:auto;margin-right:auto;">
+      <div class="trust-trigger"><span>&#128308;</span><div><strong>Fehler bleiben oft unbemerkt</strong>Viele Rechnungen enthalten Fehler oder unzul&auml;ssige Positionen &mdash; und werden einfach bezahlt.</div></div>
+      <div class="trust-trigger"><span>&#128308;</span><div><strong>Handwerker &uuml;ber Kostenvoranschlag?</strong>Ohne R&uuml;cksprache ist das anfechtbar (&sect;&nbsp;650c&nbsp;BGB).</div></div>
     </div>
   </div>
 </section>
 
 <section class="section">
+  <div class="container">
+    <div class="value-strip">
+      <span class="value-item"><span class="vi-check">&#10003;</span> Falsche Positionen</span>
+      <span class="value-item"><span class="vi-check">&#10003;</span> Doppelberechnungen</span>
+      <span class="value-item"><span class="vi-check">&#10003;</span> Kostenvoranschlag (&sect;&nbsp;650c&nbsp;BGB)</span>
+      <span class="value-item"><span class="vi-check">&#10003;</span> Fertiges Widerspruchsschreiben</span>
+      <span class="value-item"><span class="vi-check">&#10003;</span> Einmalig &euro;29 &mdash; kein Abo</span>
+    </div>
+    <div class="offer-card">
+      <div class="offer-badge">Empfohlen</div>
+      <div class="offer-title">Vollst&auml;ndige Analyse + Widerspruchsschreiben</div>
+      <p class="offer-desc">Wir pr&uuml;fen deine Rechnung auf alle m&ouml;glichen Fehler und erstellen ein fertiges Widerspruchsschreiben. Du versendest es &mdash; und zahlst nur, was du schuldest.</p>
+      <ul class="offer-list">
+        <li>Pr&uuml;fung auf falsche oder nicht vereinbarte Positionen</li>
+        <li>Pr&uuml;fung auf Doppelberechnungen</li>
+        <li>Pr&uuml;fung der Pflichtangaben (&sect;&nbsp;14&nbsp;UStG)</li>
+        <li>Bei Energie: Pr&uuml;fung auf Sch&auml;tzwerte (&sect;&nbsp;40&nbsp;EnWG)</li>
+        <li>Bei Handwerk: Kostenvoranschlag (&sect;&nbsp;650c&nbsp;BGB)</li>
+        <li>Fertiges Widerspruchsschreiben auf deinen Namen</li>
+        <li>Ergebnis innerhalb von 24&nbsp;Stunden per E-Mail</li>
+      </ul>
+      <hr class="offer-divider">
+      <div class="offer-price">&euro;29 <span>einmalig &middot; kein Abo</span></div>
+      <a href="https://buy.stripe.com/DEIN_STRIPE_LINK_RECHNUNG" class="offer-cta">Jetzt pr&uuml;fen lassen &rarr;</a>
+      <div class="offer-security">&#128274; Sichere Zahlung &uuml;ber Stripe</div>
+      <div class="offer-refund">Bei inhaltlich unvollst&auml;ndiger Analyse: Geld zur&uuml;ck.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
   <div class="container">
     <div class="section-label">So funktioniert es</div>
-    <h2>In 3 Schritten zur Antwort</h2>
+    <h2>In 3 Schritten zum fertigen Widerspruch</h2>
     <div class="steps">
-      <div class="step"><div class="step__num">01</div><div class="step__title">Rechnung hochladen</div><div class="step__desc">Strom-, Wasser-, Telefonrechnung oder Handwerkerrechnung. PDF, JPG oder PNG. Dauert weniger als 2&nbsp;Minuten.</div></div>
-      <div class="step"><div class="step__num">02</div><div class="step__title">Wir pr&uuml;fen alles</div><div class="step__desc">Positionen, Preise, Pflichtangaben nach &sect;&nbsp;14&nbsp;UStG, Sch&auml;tzwerte bei Energie (&sect;&nbsp;40&nbsp;EnWG) und Kostenvoranschlag beim Handwerk (&sect;&nbsp;650c&nbsp;BGB).</div></div>
-      <div class="step"><div class="step__num">03</div><div class="step__title">Analyse per E-Mail</div><div class="step__desc">Innerhalb von 24&nbsp;Stunden: vollst&auml;ndige Analyse + fertiges Widerspruchsschreiben. Du versendest es und zahlst nur, was du schuldest.</div></div>
-    </div>
-  </div>
-</section>
-
-<section class="section section--alt">
-  <div class="container">
-    <div class="section-label">Wie wir arbeiten</div>
-    <h2>Auf Basis des deutschen Verbraucherrechts</h2>
-    <div class="trust-grid">
-      <div class="trust-item"><div class="trust-item__label">Rechtliche Grundlage</div><div class="trust-item__text">&sect;&nbsp;14&nbsp;UStG (Rechnungspflichten), &sect;&nbsp;650c&nbsp;BGB (Werkvertrag), &sect;&nbsp;40&nbsp;EnWG (Energieabrechnung), Ofcom-/Ofwat-&auml;quivalente Regulierung.</div></div>
-      <div class="trust-item"><div class="trust-item__label">Was wir pr&uuml;fen</div><div class="trust-item__text">Positionen, Preise, Doppelberechnungen, Pflichtangaben, Sch&auml;tzwerte bei Energie und Kostenvoranschl&auml;ge beim Handwerk.</div></div>
-      <div class="trust-item"><div class="trust-item__label">Was wir nicht sind</div><div class="trust-item__text">Wir bieten keine Rechtsberatung und keine rechtliche Vertretung. Bei komplexen F&auml;llen empfehlen wir die Verbraucherzentrale oder einen Anwalt.</div></div>
+      <div class="step"><div class="step__num">01</div><div class="step__title">Rechnung hochladen</div><div class="step__desc">Nach der Zahlung l&auml;dst du deine Rechnung hoch. PDF, JPG oder PNG.</div></div>
+      <div class="step"><div class="step__num">02</div><div class="step__title">Wir pr&uuml;fen alles</div><div class="step__desc">Positionen, Preise, Pflichtangaben, Sch&auml;tzwerte und Kostenvoranschlag.</div></div>
+      <div class="step"><div class="step__num">03</div><div class="step__title">Widerspruch per E-Mail</div><div class="step__desc">Innerhalb von 24&nbsp;Stunden erh&auml;ltst du deine Analyse und ein fertiges Widerspruchsschreiben.</div></div>
     </div>
   </div>
 </section>
 
 <section class="section">
   <div class="container">
-    <div class="section-label">Die Fakten</div>
-    <h2>Was du wissen solltest</h2>
-    <div class="proof-grid">
-      <div class="proof-item"><div class="proof-num">H&auml;ufig</div><div class="proof-label">Handwerkerrechnungen enthalten Positionen, die nicht dem Kostenvoranschlag entsprechen</div></div>
-      <div class="proof-item"><div class="proof-num">&sect;&nbsp;40</div><div class="proof-label">EnWG verpflichtet Energieversorger zu transparenter und nachvollziehbarer Abrechnung</div></div>
-      <div class="proof-item"><div class="proof-num">&euro;29</div><div class="proof-label">Einmalig &mdash; um nur das zu zahlen, was du wirklich schuldest</div></div>
-      <div class="proof-item"><div class="proof-num">24&nbsp;Std.</div><div class="proof-label">Vollst&auml;ndige Analyse + fertiges Widerspruchsschreiben in deinem Posteingang</div></div>
+    <div class="section-label">Rechtliche Grundlage</div>
+    <h2>Worauf wir uns st&uuml;tzen</h2>
+    <div class="trust-grid">
+      <div class="trust-item"><div class="trust-item__label">&sect;&nbsp;14&nbsp;UStG &mdash; Rechnungspflichten</div><div class="trust-item__text">Rechnungen m&uuml;ssen Pflichtangaben enthalten. Fehlen sie, ist die Rechnung formal mangelhaft.</div></div>
+      <div class="trust-item"><div class="trust-item__label">&sect;&nbsp;650c&nbsp;BGB &mdash; Werkvertrag</div><div class="trust-item__text">Handwerker d&uuml;rfen den Kostenvoranschlag nicht ohne R&uuml;cksprache wesentlich &uuml;berschreiten.</div></div>
+      <div class="trust-item"><div class="trust-item__label">Keine Rechtsberatung</div><div class="trust-item__text">Informative Analysen und Widerspruchsentw&uuml;rfe. Keine rechtliche Vertretung. Bei komplexen F&auml;llen: Verbraucherzentrale.</div></div>
     </div>
   </div>
 </section>
 
 <section class="section section--alt">
+  <div class="container">
+    <div class="section-label">Passend f&uuml;r dich?</div>
+    <h2>F&uuml;r wen ist das geeignet?</h2>
+    <div class="fit-rows">
+      <div class="fit-row"><span>&#10003;</span><span>Du hast eine Rechnung erhalten, die dir zu hoch oder fehlerhaft vorkommt</span></div>
+      <div class="fit-row"><span>&#10003;</span><span>Du bist unsicher, ob alle Positionen berechtigt sind</span></div>
+      <div class="fit-row"><span>&#10003;</span><span>Du m&ouml;chtest ein fertiges Widerspruchsschreiben statt selbst zu formulieren</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
   <div class="container">
     <div class="section-label">H&auml;ufige Fragen</div>
     <h2>Alles, was du wissen m&ouml;chtest</h2>
     <div class="faq-list">
-
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">Welche Rechnungen kann ich hochladen?
-          <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
-        <div class="faq-a">Strom-, Gas-, Wasser-, Telefonrechnungen, Handwerkerrechnungen, &Auml;rzterechnungen und andere Dienstleistungsrechnungen. Sowohl PDF als auch Foto (JPG/PNG) werden unterst&uuml;tzt.</div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">Darf ein Handwerker mehr berechnen als im Kostenvoranschlag?
-          <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
-        <div class="faq-a">Grunds&auml;tzlich ist ein Kostenvoranschlag nach &sect;&nbsp;650c&nbsp;BGB verbindlich. &Uuml;berschreitungen sind nur m&ouml;glich, wenn der Auftragnehmer sie rechtzeitig angezeigt hat und du zugestimmt hast. Ohne R&uuml;cksprache sind wesentliche &Uuml;berschreitungen anfechtbar.</div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">Meine Energierechnung enth&auml;lt eine hohe Nachzahlung &mdash; was kann ich tun?
-          <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
-        <div class="faq-a">Energieversorger m&uuml;ssen nach &sect;&nbsp;40&nbsp;EnWG transparent und nachvollziehbar abrechnen. Sch&auml;tzwerte m&uuml;ssen als solche gekennzeichnet sein. Ist die Nachzahlung auf fehlerhafte Sch&auml;tzungen zur&uuml;ckzuf&uuml;hren, kann Widerspruch eingelegt werden.</div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">Was passiert, wenn sich die Rechnung als korrekt herausstellt?
-          <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
-        <div class="faq-a">Du erh&auml;ltst in jedem Fall einen vollst&auml;ndigen Bericht mit Erkl&auml;rung und deinen Optionen. Du zahlst nie f&uuml;r einen leeren Bericht.</div>
-      </div>
-
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">Ist das eine Rechtsberatung?
-          <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
-        <div class="faq-a">Nein. Dies ist eine informative Analyse, keine Rechtsberatung. Wir &uuml;bernehmen keine rechtliche Vertretung. Bei komplexen Situationen empfehlen wir die Verbraucherzentrale oder einen Anwalt.</div>
-      </div>
-
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Welche Rechnungen kann ich hochladen? <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a">Strom-, Gas-, Wasser-, Telefonrechnungen, Handwerkerrechnungen, &Auml;rzterechnungen und andere Dienstleistungsrechnungen.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Darf ein Handwerker mehr berechnen als im Kostenvoranschlag? <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a">Grunds&auml;tzlich nicht ohne R&uuml;cksprache (&sect;&nbsp;650c&nbsp;BGB). Wesentliche &Uuml;berschreitungen ohne Zustimmung sind anfechtbar.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Was passiert, wenn sich die Rechnung als korrekt herausstellt? <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a">Du erh&auml;ltst eine vollst&auml;ndige Analyse mit klarer Erkl&auml;rung und deinen Optionen.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Ist das Rechtsberatung? <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a">Nein. Informative Analyse und Widerspruchsentwurf. Keine rechtliche Vertretung.</div></div>
     </div>
   </div>
 </section>
 
-<div style="max-width:860px;margin:0 auto 24px;padding:0 24px;font-size:.88rem;color:var(--ink-3);line-height:1.75;">
-  <p><strong>MussIchZahlen</strong> ist ein auf Deutschland ausgerichteter Verbraucherdokument-Analysedienst. Fragen? <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a>. Hochgeladene Dokumente werden sicher verarbeitet und anschlie&szlig;end gel&ouml;scht.</p>
-</div>
-
-<footer class="disclaimer">
+<section class="final-cta">
   <div class="container">
-    <p>MussIchZahlen bietet informative Analysen und Widerspruchsschreibenentwürfe auf Basis des deutschen Verbraucherrechts. Dies ist keine Rechtsberatung. Wir &uuml;bernehmen keine rechtliche Vertretung. Dokumente werden nach der Verarbeitung gel&ouml;scht. &copy; 2025 MussIchZahlen.de</p>
+    <h2>Jetzt pr&uuml;fen &mdash; bevor du zahlst</h2>
+    <p>Rechnung erhalten? Pr&uuml;fe, ob du wirklich den vollen Betrag zahlen musst.</p>
+    <a href="https://buy.stripe.com/DEIN_STRIPE_LINK_RECHNUNG" class="final-cta-btn">Rechnung jetzt pr&uuml;fen &mdash; &euro;29 &rarr;</a>
+    <div class="final-cta-note">Einmalig &euro;29 &middot; kein Abo &middot; &#128274; Stripe &middot; 24&nbsp;Std.</div>
   </div>
-</footer>
+</section>
+
+<div class="container">
+  <div class="footer-trust"><strong>MussIchZahlen.de</strong> &mdash; Fragen? <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a></div>
+  <div class="disclaimer">MussIchZahlen.de bietet informative Analysen und Widerspruchsentw&uuml;rfe. Keine Rechtsberatung, keine rechtliche Vertretung. Dokumente werden nach Verarbeitung gel&ouml;scht. &copy; 2025 MussIchZahlen.de</div>
+</div>
 
 <div class="sticky-footer" id="sticky-footer">
-  <div>
-    <div class="sticky-footer__text">Rechnung erhalten? Erst pr&uuml;fen, dann zahlen.</div>
-    <div class="sticky-footer__sub">Fehler in Rechnungen kommen h&auml;ufig vor &middot; einmalig &euro;29</div>
-  </div>
-  <button class="sticky-cta" onclick="openModal()">Jetzt pr&uuml;fen &mdash; &euro;29 &rarr;</button>
+  <div><div class="sticky-footer__text">Rechnung erhalten? Erst pr&uuml;fen, dann zahlen.</div><div class="sticky-footer__sub">Fehler in Rechnungen kommen h&auml;ufig vor &middot; einmalig &euro;29</div></div>
+  <a href="https://buy.stripe.com/DEIN_STRIPE_LINK_RECHNUNG" class="sticky-cta">Rechnung pr&uuml;fen &mdash; &euro;29 &rarr;</a>
 </div>
 
-<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
-  <div class="modal">
-    <div class="modal__header">
-      <div class="modal__eyebrow">Was du erh&auml;ltst</div>
-      <div class="modal__title">Analyse + Widerspruchsschreiben innerhalb von 24&nbsp;Stunden</div>
-      <div class="modal__sub">Lade deine Rechnung hoch. Wir pr&uuml;fen jeden Ansatzpunkt und senden dir ein fertiges Widerspruchsschreiben.</div>
-      <div class="modal__price">&euro;29 <span style="font-size:1rem;color:#9CA3AF;font-weight:400;">einmalig &middot; kein Abo</span></div>
-    </div>
-    <div class="modal__body">
-      <div class="modal__feature"><div class="check">&#10003;</div><div>Pr&uuml;fung auf falsche Positionen, Doppelberechnungen und fehlende Pflichtangaben</div></div>
-      <div class="modal__feature"><div class="check">&#10003;</div><div>Vollst&auml;ndige Analyse aller Ansatzpunkte</div></div>
-      <div class="modal__feature"><div class="check">&#10003;</div><div>Fertiges Widerspruchsschreiben &mdash; direkt versendbar</div></div>
-      <div class="modal__feature"><div class="check">&#10003;</div><div>N&auml;chste Schritte bei Nichtreaktion (Verbraucherzentrale, Ombudsmann)</div></div>
-      <div class="modal__disclaimer">&#8505;&#65039; Informative Analyse &mdash; keine Rechtsberatung, keine rechtliche Vertretung.</div>
-      <p id="modal-dynamic-copy" style="margin-bottom:16px;color:#6b7a90;font-size:.9rem;">Wir haben m&ouml;gliche Ansatzpunkte in deiner Rechnung identifiziert &mdash; vollst&auml;ndige Analyse nach der Zahlung.</p>
-      <a href="https://buy.stripe.com/DEIN_STRIPE_LINK_RECHNUNG" class="modal__cta">Rechnung jetzt pr&uuml;fen &mdash; &euro;29 &rarr;</a>
-      <div class="modal__security">&#128274; Sichere Zahlung &uuml;ber Stripe</div>
-      <div class="modal__close" onclick="closeModal()">Abbrechen</div>
-    </div>
-  </div>
-</div>
 
-<script type="module" src="app.js"></script>
+<script>
+  function toggleFaq(el){const item=el.closest('.faq-item'),isOpen=item.classList.contains('faq-item--open');document.querySelectorAll('.faq-item--open').forEach(i=>i.classList.remove('faq-item--open'));if(!isOpen)item.classList.add('faq-item--open');}
+  const sf=document.getElementById('sticky-footer');let t=false;
+  window.addEventListener('scroll',()=>{if(!t){requestAnimationFrame(()=>{const y=window.scrollY;sf.classList.toggle('visible',y>400&&y+window.innerHeight<document.documentElement.scrollHeight-200);t=false;});t=true;}},{passive:true});
+</script>
 </body>
 </html>
