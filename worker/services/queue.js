@@ -1,17 +1,18 @@
+// services/queue.js
 
 const SEND_DELAY_MS = 23 * 60 * 60 * 1000; // 23 Stunden — Versand am nächsten Tag vor 16:00 Uhr
 
 export async function enqueueFree(env, { type, name, email, triage, stripeLink }) {
   const key = `free:${type}:${Date.now()}:${email.replace(/[^a-z0-9]/gi, "_")}`;
   const entry = {
-    kind: "free",
+    kind:        "free",
     type,
     name,
     email,
     triage,
     stripe_link: stripeLink,
-    created_at: new Date().toISOString(),
-    send_at:    new Date(Date.now() + SEND_DELAY_MS).toISOString()
+    created_at:  new Date().toISOString(),
+    send_at:     new Date(Date.now() + SEND_DELAY_MS).toISOString(),
   };
   await env.MAHNUNG_QUEUE.put(key, JSON.stringify(entry));
   return key;
@@ -20,14 +21,14 @@ export async function enqueueFree(env, { type, name, email, triage, stripeLink }
 export async function enqueuePaid(env, { type, name, email, triage, analysis }) {
   const key = `paid:${type}:${Date.now()}:${email.replace(/[^a-z0-9]/gi, "_")}`;
   const entry = {
-    kind: "paid",
+    kind:       "paid",
     type,
     name,
     email,
     triage,
     analysis,
     created_at: new Date().toISOString(),
-    send_at:    new Date(Date.now() + SEND_DELAY_MS).toISOString()
+    send_at:    new Date(Date.now() + SEND_DELAY_MS).toISOString(),
   };
   await env.MAHNUNG_QUEUE.put(key, JSON.stringify(entry));
   return key;
@@ -50,6 +51,7 @@ export async function getDueEntries(env) {
       console.error(`Queue-Lesefehler für ${key.name}:`, err.message);
     }
   }
+
   return due;
 }
 
