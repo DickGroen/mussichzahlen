@@ -61,7 +61,7 @@
 <body>
 
   <div id="locked-screen" class="locked-screen" style="display:none;">
-    <h2>Kein Zugang</h2>
+    <h2>Upload-Link ungültig oder abgelaufen</h2>
     <p>Diese Seite ist nur nach einer erfolgreichen Zahlung erreichbar.</p>
     <a href="/parkstrafe/">Zur&uuml;ck zur Bescheidpr&uuml;fung</a>
   </div>
@@ -78,13 +78,13 @@
       </div>
 
       <div class="frist-reminder">
-        &#9888;&#65039; <strong>Einspruchsfrist beachten:</strong> Die Frist betr&auml;gt 2 Wochen ab Zustellung (&sect;&nbsp;67&nbsp;OWiG). Du erh&auml;ltst dein Einspruchsschreiben innerhalb von 24&nbsp;Stunden &mdash; noch rechtzeitig versendbar.
+        &#9888;&#65039; <strong>Einspruchsfrist beachten:</strong> Die Frist betr&auml;gt 2 Wochen ab Zustellung (&sect;&nbsp;67&nbsp;OWiG). Du erh&auml;ltst dein Einspruchsschreiben innerhalb von 24&nbsp;Stunden &mdash; damit du es m&ouml;glichst rechtzeitig versenden kannst.
       </div>
 
       <h1 style="font-size:clamp(1.7rem,4vw,2.3rem);margin-bottom:12px;line-height:1.25;">Letzter Schritt &mdash; lade jetzt deinen Bescheid hoch</h1>
 
       <p style="font-size:1rem;color:var(--ink-3);line-height:1.75;margin-bottom:28px;">
-        Wir starten sofort mit der Analyse. Du erh&auml;ltst die vollst&auml;ndige Analyse und das fertige Einspruchsschreiben
+        Nach dem Upload beginnen wir mit der Analyse. Du erh&auml;ltst die vollst&auml;ndige Analyse und das fertige Einspruchsschreiben
         <strong style="background:var(--amber-soft);padding:2px 6px;border-radius:4px;">innerhalb von 24&nbsp;Stunden</strong> per E-Mail.
       </p>
 
@@ -99,7 +99,7 @@
         </div>
         <div class="thankyou-step">
           <div class="thankyou-step-num">3</div>
-          <div><div class="thankyou-step-title">Einspruch per E-Mail</div><div class="thankyou-step-desc">Vollst&auml;ndige Analyse + fertiges Einspruchsschreiben <strong>innerhalb von 24&nbsp;Stunden</strong>. Rechtzeitig versenden.</div></div>
+          <div><div class="thankyou-step-title">Einspruch per E-Mail</div><div class="thankyou-step-desc">Vollst&auml;ndige Analyse + fertiges Einspruchsschreiben <strong>innerhalb von 24&nbsp;Stunden</strong> &mdash; damit du es m&ouml;glichst rechtzeitig versenden kannst.</div></div>
         </div>
       </div>
 
@@ -124,7 +124,7 @@
           </svg>
         </div>
         <div class="upload-panel__title">Klicken oder Datei hierher ziehen</div>
-        <div class="upload-panel__sub">PDF, JPG oder PNG &middot; max.&nbsp;8&nbsp;MB</div>
+        <div class="upload-panel__sub">PDF, JPG oder PNG &middot; max.&nbsp;10&nbsp;MB</div>
       </label>
 
       <div class="upload-security">&#128274; Sichere SSL-Verbindung &middot; Dokument wird nach der Analyse gel&ouml;scht</div>
@@ -152,5 +152,19 @@
   </div>
 
   <script type="module" src="app.js"></script>
+  <script>
+    // Stripe session validation – runs before app.js initialises the main UI
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const sessionId      = params.get('session_id');
+      const paymentIntent  = params.get('payment_intent');
+      const type           = params.get('type');
+      const valid = (sessionId || paymentIntent) && type === 'parkstrafe';
+      if (!valid) {
+        document.getElementById('locked-screen').style.display  = '';
+        document.getElementById('thankyou-app').style.display   = 'none';
+      }
+    })();
+  </script>
 </body>
 </html>
