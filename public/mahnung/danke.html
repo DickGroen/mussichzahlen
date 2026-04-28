@@ -63,8 +63,8 @@
 <body>
 
   <div id="locked-screen" class="locked-screen" style="display:none;">
-    <h2>Kein Zugang</h2>
-    <p>Diese Seite ist nur nach einer erfolgreichen Zahlung erreichbar.</p>
+    <h2>Upload-Link ung&uuml;ltig oder abgelaufen</h2>
+    <p>Dieser Link ist nicht mehr aktiv. Bitte nutze den Link aus deiner Zahlungsbest&auml;tigung oder wende dich an <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a>.</p>
     <a href="/mahnung/">Zur&uuml;ck zur Pr&uuml;fung</a>
   </div>
 
@@ -82,7 +82,7 @@
       <h1 style="font-size:clamp(1.7rem,4vw,2.3rem);margin-bottom:12px;line-height:1.25;">Letzter Schritt &mdash; lade jetzt dein Schreiben hoch</h1>
 
       <p style="font-size:1rem;color:var(--ink-3);line-height:1.75;margin-bottom:28px;">
-        Nach dem Upload starten wir sofort mit der Analyse. Du erh&auml;ltst deine vollst&auml;ndige Analyse und den fertigen Widerspruch <strong style="background:var(--amber-soft);padding:2px 6px;border-radius:4px;">bis morgen 16:00 Uhr</strong> per E-Mail.
+        Nach dem Upload beginnen wir mit der Analyse. Du erh&auml;ltst deine vollst&auml;ndige Analyse und das fertige Schreiben <strong style="background:var(--amber-soft);padding:2px 6px;border-radius:4px;">bis morgen 16:00 Uhr</strong> per E-Mail.
       </p>
 
       <div class="thankyou-steps">
@@ -104,7 +104,7 @@
           <div class="thankyou-step-num">3</div>
           <div>
             <div class="thankyou-step-title">Ergebnis per E-Mail</div>
-            <div class="thankyou-step-desc">Vollst&auml;ndige Analyse + fertiger Widerspruch <strong>bis morgen 16:00 Uhr</strong>.</div>
+            <div class="thankyou-step-desc">Vollst&auml;ndige Analyse + fertiger <span data-output-label>Widerspruch</span> <strong>bis morgen 16:00 Uhr</strong>.</div>
           </div>
         </div>
       </div>
@@ -132,7 +132,7 @@
           </svg>
         </div>
         <div class="upload-panel__title">Klicken oder Datei hierher ziehen</div>
-        <div class="upload-panel__sub">PDF, JPG oder PNG &middot; max. 8 MB</div>
+        <div class="upload-panel__sub">PDF, JPG oder PNG &middot; max. 10 MB</div>
       </label>
 
       <div class="upload-security">&#128274; Verschl&uuml;sselte SSL-Verbindung &middot; Dokument wird nach der Analyse gel&ouml;scht</div>
@@ -147,7 +147,7 @@
       </div>
 
       <button class="cta-main" id="submit-btn" type="button" disabled>Zuerst eine Datei w&auml;hlen</button>
-      <div class="cta-sub-note">Nach dem Upload starten wir sofort &mdash; Ergebnis bis morgen 16:00 Uhr in deinem Posteingang.</div>
+      <div class="cta-sub-note">Nach dem Upload beginnen wir mit der Analyse &mdash; Ergebnis bis morgen 16:00 Uhr in deinem Posteingang.</div>
       <div class="status-box" id="status-box"></div>
 
       <div class="fallback-box">
@@ -159,6 +159,48 @@
     </div>
   </div>
 
-  <script type="module" src="app.js"></script>
+  <script type="module">
+    // ── Type config per funnel ────────────────────────────────────────────────
+    const TYPE_CONFIG = {
+      mahnung:    { label: 'Mahnung / Inkasso',     output: 'Widerspruch',             back: '/mahnung/' },
+      parkstrafe: { label: 'Bu\u00dfgeldbescheid',  output: 'Einspruchsschreiben',     back: '/parkstrafe/' },
+      rechnung:   { label: 'Rechnung',              output: 'Widerspruchsschreiben',   back: '/rechnung/' },
+      vertrag:    { label: 'Vertrag',               output: 'K\u00fcndigungsschreiben', back: '/vertrag/' }
+    };
+
+    // ── Read URL params ───────────────────────────────────────────────────────
+    const params    = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session_id') || params.get('payment_intent');
+    const type      = params.get('type') || 'mahnung';
+    const config    = TYPE_CONFIG[type] || TYPE_CONFIG.mahnung;
+
+    // ── Validate session ──────────────────────────────────────────────────────
+    const isValid = sessionId && (
+      sessionId.startsWith('cs_') ||
+      sessionId.startsWith('pi_') ||
+      sessionId.startsWith('cs_test_') ||
+      sessionId.startsWith('cs_live_')
+    );
+
+    if (!isValid) {
+      document.getElementById('locked-screen').style.display = 'block';
+      const backLink = document.querySelector('#locked-screen a');
+      if (backLink) backLink.href = config.back;
+    } else {
+      document.getElementById('thankyou-app').style.display = 'block';
+
+      // Prefill email if passed
+      const emailEl = document.getElementById('customer-email');
+      if (emailEl && params.get('email')) emailEl.value = params.get('email');
+
+      // Adapt output label dynamically
+      document.querySelectorAll('[data-output-label]').forEach(el => {
+        el.textContent = config.output;
+      });
+    }
+
+    // ── Import and run app.js ─────────────────────────────────────────────────
+    import('./app.js');
+  </script>
 </body>
 </html>
