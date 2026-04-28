@@ -4,201 +4,238 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zahlst du diese Mahnung wirklich zu Recht? | MussIchZahlen.de</title>
-  <meta name="description" content="Viele Mahnungen enthalten Fehler, &uuml;berh&ouml;hte Kosten oder verj&auml;hrte Forderungen. Lade dein Schreiben hoch und erhalte eine Analyse plus fertigen Widerspruch. Einmalig 49 Euro.">
+  <meta name="description" content="Viele Mahnungen enthalten Fehler, &uuml;berh&ouml;hte Kosten oder verj&auml;hrte Forderungen. Analyse + fertiger Widerspruch innerhalb von 24 Stunden. Einmalig &euro;49.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:8px}
-    @media(max-width:680px){.trust-grid{grid-template-columns:1fr}}
-    .trust-item{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:20px 16px}
-    .trust-item__label{font-size:.76rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:6px}
-    .trust-item__text{font-size:.88rem;color:var(--ink-3);line-height:1.65}
-    .back-link{display:inline-flex;align-items:center;gap:6px;font-size:.84rem;color:var(--muted);text-decoration:none;margin-bottom:12px}
-    .back-link:hover{color:var(--accent)}
-    .hinweis-box{background:#fff7ed;border-left:4px solid #f97316;border-radius:8px;padding:13px 16px;margin:18px 0;font-size:.88rem;color:#7c2d12;line-height:1.6}
+    :root{--ink:#0f1923;--ink-2:#2d3748;--ink-3:#4a5568;--muted:#718096;--line:#e2e8f0;--surface:#f7f9fc;--white:#ffffff;--accent:#1a3a6b;--accent-2:#2d5499;--green:#166534;--green-soft:#dcfce7;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.65;color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased;}
+    h1,h2,h3{font-family:'Lora',Georgia,serif;line-height:1.2;}
+    a{color:var(--accent);}
+    .container{max-width:860px;margin:0 auto;padding:0 24px;}
+    .hinweis-banner{background:#fff7ed;border-bottom:2px solid #fdba74;padding:10px 0;text-align:center;font-size:.84rem;font-weight:600;color:#92400e;}
+    .header{background:var(--white);border-bottom:1px solid var(--line);padding:16px 0;position:sticky;top:0;z-index:100;}
+    .header__inner{display:flex;align-items:center;justify-content:space-between;}
+    .logo{font-family:'Lora',serif;font-size:1.15rem;font-weight:700;color:var(--accent);}
+    .logo-dot{display:inline-block;width:8px;height:8px;background:var(--accent-2);border-radius:50%;margin-right:6px;vertical-align:middle;}
+    .header-cta{background:var(--accent);color:var(--white);border:none;border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;}
+    .header-cta:hover{background:var(--accent-2);}
+    .hero{padding:64px 0 48px;text-align:center;}
+    .hero h1{font-size:clamp(1.9rem,5vw,2.9rem);margin-bottom:20px;max-width:700px;margin-left:auto;margin-right:auto;}
+    .hero__sub{font-size:1.05rem;color:var(--ink-3);max-width:540px;margin:0 auto 32px;line-height:1.7;}
+    .hero-cta{display:inline-block;background:var(--accent);color:var(--white);text-decoration:none;padding:18px 40px;border-radius:10px;font-size:1.1rem;font-weight:700;}
+    .hero-cta:hover{background:var(--accent-2);}
+    .hero-sub-note{font-size:.82rem;color:var(--muted);margin-top:10px;}
+    .trust-triggers{background:var(--green-soft);border:1px solid #bbf7d0;border-radius:12px;padding:20px 24px;margin:40px 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+    @media(max-width:600px){.trust-triggers{grid-template-columns:1fr;}}
+    .trust-trigger{display:flex;align-items:flex-start;gap:10px;font-size:.87rem;color:var(--green);line-height:1.55;}
+    .trust-trigger strong{display:block;font-weight:700;color:#14532d;margin-bottom:2px;}
+    .section{padding:72px 0;}
+    .section--alt{background:var(--surface);}
+    .section-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-2);margin-bottom:10px;}
+    .section h2{font-size:clamp(1.5rem,3vw,2rem);margin-bottom:32px;}
+    .value-strip{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 36px;justify-content:center;}
+    .value-item{display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--line);border-radius:100px;padding:8px 16px;font-size:.86rem;color:var(--ink-2);font-weight:500;}
+    .vi-check{color:var(--green);font-weight:700;}
+    .offer-card{background:var(--white);border:2px solid var(--accent);border-radius:16px;padding:36px 32px;max-width:580px;margin:0 auto;box-shadow:0 12px 40px rgba(26,58,107,.1);}
+    @media(max-width:600px){.offer-card{padding:24px 20px;}}
+    .offer-badge{display:inline-block;background:var(--accent);color:var(--white);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 12px;border-radius:100px;margin-bottom:16px;}
+    .offer-title{font-family:'Lora',serif;font-size:1.45rem;margin-bottom:8px;}
+    .offer-desc{color:var(--ink-3);font-size:.93rem;margin-bottom:20px;line-height:1.65;}
+    .offer-list{list-style:none;margin-bottom:24px;display:grid;gap:8px;}
+    .offer-list li{display:flex;align-items:flex-start;gap:10px;font-size:.93rem;color:var(--ink-2);line-height:1.55;}
+    .offer-list li::before{content:"✓";color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px;}
+    hr.offer-divider{border:none;border-top:1px solid var(--line);margin:20px 0;}
+    .offer-price{font-size:2rem;font-weight:700;color:var(--accent);font-family:'Lora',serif;}
+    .offer-price span{font-size:.95rem;color:var(--muted);font-weight:400;font-family:'DM Sans',sans-serif;}
+    .offer-cta{display:block;background:var(--accent);color:var(--white);text-decoration:none;text-align:center;padding:17px;border-radius:10px;font-size:1.05rem;font-weight:700;margin-top:20px;}
+    .offer-cta:hover{background:var(--accent-2);}
+    .offer-security{text-align:center;font-size:.78rem;color:var(--muted);margin-top:10px;}
+    .offer-refund{text-align:center;font-size:.76rem;color:var(--muted);margin-top:6px;}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+    @media(max-width:640px){.steps{grid-template-columns:1fr;}}
+    .step__num{font-family:'Lora',serif;font-size:2.2rem;font-weight:700;color:var(--line);margin-bottom:10px;line-height:1;}
+    .step__title{font-weight:700;margin-bottom:6px;font-size:.98rem;}
+    .step__desc{font-size:.87rem;color:var(--ink-3);line-height:1.65;}
+    .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+    @media(max-width:680px){.trust-grid{grid-template-columns:1fr;}}
+    .trust-item{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:20px;}
+    .trust-item__label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:8px;}
+    .trust-item__text{font-size:.87rem;color:var(--ink-3);line-height:1.65;}
+    .fit-rows{display:grid;gap:10px;max-width:560px;}
+    .fit-row{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;background:var(--green-soft);border:1px solid #bbf7d0;border-radius:10px;font-size:.93rem;color:#14532d;}
+    .fit-row span:first-child{font-weight:700;flex-shrink:0;}
+    .faq-list{display:grid;gap:4px;}
+    .faq-item{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--white);}
+    .faq-q{display:flex;align-items:center;justify-content:space-between;padding:17px 20px;cursor:pointer;font-weight:600;font-size:.93rem;user-select:none;gap:12px;}
+    .faq-q:hover{background:var(--surface);}
+    .faq-chevron{flex-shrink:0;color:var(--muted);transition:transform .25s;}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;font-size:.9rem;color:var(--ink-3);line-height:1.7;padding:0 20px;}
+    .faq-item--open .faq-a{max-height:300px;padding:0 20px 17px;}
+    .faq-item--open .faq-chevron{transform:rotate(180deg);}
+    .final-cta{background:var(--accent);color:var(--white);padding:72px 0;text-align:center;}
+    .final-cta h2{color:var(--white);font-size:clamp(1.6rem,3.5vw,2.1rem);margin-bottom:12px;}
+    .final-cta p{color:rgba(255,255,255,.75);margin-bottom:32px;}
+    .final-cta-btn{display:inline-block;background:var(--white);color:var(--accent);text-decoration:none;padding:17px 40px;border-radius:10px;font-size:1.05rem;font-weight:700;}
+    .final-cta-note{color:rgba(255,255,255,.6);font-size:.8rem;margin-top:12px;}
+    .sticky-footer{position:fixed;bottom:0;left:0;right:0;background:var(--ink);color:var(--white);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;transform:translateY(100%);transition:transform .3s ease;z-index:200;}
+    .sticky-footer.visible{transform:translateY(0);}
+    .sticky-footer__text{font-size:.9rem;font-weight:600;}
+    .sticky-footer__sub{font-size:.76rem;color:rgba(255,255,255,.6);margin-top:2px;}
+    .sticky-cta{background:var(--white);color:var(--accent);border:none;border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+    @media(max-width:500px){.sticky-footer{flex-direction:column;text-align:center;}.sticky-cta{width:100%;}}
+    .modal-overlay{position:fixed;inset:0;background:rgba(15,25,35,.6);backdrop-filter:blur(4px);z-index:300;display:none;align-items:center;justify-content:center;padding:24px;}
+    .modal-overlay.open{display:flex;}
+    .modal{background:var(--white);border-radius:16px;max-width:480px;width:100%;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.2);}
+    .modal__header{background:var(--accent);color:var(--white);padding:28px 28px 24px;}
+    .modal__eyebrow{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;opacity:.7;margin-bottom:8px;}
+    .modal__title{font-family:'Lora',serif;font-size:1.25rem;font-weight:700;margin-bottom:8px;}
+    .modal__price{font-size:1.6rem;font-weight:700;font-family:'Lora',serif;}
+    .modal__price span{font-size:.95rem;opacity:.7;font-weight:400;font-family:'DM Sans',sans-serif;}
+    .modal__body{padding:24px 28px;}
+    .modal__feature{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;font-size:.92rem;color:var(--ink-2);}
+    .modal__feature .check{color:var(--green);font-weight:700;flex-shrink:0;}
+    .modal__disclaimer{background:var(--surface);border-radius:8px;padding:10px 14px;font-size:.8rem;color:var(--muted);margin:16px 0;line-height:1.55;}
+    .modal__cta{display:block;background:var(--accent);color:var(--white);text-decoration:none;text-align:center;padding:16px;border-radius:10px;font-size:1rem;font-weight:700;margin-bottom:10px;}
+    .modal__security{text-align:center;font-size:.78rem;color:var(--muted);}
+    .modal__close{display:block;text-align:center;margin-top:14px;font-size:.84rem;color:var(--muted);cursor:pointer;}
+    .modal__close:hover{color:var(--ink);}
+    .footer-trust{padding:32px 0 16px;font-size:.85rem;color:var(--ink-3);line-height:1.75;border-top:1px solid var(--line);}
+    .disclaimer{padding:16px 0 80px;font-size:.78rem;color:var(--muted);line-height:1.7;}
   </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="container--wide">
-    <div class="site-header__inner">
-      <div class="logo"><a href="/" style="text-decoration:none;display:flex;align-items:center;gap:8px;color:inherit;"><span class="logo-dot"></span>MussIchZahlen</a></div>
-      <button class="header-cta" onclick="openModal()">Jetzt pr&uuml;fen &mdash; &euro;49</button>
+<div class="hinweis-banner">&#9200;&nbsp; Nicht vorschnell zahlen &mdash; viele Mahnungen sind angreifbar</div>
+
+<header class="header">
+  <div class="container">
+    <div class="header__inner">
+      <div class="logo"><span class="logo-dot"></span>MussIchZahlen</div>
     </div>
   </div>
 </header>
 
 <section class="hero">
   <div class="container">
-    <div class="hero__eyebrow" style="justify-content:center;text-align:center;display:block;margin:0 auto 20px;">
-      Viele Mahnungen enthalten Fehler &mdash; pr&uuml;fe, bevor du zahlst
-    </div>
-
-    <h1 style="text-align:center;">Zahlst du diese Mahnung<br>wirklich zu Recht?</h1>
-
-    <p class="hero__sub" style="text-align:center;margin:0 auto;max-width:560px;">
-      Viele Mahnungen enthalten Fehler, &uuml;berh&ouml;hte Kosten oder verj&auml;hrte Forderungen.<br><br>
-      Lade dein Schreiben hoch &mdash; Analyse + fertiger Widerspruch innerhalb von 24&nbsp;Stunden.
-    </p>
-
-    <div class="hinweis-box">
-      &#9200; <strong>Wichtig:</strong> Reagiere auf Inkassoschreiben nicht vorschnell. Ein Widerspruch kann die Forderung stoppen &mdash; besonders bei verj&auml;hrten oder unklaren Forderungen.
-    </div>
-
-    <div class="value-strip">
-      <span class="value-item"><span class="vi-check">&#10004;</span> M&ouml;glicherweise hunderte Euro sparen &mdash; bevor du zahlst</span>
-      <span class="value-item"><span class="vi-check">&#10004;</span> Pr&uuml;fung auf Verj&auml;hrung, &uuml;berh&ouml;hte Kosten und fehlende Nachweise</span>
-      <span class="value-item"><span class="vi-check">&#10004;</span> Einmalig &euro;49 &middot; kein Abo</span>
-      <span class="value-item"><span class="vi-check">&#10004;</span> Dokument wird nach der Analyse gel&ouml;scht</span>
-    </div>
-
-    <div class="optie-grid">
-
-      <div class="optie-card optie-card--betaald">
-        <div class="optie-badge optie-badge--betaald">Meistgew&auml;hlt</div>
-        <h3 class="optie-title">Vollst&auml;ndige Analyse + Widerspruch</h3>
-        <p class="optie-desc">Wir pr&uuml;fen dein Schreiben auf alle m&ouml;glichen Ansatzpunkte und erstellen einen fertigen Widerspruch. Du versendest ihn &mdash; und beh&auml;ltst dein Geld.</p>
-        <ul class="optie-list">
-          <li>&#10003; Pr&uuml;fung auf Verj&auml;hrung (&sect;&nbsp;195&nbsp;BGB)</li>
-          <li>&#10003; Pr&uuml;fung der Inkassokosten (&sect;&nbsp;4&nbsp;RDGEG)</li>
-          <li>&#10003; Pr&uuml;fung der Abtretung und Nachweispflicht</li>
-          <li>&#10003; Pr&uuml;fung formaler M&auml;ngel (&sect;&nbsp;2&nbsp;RDGEG)</li>
-          <li>&#10003; Fertiger Widerspruch auf deinen Namen</li>
-          <li>&#10003; N&auml;chste Schritte bei Nichtreaktion</li>
-          <li>&#10003; Ergebnis innerhalb von 24&nbsp;Stunden</li>
-        </ul>
-        <div style="background:var(--accent-soft);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:.82rem;color:var(--accent);margin-bottom:16px;line-height:1.55;">
-          Du versendest den Widerspruch selbst &mdash; 5&nbsp;Minuten Aufwand, der dir m&ouml;glicherweise Hunderte Euro spart.
-        </div>
-        <div class="optie-price">&euro;49 <span>einmalig &middot; kein Abo</span></div>
-        <a href="https://buy.stripe.com/DEIN_STRIPE_LINK_MAHNUNG" class="optie-btn optie-btn--betaald">Jetzt pr&uuml;fen lassen &rarr;</a>
-        <p class="optie-security">&#128274; Sichere Zahlung &uuml;ber Stripe</p>
-        <p class="optie-guarantee" style="font-size:.76rem;color:var(--muted);text-align:center;margin-top:6px;">Unvollst&auml;ndige Analyse? Geld zur&uuml;ck.</p>
-      </div>
-
-    </div>
-
-    <div class="teaser" id="teaser">
-      <div class="teaser__header">
-        <div>
-          <div style="font-size:.72rem;color:#9CA3AF;margin-bottom:4px;letter-spacing:.05em;text-transform:uppercase;">Nach der Zahlung</div>
-          <div class="teaser__company" id="teaser-company">Dein Schreiben wird nach der Zahlung vollst&auml;ndig gepr&uuml;ft.</div>
-        </div>
-        <div class="teaser__status-label">Bereit</div>
-      </div>
-      <div class="teaser__body">
-        <div class="teaser__found">Was dich erwartet:</div>
-        <div class="teaser__sub" id="teaser-sub">Vollst&auml;ndige Pr&uuml;fung + fertiger Widerspruch &mdash; innerhalb von 24&nbsp;Stunden per E-Mail.</div>
-        <div class="teaser__locked">
-          <div class="lock-icon"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
-          <div class="teaser__locked-text" id="teaser-locked-text">
-            <strong>Vollst&auml;ndige Analyse + Widerspruch nach Zahlung</strong>
-            Wir pr&uuml;fen alle Ansatzpunkte und erstellen einen fertigen Widerspruch &mdash; innerhalb von 24&nbsp;Stunden.
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="cta-wrap">
-      <button class="cta-main" onclick="openModal()">Jetzt pr&uuml;fen lassen &mdash; &euro;49 &middot; Ergebnis in 24&nbsp;Stunden</button>
-      <div class="cta-sub">Einmalige Zahlung &middot; kein Abo &middot; &#128274; Sicher &uuml;ber Stripe</div>
+    <h1>Zahlst du diese Mahnung<br>wirklich zu Recht?</h1>
+    <p class="hero__sub">Viele Mahnungen und Inkassoschreiben enthalten Fehler. Pr&uuml;fe dein Schreiben und erhalte einen fertigen Widerspruch innerhalb von 24&nbsp;Stunden.</p>
+    <a href="https://buy.stripe.com/DEIN_STRIPE_LINK_MAHNUNG" class="hero-cta">Mahnung jetzt pr&uuml;fen &mdash; &euro;49 &rarr;</a>
+    <div class="hero-sub-note">Einmalig &euro;49 &middot; kein Abo &middot; &#128274; Sichere Zahlung &uuml;ber Stripe</div>
+    <div class="trust-triggers" style="grid-template-columns:repeat(2,1fr);max-width:600px;margin-left:auto;margin-right:auto;">
+      <div class="trust-trigger"><span>&#128308;</span><div><strong>Verj&auml;hrung: 3 Jahre</strong>Viele Forderungen sind l&auml;ngst verj&auml;hrt (&sect;&nbsp;195&nbsp;BGB).</div></div>
+      <div class="trust-trigger"><span>&#128308;</span><div><strong>Inkassokosten gedeckelt</strong>Kosten d&uuml;rfen Anwaltskosten nicht &uuml;bersteigen (&sect;&nbsp;4&nbsp;RDGEG).</div></div>
     </div>
   </div>
 </section>
 
 <section class="section">
+  <div class="container">
+    <div class="value-strip">
+      <span class="value-item"><span class="vi-check">&#10003;</span> Verj&auml;hrung (&sect;&nbsp;195&nbsp;BGB)</span>
+      <span class="value-item"><span class="vi-check">&#10003;</span> Inkassokosten (&sect;&nbsp;4&nbsp;RDGEG)</span>
+      <span class="value-item"><span class="vi-check">&#10003;</span> Abtretungsnachweis</span>
+      <span class="value-item"><span class="vi-check">&#10003;</span> Fertiger Widerspruch</span>
+      <span class="value-item"><span class="vi-check">&#10003;</span> Einmalig &euro;49 &mdash; kein Abo</span>
+    </div>
+    <div class="offer-card">
+      <div class="offer-badge">Empfohlen</div>
+      <div class="offer-title">Vollst&auml;ndige Analyse + Widerspruch</div>
+      <p class="offer-desc">Wir pr&uuml;fen dein Schreiben auf alle m&ouml;glichen Ansatzpunkte und erstellen einen fertigen Widerspruch. Du versendest ihn &mdash; und beh&auml;ltst m&ouml;glicherweise dein Geld.</p>
+      <ul class="offer-list">
+        <li>Pr&uuml;fung auf Verj&auml;hrung (&sect;&nbsp;195&nbsp;BGB)</li>
+        <li>Pr&uuml;fung der Inkassokosten (&sect;&nbsp;4&nbsp;RDGEG)</li>
+        <li>Pr&uuml;fung der Abtretung und Nachweispflicht</li>
+        <li>Pr&uuml;fung formaler M&auml;ngel (&sect;&nbsp;2&nbsp;RDGEG)</li>
+        <li>Fertiger Widerspruch auf deinen Namen</li>
+        <li>N&auml;chste Schritte bei Nichtreaktion</li>
+        <li>Ergebnis innerhalb von 24&nbsp;Stunden per E-Mail</li>
+      </ul>
+      <hr class="offer-divider">
+      <div class="offer-price">&euro;49 <span>einmalig &middot; kein Abo</span></div>
+      <a href="https://buy.stripe.com/DEIN_STRIPE_LINK_MAHNUNG" class="offer-cta">Jetzt pr&uuml;fen lassen &rarr;</a>
+      <div class="offer-security">&#128274; Sichere Zahlung &uuml;ber Stripe</div>
+      <div class="offer-refund">Bei inhaltlich unvollst&auml;ndiger Analyse: Geld zur&uuml;ck.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
   <div class="container">
     <div class="section-label">So funktioniert es</div>
-    <h2>In 3 Schritten zur Antwort</h2>
+    <h2>In 3 Schritten zum fertigen Widerspruch</h2>
     <div class="steps">
-      <div class="step"><div class="step__num">01</div><div class="step__title">Schreiben hochladen</div><div class="step__desc">Mahnung, Inkassoschreiben oder Anwaltsbrief. PDF, JPG oder PNG. Dauert weniger als 2&nbsp;Minuten.</div></div>
-      <div class="step"><div class="step__num">02</div><div class="step__title">Wir pr&uuml;fen alles</div><div class="step__desc">Verj&auml;hrung, Inkassokosten, Abtretungsnachweis, richtige Person und formale M&auml;ngel nach RDG und BGB.</div></div>
-      <div class="step"><div class="step__num">03</div><div class="step__title">Analyse per E-Mail</div><div class="step__desc">Innerhalb von 24&nbsp;Stunden: vollst&auml;ndige Analyse + fertiger Widerspruch. Du versendest ihn und beh&auml;ltst dein Geld.</div></div>
-    </div>
-  </div>
-</section>
-
-<section class="section section--alt">
-  <div class="container">
-    <div class="section-label">Wie wir arbeiten</div>
-    <h2>Auf Basis des deutschen Verbraucherrechts</h2>
-    <div class="trust-grid">
-      <div class="trust-item"><div class="trust-item__label">Rechtliche Grundlage</div><div class="trust-item__text">&sect;&nbsp;195&nbsp;BGB (Verj&auml;hrung), &sect;&nbsp;4&nbsp;RDGEG (Inkassokostendeckelung), &sect;&nbsp;409&nbsp;BGB (Abtretung), Rechtsdienstleistungsgesetz (RDG).</div></div>
-      <div class="trust-item"><div class="trust-item__label">Was wir pr&uuml;fen</div><div class="trust-item__text">Verj&auml;hrung, Inkassokosten, Abtretungsnachweis, Nachweispflicht, richtige Person und formale M&auml;ngel im Schreiben.</div></div>
-      <div class="trust-item"><div class="trust-item__label">Was wir nicht sind</div><div class="trust-item__text">Wir bieten keine Rechtsberatung und keine rechtliche Vertretung. Bei komplexen F&auml;llen empfehlen wir die Verbraucherzentrale oder einen Anwalt.</div></div>
+      <div class="step"><div class="step__num">01</div><div class="step__title">Schreiben hochladen</div><div class="step__desc">Nach der Zahlung l&auml;dst du deine Mahnung hoch. PDF, JPG oder PNG.</div></div>
+      <div class="step"><div class="step__num">02</div><div class="step__title">Wir pr&uuml;fen alles</div><div class="step__desc">Verj&auml;hrung, Inkassokosten, Abtretungsnachweis und formale M&auml;ngel nach RDG und BGB.</div></div>
+      <div class="step"><div class="step__num">03</div><div class="step__title">Analyse per E-Mail</div><div class="step__desc">Innerhalb von 24&nbsp;Stunden erh&auml;ltst du deine Analyse und einen fertigen Widerspruch.</div></div>
     </div>
   </div>
 </section>
 
 <section class="section">
   <div class="container">
-    <div class="section-label">Die Fakten</div>
-    <h2>Was du wissen solltest</h2>
-    <div class="proof-grid">
-      <div class="proof-item"><div class="proof-num">3 Jahre</div><div class="proof-label">Regelm&auml;&szlig;ige Verj&auml;hrungsfrist (&sect;&nbsp;195&nbsp;BGB) &mdash; viele Forderungen sind l&auml;ngst verj&auml;hrt</div></div>
-      <div class="proof-item"><div class="proof-num">H&auml;ufig</div><div class="proof-label">Inkassokosten &uuml;bersteigen das gesetzlich zul&auml;ssige Maximum nach &sect;&nbsp;4&nbsp;RDGEG</div></div>
-      <div class="proof-item"><div class="proof-num">&euro;49</div><div class="proof-label">Einmalig &mdash; ein Bruchteil dessen, was du m&ouml;glicherweise zu Unrecht zahlen w&uuml;rdest</div></div>
-      <div class="proof-item"><div class="proof-num">24&nbsp;Std.</div><div class="proof-label">Vollst&auml;ndige Analyse + fertiger Widerspruch in deinem Posteingang</div></div>
+    <div class="section-label">Rechtliche Grundlage</div>
+    <h2>Worauf wir uns st&uuml;tzen</h2>
+    <div class="trust-grid">
+      <div class="trust-item"><div class="trust-item__label">&sect;&nbsp;195&nbsp;BGB &mdash; Verj&auml;hrung</div><div class="trust-item__text">Regelm&auml;&szlig;ige Verj&auml;hrungsfrist: 3&nbsp;Jahre. Viele Forderungen sind l&auml;ngst verj&auml;hrt.</div></div>
+      <div class="trust-item"><div class="trust-item__label">&sect;&nbsp;4&nbsp;RDGEG &mdash; Inkassokosten</div><div class="trust-item__text">Inkassokosten d&uuml;rfen die Anwaltskosten nicht &uuml;bersteigen. Viele Schreiben enthalten &uuml;berh&ouml;hte Kosten.</div></div>
+      <div class="trust-item"><div class="trust-item__label">Keine Rechtsberatung</div><div class="trust-item__text">Informative Analysen und Widerspruchsentw&uuml;rfe. Keine rechtliche Vertretung. Bei komplexen F&auml;llen: Verbraucherzentrale.</div></div>
     </div>
   </div>
 </section>
 
 <section class="section section--alt">
+  <div class="container">
+    <div class="section-label">Passend f&uuml;r dich?</div>
+    <h2>F&uuml;r wen ist das geeignet?</h2>
+    <div class="fit-rows">
+      <div class="fit-row"><span>&#10003;</span><span>Du hast eine Mahnung, ein Inkassoschreiben oder einen Anwaltsbrief erhalten</span></div>
+      <div class="fit-row"><span>&#10003;</span><span>Du bist unsicher, ob die Forderung berechtigt ist</span></div>
+      <div class="fit-row"><span>&#10003;</span><span>Du m&ouml;chtest einen fertigen Widerspruch statt selbst zu formulieren</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
   <div class="container">
     <div class="section-label">H&auml;ufige Fragen</div>
     <h2>Alles, was du wissen m&ouml;chtest</h2>
     <div class="faq-list">
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Wann ist eine Forderung verj&auml;hrt?<svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a">Die regelm&auml;&szlig;ige Verj&auml;hrungsfrist betr&auml;gt 3 Jahre (&sect;&nbsp;195&nbsp;BGB), beginnend am Ende des Jahres der Kenntnis (&sect;&nbsp;199&nbsp;BGB). Verj&auml;hrte Forderungen k&ouml;nnen nicht mehr gerichtlich durchgesetzt werden.</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">D&uuml;rfen Inkassounternehmen beliebig hohe Kosten berechnen?<svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a">Nein. Inkassokosten sind nach &sect;&nbsp;4&nbsp;RDGEG gedeckelt. Viele Inkassoschreiben enthalten &uuml;berh&ouml;hte Kosten, die nicht rechtm&auml;&szlig;ig sind.</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Was passiert, wenn sich die Forderung als berechtigt herausstellt?<svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a">Du erh&auml;ltst in jedem Fall einen vollst&auml;ndigen Bericht mit klarer Erkl&auml;rung und deinen Optionen. Du zahlst nie f&uuml;r einen leeren Bericht.</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Ist das eine Rechtsberatung?<svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a">Nein. Dies ist eine informative Analyse, keine Rechtsberatung. Wir &uuml;bernehmen keine rechtliche Vertretung.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Wann ist eine Forderung verj&auml;hrt? <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a">3&nbsp;Jahre ab Ende des Jahres der Kenntnis (&sect;&nbsp;195, 199&nbsp;BGB). Verj&auml;hrte Forderungen k&ouml;nnen nicht mehr gerichtlich durchgesetzt werden.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">D&uuml;rfen Inkassounternehmen beliebig hohe Kosten berechnen? <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a">Nein. Inkassokosten sind nach &sect;&nbsp;4&nbsp;RDGEG gedeckelt &mdash; sie d&uuml;rfen die entsprechenden Anwaltskosten nicht &uuml;bersteigen.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Was passiert, wenn sich die Forderung als berechtigt herausstellt? <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a">Du erh&auml;ltst in jedem Fall eine vollst&auml;ndige Analyse mit Erkl&auml;rung und deinen Optionen.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Ist das Rechtsberatung? <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a">Nein. Informative Analyse und Widerspruchsentwurf. Keine rechtliche Vertretung.</div></div>
     </div>
   </div>
 </section>
 
-<div style="max-width:860px;margin:0 auto 24px;padding:0 24px;font-size:.88rem;color:var(--ink-3);line-height:1.75;">
-  <p><strong>MussIchZahlen</strong> ist ein auf Deutschland ausgerichteter Verbraucherdokument-Analysedienst. Fragen? <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a>. Hochgeladene Dokumente werden sicher verarbeitet und anschlie&szlig;end gel&ouml;scht.</p>
-</div>
-
-<footer class="disclaimer">
+<section class="final-cta">
   <div class="container">
-    <p>MussIchZahlen bietet informative Analysen und Widerspruchsentw&uuml;rfe auf Basis des deutschen Verbraucherrechts. Dies ist keine Rechtsberatung. Wir &uuml;bernehmen keine rechtliche Vertretung. Dokumente werden nach der Verarbeitung gel&ouml;scht. &copy; 2025 MussIchZahlen.de</p>
+    <h2>Jetzt pr&uuml;fen &mdash; bevor du zahlst</h2>
+    <p>Mahnung erhalten? Pr&uuml;fe, ob du wirklich zahlen musst.</p>
+    <a href="https://buy.stripe.com/DEIN_STRIPE_LINK_MAHNUNG" class="final-cta-btn">Mahnung jetzt pr&uuml;fen &mdash; &euro;49 &rarr;</a>
+    <div class="final-cta-note">Einmalig &euro;49 &middot; kein Abo &middot; &#128274; Stripe &middot; 24&nbsp;Std.</div>
   </div>
-</footer>
+</section>
+
+<div class="container">
+  <div class="footer-trust"><strong>MussIchZahlen.de</strong> &mdash; Fragen? <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a></div>
+  <div class="disclaimer">MussIchZahlen.de bietet informative Analysen und Widerspruchsentw&uuml;rfe. Keine Rechtsberatung, keine rechtliche Vertretung. Dokumente werden nach Verarbeitung gel&ouml;scht. &copy; 2025 MussIchZahlen.de</div>
+</div>
 
 <div class="sticky-footer" id="sticky-footer">
-  <div>
-    <div class="sticky-footer__text">Mahnung erhalten? Erst pr&uuml;fen, dann zahlen.</div>
-    <div class="sticky-footer__sub">Viele Forderungen sind fehlerhaft &middot; einmalig &euro;49</div>
-  </div>
-  <button class="sticky-cta" onclick="openModal()">Jetzt pr&uuml;fen &mdash; &euro;49 &rarr;</button>
+  <div><div class="sticky-footer__text">Mahnung erhalten? Erst pr&uuml;fen, dann zahlen.</div><div class="sticky-footer__sub">Viele Forderungen sind fehlerhaft &middot; einmalig &euro;49</div></div>
+  <a href="https://buy.stripe.com/DEIN_STRIPE_LINK_MAHNUNG" class="sticky-cta">Mahnung pr&uuml;fen &mdash; &euro;49 &rarr;</a>
 </div>
 
-<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
-  <div class="modal">
-    <div class="modal__header">
-      <div class="modal__eyebrow">Was du erh&auml;ltst</div>
-      <div class="modal__title">Analyse + fertiger Widerspruch innerhalb von 24&nbsp;Stunden</div>
-      <div class="modal__sub">Lade dein Schreiben hoch. Wir pr&uuml;fen jeden Ansatzpunkt und senden dir einen fertigen Widerspruch.</div>
-      <div class="modal__price">&euro;49 <span style="font-size:1rem;color:#9CA3AF;font-weight:400;">einmalig &middot; kein Abo</span></div>
-    </div>
-    <div class="modal__body">
-      <div class="modal__feature"><div class="check">&#10003;</div><div>Pr&uuml;fung auf Verj&auml;hrung, &uuml;berh&ouml;hte Kosten und fehlende Nachweise</div></div>
-      <div class="modal__feature"><div class="check">&#10003;</div><div>Vollst&auml;ndige Analyse aller Ansatzpunkte</div></div>
-      <div class="modal__feature"><div class="check">&#10003;</div><div>Fertiger Widerspruch &mdash; direkt versendbar</div></div>
-      <div class="modal__feature"><div class="check">&#10003;</div><div>N&auml;chste Schritte bei Nichtreaktion</div></div>
-      <div class="modal__disclaimer">&#8505;&#65039; Informative Analyse &mdash; keine Rechtsberatung, keine rechtliche Vertretung.</div>
-      <p id="modal-dynamic-copy" style="margin-bottom:16px;color:#6b7a90;font-size:.9rem;">Wir haben m&ouml;gliche Ansatzpunkte identifiziert &mdash; vollst&auml;ndige Analyse nach der Zahlung.</p>
-      <a href="https://buy.stripe.com/DEIN_STRIPE_LINK_MAHNUNG" class="modal__cta">Jetzt pr&uuml;fen lassen &mdash; &euro;49 &rarr;</a>
-      <div class="modal__security">&#128274; Sichere Zahlung &uuml;ber Stripe</div>
-      <div class="modal__close" onclick="closeModal()">Abbrechen</div>
-    </div>
-  </div>
-</div>
 
-<script type="module" src="app.js"></script>
+<script>
+  function toggleFaq(el){const item=el.closest('.faq-item'),isOpen=item.classList.contains('faq-item--open');document.querySelectorAll('.faq-item--open').forEach(i=>i.classList.remove('faq-item--open'));if(!isOpen)item.classList.add('faq-item--open');}
+  const sf=document.getElementById('sticky-footer');let t=false;
+  window.addEventListener('scroll',()=>{if(!t){requestAnimationFrame(()=>{const y=window.scrollY;sf.classList.toggle('visible',y>400&&y+window.innerHeight<document.documentElement.scrollHeight-200);t=false;});t=true;}},{passive:true});
+</script>
 </body>
 </html>
