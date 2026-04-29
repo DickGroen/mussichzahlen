@@ -1,4 +1,3 @@
-
 import mahnungTriage from "../../prompts/mahnung/triage.js";
 import mahnungHaiku from "../../prompts/mahnung/haiku.js";
 import mahnungSonnet from "../../prompts/mahnung/sonnet.js";
@@ -15,31 +14,44 @@ import vertragTriage from "../../prompts/vertrag/triage.js";
 import vertragHaiku from "../../prompts/vertrag/haiku.js";
 import vertragSonnet from "../../prompts/vertrag/sonnet.js";
 
+import angebotTriage from "../../prompts/angebot/triage.js";
+import angebotHaiku from "../../prompts/angebot/haiku.js";
+import angebotSonnet from "../../prompts/angebot/sonnet.js";
+
 export const PROMPTS = {
   mahnung: {
     triage: mahnungTriage,
-    haiku:  mahnungHaiku,
+    haiku: mahnungHaiku,
     sonnet: mahnungSonnet
   },
   parkstrafe: {
     triage: parkstrafeTriage,
-    haiku:  parkstrafeHaiku,
+    haiku: parkstrafeHaiku,
     sonnet: parkstrafeSonnet
   },
   rechnung: {
     triage: rechnungTriage,
-    haiku:  rechnungHaiku,
+    haiku: rechnungHaiku,
     sonnet: rechnungSonnet
   },
   vertrag: {
     triage: vertragTriage,
-    haiku:  vertragHaiku,
+    haiku: vertragHaiku,
     sonnet: vertragSonnet
+  },
+  angebot: {
+    triage: angebotTriage,
+    haiku: angebotHaiku,
+    sonnet: angebotSonnet
   }
 };
 
 export function loadPrompts(type) {
   const prompts = PROMPTS[type];
-  if (!prompts) throw new Error(`Unbekannter Typ: ${type}`);
+
+  if (!prompts) {
+    throw new Error(`Unbekannter Typ: ${type}`);
+  }
+
   return prompts;
 }
