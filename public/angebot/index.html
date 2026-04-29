@@ -1,32 +1,136 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zahlst du zu viel für dieses Angebot? | MussIchZahlen.de</title>
+  <meta name="description" content="Lade dein Angebot hoch und prüfe, ob der Preis fair ist. Analyse + Verhandlungsempfehlung innerhalb von 24 Stunden. Einmalig ab €19.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{--ink:#0f1923;--ink-2:#2d3748;--ink-3:#4a5568;--muted:#718096;--line:#e2e8f0;--surface:#f7f9fc;--white:#ffffff;--accent:#1a3a6b;--accent-2:#2d5499;--green:#166534;--green-soft:#dcfce7;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.65;color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased;}
+    h1,h2,h3{font-family:'Lora',Georgia,serif;line-height:1.2;}
+    a{color:var(--accent);}
+    .container{max-width:860px;margin:0 auto;padding:0 24px;}
+    .hinweis-banner{background:#fff7ed;border-bottom:2px solid #fdba74;padding:10px 0;text-align:center;font-size:.84rem;font-weight:600;color:#92400e;}
+    .header{background:var(--white);border-bottom:1px solid var(--line);padding:16px 0;position:sticky;top:0;z-index:100;}
+    .header__inner{display:flex;align-items:center;justify-content:space-between;}
+    .logo{font-family:'Lora',serif;font-size:1.15rem;font-weight:700;color:var(--accent);}
+    .logo-dot{display:inline-block;width:8px;height:8px;background:var(--accent-2);border-radius:50%;margin-right:6px;vertical-align:middle;}
+    .hero{padding:64px 0 48px;text-align:center;}
+    .hero h1{font-size:clamp(1.9rem,5vw,2.9rem);margin-bottom:20px;max-width:720px;margin-left:auto;margin-right:auto;}
+    .hero__sub{font-size:1.05rem;color:var(--ink-3);max-width:560px;margin:0 auto 32px;line-height:1.7;}
+    .hero-cta{display:inline-block;background:var(--accent);color:var(--white);text-decoration:none;padding:18px 40px;border-radius:10px;font-size:1.1rem;font-weight:700;}
+    .hero-cta:hover{background:var(--accent-2);}
+    .hero-sub-note{font-size:.82rem;color:var(--muted);margin-top:10px;}
+    .trust-triggers{background:var(--green-soft);border:1px solid #bbf7d0;border-radius:12px;padding:20px 24px;margin:40px auto 0;display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:620px;}
+    @media(max-width:600px){.trust-triggers{grid-template-columns:1fr;}}
+    .trust-trigger{display:flex;align-items:flex-start;gap:10px;font-size:.87rem;color:var(--green);line-height:1.55;text-align:left;}
+    .trust-trigger strong{display:block;font-weight:700;color:#14532d;margin-bottom:2px;}
+    .section{padding:72px 0;}
+    .section--alt{background:var(--surface);}
+    .section-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-2);margin-bottom:10px;}
+    .section h2{font-size:clamp(1.5rem,3vw,2rem);margin-bottom:32px;}
+    .value-strip{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 36px;justify-content:center;}
+    .value-item{display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--line);border-radius:100px;padding:8px 16px;font-size:.86rem;color:var(--ink-2);font-weight:500;}
+    .vi-check{color:var(--green);font-weight:700;}
+    .offer-card{background:var(--white);border:2px solid var(--accent);border-radius:16px;padding:36px 32px;max-width:620px;margin:0 auto;box-shadow:0 12px 40px rgba(26,58,107,.1);}
+    @media(max-width:600px){.offer-card{padding:24px 20px;}}
+    .offer-badge{display:inline-block;background:var(--accent);color:var(--white);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 12px;border-radius:100px;margin-bottom:16px;}
+    .offer-title{font-family:'Lora',serif;font-size:1.45rem;margin-bottom:8px;}
+    .offer-desc{color:var(--ink-3);font-size:.93rem;margin-bottom:20px;line-height:1.65;}
+    .offer-list{list-style:none;margin-bottom:24px;display:grid;gap:8px;}
+    .offer-list li{display:flex;align-items:flex-start;gap:10px;font-size:.93rem;color:var(--ink-2);line-height:1.55;}
+    .offer-list li::before{content:"✓";color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px;}
+    hr.offer-divider{border:none;border-top:1px solid var(--line);margin:20px 0;}
+    .offer-price{font-size:2rem;font-weight:700;color:var(--accent);font-family:'Lora',serif;}
+    .offer-price span{font-size:.95rem;color:var(--muted);font-weight:400;font-family:'DM Sans',sans-serif;}
+    .offer-cta{display:block;background:var(--accent);color:var(--white);text-decoration:none;text-align:center;padding:17px;border-radius:10px;font-size:1.05rem;font-weight:700;margin-top:20px;}
+    .offer-cta:hover{background:var(--accent-2);}
+    .offer-security{text-align:center;font-size:.78rem;color:var(--muted);margin-top:10px;}
+    .offer-refund{text-align:center;font-size:.76rem;color:var(--muted);margin-top:6px;}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+    @media(max-width:640px){.steps{grid-template-columns:1fr;}}
+    .step__num{font-family:'Lora',serif;font-size:2.2rem;font-weight:700;color:var(--line);margin-bottom:10px;line-height:1;}
+    .step__title{font-weight:700;margin-bottom:6px;font-size:.98rem;}
+    .step__desc{font-size:.87rem;color:var(--ink-3);line-height:1.65;}
+    .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+    @media(max-width:680px){.trust-grid{grid-template-columns:1fr;}}
+    .trust-item{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:20px;}
+    .trust-item__label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:8px;}
+    .trust-item__text{font-size:.87rem;color:var(--ink-3);line-height:1.65;}
+    .fit-rows{display:grid;gap:10px;max-width:620px;}
+    .fit-row{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;background:var(--green-soft);border:1px solid #bbf7d0;border-radius:10px;font-size:.93rem;color:#14532d;}
+    .fit-row span:first-child{font-weight:700;flex-shrink:0;}
+    .faq-list{display:grid;gap:4px;}
+    .faq-item{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--white);}
+    .faq-q{display:flex;align-items:center;justify-content:space-between;padding:17px 20px;cursor:pointer;font-weight:600;font-size:.93rem;user-select:none;gap:12px;}
+    .faq-q:hover{background:var(--surface);}
+    .faq-chevron{flex-shrink:0;color:var(--muted);transition:transform .25s;}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;font-size:.9rem;color:var(--ink-3);line-height:1.7;padding:0 20px;}
+    .faq-item--open .faq-a{max-height:300px;padding:0 20px 17px;}
+    .faq-item--open .faq-chevron{transform:rotate(180deg);}
+    .final-cta{background:var(--accent);color:var(--white);padding:72px 0;text-align:center;}
+    .final-cta h2{color:var(--white);font-size:clamp(1.6rem,3.5vw,2.1rem);margin-bottom:12px;}
+    .final-cta p{color:rgba(255,255,255,.75);margin-bottom:32px;}
+    .final-cta-btn{display:inline-block;background:var(--white);color:var(--accent);text-decoration:none;padding:17px 40px;border-radius:10px;font-size:1.05rem;font-weight:700;}
+    .final-cta-note{color:rgba(255,255,255,.6);font-size:.8rem;margin-top:12px;}
+    .sticky-footer{position:fixed;bottom:0;left:0;right:0;background:var(--ink);color:var(--white);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;transform:translateY(100%);transition:transform .3s ease;z-index:200;}
+    .sticky-footer.visible{transform:translateY(0);}
+    .sticky-footer__text{font-size:.9rem;font-weight:600;}
+    .sticky-footer__sub{font-size:.76rem;color:rgba(255,255,255,.6);margin-top:2px;}
+    .sticky-cta{background:var(--white);color:var(--accent);border:none;border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;text-decoration:none;}
+    @media(max-width:500px){.sticky-footer{flex-direction:column;text-align:center;}.sticky-cta{width:100%;}}
+    .footer-trust{padding:32px 0 16px;font-size:.85rem;color:var(--ink-3);line-height:1.75;border-top:1px solid var(--line);}
+    .disclaimer{padding:16px 0 80px;font-size:.78rem;color:var(--muted);line-height:1.7;}
+  </style>
+</head>
+
+<body>
+
+<div class="hinweis-banner">💶 Erst prüfen, dann zusagen — viele Angebote sind teurer als nötig</div>
+
+<header class="header">
+  <div class="container">
+    <div class="header__inner">
+      <div class="logo"><span class="logo-dot"></span>MussIchZahlen</div>
+    </div>
+  </div>
+</header>
+
 <section class="hero">
   <div class="container">
-    <div class="hero__eyebrow">Angebot-Check</div>
-
-    <h1>Zahlst du zu viel für dieses Angebot?</h1>
-
+    <h1>Zahlst du zu viel<br>für dieses Angebot?</h1>
     <p class="hero__sub">
-      Lade dein Angebot hoch und erfahre, ob der Preis fair ist, bevor du zusagst.
+      Lade dein Angebot hoch und erfahre, ob der Preis fair ist — bevor du zusagst oder unterschreibst.
     </p>
 
-    <div class="value-strip">
-      <div class="value-item">✓ Kostenloser erster Check</div>
-      <div class="value-item">✓ Mögliche Überzahlung erkennen</div>
-      <div class="value-item">✓ Ergebnis innerhalb von 24 Stunden</div>
-    </div>
+    <a href="https://buy.stripe.com/DEIN_STRIPE_LINK_ANGEBOT_PRO" class="hero-cta">
+      Angebot jetzt prüfen — €19 →
+    </a>
 
-    <div class="upload-section" id="upload-area">
-      <div class="upload-icon">📄</div>
-      <div class="upload-label">Angebot hochladen</div>
-      <div class="upload-hint">PDF, JPG oder PNG · max. 10 MB</div>
-      <input type="file" id="file-input" accept=".pdf,.jpg,.jpeg,.png" />
-    </div>
+    <div class="hero-sub-note">Einmalig ab €19 · kein Abo · 🔒 Sichere Zahlung über Stripe</div>
 
-    <div class="cta-wrap">
-      <button class="cta-main" id="free-check-btn">
-        Angebot kostenlos prüfen
-      </button>
-      <div class="cta-sub">
-        Keine Verpflichtung. Du erhältst zuerst eine kostenlose Einschätzung.
+    <div class="trust-triggers">
+      <div class="trust-trigger">
+        <span>💶</span>
+        <div>
+          <strong>Viele Angebote enthalten Spielraum</strong>
+          Schon 5–15% Preisnachlass kann mehrere hundert Euro sparen.
+        </div>
+      </div>
+      <div class="trust-trigger">
+        <span>🔍</span>
+        <div>
+          <strong>Wir prüfen auffällige Positionen</strong>
+          Material, Arbeitszeit, Pauschalen, unklare Kosten und fehlende Details.
+        </div>
       </div>
     </div>
   </div>
@@ -34,34 +138,207 @@
 
 <section class="section">
   <div class="container">
-    <div class="section-label">So funktioniert es</div>
+    <div class="value-strip">
+      <span class="value-item"><span class="vi-check">✓</span> Preisaufbau prüfen</span>
+      <span class="value-item"><span class="vi-check">✓</span> Überzahlung erkennen</span>
+      <span class="value-item"><span class="vi-check">✓</span> Verhandlungspotenzial</span>
+      <span class="value-item"><span class="vi-check">✓</span> Klare nächste Schritte</span>
+      <span class="value-item"><span class="vi-check">✓</span> Kein Abo</span>
+    </div>
 
-    <h2>Vom Angebot zur klaren Einschätzung</h2>
+    <div class="offer-card">
+      <div class="offer-badge">Empfohlen</div>
+      <div class="offer-title">Vollständige Angebotsanalyse</div>
+
+      <p class="offer-desc">
+        Wir prüfen dein Angebot auf auffällige Kosten, unklare Positionen und mögliches Einsparpotenzial.
+        Du erhältst eine klare Einschätzung und konkrete Hinweise, wie du besser verhandeln kannst.
+      </p>
+
+      <ul class="offer-list">
+        <li>Analyse der wichtigsten Preispositionen</li>
+        <li>Einschätzung: fair, teuer oder auffällig hoch</li>
+        <li>Geschätztes Einsparpotenzial</li>
+        <li>Hinweise auf unklare oder riskante Kostenpunkte</li>
+        <li>Konkrete Verhandlungstipps</li>
+        <li>Ergebnis innerhalb von 24 Stunden per E-Mail</li>
+      </ul>
+
+      <hr class="offer-divider">
+
+      <div class="offer-price">€19 <span>einmalig · kein Abo</span></div>
+
+      <a href="https://buy.stripe.com/DEIN_STRIPE_LINK_ANGEBOT_PRO" class="offer-cta">
+        Angebot prüfen lassen →
+      </a>
+
+      <div class="offer-security">🔒 Sichere Zahlung über Stripe</div>
+      <div class="offer-refund">Bei inhaltlich unvollständiger Analyse: Geld zurück.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container">
+    <div class="section-label">So funktioniert es</div>
+    <h2>In 3 Schritten zur klaren Einschätzung</h2>
 
     <div class="steps">
       <div class="step">
-        <div class="step__num">1</div>
+        <div class="step__num">01</div>
         <div class="step__title">Angebot hochladen</div>
-        <div class="step__desc">
-          Wir lesen Preise, Positionen und Bedingungen aus deinem Dokument.
-        </div>
+        <div class="step__desc">Nach der Zahlung lädst du dein Angebot hoch. PDF, JPG oder PNG.</div>
       </div>
 
       <div class="step">
-        <div class="step__num">2</div>
-        <div class="step__title">KI prüft den Preis</div>
-        <div class="step__desc">
-          Du siehst, ob das Angebot normal, teuer oder auffällig hoch wirkt.
-        </div>
+        <div class="step__num">02</div>
+        <div class="step__title">Wir prüfen den Preis</div>
+        <div class="step__desc">Wir analysieren Positionen, Pauschalen, Material, Arbeitszeit und unklare Kosten.</div>
       </div>
 
       <div class="step">
-        <div class="step__num">3</div>
-        <div class="step__title">Klare nächste Schritte</div>
-        <div class="step__desc">
-          Du erhältst konkrete Hinweise, Sparpotenzial und auf Wunsch eine Verhandlungsnachricht.
-        </div>
+        <div class="step__num">03</div>
+        <div class="step__title">Ergebnis per E-Mail</div>
+        <div class="step__desc">Du erhältst eine klare Einschätzung und konkrete Verhandlungshinweise.</div>
       </div>
     </div>
   </div>
 </section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-label">Worauf wir achten</div>
+    <h2>Was wir in deinem Angebot prüfen</h2>
+
+    <div class="trust-grid">
+      <div class="trust-item">
+        <div class="trust-item__label">Preisniveau</div>
+        <div class="trust-item__text">Wir prüfen, ob der Gesamtpreis im Verhältnis zur Leistung plausibel wirkt.</div>
+      </div>
+
+      <div class="trust-item">
+        <div class="trust-item__label">Unklare Positionen</div>
+        <div class="trust-item__text">Wir markieren Kostenpunkte, die ungenau, überhöht oder nicht nachvollziehbar erscheinen.</div>
+      </div>
+
+      <div class="trust-item">
+        <div class="trust-item__label">Verhandlung</div>
+        <div class="trust-item__text">Du bekommst konkrete Argumente, mit denen du einen besseren Preis anfragen kannst.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container">
+    <div class="section-label">Passend für dich?</div>
+    <h2>Für wen ist das geeignet?</h2>
+
+    <div class="fit-rows">
+      <div class="fit-row"><span>✓</span><span>Du hast ein Angebot erhalten und bist unsicher, ob der Preis fair ist</span></div>
+      <div class="fit-row"><span>✓</span><span>Es geht um Handwerker, Reparatur, Renovierung, Energie, Auto oder Dienstleistungen</span></div>
+      <div class="fit-row"><span>✓</span><span>Du möchtest verhandeln, weißt aber nicht, welche Argumente du nutzen kannst</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-label">Häufige Fragen</div>
+    <h2>Alles, was du wissen möchtest</h2>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Was kann ich hochladen?
+          <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-a">Du kannst Angebote, Kostenvoranschläge oder Preisvorschläge als PDF, JPG oder PNG hochladen.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Bekomme ich einen exakten Marktpreis?
+          <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-a">Nein. Du erhältst eine praktische Einschätzung, ob das Angebot plausibel, teuer oder auffällig wirkt — mit konkreten Punkten zur Prüfung und Verhandlung.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Hilft mir das beim Verhandeln?
+          <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-a">Ja. Du bekommst Hinweise, welche Positionen du hinterfragen kannst und welche Argumente für eine Preisanpassung sinnvoll sind.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Ist das eine Garantie auf Rabatt?
+          <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+        <div class="faq-a">Nein. Wir geben dir eine Einschätzung und bessere Argumente. Ob der Anbieter den Preis senkt, entscheidet der Anbieter.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="container">
+    <h2>Prüfe dein Angebot, bevor du zusagst</h2>
+    <p>Ein kurzer Check kann dir helfen, unnötige Kosten zu vermeiden.</p>
+
+    <a href="https://buy.stripe.com/DEIN_STRIPE_LINK_ANGEBOT_PRO" class="final-cta-btn">
+      Angebot jetzt prüfen — €19 →
+    </a>
+
+    <div class="final-cta-note">Einmalig €19 · kein Abo · 🔒 Stripe · 24 Std.</div>
+  </div>
+</section>
+
+<div class="container">
+  <div class="footer-trust">
+    <strong>MussIchZahlen.de</strong> — Fragen? <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a>
+  </div>
+
+  <div class="disclaimer">
+    MussIchZahlen.de bietet informative Analysen von Angeboten und Preisunterlagen. Keine Garantie auf Preisnachlass, keine rechtliche oder handwerkliche Beratung. Dokumente werden nach Verarbeitung gelöscht. © 2025 MussIchZahlen.de
+  </div>
+</div>
+
+<div class="sticky-footer" id="sticky-footer">
+  <div>
+    <div class="sticky-footer__text">Angebot erhalten? Erst prüfen, dann zusagen.</div>
+    <div class="sticky-footer__sub">Viele Angebote haben Verhandlungsspielraum · einmalig €19</div>
+  </div>
+
+  <a href="https://buy.stripe.com/DEIN_STRIPE_LINK_ANGEBOT_PRO" class="sticky-cta">
+    Angebot prüfen — €19 →
+  </a>
+</div>
+
+<script>
+  function toggleFaq(el){
+    const item=el.closest('.faq-item');
+    const isOpen=item.classList.contains('faq-item--open');
+    document.querySelectorAll('.faq-item--open').forEach(i=>i.classList.remove('faq-item--open'));
+    if(!isOpen)item.classList.add('faq-item--open');
+  }
+
+  const sf=document.getElementById('sticky-footer');
+  let t=false;
+
+  window.addEventListener('scroll',()=>{
+    if(!t){
+      requestAnimationFrame(()=>{
+        const y=window.scrollY;
+        sf.classList.toggle('visible',y>400&&y+window.innerHeight<document.documentElement.scrollHeight-200);
+        t=false;
+      });
+      t=true;
+    }
+  },{passive:true});
+</script>
+
+</body>
+</html>
