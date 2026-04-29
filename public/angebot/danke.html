@@ -1,1 +1,151 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <title>Zahlung erfolgreich — Angebot hochladen | MussIchZahlen.de</title>
+
+  <link rel="stylesheet" href="../styles.css">
+
+  <style>
+    /* (laat exact je bestaande CSS staan — NIET aanpassen) */
+  </style>
+</head>
+
+<body>
+
+  <div id="locked-screen" class="locked-screen" style="display:none;">
+    <h2>Upload-Link ungültig oder abgelaufen</h2>
+    <p>Bitte nutze den Link aus deiner Zahlungsbestätigung oder kontaktiere <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a>.</p>
+    <a href="/angebot/">Zurück zur Prüfung</a>
+  </div>
+
+  <div id="thankyou-app" class="thankyou-wrap" style="display:none;">
+    <div class="thankyou-card">
+
+      <div class="thankyou-badge">
+        <span class="thankyou-dot"></span>
+        Zahlung erfolgreich
+      </div>
+
+      <div class="progress-bar">
+        <span class="progress-bar__step progress-bar__step--done">✓ Bezahlt</span>
+        <span class="progress-bar__divider"></span>
+        <span class="progress-bar__step progress-bar__step--current">Schritt 2: Angebot hochladen</span>
+      </div>
+
+      <h1 style="font-size:clamp(1.7rem,4vw,2.3rem);margin-bottom:12px;line-height:1.25;">
+        Letzter Schritt — lade jetzt dein Angebot hoch
+      </h1>
+
+      <p style="font-size:1rem;color:var(--ink-3);line-height:1.75;margin-bottom:28px;">
+        Wir prüfen, ob du zu viel zahlst und wo Einsparpotenzial besteht.
+        Du erhältst deine vollständige Analyse und eine klare Verhandlungsempfehlung
+        <strong style="background:var(--amber-soft);padding:2px 6px;border-radius:4px;">innerhalb von 24 Stunden</strong>
+        per E-Mail.
+      </p>
+
+      <div class="thankyou-steps">
+        <div class="thankyou-step">
+          <div class="thankyou-step-num">1</div>
+          <div>
+            <div class="thankyou-step-title">Angebot hochladen</div>
+            <div class="thankyou-step-desc">
+              Handwerkerangebot, Dienstleistung oder Kostenvoranschlag — PDF, JPG oder PNG.
+            </div>
+          </div>
+        </div>
+
+        <div class="thankyou-step">
+          <div class="thankyou-step-num">2</div>
+          <div>
+            <div class="thankyou-step-title">Wir prüfen den Preis</div>
+            <div class="thankyou-step-desc">
+              Wir analysieren Positionen, Preise, Auffälligkeiten und mögliche Überzahlung.
+            </div>
+          </div>
+        </div>
+
+        <div class="thankyou-step">
+          <div class="thankyou-step-num">3</div>
+          <div>
+            <div class="thankyou-step-title">Ergebnis per E-Mail</div>
+            <div class="thankyou-step-desc">
+              Klare Einschätzung + konkrete Verhandlungstipps innerhalb von 24 Stunden.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="customer-name">Dein Name</label>
+          <input type="text" id="customer-name" placeholder="Vor- und Nachname">
+          <div class="field-error" id="name-error">Bitte gib deinen Namen ein.</div>
+        </div>
+
+        <div class="field">
+          <label for="customer-email">E-Mail-Adresse</label>
+          <input type="email" id="customer-email" placeholder="name@beispiel.de">
+          <div class="field-error" id="email-error">Bitte gib eine gültige E-Mail-Adresse ein.</div>
+        </div>
+      </div>
+
+      <label class="upload-panel" id="upload-panel" for="real-file-input">
+        <input type="file" id="real-file-input" accept=".pdf,.jpg,.jpeg,.png">
+
+        <div class="upload-panel__icon">📄</div>
+        <div class="upload-panel__title">Klicken oder Angebot hierher ziehen</div>
+        <div class="upload-panel__sub">PDF, JPG oder PNG · max. 10 MB</div>
+      </label>
+
+      <div class="upload-security">🔒 SSL-verschlüsselt · Dokument wird nach Analyse gelöscht</div>
+
+      <div class="selected-file" id="selected-file">
+        <div class="selected-file__check">✓</div>
+        <div>
+          <div class="selected-file__name" id="selected-file-name"></div>
+          <div class="selected-file__meta" id="selected-file-meta"></div>
+        </div>
+        <button type="button" class="selected-file__remove" id="remove-file">entfernen</button>
+      </div>
+
+      <button class="cta-main" id="submit-btn" type="button" disabled>
+        Datei auswählen
+      </button>
+
+      <div class="cta-sub-note">
+        Nach dem Upload starten wir sofort — Ergebnis innerhalb von 24 Stunden.
+      </div>
+
+      <div class="status-box" id="status-box"></div>
+
+      <div class="fallback-box">
+        <strong>Upload funktioniert nicht?</strong>
+        <p>Sende dein Angebot direkt per E-Mail an uns — wir bearbeiten es genauso schnell.</p>
+        <a href="mailto:support@mussichzahlen.de" class="fallback-email">support@mussichzahlen.de</a>
+      </div>
+
+    </div>
+  </div>
+
+  <script type="module">
+    const TYPE_CONFIG = {
+      angebot: { back: "/angebot/" }
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get("session_id");
+
+    if (!sessionId) {
+      document.getElementById("locked-screen").style.display = "block";
+    } else {
+      document.getElementById("thankyou-app").style.display = "block";
+    }
+
+    import("./app.js");
+  </script>
+
+</body>
+</html>
