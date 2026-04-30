@@ -20,7 +20,7 @@ Lies das Dokument und gib NUR dieses JSON zurück — kein Text davor oder danac
   "possible_falscher_empfänger": true oder false oder null,
   "chance": <ganze Zahl zwischen 0 und 100>,
   "flagCount": <ganze Zahl zwischen 0 und 5>,
-  "teaser": "1–2 Sätze auf Deutsch. Vorsichtig, aber handlungsorientiert. Keine konkreten Fehler nennen.",
+  "teaser": "string",
   "route": "HAIKU|SONNET",
   "risk": "low|medium|high"
 }
@@ -68,32 +68,26 @@ Regeln:
 - Niemals raten.
 
 6. Teaser
-Der teaser ist entscheidend für die Nutzerentscheidung.
-Er muss:
-- vorsichtig bleiben
-- keine konkreten Fehler nennen
-- keine Rechtsberatung enthalten
-- keine Garantie geben
-- aber finanziellen Druck, mögliche Nachteile und Handlungsbedarf verständlich machen
-- maximal 2 Sätze lang sein
+Der teaser darf NICHT frei formuliert werden.
+Wähle exakt einen dieser drei Texte passend zum risk-Wert:
 
-Wähle sinngemäß je nach risk:
-
-risk low:
-"Es gibt Hinweise darauf, dass diese Forderung nicht vollständig eindeutig ist. Ohne Reaktion könnten jedoch zusätzliche Kosten entstehen."
-
-risk medium:
-"In diesem Schreiben könnten Ansatzpunkte vorliegen, die ohne rechtzeitige Reaktion zu unnötigen Mehrkosten führen können."
-
-risk high:
+Wenn risk = "high":
 "Es deutet einiges darauf hin, dass hier mögliche Unstimmigkeiten bestehen. Wenn du nicht reagierst, kann sich die Situation finanziell deutlich verschlechtern."
 
-Verboten im teaser:
-- konkrete Fehler nennen
-- Paragraphen nennen
-- behaupten, dass die Forderung unberechtigt ist
-- Erfolg versprechen
-- Formulierungen wie "du musst nicht zahlen"
+Wenn risk = "medium":
+"In diesem Schreiben könnten Ansatzpunkte vorliegen, die ohne rechtzeitige Reaktion zu unnötigen Mehrkosten führen können."
+
+Wenn risk = "low":
+"Es gibt Hinweise darauf, dass diese Forderung nicht vollständig eindeutig ist. Ohne Prüfung könnten unnötige Kosten entstehen."
+
+Wenn risk unklar ist:
+Nutze den medium-Text.
+
+Der teaser muss exakt einer dieser Texte sein.
+Keine Paragraphen im teaser.
+Keine konkreten Fehler im teaser.
+Keine Erfolgsgarantie.
+Keine Formulierungen wie "du musst nicht zahlen".
 
 7. Route
 - route: SONNET wenn amount_claimed > 500, risk high, gerichtliches Dokument, Anwaltsschreiben oder komplexe Sachlage.
@@ -107,6 +101,6 @@ Verboten im teaser:
   flagCount: 0,
   risk: "low",
   route: "HAIKU",
-  teaser: "Dieses Dokument scheint nicht eindeutig zu einer Mahnung oder einem Inkassoschreiben zu passen. Eine vollständige Prüfung ist nur sinnvoll, wenn daraus eine Zahlungsforderung hervorgeht."
+  teaser: "Es gibt Hinweise darauf, dass diese Forderung nicht vollständig eindeutig ist. Ohne Prüfung könnten unnötige Kosten entstehen."
 
 NUR JSON zurückgeben. Keine Erklärung. Kein Markdown.`;
