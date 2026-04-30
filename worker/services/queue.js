@@ -1,7 +1,7 @@
 // services/queue.js
 
-const PAID_MARKER_TTL_SECONDS = 60 * 60 * 24 * 30; // 30 Tage
-const FREE_TRIAGE_TTL_SECONDS = 60 * 60 * 24 * 14; // 14 Tage
+const PAID_MARKER_TTL_SECONDS = 60 * 60 * 24 * 30;
+const FREE_CASE_TTL_SECONDS   = 60 * 60 * 24 * 3;
 
 const RECOVERY_DELAYS = [
   { stage: 1, delay_ms: 3  * 60 * 60 * 1000 },
@@ -23,8 +23,8 @@ function paidMarkerKey(email) {
   return `paid_marker:${normalizeEmail(email)}`;
 }
 
-function freeTriageKey(type, email) {
-  return `free_triage:${type}:${safeEmailKey(email)}`;
+function freeCaseKey(type, email) {
+  return `free_case:${type}:${safeEmailKey(email)}`;
 }
 
 export async function markPaid(env, email) {
@@ -46,27 +46,41 @@ export async function hasPaid(env, email) {
   return value === "1";
 }
 
-export async function saveFreeTriage(env, { type, name, email, triage, stripeLink }) {
+export async function saveFreeCase(env, {
+  type,
+  name,
+  email,
+  triage,
+  stripeLink,
+  fileBase64,
+  mediaType,
+  fileName,
+  fileSize,
+}) {
   const entry = {
     type,
     name,
-    email,
+    email: normalizeEmail(email),
     triage,
     stripe_link: stripeLink,
+    file_base64: fileBase64,
+    media_type: mediaType,
+    file_name: fileName || null,
+    file_size: fileSize || null,
     created_at: new Date().toISOString(),
   };
 
   await env.MAHNUNG_QUEUE.put(
-    freeTriageKey(type, email),
+    freeCaseKey(type, email),
     JSON.stringify(entry),
-    { expirationTtl: FREE_TRIAGE_TTL_SECONDS }
+    { expirationTtl: FREE_CASE_TTL_SECONDS }
   );
 
   return entry;
 }
 
-export async function getFreeTriage(env, { type, email }) {
-  const raw = await env.MAHNUNG_QUEUE.get(freeTriageKey(type, email));
+export async function getFreeCase(env, { type, email }) {
+  const raw = await env.MAHNUNG_QUEUE.get(freeCaseKey(type, email));
   if (!raw) return null;
 
   try {
@@ -77,8 +91,6 @@ export async function getFreeTriage(env, { type, email }) {
 }
 
 export async function enqueueFree(env, { type, name, email, triage, stripeLink }) {
-  await saveFreeTriage(env, { type, name, email, triage, stripeLink });
-
   const createdAt = Date.now();
   const emailKey = safeEmailKey(email);
   const baseKey = `free:${type}:${createdAt}:${emailKey}`;
@@ -134,7 +146,7 @@ export async function getDueEntries(env) {
 
     for (const key of list.keys) {
       if (key.name.startsWith("paid_marker:")) continue;
-      if (key.name.startsWith("free_triage:")) continue;
+      if (key.name.startsWith("free_case:")) continue;
       if (key.name.startsWith("track:")) continue;
 
       try {
