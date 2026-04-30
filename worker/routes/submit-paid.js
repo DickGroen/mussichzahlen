@@ -1,30 +1,37 @@
 // routes/submit-paid.js
 
-import { validateUploadInput }         from "../utils/validation.js";
+import { validateUploadInput } from "../utils/validation.js";
 import { fileToBase64, safeJsonParse } from "../utils/files.js";
-import { jsonResponse }                from "../utils/response.js";
-import { verifyStripeSession }         from "../services/stripe.js";
-import { runTriage, runAnalysis }      from "../services/claude.js";
-import { enqueuePaid, markPaid, getFreeTriage } from "../services/queue.js";
-import { notifyAdminPaid }             from "../services/resend.js";
-import { loadPrompts }                 from "../config/prompts.js";
+import { jsonResponse } from "../utils/response.js";
+import { verifyStripeSession } from "../services/stripe.js";
+import { runTriage, runAnalysis } from "../services/claude.js";
+import { enqueuePaid, markPaid, getFreeCase } from "../services/queue.js";
+import { notifyAdminPaid } from "../services/resend.js";
+import { loadPrompts } from "../config/prompts.js";
 
 export async function handleSubmitPaid(request, env) {
   const formData = await request.formData();
 
-  const file      = formData.get("file");
-  const name      = String(formData.get("name")       || "").trim();
-  const email     = String(formData.get("email")      || "").trim();
-  const type      = String(formData.get("type")       || "").trim();
+  const file = formData.get("file");
+  const name = String(formData.get("name") || "").trim();
+  const email = String(formData.get("email") || "").trim();
+  const type = String(formData.get("type") || "").trim();
   const sessionId = String(formData.get("session_id") || "").trim();
 
   if (!sessionId) {
-    return jsonResponse({ ok: false, error: "Keine gültige Zahlungssitzung." }, 403);
+    return jsonResponse(
+      { ok: false, error: "Keine gültige Zahlungssitzung." },
+      403
+    );
   }
 
   const payment = await verifyStripeSession(env, sessionId);
+
   if (!payment.ok) {
-    return jsonResponse({ ok: false, error: payment.reason }, 403);
+    return jsonResponse(
+      { ok: false, error: payment.reason || "Zahlung konnte nicht geprüft werden." },
+      403
+    );
   }
 
   const resolvedEmail = email || payment.email;
@@ -48,7 +55,7 @@ export async function handleSubmitPaid(request, env) {
   let triageSource = "paid_fallback";
   let triage;
 
-  const savedFree = await getFreeTriage(env, {
+  const savedFree = await getFreeCase(env, {
     type,
     email: resolvedEmail,
   });
@@ -84,7 +91,7 @@ export async function handleSubmitPaid(request, env) {
 
   const expectedTags = ["TITLE", "SUMMARY", "ISSUES", "ASSESSMENT", "NEXT_STEPS"];
   const tagStatus = expectedTags
-    .map(t => `${t}:${analysis.includes(`[${t}]`) ? "OK" : "FEHLT"}`)
+    .map(tag => `${tag}:${analysis.includes(`[${tag}]`) ? "OK" : "FEHLT"}`)
     .join(" ");
 
   console.log("ANALYSE TAGS:", tagStatus);
@@ -112,6 +119,7 @@ export async function handleSubmitPaid(request, env) {
 
   return jsonResponse({
     ok: true,
-    message: "Upload erfolgreich. Du erhältst deine vollständige Analyse bis zum nächsten Werktag vor 16:00 Uhr per E-Mail.",
+    message:
+      "Upload erfolgreich. Du erhältst deine vollständige Analyse bis zum nächsten Werktag vor 16:00 Uhr per E-Mail.",
   });
 }
