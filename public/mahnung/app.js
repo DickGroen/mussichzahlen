@@ -63,6 +63,7 @@ function checkGratisReady() {
   const btn = document.getElementById('gratis-btn');
 
   if (!btn) return;
+
   btn.disabled = !(gratisFile && name && email.includes('@') && email.includes('.'));
 }
 
@@ -155,7 +156,10 @@ function renderTeaser(triage) {
   const amount = triage.amount_claimed || null;
 
   teaser.style.display = 'block';
-  setTimeout(() => teaser.classList.add('teaser--visible'), 10);
+
+  setTimeout(() => {
+    teaser.classList.add('teaser--visible');
+  }, 10);
 
   track('teaser_shown', {
     type: TYPE,
@@ -170,7 +174,9 @@ function renderTeaser(triage) {
   };
 
   const title = document.getElementById('teaser-company');
-  if (title) title.textContent = 'Erste Einschätzung abgeschlossen';
+  if (title) {
+    title.textContent = 'Erste Einschätzung abgeschlossen';
+  }
 
   const sub = document.getElementById('teaser-sub');
   if (sub) {
@@ -178,7 +184,9 @@ function renderTeaser(triage) {
   }
 
   const copy = document.getElementById('modal-dynamic-copy');
-  if (copy) copy.textContent = triage.teaser;
+  if (copy) {
+    copy.textContent = triage.teaser;
+  }
 
   const financial = document.getElementById('teaser-financial');
   if (financial) {
@@ -214,9 +222,9 @@ function renderTeaser(triage) {
 }
 
 function ctaText(risk) {
-  if (risk === 'high') return `Jetzt handeln und Kosten vermeiden — €${PRICE} →`;
-  if (risk === 'low') return `Analyse im Detail prüfen — €${PRICE} →`;
-  return `Jetzt vollständige Analyse erhalten — €${PRICE} →`;
+  if (risk === 'high') return `Jetzt prüfen und unnötige Kosten vermeiden — €${PRICE} →`;
+  if (risk === 'low') return `Klarheit schaffen mit vollständiger Analyse — €${PRICE} →`;
+  return `Vollständige Analyse + Widerspruch erhalten — €${PRICE} →`;
 }
 
 window.goToStripe = function() {
@@ -282,7 +290,9 @@ function validateSession() {
     if (app) app.style.display = 'block';
 
     const emailEl = document.getElementById('customer-email');
-    if (emailEl && params.get('email')) emailEl.value = params.get('email');
+    if (emailEl && params.get('email')) {
+      emailEl.value = params.get('email');
+    }
   } else {
     const locked = document.getElementById('locked-screen');
     if (locked) locked.style.display = 'block';
