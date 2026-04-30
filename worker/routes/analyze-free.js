@@ -1,4 +1,5 @@
 // routes/analyze-free.js
+
 import { validateUploadInput }         from "../utils/validation.js";
 import { fileToBase64, safeJsonParse } from "../utils/files.js";
 import { jsonResponse }                from "../utils/response.js";
@@ -23,24 +24,30 @@ export async function handleAnalyzeFree(request, env) {
   const prompts = loadPrompts(type);
 
   const raw = await runTriage(env, {
-    fileBase64:   base64,
+    fileBase64: base64,
     mediaType,
     triagePrompt: prompts.triage,
   });
 
   const triage = safeJsonParse(raw) || {
-    sender:  null,
-    risk:    "medium",
-    route:   "SONNET",
-    chance:  50,
-    teaser:  "Auf Basis Ihres Schreibens könnten möglicherweise Ansatzpunkte vorliegen.",
+    documentType: "mahnung",
+    sender: null,
+    amount_claimed: null,
+    risk: "medium",
+    route: "SONNET",
+    chance: 50,
+    flagCount: 0,
+    teaser: "Auf Basis deines Schreibens könnten möglicherweise Ansatzpunkte vorliegen. Ohne weitere Prüfung können unnötige Kosten entstehen.",
   };
+
+  triage.chance = clampChance(triage.chance ?? 50);
+  triage.flagCount = Number.isFinite(Number(triage.flagCount)) ? Number(triage.flagCount) : 0;
+  triage.risk = ["low", "medium", "high"].includes(triage.risk) ? triage.risk : "medium";
 
   console.log("TRIAGE:", JSON.stringify(triage));
 
   const stripeLink = getStripeLink(env, type);
 
-  // Volledige triage alleen intern — queue + admin
   await enqueueFree(env, { type, name, email, triage, stripeLink });
 
   try {
@@ -49,20 +56,28 @@ export async function handleAnalyzeFree(request, env) {
     console.error("Admin-Benachrichtigung fehlgeschlagen:", err.message);
   }
 
-  // Naar frontend: alleen teaser-velden, geen interne route/risk/details
   return jsonResponse({
     ok: true,
-    teaser: {
-      chancePercent: clampChance(triage.chance ?? 50),
-      text:          triage.teaser ?? null,
+    triage: {
+      sender: triage.sender ?? null,
+      amount_claimed: triage.amount_claimed ?? null,
+      risk: triage.risk,
+      chance: triage.chance,
+      flagCount: triage.flagCount,
+      teaser: triage.teaser ?? null,
       stripeLink,
     },
-    message: "Deine Einsch\u00e4tzung erh\u00e4ltst du bis zum n\u00e4chsten Werktag vor 16:00\u00a0Uhr per E-Mail.",
+    teaser: {
+      chancePercent: triage.chance,
+      text: triage.teaser ?? null,
+      stripeLink,
+    },
+    message: "Deine erste Einschätzung ist fertig.",
   });
 }
 
 function clampChance(value) {
   const n = Number(value);
-  if (isNaN(n)) return 50;
+  if (Number.isNaN(n)) return 50;
   return Math.min(100, Math.max(0, Math.round(n)));
 }
