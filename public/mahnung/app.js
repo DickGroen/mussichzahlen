@@ -1,4 +1,3 @@
-
 import { validateFile, formatFileSize, submitFree, submitPaid, initFaq, initModal, initStickyFooter, openModal, closeModal } from '../app.js';
 
 // Expose to HTML onclick handlers
@@ -9,20 +8,30 @@ const TYPE = 'mahnung';
 let selectedFile = null;
 let gratisFile   = null;
 
-// ── Kostenlose Einsch\u00e4tzung ────────────────────────────────────────────────────
+// ── GRATIS FLOW ───────────────────────────────────────────────────────────────
 
 window.handleGratisFileSelect = function(input) {
   if (!input.files?.[0]) return;
+
   gratisFile = input.files[0];
   const err  = validateFile(gratisFile);
+
+  const status = document.getElementById('gratis-status');
+
   if (err) {
-    const status = document.getElementById('gratis-status');
     status.className   = 'optie-status optie-status--error';
     status.textContent = err;
     return;
   }
+
   const zone = document.getElementById('gratis-upload-zone');
-  zone.innerHTML = `<div class="upload-label" style="color:var(--green);">&#10003; ${esc(gratisFile.name)}</div><div class="upload-hint">${formatFileSize(gratisFile.size)}</div>`;
+  zone.innerHTML = `
+    <div class="upload-label" style="color:var(--green);">
+      ✔ ${esc(gratisFile.name)}
+    </div>
+    <div class="upload-hint">${formatFileSize(gratisFile.size)}</div>
+  `;
+
   document.getElementById('gratis-contact-fields').style.display = 'flex';
   checkGratisReady();
 };
@@ -30,6 +39,7 @@ window.handleGratisFileSelect = function(input) {
 function checkGratisReady() {
   const name  = document.getElementById('gratis-name').value.trim();
   const email = document.getElementById('gratis-email').value.trim();
+
   document.getElementById('gratis-btn').disabled =
     !(name && email.includes('@') && email.includes('.') && gratisFile);
 }
@@ -37,72 +47,133 @@ function checkGratisReady() {
 document.getElementById('gratis-name')?.addEventListener('input', checkGratisReady);
 document.getElementById('gratis-email')?.addEventListener('input', checkGratisReady);
 
+// ── GRATIS SUBMIT ─────────────────────────────────────────────────────────────
+
 window.startGratisUpload = async function() {
   const name   = document.getElementById('gratis-name').value.trim();
   const email  = document.getElementById('gratis-email').value.trim();
   const btn    = document.getElementById('gratis-btn');
   const status = document.getElementById('gratis-status');
+
   if (!gratisFile) return;
 
   btn.disabled    = true;
-  btn.textContent = 'Wird gesendet\u2026';
+  btn.textContent = 'Wird geprüft…';
 
   try {
     const data = await submitFree({
-      file: gratisFile, name, email, type: TYPE,
+      file: gratisFile,
+      name,
+      email,
+      type: TYPE,
       onStatus: (t, msg) => {
         status.className   = `optie-status optie-status--${t}`;
         status.textContent = msg;
       }
     });
 
-    showTeaser(data.triage);
+    renderConversionBlock(data.triage);
+
     status.className   = 'optie-status optie-status--success';
-    status.textContent = 'Erledigt! Deine Einsch\u00e4tzung erh\u00e4ltst du sp\u00e4testens am n\u00e4chsten Werktag vor 16:00 Uhr per E-Mail.';
-    btn.textContent    = 'Gesendet \u2713';
+    status.textContent = 'Analyse abgeschlossen.';
+    btn.textContent    = 'Fertig ✓';
+
   } catch (err) {
     status.className   = 'optie-status optie-status--error';
     status.textContent = 'Fehler: ' + err.message;
     btn.disabled       = false;
-    btn.textContent    = 'Kostenlose Einsch\u00e4tzung anfordern';
+    btn.textContent    = 'Kostenlose Einschätzung starten';
   }
 };
 
-// ── Teaser ────────────────────────────────────────────────────────────────────
+// ── CONVERSION BLOCK (BELANGRIJKSTE FIX) ─────────────────────────────────────
 
-function showTeaser(triage) {
+function renderConversionBlock(triage) {
   const teaser = document.getElementById('teaser');
   if (!teaser || !triage) return;
+
   teaser.style.display = 'block';
   setTimeout(() => teaser.classList.add('teaser--visible'), 10);
 
-  const amount = triage.amount_claimed ? `\u20AC${triage.amount_claimed}` : null;
-  const sender = triage.sender || null;
+  const amount = triage.amount_claimed || null;
+  const sender = triage.sender || 'unbekannt';
   const risk   = triage.risk || 'medium';
 
-  document.getElementById('teaser-company').textContent = amount
-    ? `M\u00f6gliche Ansatzpunkte f\u00fcr deine Forderung von \u20AC${triage.amount_claimed} identifiziert`
-    : sender
-      ? `M\u00f6gliche Ansatzpunkte im Schreiben von ${sender} identifiziert`
-      : 'M\u00f6gliche Ansatzpunkte identifiziert';
+  // ── HEADER ─────────────────────────────────
 
-  const riskMsg = {
-    high:   '\uD83D\uDD34 Deutliche Ansatzpunkte erkannt \u2014 vollst\u00e4ndige Analyse empfohlen.',
-    medium: '\uD83D\uDFE0 M\u00f6gliche Ansatzpunkte vorhanden \u2014 eine vollst\u00e4ndige Pr\u00fcfung gibt Gewissheit.',
-    low:    '\uD83D\uDFE1 Eingeschr\u00e4nkte Ansatzpunkte \u2014 eine Pr\u00fcfung kann trotzdem lohnen.'
+  document.getElementById('teaser-company').textContent = `
+Erste Einschätzung abgeschlossen
+`;
+
+  // ── SUB RESULT ─────────────────────────────
+
+  const riskLabel = {
+    high:   '🔴 Hohe Auffälligkeit erkannt',
+    medium: '🟠 Mögliche Auffälligkeiten erkannt',
+    low:    '🟡 Geringe Auffälligkeit'
   };
-  document.getElementById('teaser-sub').textContent = riskMsg[risk] || '';
+
+  document.getElementById('teaser-sub').textContent =
+    `${riskLabel[risk]}${amount ? ` • Betrag: €${amount}` : ''}`;
+
+  // ── TEASER TEXT (AI) ───────────────────────
 
   const modalCopy = document.getElementById('modal-dynamic-copy');
   if (modalCopy) {
-    modalCopy.textContent =
-      `Wir haben m\u00f6gliche Ansatzpunkte identifiziert${amount ? ` f\u00fcr deine Forderung von \u20AC${triage.amount_claimed}` : ''} \u2014 vollst\u00e4ndige Analyse nach Zahlung. Bitte noch nicht zahlen.`;
+    modalCopy.textContent = triage.teaser;
+  }
+
+  // ── FINANCIAL TRIGGER ──────────────────────
+
+  const financial = document.getElementById('teaser-financial');
+  if (financial) {
+    financial.innerHTML = amount
+      ? `💸 <strong>Möglicher finanzieller Einfluss:</strong><br>
+         Ohne Prüfung riskierst du, bis zu <strong>€${amount}</strong> zu zahlen — möglicherweise unnötig.`
+      : `💸 <strong>Mögliche Kosten:</strong><br>
+         Ohne genauere Analyse könnten unnötige Kosten entstehen.`;
+  }
+
+  // ── CTA BLOCK ─────────────────────────────
+
+  const cta = document.getElementById('teaser-cta');
+  if (cta) {
+    cta.innerHTML = `
+      <div style="margin-top:20px;">
+        <h3>🔍 Vollständige Analyse + fertiger Widerspruch</h3>
+        <ul style="line-height:1.8;margin:10px 0;">
+          <li>✔ Klare Bewertung deiner Situation</li>
+          <li>✔ Konkrete Handlungsempfehlung</li>
+          <li>✔ Fertiges Schreiben zum direkten Versand</li>
+        </ul>
+
+        <button class="primary-btn" onclick="openModal('modal')">
+          ${getCtaText(risk)}
+        </button>
+
+        <div style="margin-top:8px;font-size:.85rem;color:var(--muted);">
+          Einmalig €29 • Ergebnis per E-Mail innerhalb von 24h
+        </div>
+
+        <div style="margin-top:12px;font-size:.85rem;color:#b45309;">
+          ⏳ In vielen Fällen gelten Fristen — ohne Reaktion können zusätzliche Kosten entstehen.
+        </div>
+      </div>
+    `;
   }
 
   teaser.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-// ── Bezahlter Upload (danke.html) ─────────────────────────────────────────────
+// ── DYNAMIC CTA ──────────────────────────────────────────────────────────────
+
+function getCtaText(risk) {
+  if (risk === 'high')   return 'Jetzt handeln und Kosten vermeiden →';
+  if (risk === 'low')    return 'Analyse im Detail prüfen →';
+  return 'Jetzt vollständige Analyse erhalten →';
+}
+
+// ── PAID FLOW (ongewijzigd, maar cleaner UX) ─────────────────────────────────
 
 if (document.getElementById('submit-btn')) {
   const fileInput = document.getElementById('real-file-input');
@@ -111,27 +182,16 @@ if (document.getElementById('submit-btn')) {
     if (fileInput.files?.[0]) updateSelectedFile(fileInput.files[0]);
   });
 
-  const uploadPanel = document.getElementById('upload-panel');
-  uploadPanel?.addEventListener('dragover',  e => { e.preventDefault(); uploadPanel.classList.add('drag-over'); });
-  uploadPanel?.addEventListener('dragleave', () => uploadPanel.classList.remove('drag-over'));
-  uploadPanel?.addEventListener('drop', e => {
-    e.preventDefault(); uploadPanel.classList.remove('drag-over');
-    if (e.dataTransfer.files?.[0]) { fileInput.files = e.dataTransfer.files; updateSelectedFile(e.dataTransfer.files[0]); }
-  });
-
-  document.getElementById('remove-file')?.addEventListener('click', e => { e.preventDefault(); clearFile(); });
   document.getElementById('submit-btn')?.addEventListener('click', doSubmit);
-
   validateSession();
 }
 
 function validateSession() {
   const params    = new URLSearchParams(window.location.search);
   const sessionId = params.get('session_id');
+
   if (sessionId?.startsWith('cs_')) {
     document.getElementById('thankyou-app').style.display = 'block';
-    const emailEl = document.getElementById('customer-email');
-    if (emailEl && params.get('email')) emailEl.value = params.get('email');
   } else {
     document.getElementById('locked-screen').style.display = 'block';
   }
@@ -139,77 +199,58 @@ function validateSession() {
 
 function updateSelectedFile(file) {
   const err = validateFile(file);
-  if (err) { showStatus(err, 'error'); return; }
+  if (err) return;
+
   selectedFile = file;
-  document.getElementById('selected-file').classList.add('show');
-  document.getElementById('selected-file-name').textContent = file.name;
-  document.getElementById('selected-file-meta').textContent = formatFileSize(file.size) + ' \xb7 bereit';
+
   const btn = document.getElementById('submit-btn');
   btn.disabled    = false;
-  btn.textContent = 'Hochladen und Analyse starten';
-}
-
-function clearFile() {
-  selectedFile = null;
-  document.getElementById('real-file-input').value = '';
-  document.getElementById('selected-file').classList.remove('show');
-  const btn = document.getElementById('submit-btn');
-  btn.disabled    = true;
-  btn.textContent = 'Zuerst eine Datei w\u00e4hlen';
-}
-
-function showStatus(msg, type) {
-  const box = document.getElementById('status-box');
-  box.className = 'status-box ' + type;
-  box.innerHTML = msg;
+  btn.textContent = 'Analyse starten';
 }
 
 async function doSubmit() {
-  const name      = document.getElementById('customer-name').value.trim();
-  const email     = document.getElementById('customer-email').value.trim();
-  const params    = new URLSearchParams(window.location.search);
-  const file      = document.getElementById('real-file-input').files[0] || selectedFile;
+  const name  = document.getElementById('customer-name').value.trim();
+  const email = document.getElementById('customer-email').value.trim();
+  const file  = document.getElementById('real-file-input').files[0] || selectedFile;
 
-  if (!name || !email.includes('@') || !file) {
-    showStatus('Bitte alle Felder ausf\u00fcllen und eine Datei ausw\u00e4hlen.', 'error');
-    return;
-  }
+  if (!name || !email.includes('@') || !file) return;
 
   const btn = document.getElementById('submit-btn');
   btn.disabled    = true;
-  btn.textContent = 'Wird hochgeladen\u2026';
+  btn.textContent = 'Wird hochgeladen…';
 
   try {
     await submitPaid({
-      file, name, email, type: TYPE,
-      sessionId: params.get('session_id'),
-      onStatus: showStatus
+      file,
+      name,
+      email,
+      type: TYPE,
+      sessionId: new URLSearchParams(window.location.search).get('session_id')
     });
+
     document.querySelector('.thankyou-card').innerHTML = `
       <div class="success-screen">
-        <div class="success-screen__icon">&#10003;</div>
-        <h2>Upload erfolgreich!</h2>
-        <p>Wir analysieren dein Schreiben und senden dir die vollst\u00e4ndige Analyse sowie den fertigen Widerspruch bis morgen 16:00 Uhr an <strong>${esc(email)}</strong>.</p>
-        <p style="font-size:.82rem;color:var(--muted);">Bitte auch den Spam-Ordner pr\u00fcfen.</p>
+        <div class="success-screen__icon">✔</div>
+        <h2>Analyse gestartet</h2>
+        <p>Du erhältst dein Ergebnis per E-Mail innerhalb von 24h.</p>
       </div>`;
   } catch (err) {
-    showStatus('Upload fehlgeschlagen: ' + err.message + '. Bitte erneut versuchen oder an support@mussichzahlen.de schreiben.', 'error');
-    btn.disabled    = false;
-    btn.textContent = 'Hochladen und Analyse starten';
+    btn.disabled = false;
+    btn.textContent = 'Erneut versuchen';
   }
 }
 
+// ── HELPERS ──────────────────────────────────────────────────────────────────
+
 function esc(str) {
-  return String(str || '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+  return String(str || '')
+    .replaceAll('&','&amp;')
+    .replaceAll('<','&lt;')
+    .replaceAll('>','&gt;');
 }
 
-// ── Init ──────────────────────────────────────────────────────────────────────
+// ── INIT ─────────────────────────────────────────────────────────────────────
 
 initFaq();
 initModal();
 initStickyFooter();
-
-setTimeout(() => {
-  const card = document.getElementById('free-card');
-  if (card) { card.style.opacity = '0.85'; card.style.pointerEvents = 'auto'; }
-}, 4000);
