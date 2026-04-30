@@ -5,7 +5,7 @@ import { fileToBase64, safeJsonParse } from "../utils/files.js";
 import { jsonResponse }                from "../utils/response.js";
 import { verifyStripeSession }         from "../services/stripe.js";
 import { runTriage, runAnalysis }      from "../services/claude.js";
-import { enqueuePaid, markPaid }       from "../services/queue.js";
+import { enqueuePaid, markPaid, getFreeTriage } from "../services/queue.js";
 import { notifyAdminPaid }             from "../services/resend.js";
 import { loadPrompts }                 from "../config/prompts.js";
 
@@ -45,19 +45,33 @@ export async function handleSubmitPaid(request, env) {
   const { base64, mediaType } = await fileToBase64(file);
   const prompts = loadPrompts(type);
 
-  const triageRaw = await runTriage(env, {
-    fileBase64: base64,
-    mediaType,
-    triagePrompt: prompts.triage,
+  let triageSource = "paid_fallback";
+  let triage;
+
+  const savedFree = await getFreeTriage(env, {
+    type,
+    email: resolvedEmail,
   });
 
-  const triage = safeJsonParse(triageRaw) || {
-    risk: "medium",
-    route: "SONNET",
-    chance: 50,
-    flagCount: 0,
-  };
+  if (savedFree?.triage) {
+    triage = savedFree.triage;
+    triageSource = "free_reused";
+  } else {
+    const triageRaw = await runTriage(env, {
+      fileBase64: base64,
+      mediaType,
+      triagePrompt: prompts.triage,
+    });
 
+    triage = safeJsonParse(triageRaw) || {
+      risk: "medium",
+      route: "SONNET",
+      chance: 50,
+      flagCount: 0,
+    };
+  }
+
+  console.log("TRIAGE SOURCE:", triageSource);
   console.log("TRIAGE:", JSON.stringify(triage));
 
   const analysis = await runAnalysis(env, {
