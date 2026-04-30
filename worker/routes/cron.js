@@ -1,5 +1,6 @@
 // routes/cron.js
-import { getDueEntries, deleteEntry } from "../services/queue.js";
+
+import { getDueEntries, deleteEntry, hasPaid } from "../services/queue.js";
 import { sendFreeEmail, sendPaidEmail } from "../services/resend.js";
 
 export async function handleCron(env) {
@@ -11,19 +12,28 @@ export async function handleCron(env) {
   for (const { key, entry } of due) {
     try {
       if (entry.kind === "free") {
+        const alreadyPaid = await hasPaid(env, entry.email);
+
+        if (alreadyPaid) {
+          await deleteEntry(env, key);
+          console.log(`Cron: Recovery übersprungen, bereits bezahlt: ${entry.email}`);
+          continue;
+        }
+
         await sendFreeEmail(env, {
-          name:       entry.name,
-          email:      entry.email,
-          type:       entry.type,
-          triage:     entry.triage,
+          name: entry.name,
+          email: entry.email,
+          type: entry.type,
+          triage: entry.triage,
           stripeLink: entry.stripe_link || "https://mussichzahlen.de",
+          stage: entry.stage || 1,
         });
       } else if (entry.kind === "paid") {
         await sendPaidEmail(env, {
-          name:     entry.name,
-          email:    entry.email,
-          type:     entry.type,
-          triage:   entry.triage,
+          name: entry.name,
+          email: entry.email,
+          type: entry.type,
+          triage: entry.triage,
           analysis: entry.analysis,
         });
       } else {
