@@ -95,7 +95,7 @@ export async function submitFree({ file, name, email, type, onStatus }) {
   return data;
 }
 
-// ── Automatische Paid Analyse ohne zweiten Upload ────────────────────────────
+// ── Automatische Paid Analyse zonder tweede upload ───────────────────────────
 
 export async function submitAutoPaid({ type, sessionId, onStatus }) {
   onStatus?.('info', 'Zahlung wird geprüft…');
@@ -103,7 +103,10 @@ export async function submitAutoPaid({ type, sessionId, onStatus }) {
   const res = await fetch(`${WORKER_URL}/submit-auto`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ type, session_id: sessionId })
+    body: JSON.stringify({
+      type,
+      session_id: sessionId
+    })
   });
 
   let data;
