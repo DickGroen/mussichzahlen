@@ -95,7 +95,7 @@ window.startGratisUpload = async function() {
       }
     });
 
-    const triage = data.triage || {};
+    const triage = normalizeTriage(data.triage || {});
     stripeLink = triage.stripeLink || data.teaser?.stripeLink || stripeLink;
 
     track('free_triage_completed', { type: TYPE });
@@ -122,6 +122,30 @@ window.startGratisUpload = async function() {
     }
   }
 };
+
+function normalizeTriage(triage) {
+  const risk = ['low', 'medium', 'high'].includes(triage.risk)
+    ? triage.risk
+    : 'medium';
+
+  return {
+    ...triage,
+    risk,
+    teaser: triage.teaser || getFallbackTeaser(risk)
+  };
+}
+
+function getFallbackTeaser(risk) {
+  if (risk === 'high') {
+    return 'Es deutet einiges darauf hin, dass hier mögliche Unstimmigkeiten bestehen. Wenn du nicht reagierst, kann sich die Situation finanziell deutlich verschlechtern.';
+  }
+
+  if (risk === 'medium') {
+    return 'In diesem Schreiben könnten Ansatzpunkte vorliegen, die ohne rechtzeitige Reaktion zu unnötigen Mehrkosten führen können.';
+  }
+
+  return 'Es gibt Hinweise darauf, dass diese Forderung nicht vollständig eindeutig ist. Ohne Reaktion könnten jedoch zusätzliche Kosten entstehen.';
+}
 
 function renderTeaser(triage) {
   const teaser = document.getElementById('teaser');
@@ -150,15 +174,11 @@ function renderTeaser(triage) {
 
   const sub = document.getElementById('teaser-sub');
   if (sub) {
-    sub.textContent = `${riskLabel[risk] || riskLabel.medium}${amount ? ` • Betrag: €${amount}` : ''}`;
+    sub.textContent = `${riskLabel[risk] || riskLabel.medium}${amount ? ` • Betrag: €${esc(amount)}` : ''}`;
   }
 
   const copy = document.getElementById('modal-dynamic-copy');
-  if (copy) {
-    copy.textContent =
-      triage.teaser ||
-      'Es könnten mögliche Ansatzpunkte vorliegen. Eine vollständige Prüfung kann helfen, unnötige Kosten zu vermeiden.';
-  }
+  if (copy) copy.textContent = triage.teaser;
 
   const financial = document.getElementById('teaser-financial');
   if (financial) {
