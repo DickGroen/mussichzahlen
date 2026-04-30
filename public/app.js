@@ -39,7 +39,6 @@ export function track(eventName, payload = {}) {
   } catch (_) {}
 }
 
-// Backwards compatible alias
 export const trackEvent = track;
 
 // ── Bestand validatie ────────────────────────────────────────────────────────
@@ -96,7 +95,34 @@ export async function submitFree({ file, name, email, type, onStatus }) {
   return data;
 }
 
-// ── Bezahlter Upload ─────────────────────────────────────────────────────────
+// ── Automatische Paid Analyse ohne zweiten Upload ────────────────────────────
+
+export async function submitAutoPaid({ type, sessionId, onStatus }) {
+  onStatus?.('info', 'Zahlung wird geprüft…');
+
+  const res = await fetch(`${WORKER_URL}/submit-auto`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ type, session_id: sessionId })
+  });
+
+  let data;
+  try {
+    data = await res.json();
+  } catch (_) {
+    throw new Error('Serverantwort konnte nicht gelesen werden.');
+  }
+
+  if (!res.ok || !data.ok) {
+    const err = new Error(data?.error || 'Automatische Analyse fehlgeschlagen');
+    err.needUpload = Boolean(data?.need_upload);
+    throw err;
+  }
+
+  return data;
+}
+
+// ── Bezahlter Upload fallback ────────────────────────────────────────────────
 
 export async function submitPaid({ file, name, email, type, sessionId, onStatus }) {
   onStatus?.('info', 'Dokument wird sicher hochgeladen…');
