@@ -1,11 +1,12 @@
 // services/queue.js
 
 const PAID_MARKER_TTL_SECONDS = 60 * 60 * 24 * 30; // 30 Tage
+const FREE_TRIAGE_TTL_SECONDS = 60 * 60 * 24 * 14; // 14 Tage
 
 const RECOVERY_DELAYS = [
-  { stage: 1, delay_ms: 3  * 60 * 60 * 1000 },  // +3 Stunden
-  { stage: 2, delay_ms: 24 * 60 * 60 * 1000 },  // +24 Stunden
-  { stage: 3, delay_ms: 48 * 60 * 60 * 1000 },  // +48 Stunden
+  { stage: 1, delay_ms: 3  * 60 * 60 * 1000 },
+  { stage: 2, delay_ms: 24 * 60 * 60 * 1000 },
+  { stage: 3, delay_ms: 48 * 60 * 60 * 1000 },
 ];
 
 const PAID_SEND_DELAY_MS = 23 * 60 * 60 * 1000;
@@ -20,6 +21,10 @@ function safeEmailKey(email) {
 
 function paidMarkerKey(email) {
   return `paid_marker:${normalizeEmail(email)}`;
+}
+
+function freeTriageKey(type, email) {
+  return `free_triage:${type}:${safeEmailKey(email)}`;
 }
 
 export async function markPaid(env, email) {
@@ -41,7 +46,39 @@ export async function hasPaid(env, email) {
   return value === "1";
 }
 
+export async function saveFreeTriage(env, { type, name, email, triage, stripeLink }) {
+  const entry = {
+    type,
+    name,
+    email,
+    triage,
+    stripe_link: stripeLink,
+    created_at: new Date().toISOString(),
+  };
+
+  await env.MAHNUNG_QUEUE.put(
+    freeTriageKey(type, email),
+    JSON.stringify(entry),
+    { expirationTtl: FREE_TRIAGE_TTL_SECONDS }
+  );
+
+  return entry;
+}
+
+export async function getFreeTriage(env, { type, email }) {
+  const raw = await env.MAHNUNG_QUEUE.get(freeTriageKey(type, email));
+  if (!raw) return null;
+
+  try {
+    return JSON.parse(raw);
+  } catch (_) {
+    return null;
+  }
+}
+
 export async function enqueueFree(env, { type, name, email, triage, stripeLink }) {
+  await saveFreeTriage(env, { type, name, email, triage, stripeLink });
+
   const createdAt = Date.now();
   const emailKey = safeEmailKey(email);
   const baseKey = `free:${type}:${createdAt}:${emailKey}`;
@@ -97,6 +134,8 @@ export async function getDueEntries(env) {
 
     for (const key of list.keys) {
       if (key.name.startsWith("paid_marker:")) continue;
+      if (key.name.startsWith("free_triage:")) continue;
+      if (key.name.startsWith("track:")) continue;
 
       try {
         const raw = await env.MAHNUNG_QUEUE.get(key.name);
