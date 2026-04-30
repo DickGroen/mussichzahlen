@@ -1,206 +1,287 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zahlung erfolgreich &mdash; Schreiben hochladen | MussIchZahlen.de</title>
+  <title>Analyse wird erstellt | MussIchZahlen.de</title>
   <link rel="stylesheet" href="../styles.css">
+
   <style>
-    .thankyou-wrap{max-width:760px;margin:0 auto;padding:56px 24px 140px}
-    .thankyou-card{background:var(--white);border:1.5px solid var(--line);border-radius:16px;padding:36px 28px;box-shadow:0 10px 24px rgba(17,24,39,.06)}
-    .thankyou-badge{display:inline-flex;align-items:center;gap:8px;background:var(--green-soft);color:var(--green);border-radius:100px;padding:6px 14px;font-size:.78rem;font-weight:700;margin-bottom:18px}
-    .thankyou-dot{width:8px;height:8px;background:var(--green);border-radius:50%}
-    .progress-bar{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--muted);margin-bottom:18px}
-    .progress-bar__step--done{color:var(--green);font-weight:700}
-    .progress-bar__step--current{color:var(--accent);font-weight:700}
-    .progress-bar__divider{width:24px;height:1px;background:var(--line)}
-    .thankyou-steps{display:grid;gap:14px;margin-bottom:30px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 18px 8px}
-    .thankyou-step{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
-    .thankyou-step-num{width:28px;height:28px;flex-shrink:0;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:700}
-    .thankyou-step-title{font-weight:700;color:var(--ink);font-size:.95rem;margin-bottom:2px}
-    .thankyou-step-desc{color:var(--muted);font-size:.86rem;line-height:1.7}
-    .form-grid{display:grid;gap:16px;margin-bottom:18px}
-    .field label{display:block;font-size:.84rem;font-weight:700;color:var(--ink);margin-bottom:8px}
-    .field input{width:100%;border:1.5px solid var(--line);border-radius:10px;padding:14px 15px;font-size:.95rem;color:var(--ink);background:var(--white);outline:none;transition:border-color .2s;box-sizing:border-box}
-    .field input:focus{border-color:var(--accent-2)}
-    .field input.invalid{border-color:var(--red)}
-    .field-error{display:none;color:var(--red);font-size:.78rem;margin-top:6px;font-weight:600}
-    .field-error.show{display:block}
-    .upload-panel{background:var(--surface);border:1.5px dashed var(--line);border-radius:12px;padding:28px 22px;text-align:center;margin-bottom:12px;cursor:pointer;display:block;transition:border-color .2s,background .2s}
-    .upload-panel:hover,.upload-panel.drag-over{border-color:var(--accent-2);background:var(--accent-soft)}
-    .upload-panel__icon{width:52px;height:52px;margin:0 auto 14px;border-radius:10px;border:1.5px solid var(--line);background:var(--white);display:flex;align-items:center;justify-content:center}
-    .upload-panel__title{font-weight:700;font-size:1rem;color:var(--ink);margin-bottom:6px}
-    .upload-panel__sub{font-size:.84rem;color:var(--muted)}
-    .upload-security{display:flex;align-items:center;justify-content:center;gap:6px;font-size:.76rem;color:var(--muted);margin-bottom:18px}
-    #real-file-input{display:none}
-    .selected-file{display:none;background:var(--green-soft);color:var(--green);border:1px solid #b7e4c7;border-radius:10px;padding:14px 16px;margin-bottom:16px}
-    .selected-file.show{display:flex;align-items:center;gap:12px}
-    .selected-file__check{width:24px;height:24px;flex-shrink:0;background:var(--green);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem}
-    .selected-file__name{font-weight:700;font-size:.9rem}
-    .selected-file__meta{font-size:.78rem;opacity:.8;margin-top:2px}
-    .selected-file__remove{margin-left:auto;background:none;border:none;color:var(--green);cursor:pointer;font-size:.82rem;font-weight:700;text-decoration:underline}
-    .cta-main{width:100%;padding:16px;font-size:1rem;font-weight:700}
-    .cta-sub-note{text-align:center;font-size:.78rem;color:var(--muted);margin-top:10px}
-    .status-box{display:none;border-radius:10px;padding:13px 15px;font-size:.86rem;font-weight:600;margin-top:14px;line-height:1.6}
-    .status-box.success{display:block;background:var(--green-soft);color:var(--green);border:1px solid #b7e4c7}
-    .status-box.error{display:block;background:var(--red-soft);color:var(--red);border:1px solid #f5b7b1}
-    .status-box.info{display:block;background:var(--amber-soft);color:var(--amber);border:1px solid #f6d58a}
-    .fallback-box{margin-top:28px;padding:18px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
-    .fallback-box strong{display:block;margin-bottom:6px;color:var(--ink);font-size:.9rem}
-    .fallback-box p{color:var(--muted);font-size:.83rem;line-height:1.7;margin:0}
-    .fallback-email{font-weight:700;font-size:.98rem;color:var(--accent);margin-top:6px;display:inline-block}
-    .locked-screen{max-width:700px;margin:0 auto;padding:80px 24px;text-align:center}
-    .locked-screen p{color:var(--muted);line-height:1.7}
-    .locked-screen a{display:inline-block;margin-top:16px;color:var(--accent);font-weight:700}
-    .success-screen{text-align:center;padding:20px 0}
-    .success-screen__icon{width:64px;height:64px;margin:0 auto 18px;border-radius:50%;background:var(--green-soft);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700}
-    .success-screen h2{color:var(--ink);margin-bottom:10px}
-    .success-screen p{color:var(--ink-3);line-height:1.7;max-width:480px;margin:0 auto 18px}
-    @media(max-width:600px){.thankyou-wrap{padding:32px 16px 120px}.thankyou-card{padding:24px 18px}}
-  </style>
-</head>
-<body>
-
-  <div id="locked-screen" class="locked-screen" style="display:none;">
-    <h2>Upload-Link ung&uuml;ltig oder abgelaufen</h2>
-    <p>Dieser Link ist nicht mehr aktiv. Bitte nutze den Link aus deiner Zahlungsbest&auml;tigung oder wende dich an <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a>.</p>
-    <a href="/mahnung/">Zur&uuml;ck zur Pr&uuml;fung</a>
-  </div>
-
-  <div id="thankyou-app" class="thankyou-wrap" style="display:none;">
-    <div class="thankyou-card">
-
-      <div class="thankyou-badge"><span class="thankyou-dot"></span>Zahlung erfolgreich</div>
-
-      <div class="progress-bar">
-        <span class="progress-bar__step progress-bar__step--done">&#10003; Bezahlt</span>
-        <span class="progress-bar__divider"></span>
-        <span class="progress-bar__step progress-bar__step--current">Schritt 2: Schreiben hochladen</span>
-      </div>
-
-      <h1 style="font-size:clamp(1.7rem,4vw,2.3rem);margin-bottom:12px;line-height:1.25;">Letzter Schritt &mdash; lade jetzt dein Schreiben hoch</h1>
-
-      <p style="font-size:1rem;color:var(--ink-3);line-height:1.75;margin-bottom:28px;">
-        Nach dem Upload beginnen wir mit der Analyse. Du erh&auml;ltst deine vollst&auml;ndige Analyse und das fertige Schreiben <strong style="background:var(--amber-soft);padding:2px 6px;border-radius:4px;">bis morgen 16:00 Uhr</strong> per E-Mail.
-      </p>
-
-      <div class="thankyou-steps">
-        <div class="thankyou-step">
-          <div class="thankyou-step-num">1</div>
-          <div>
-            <div class="thankyou-step-title">Schreiben hochladen</div>
-            <div class="thankyou-step-desc">Mahnung, Inkassoschreiben oder Anwaltsbrief &mdash; PDF, JPG oder PNG, m&ouml;glichst vollst&auml;ndig und gut lesbar.</div>
-          </div>
-        </div>
-        <div class="thankyou-step">
-          <div class="thankyou-step-num">2</div>
-          <div>
-            <div class="thankyou-step-title">Wir analysieren</div>
-            <div class="thankyou-step-desc">Verj&auml;hrung, Abtretung, Inkassokosten, Nachweispflicht und formale M&auml;ngel nach deutschem Recht.</div>
-          </div>
-        </div>
-        <div class="thankyou-step">
-          <div class="thankyou-step-num">3</div>
-          <div>
-            <div class="thankyou-step-title">Ergebnis per E-Mail</div>
-            <div class="thankyou-step-desc">Vollst&auml;ndige Analyse + fertiger <span data-output-label>Widerspruch</span> <strong>bis morgen 16:00 Uhr</strong>.</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-grid">
-        <div class="field">
-          <label for="customer-name">Dein Name</label>
-          <input type="text" id="customer-name" placeholder="Vor- und Nachname" autocomplete="name">
-          <div class="field-error" id="name-error">Bitte gib deinen Namen ein.</div>
-        </div>
-        <div class="field">
-          <label for="customer-email">E-Mail-Adresse f&uuml;r das Ergebnis</label>
-          <input type="email" id="customer-email" placeholder="name@beispiel.de" autocomplete="email">
-          <div class="field-error" id="email-error">Bitte gib eine g&uuml;ltige E-Mail-Adresse ein.</div>
-        </div>
-      </div>
-
-      <label class="upload-panel" id="upload-panel" for="real-file-input">
-        <input type="file" id="real-file-input" accept=".pdf,.jpg,.jpeg,.png">
-        <div class="upload-panel__icon">
-          <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#6B7A90" stroke-width="1.8">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <polyline points="17 8 12 3 7 8"/>
-            <line x1="12" y1="3" x2="12" y2="15"/>
-          </svg>
-        </div>
-        <div class="upload-panel__title">Klicken oder Datei hierher ziehen</div>
-        <div class="upload-panel__sub">PDF, JPG oder PNG &middot; max. 10 MB</div>
-      </label>
-
-      <div class="upload-security">&#128274; Verschl&uuml;sselte SSL-Verbindung &middot; Dokument wird nach der Analyse gel&ouml;scht</div>
-
-      <div class="selected-file" id="selected-file">
-        <div class="selected-file__check">&#10003;</div>
-        <div>
-          <div class="selected-file__name" id="selected-file-name"></div>
-          <div class="selected-file__meta" id="selected-file-meta"></div>
-        </div>
-        <button type="button" class="selected-file__remove" id="remove-file">entfernen</button>
-      </div>
-
-      <button class="cta-main" id="submit-btn" type="button" disabled>Zuerst eine Datei w&auml;hlen</button>
-      <div class="cta-sub-note">Nach dem Upload beginnen wir mit der Analyse &mdash; Ergebnis bis morgen 16:00 Uhr in deinem Posteingang.</div>
-      <div class="status-box" id="status-box"></div>
-
-      <div class="fallback-box">
-        <strong>Upload funktioniert nicht?</strong>
-        <p>Sende dein Schreiben direkt per E-Mail an uns &mdash; wir bearbeiten es genauso schnell. Bitte Name und E-Mail-Adresse der Zahlung angeben.</p>
-        <a href="mailto:support@mussichzahlen.de" class="fallback-email">support@mussichzahlen.de</a>
-      </div>
-
-    </div>
-  </div>
-
-  <script type="module">
-    // ── Type config per funnel ────────────────────────────────────────────────
-    const TYPE_CONFIG = {
-      mahnung:    { label: 'Mahnung / Inkasso',     output: 'Widerspruch',             back: '/mahnung/' },
-      parkstrafe: { label: 'Bu\u00dfgeldbescheid',  output: 'Einspruchsschreiben',     back: '/parkstrafe/' },
-      rechnung:   { label: 'Rechnung',              output: 'Widerspruchsschreiben',   back: '/rechnung/' },
-      vertrag:    { label: 'Vertrag',               output: 'K\u00fcndigungsschreiben', back: '/vertrag/' }
-    };
-
-    // ── Read URL params ───────────────────────────────────────────────────────
-    const params    = new URLSearchParams(window.location.search);
-    const sessionId = params.get('session_id') || params.get('payment_intent');
-    const type      = params.get('type') || 'mahnung';
-    const config    = TYPE_CONFIG[type] || TYPE_CONFIG.mahnung;
-
-    // ── Validate session ──────────────────────────────────────────────────────
-    const isValid = sessionId && (
-      sessionId.startsWith('cs_') ||
-      sessionId.startsWith('pi_') ||
-      sessionId.startsWith('cs_test_') ||
-      sessionId.startsWith('cs_live_')
-    );
-
-    if (!isValid) {
-      document.getElementById('locked-screen').style.display = 'block';
-      const backLink = document.querySelector('#locked-screen a');
-      if (backLink) backLink.href = config.back;
-    } else {
-      document.getElementById('thankyou-app').style.display = 'block';
-
-      // Prefill email if passed
-      const emailEl = document.getElementById('customer-email');
-      if (emailEl && params.get('email')) emailEl.value = params.get('email');
-
-      // Adapt output label dynamically
-      document.querySelectorAll('[data-output-label]').forEach(el => {
-        el.textContent = config.output;
-      });
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f9fc;
+      color: #0f1923;
+      margin: 0;
     }
 
-    // ── Import and run app.js ─────────────────────────────────────────────────
-    import('./app.js');
-  </script>
+    .wrap {
+      max-width: 620px;
+      margin: 70px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 12px 40px rgba(26, 58, 107, .1);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    h1 {
+      margin-top: 0;
+      color: #1d3a6e;
+      line-height: 1.2;
+    }
+
+    p {
+      line-height: 1.6;
+    }
+
+    .status-box {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #f3f4f6;
+      font-size: .95rem;
+    }
+
+    .status-box.error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .status-box.success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-box.info {
+      background: #eef4ff;
+      color: #1d3a6e;
+    }
+
+    .input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    .upload-panel {
+      border: 2px dashed #d1d5db;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      margin: 18px 0;
+      background: #f9fafb;
+    }
+
+    .upload-panel:hover,
+    .upload-panel.drag-over {
+      border-color: #1d3a6e;
+      background: #eef4ff;
+    }
+
+    .selected-file {
+      display: none;
+      margin: 10px 0;
+      padding: 12px;
+      background: #f3f4f6;
+      border-radius: 8px;
+      font-size: .92rem;
+    }
+
+    .selected-file.show {
+      display: block;
+    }
+
+    .selected-file a {
+      color: #1d3a6e;
+      font-size: .85rem;
+    }
+
+    .offer-cta {
+      display: block;
+      width: 100%;
+      background: #1d3a6e;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 15px;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 16px;
+    }
+
+    .offer-cta:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+    }
+
+    .note {
+      font-size: .84rem;
+      color: #6b7280;
+      margin-top: 12px;
+    }
+
+    .success-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      background: #dcfce7;
+      color: #166534;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.4rem;
+      margin-bottom: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <!-- B-FLOW: automatische analyse zonder tweede upload -->
+  <div class="card" id="auto-card">
+    <h1>Deine Analyse wird erstellt…</h1>
+    <p>Wir prüfen deine Zahlung und starten automatisch die vollständige Analyse auf Basis deines bereits hochgeladenen Schreibens.</p>
+    <div id="auto-status" class="status-box info">Bitte einen Moment Geduld…</div>
+    <p class="note">Du kannst diese Seite geöffnet lassen. Das Ergebnis erhältst du per E-Mail.</p>
+  </div>
+
+  <!-- A-FLOW FALLBACK: alleen als automatische case niet gevonden wordt -->
+  <div class="card hidden" id="thankyou-app">
+    <h1>Fast fertig</h1>
+    <p>Wir konnten deine ursprüngliche Datei nicht automatisch finden. Bitte lade dein Schreiben noch einmal hoch, damit wir die Analyse starten können.</p>
+
+    <input id="customer-name" class="input" placeholder="Dein Name">
+    <input id="customer-email" class="input" placeholder="Deine E-Mail">
+
+    <div id="upload-panel" class="upload-panel" onclick="document.getElementById('real-file-input').click()">
+      <strong>Datei auswählen</strong><br>
+      <span>PDF, JPG oder PNG · max. 8 MB</span>
+      <input id="real-file-input" type="file" accept=".pdf,.jpg,.jpeg,.png" style="display:none;">
+    </div>
+
+    <div id="selected-file" class="selected-file">
+      <strong id="selected-file-name"></strong><br>
+      <span id="selected-file-meta"></span><br>
+      <a href="#" id="remove-file">Datei entfernen</a>
+    </div>
+
+    <button id="submit-btn" class="offer-cta" disabled>
+      Zuerst eine Datei wählen
+    </button>
+
+    <div id="status-box" class="status-box hidden"></div>
+
+    <p class="note">
+      Diese fallback upload stap is alleen nodig als de automatische koppeling niet lukt.
+    </p>
+  </div>
+
+  <!-- Geen geldige session -->
+  <div class="card hidden" id="locked-screen">
+    <h1>Zahlung nicht gefunden</h1>
+    <p>Bitte starte den Vorgang erneut über die Zahlungsseite.</p>
+    <div class="status-box error">Keine gültige Zahlungssitzung gefunden.</div>
+  </div>
+
+  <!-- Succes -->
+  <div class="card hidden" id="success-screen">
+    <div class="success-icon">✓</div>
+    <h1>Analyse gestartet</h1>
+    <p>Deine vollständige Analyse und dein fertiger Widerspruch werden erstellt.</p>
+    <p>Du erhältst das Ergebnis per E-Mail.</p>
+    <p class="note">Bitte prüfe auch deinen Spam-Ordner.</p>
+  </div>
+
+</div>
+
+<script type="module">
+  import { submitAutoPaid, track } from '../app.js';
+
+  const params = new URLSearchParams(window.location.search);
+
+  const sessionId = params.get('session_id');
+  const type = params.get('type') || 'mahnung';
+
+  const autoCard = document.getElementById('auto-card');
+  const autoStatus = document.getElementById('auto-status');
+  const fallback = document.getElementById('thankyou-app');
+  const locked = document.getElementById('locked-screen');
+  const success = document.getElementById('success-screen');
+
+  track('paid_thankyou_view', {
+    type,
+    has_session: Boolean(sessionId)
+  });
+
+  function showOnly(el) {
+    [autoCard, fallback, locked, success].forEach(node => {
+      if (node) node.classList.add('hidden');
+    });
+
+    if (el) el.classList.remove('hidden');
+  }
+
+  if (!sessionId || !sessionId.startsWith('cs_')) {
+    showOnly(locked);
+  } else {
+    try {
+      autoStatus.textContent = 'Zahlung wird geprüft…';
+
+      await submitAutoPaid({
+        type,
+        sessionId,
+        onStatus: (_, msg) => {
+          autoStatus.textContent = msg;
+        }
+      });
+
+      track('auto_paid_analysis_started', {
+        type
+      });
+
+      showOnly(success);
+    } catch (err) {
+      if (err.needUpload) {
+        track('auto_paid_fallback_upload_needed', {
+          type,
+          reason: err.message
+        });
+
+        showOnly(fallback);
+
+        const emailEl = document.getElementById('customer-email');
+        const nameEl = document.getElementById('customer-name');
+
+        const emailFromUrl = params.get('email');
+        const nameFromUrl = params.get('name');
+
+        if (emailEl && emailFromUrl) emailEl.value = emailFromUrl;
+        if (nameEl && nameFromUrl) nameEl.value = nameFromUrl;
+      } else {
+        autoStatus.className = 'status-box error';
+        autoStatus.textContent = err.message || 'Automatische Analyse fehlgeschlagen.';
+      }
+    }
+  }
+</script>
+
+<script type="module" src="./app.js"></script>
+
 </body>
 </html>
