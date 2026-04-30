@@ -1,13 +1,16 @@
 import { corsResponse, jsonResponse } from "./utils/response.js";
 import { handleAnalyzeFree } from "./routes/analyze-free.js";
 import { handleSubmitPaid } from "./routes/submit-paid.js";
+import { handleSubmitAuto } from "./routes/submit-auto.js";
 import { handleCron } from "./routes/cron.js";
 import { handleTrack } from "./routes/track.js";
 import { handleStripeWebhook } from "./routes/stripe-webhook.js";
 
 export default {
   async fetch(request, env) {
-    if (request.method === "OPTIONS") return corsResponse();
+    if (request.method === "OPTIONS") {
+      return corsResponse();
+    }
 
     const url = new URL(request.url);
 
@@ -23,6 +26,9 @@ export default {
         case "/api/submit":
           return await handleSubmitPaid(request, env);
 
+        case "/api/submit-auto":
+          return await handleSubmitAuto(request, env);
+
         case "/api/track":
           return await handleTrack(request, env);
 
@@ -30,11 +36,18 @@ export default {
           return await handleStripeWebhook(request, env);
 
         default:
-          return jsonResponse({ ok: false, error: "Unbekannter Endpunkt" }, 404);
+          return jsonResponse(
+            { ok: false, error: "Unbekannter Endpunkt" },
+            404
+          );
       }
     } catch (err) {
       console.error("Unbehandelter Fehler:", err.message, err.stack);
-      return jsonResponse({ ok: false, error: "Interner Serverfehler" }, 500);
+
+      return jsonResponse(
+        { ok: false, error: "Interner Serverfehler" },
+        500
+      );
     }
   },
 
