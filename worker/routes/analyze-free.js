@@ -4,7 +4,7 @@ import { validateUploadInput }         from "../utils/validation.js";
 import { fileToBase64, safeJsonParse } from "../utils/files.js";
 import { jsonResponse }                from "../utils/response.js";
 import { runTriage }                   from "../services/claude.js";
-import { enqueueFree }                 from "../services/queue.js";
+import { enqueueFree, saveFreeCase }   from "../services/queue.js";
 import { notifyAdminFree }             from "../services/resend.js";
 import { loadPrompts }                 from "../config/prompts.js";
 import { getStripeLink }               from "../services/stripe.js";
@@ -37,16 +37,26 @@ export async function handleAnalyzeFree(request, env) {
     route: "SONNET",
     chance: 50,
     flagCount: 0,
-    teaser: "Auf Basis deines Schreibens könnten möglicherweise Ansatzpunkte vorliegen. Ohne weitere Prüfung können unnötige Kosten entstehen.",
+    teaser: "In diesem Schreiben könnten Ansatzpunkte vorliegen, die ohne rechtzeitige Reaktion zu unnötigen Mehrkosten führen können.",
   };
 
   triage.chance = clampChance(triage.chance ?? 50);
   triage.flagCount = Number.isFinite(Number(triage.flagCount)) ? Number(triage.flagCount) : 0;
   triage.risk = ["low", "medium", "high"].includes(triage.risk) ? triage.risk : "medium";
 
-  console.log("TRIAGE:", JSON.stringify(triage));
-
   const stripeLink = getStripeLink(env, type);
+
+  await saveFreeCase(env, {
+    type,
+    name,
+    email,
+    triage,
+    stripeLink,
+    fileBase64: base64,
+    mediaType,
+    fileName: file.name,
+    fileSize: file.size,
+  });
 
   await enqueueFree(env, { type, name, email, triage, stripeLink });
 
