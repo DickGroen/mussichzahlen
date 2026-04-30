@@ -54,7 +54,6 @@
     .offer-cta{display:block;background:var(--accent);color:var(--white);text-decoration:none;text-align:center;padding:17px;border-radius:10px;font-size:1.05rem;font-weight:700;margin-top:20px;border:none;width:100%;cursor:pointer;font-family:'DM Sans',sans-serif;}
     .offer-security{text-align:center;font-size:.78rem;color:var(--muted);margin-top:10px;}
     .offer-refund{text-align:center;font-size:.76rem;color:var(--muted);margin-top:6px;}
-
     .upload-zone{border:2px dashed var(--line);border-radius:14px;padding:28px;text-align:center;cursor:pointer;background:var(--surface);transition:.2s;}
     .upload-zone:hover{border-color:var(--accent);background:#eef4ff;}
     .upload-label{font-weight:700;color:var(--accent);}
@@ -79,7 +78,6 @@
     .teaser-cta li{font-size:.92rem;color:var(--ink-2);}
     .teaser-trust{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;font-size:.8rem;color:var(--muted);}
     .teaser-trust span{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 10px;}
-
     .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
     @media(max-width:640px){.steps{grid-template-columns:1fr;}}
     .step__num{font-family:'Lora',serif;font-size:2.2rem;font-weight:700;color:var(--line);margin-bottom:10px;line-height:1;}
@@ -192,7 +190,6 @@
 
         <div id="modal-dynamic-copy" class="teaser-ai"></div>
         <div id="teaser-financial" class="teaser-financial"></div>
-
         <div id="teaser-cta" class="teaser-cta"></div>
 
         <div class="teaser-trust">
@@ -324,11 +321,9 @@
       <div class="modal__feature"><span class="check">✓</span><span>Klare Handlungsempfehlung</span></div>
       <div class="modal__feature"><span class="check">✓</span><span>Fertiger Widerspruch zum direkten Versand</span></div>
 
-      <div class="modal__disclaimer">
-        Informative Analyse und Widerspruchsentwurf. Keine rechtliche Vertretung.
-      </div>
+      <div class="modal__disclaimer">Informative Analyse und Widerspruchsentwurf. Keine rechtliche Vertretung.</div>
 
-      <a href="https://buy.stripe.com/DEIN_STRIPE_LINK_MAHNUNG" class="modal__cta">
+      <a href="https://buy.stripe.com/DEIN_STRIPE_LINK_MAHNUNG" class="modal__cta js-stripe-link" data-type="mahnung" data-price="49">
         Jetzt vollständige Analyse erhalten →
       </a>
 
