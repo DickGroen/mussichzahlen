@@ -1,10 +1,11 @@
 // services/queue.js
 
-const PAID_MARKER_TTL_SECONDS = 60 * 60 * 24 * 30;
-const FREE_CASE_TTL_SECONDS   = 60 * 60 * 24 * 3;
+const PAID_MARKER_TTL_SECONDS = 60 * 60 * 24 * 30; // 30 dagen
+const FREE_CASE_TTL_SECONDS = 60 * 60 * 24 * 3; // 3 dagen voor automatische B-flow
+const FREE_TRIAGE_TTL_SECONDS = 60 * 60 * 24 * 14; // 14 dagen voor fallback-consistentie
 
 const RECOVERY_DELAYS = [
-  { stage: 1, delay_ms: 3  * 60 * 60 * 1000 },
+  { stage: 1, delay_ms: 3 * 60 * 60 * 1000 },
   { stage: 2, delay_ms: 24 * 60 * 60 * 1000 },
   { stage: 3, delay_ms: 48 * 60 * 60 * 1000 },
 ];
@@ -23,9 +24,15 @@ function paidMarkerKey(email) {
   return `paid_marker:${normalizeEmail(email)}`;
 }
 
+function freeTriageKey(type, email) {
+  return `free_triage:${type}:${safeEmailKey(email)}`;
+}
+
 function freeCaseKey(type, email) {
   return `free_case:${type}:${safeEmailKey(email)}`;
 }
+
+// ── Paid marker: stopt recovery na betaling ─────────────────────────────────
 
 export async function markPaid(env, email) {
   const normalized = normalizeEmail(email);
@@ -45,6 +52,40 @@ export async function hasPaid(env, email) {
   const value = await env.MAHNUNG_QUEUE.get(paidMarkerKey(normalized));
   return value === "1";
 }
+
+// ── Free triage: A-flow fallback consistentie ────────────────────────────────
+
+export async function saveFreeTriage(env, { type, name, email, triage, stripeLink }) {
+  const entry = {
+    type,
+    name,
+    email: normalizeEmail(email),
+    triage,
+    stripe_link: stripeLink,
+    created_at: new Date().toISOString(),
+  };
+
+  await env.MAHNUNG_QUEUE.put(
+    freeTriageKey(type, email),
+    JSON.stringify(entry),
+    { expirationTtl: FREE_TRIAGE_TTL_SECONDS }
+  );
+
+  return entry;
+}
+
+export async function getFreeTriage(env, { type, email }) {
+  const raw = await env.MAHNUNG_QUEUE.get(freeTriageKey(type, email));
+  if (!raw) return null;
+
+  try {
+    return JSON.parse(raw);
+  } catch (_) {
+    return null;
+  }
+}
+
+// ── Free case: B-flow automatische analyse zonder tweede upload ──────────────
 
 export async function saveFreeCase(env, {
   type,
@@ -90,7 +131,17 @@ export async function getFreeCase(env, { type, email }) {
   }
 }
 
+// ── Free recovery queue ──────────────────────────────────────────────────────
+
 export async function enqueueFree(env, { type, name, email, triage, stripeLink }) {
+  await saveFreeTriage(env, {
+    type,
+    name,
+    email,
+    triage,
+    stripeLink,
+  });
+
   const createdAt = Date.now();
   const emailKey = safeEmailKey(email);
   const baseKey = `free:${type}:${createdAt}:${emailKey}`;
@@ -103,7 +154,7 @@ export async function enqueueFree(env, { type, name, email, triage, stripeLink }
       stage: item.stage,
       type,
       name,
-      email,
+      email: normalizeEmail(email),
       triage,
       stripe_link: stripeLink,
       created_at: new Date(createdAt).toISOString(),
@@ -116,6 +167,8 @@ export async function enqueueFree(env, { type, name, email, triage, stripeLink }
   return baseKey;
 }
 
+// ── Paid delivery queue ──────────────────────────────────────────────────────
+
 export async function enqueuePaid(env, { type, name, email, triage, analysis }) {
   const key = `paid:${type}:${Date.now()}:${safeEmailKey(email)}`;
 
@@ -123,7 +176,7 @@ export async function enqueuePaid(env, { type, name, email, triage, analysis }) 
     kind: "paid",
     type,
     name,
-    email,
+    email: normalizeEmail(email),
     triage,
     analysis,
     created_at: new Date().toISOString(),
@@ -133,6 +186,8 @@ export async function enqueuePaid(env, { type, name, email, triage, analysis }) 
   await env.MAHNUNG_QUEUE.put(key, JSON.stringify(entry));
   return key;
 }
+
+// ── Cron helpers ─────────────────────────────────────────────────────────────
 
 export async function getDueEntries(env) {
   const now = Date.now();
@@ -146,6 +201,7 @@ export async function getDueEntries(env) {
 
     for (const key of list.keys) {
       if (key.name.startsWith("paid_marker:")) continue;
+      if (key.name.startsWith("free_triage:")) continue;
       if (key.name.startsWith("free_case:")) continue;
       if (key.name.startsWith("track:")) continue;
 
