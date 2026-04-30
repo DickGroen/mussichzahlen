@@ -75,16 +75,18 @@ Er muss:
 - keine Rechtsberatung enthalten
 - keine Garantie geben
 - aber finanziellen Druck, mögliche Nachteile und Handlungsbedarf verständlich machen
+- maximal 2 Sätze lang sein
 
-Gute teaser-Formulierungen:
-- "Es gibt Hinweise darauf, dass diese Forderung nicht vollständig eindeutig ist. Ohne Reaktion könnten zusätzliche Kosten oder weitere Schritte folgen."
-- "In diesem Schreiben könnten Ansatzpunkte vorliegen, die ohne rechtzeitige Reaktion zu unnötigen Mehrkosten führen können."
-- "Es könnte sinnvoll sein, diese Forderung genauer prüfen zu lassen. Ohne Prüfung besteht das Risiko, dass mögliche Einwände ungenutzt bleiben."
+Wähle sinngemäß je nach risk:
 
-Nach risk anpassen:
-- risk high: deutlicher, dringlicher, aber vorsichtig.
-- risk medium: prüfend, handlungsorientiert.
-- risk low: neutraler, aber dennoch mit Hinweis auf Klarheit und Vermeidung unnötiger Risiken.
+risk low:
+"Es gibt Hinweise darauf, dass diese Forderung nicht vollständig eindeutig ist. Ohne Reaktion könnten jedoch zusätzliche Kosten entstehen."
+
+risk medium:
+"In diesem Schreiben könnten Ansatzpunkte vorliegen, die ohne rechtzeitige Reaktion zu unnötigen Mehrkosten führen können."
+
+risk high:
+"Es deutet einiges darauf hin, dass hier mögliche Unstimmigkeiten bestehen. Wenn du nicht reagierst, kann sich die Situation finanziell deutlich verschlechtern."
 
 Verboten im teaser:
 - konkrete Fehler nennen
