@@ -1,64 +1,86 @@
-import { validateFile, formatFileSize, submitFree, submitPaid, initFaq, initModal, initStickyFooter, openModal, closeModal } from '../app.js';
+import {
+  validateFile,
+  formatFileSize,
+  submitFree,
+  submitPaid,
+  initFaq,
+  initModal,
+  initStickyFooter,
+  openModal,
+  closeModal,
+  track
+} from '../app.js';
 
-// Expose to HTML onclick handlers
-window.openModal  = openModal;
+window.openModal = openModal;
 window.closeModal = closeModal;
 
 const TYPE = 'mahnung';
-let selectedFile = null;
-let gratisFile   = null;
+const PRICE = 49;
 
-// ── GRATIS FLOW ───────────────────────────────────────────────────────────────
+let gratisFile = null;
+let selectedFile = null;
+let stripeLink = null;
+
+track('page_view', { type: TYPE });
+
+// ── Free triage flow ─────────────────────────────────────────────────────────
 
 window.handleGratisFileSelect = function(input) {
   if (!input.files?.[0]) return;
 
   gratisFile = input.files[0];
-  const err  = validateFile(gratisFile);
 
+  track('free_upload_started', { type: TYPE });
+
+  const err = validateFile(gratisFile);
   const status = document.getElementById('gratis-status');
 
   if (err) {
-    status.className   = 'optie-status optie-status--error';
-    status.textContent = err;
+    if (status) {
+      status.className = 'optie-status optie-status--error';
+      status.textContent = err;
+    }
     return;
   }
 
   const zone = document.getElementById('gratis-upload-zone');
-  zone.innerHTML = `
-    <div class="upload-label" style="color:var(--green);">
-      ✔ ${esc(gratisFile.name)}
-    </div>
-    <div class="upload-hint">${formatFileSize(gratisFile.size)}</div>
-  `;
+  if (zone) {
+    zone.innerHTML = `
+      <div class="upload-label" style="color:var(--green);">✓ ${esc(gratisFile.name)}</div>
+      <div class="upload-hint">${formatFileSize(gratisFile.size)}</div>
+    `;
+  }
 
-  document.getElementById('gratis-contact-fields').style.display = 'flex';
+  const fields = document.getElementById('gratis-contact-fields');
+  if (fields) fields.style.display = 'flex';
+
   checkGratisReady();
 };
 
 function checkGratisReady() {
-  const name  = document.getElementById('gratis-name').value.trim();
-  const email = document.getElementById('gratis-email').value.trim();
+  const name = document.getElementById('gratis-name')?.value.trim();
+  const email = document.getElementById('gratis-email')?.value.trim();
+  const btn = document.getElementById('gratis-btn');
 
-  document.getElementById('gratis-btn').disabled =
-    !(name && email.includes('@') && email.includes('.') && gratisFile);
+  if (!btn) return;
+  btn.disabled = !(gratisFile && name && email.includes('@') && email.includes('.'));
 }
 
 document.getElementById('gratis-name')?.addEventListener('input', checkGratisReady);
 document.getElementById('gratis-email')?.addEventListener('input', checkGratisReady);
 
-// ── GRATIS SUBMIT ─────────────────────────────────────────────────────────────
-
 window.startGratisUpload = async function() {
-  const name   = document.getElementById('gratis-name').value.trim();
-  const email  = document.getElementById('gratis-email').value.trim();
-  const btn    = document.getElementById('gratis-btn');
+  const name = document.getElementById('gratis-name')?.value.trim();
+  const email = document.getElementById('gratis-email')?.value.trim();
+  const btn = document.getElementById('gratis-btn');
   const status = document.getElementById('gratis-status');
 
-  if (!gratisFile) return;
+  if (!gratisFile || !name || !email) return;
 
-  btn.disabled    = true;
-  btn.textContent = 'Wird geprüft…';
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'Wird geprüft…';
+  }
 
   try {
     const data = await submitFree({
@@ -66,114 +88,132 @@ window.startGratisUpload = async function() {
       name,
       email,
       type: TYPE,
-      onStatus: (t, msg) => {
-        status.className   = `optie-status optie-status--${t}`;
+      onStatus: (kind, msg) => {
+        if (!status) return;
+        status.className = `optie-status optie-status--${kind}`;
         status.textContent = msg;
       }
     });
 
-    renderConversionBlock(data.triage);
+    const triage = data.triage || {};
+    stripeLink = triage.stripeLink || data.teaser?.stripeLink || stripeLink;
 
-    status.className   = 'optie-status optie-status--success';
-    status.textContent = 'Analyse abgeschlossen.';
-    btn.textContent    = 'Fertig ✓';
+    track('free_triage_completed', { type: TYPE });
 
+    renderTeaser(triage);
+
+    if (status) {
+      status.className = 'optie-status optie-status--success';
+      status.textContent = 'Erste Einschätzung abgeschlossen.';
+    }
+
+    if (btn) {
+      btn.textContent = 'Fertig ✓';
+    }
   } catch (err) {
-    status.className   = 'optie-status optie-status--error';
-    status.textContent = 'Fehler: ' + err.message;
-    btn.disabled       = false;
-    btn.textContent    = 'Kostenlose Einschätzung starten';
+    if (status) {
+      status.className = 'optie-status optie-status--error';
+      status.textContent = 'Fehler: ' + err.message;
+    }
+
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = 'Kostenlose Einschätzung starten';
+    }
   }
 };
 
-// ── CONVERSION BLOCK (BELANGRIJKSTE FIX) ─────────────────────────────────────
-
-function renderConversionBlock(triage) {
+function renderTeaser(triage) {
   const teaser = document.getElementById('teaser');
-  if (!teaser || !triage) return;
+  if (!teaser) return;
+
+  const risk = triage.risk || 'medium';
+  const amount = triage.amount_claimed || null;
 
   teaser.style.display = 'block';
   setTimeout(() => teaser.classList.add('teaser--visible'), 10);
 
-  const amount = triage.amount_claimed || null;
-  const sender = triage.sender || 'unbekannt';
-  const risk   = triage.risk || 'medium';
-
-  // ── HEADER ─────────────────────────────────
-
-  document.getElementById('teaser-company').textContent = `
-Erste Einschätzung abgeschlossen
-`;
-
-  // ── SUB RESULT ─────────────────────────────
+  track('teaser_shown', {
+    type: TYPE,
+    risk,
+    amount
+  });
 
   const riskLabel = {
-    high:   '🔴 Hohe Auffälligkeit erkannt',
+    high: '🔴 Hohe Auffälligkeit erkannt',
     medium: '🟠 Mögliche Auffälligkeiten erkannt',
-    low:    '🟡 Geringe Auffälligkeit'
+    low: '🟡 Geringe Auffälligkeit'
   };
 
-  document.getElementById('teaser-sub').textContent =
-    `${riskLabel[risk]}${amount ? ` • Betrag: €${amount}` : ''}`;
+  const title = document.getElementById('teaser-company');
+  if (title) title.textContent = 'Erste Einschätzung abgeschlossen';
 
-  // ── TEASER TEXT (AI) ───────────────────────
-
-  const modalCopy = document.getElementById('modal-dynamic-copy');
-  if (modalCopy) {
-    modalCopy.textContent = triage.teaser;
+  const sub = document.getElementById('teaser-sub');
+  if (sub) {
+    sub.textContent = `${riskLabel[risk] || riskLabel.medium}${amount ? ` • Betrag: €${amount}` : ''}`;
   }
 
-  // ── FINANCIAL TRIGGER ──────────────────────
+  const copy = document.getElementById('modal-dynamic-copy');
+  if (copy) {
+    copy.textContent =
+      triage.teaser ||
+      'Es könnten mögliche Ansatzpunkte vorliegen. Eine vollständige Prüfung kann helfen, unnötige Kosten zu vermeiden.';
+  }
 
   const financial = document.getElementById('teaser-financial');
   if (financial) {
     financial.innerHTML = amount
-      ? `💸 <strong>Möglicher finanzieller Einfluss:</strong><br>
-         Ohne Prüfung riskierst du, bis zu <strong>€${amount}</strong> zu zahlen — möglicherweise unnötig.`
-      : `💸 <strong>Mögliche Kosten:</strong><br>
-         Ohne genauere Analyse könnten unnötige Kosten entstehen.`;
+      ? `💸 <strong>Möglicher finanzieller Einfluss:</strong><br>Ohne weitere Prüfung riskierst du, bis zu <strong>€${esc(amount)}</strong> zu zahlen — möglicherweise unnötig.`
+      : `💸 <strong>Mögliche Kosten:</strong><br>Ohne genauere Analyse könnten unnötige Kosten entstehen.`;
   }
-
-  // ── CTA BLOCK ─────────────────────────────
 
   const cta = document.getElementById('teaser-cta');
   if (cta) {
     cta.innerHTML = `
-      <div style="margin-top:20px;">
-        <h3>🔍 Vollständige Analyse + fertiger Widerspruch</h3>
-        <ul style="line-height:1.8;margin:10px 0;">
-          <li>✔ Klare Bewertung deiner Situation</li>
-          <li>✔ Konkrete Handlungsempfehlung</li>
-          <li>✔ Fertiges Schreiben zum direkten Versand</li>
-        </ul>
-
-        <button class="primary-btn" onclick="openModal('modal')">
-          ${getCtaText(risk)}
-        </button>
-
-        <div style="margin-top:8px;font-size:.85rem;color:var(--muted);">
-          Einmalig €29 • Ergebnis per E-Mail innerhalb von 24h
-        </div>
-
-        <div style="margin-top:12px;font-size:.85rem;color:#b45309;">
-          ⏳ In vielen Fällen gelten Fristen — ohne Reaktion können zusätzliche Kosten entstehen.
-        </div>
+      <h3>🔍 Vollständige Analyse + fertiger Widerspruch</h3>
+      <ul>
+        <li>✓ Konkrete Bewertung deiner Situation</li>
+        <li>✓ Klare Handlungsempfehlung</li>
+        <li>✓ Fertiger Widerspruch zum direkten Versand</li>
+      </ul>
+      <button class="offer-cta" onclick="goToStripe()">
+        ${ctaText(risk)}
+      </button>
+      <div style="margin-top:8px;font-size:.85rem;color:var(--muted);">
+        Einmalig €${PRICE} · kein Abo · sichere Zahlung
       </div>
     `;
+  }
+
+  const modalLink = document.querySelector('.js-stripe-link, .modal__cta');
+  if (modalLink && stripeLink) {
+    modalLink.href = stripeLink;
   }
 
   teaser.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-// ── DYNAMIC CTA ──────────────────────────────────────────────────────────────
-
-function getCtaText(risk) {
-  if (risk === 'high')   return 'Jetzt handeln und Kosten vermeiden →';
-  if (risk === 'low')    return 'Analyse im Detail prüfen →';
-  return 'Jetzt vollständige Analyse erhalten →';
+function ctaText(risk) {
+  if (risk === 'high') return `Jetzt handeln und Kosten vermeiden — €${PRICE} →`;
+  if (risk === 'low') return `Analyse im Detail prüfen — €${PRICE} →`;
+  return `Jetzt vollständige Analyse erhalten — €${PRICE} →`;
 }
 
-// ── PAID FLOW (ongewijzigd, maar cleaner UX) ─────────────────────────────────
+window.goToStripe = function() {
+  track('stripe_clicked', {
+    type: TYPE,
+    price: PRICE
+  });
+
+  if (stripeLink) {
+    window.location.href = stripeLink;
+    return;
+  }
+
+  openModal('modal');
+};
+
+// ── Paid upload flow for danke.html ──────────────────────────────────────────
 
 if (document.getElementById('submit-btn')) {
   const fileInput = document.getElementById('real-file-input');
@@ -182,42 +222,117 @@ if (document.getElementById('submit-btn')) {
     if (fileInput.files?.[0]) updateSelectedFile(fileInput.files[0]);
   });
 
+  const uploadPanel = document.getElementById('upload-panel');
+
+  uploadPanel?.addEventListener('dragover', e => {
+    e.preventDefault();
+    uploadPanel.classList.add('drag-over');
+  });
+
+  uploadPanel?.addEventListener('dragleave', () => {
+    uploadPanel.classList.remove('drag-over');
+  });
+
+  uploadPanel?.addEventListener('drop', e => {
+    e.preventDefault();
+    uploadPanel.classList.remove('drag-over');
+
+    if (e.dataTransfer.files?.[0]) {
+      fileInput.files = e.dataTransfer.files;
+      updateSelectedFile(e.dataTransfer.files[0]);
+    }
+  });
+
+  document.getElementById('remove-file')?.addEventListener('click', e => {
+    e.preventDefault();
+    clearFile();
+  });
+
   document.getElementById('submit-btn')?.addEventListener('click', doSubmit);
+
   validateSession();
 }
 
 function validateSession() {
-  const params    = new URLSearchParams(window.location.search);
+  const params = new URLSearchParams(window.location.search);
   const sessionId = params.get('session_id');
 
   if (sessionId?.startsWith('cs_')) {
-    document.getElementById('thankyou-app').style.display = 'block';
+    const app = document.getElementById('thankyou-app');
+    if (app) app.style.display = 'block';
+
+    const emailEl = document.getElementById('customer-email');
+    if (emailEl && params.get('email')) emailEl.value = params.get('email');
   } else {
-    document.getElementById('locked-screen').style.display = 'block';
+    const locked = document.getElementById('locked-screen');
+    if (locked) locked.style.display = 'block';
   }
 }
 
 function updateSelectedFile(file) {
   const err = validateFile(file);
-  if (err) return;
+  if (err) {
+    showStatus(err, 'error');
+    return;
+  }
 
   selectedFile = file;
 
+  document.getElementById('selected-file')?.classList.add('show');
+
+  const name = document.getElementById('selected-file-name');
+  if (name) name.textContent = file.name;
+
+  const meta = document.getElementById('selected-file-meta');
+  if (meta) meta.textContent = formatFileSize(file.size) + ' · bereit';
+
   const btn = document.getElementById('submit-btn');
-  btn.disabled    = false;
-  btn.textContent = 'Analyse starten';
+  if (btn) {
+    btn.disabled = false;
+    btn.textContent = 'Hochladen und Analyse starten';
+  }
+}
+
+function clearFile() {
+  selectedFile = null;
+
+  const input = document.getElementById('real-file-input');
+  if (input) input.value = '';
+
+  document.getElementById('selected-file')?.classList.remove('show');
+
+  const btn = document.getElementById('submit-btn');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'Zuerst eine Datei wählen';
+  }
+}
+
+function showStatus(msg, type) {
+  const box = document.getElementById('status-box');
+  if (!box) return;
+
+  box.className = 'status-box ' + type;
+  box.innerHTML = esc(msg);
 }
 
 async function doSubmit() {
-  const name  = document.getElementById('customer-name').value.trim();
-  const email = document.getElementById('customer-email').value.trim();
-  const file  = document.getElementById('real-file-input').files[0] || selectedFile;
+  const name = document.getElementById('customer-name')?.value.trim();
+  const email = document.getElementById('customer-email')?.value.trim();
+  const params = new URLSearchParams(window.location.search);
+  const file = document.getElementById('real-file-input')?.files?.[0] || selectedFile;
 
-  if (!name || !email.includes('@') || !file) return;
+  if (!name || !email?.includes('@') || !file) {
+    showStatus('Bitte alle Felder ausfüllen und eine Datei auswählen.', 'error');
+    return;
+  }
 
   const btn = document.getElementById('submit-btn');
-  btn.disabled    = true;
-  btn.textContent = 'Wird hochgeladen…';
+
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = 'Wird hochgeladen…';
+  }
 
   try {
     await submitPaid({
@@ -225,31 +340,41 @@ async function doSubmit() {
       name,
       email,
       type: TYPE,
-      sessionId: new URLSearchParams(window.location.search).get('session_id')
+      sessionId: params.get('session_id'),
+      onStatus: showStatus
     });
 
-    document.querySelector('.thankyou-card').innerHTML = `
-      <div class="success-screen">
-        <div class="success-screen__icon">✔</div>
-        <h2>Analyse gestartet</h2>
-        <p>Du erhältst dein Ergebnis per E-Mail innerhalb von 24h.</p>
-      </div>`;
+    const card = document.querySelector('.thankyou-card');
+    if (card) {
+      card.innerHTML = `
+        <div class="success-screen">
+          <div class="success-screen__icon">✓</div>
+          <h2>Upload erfolgreich!</h2>
+          <p>Wir analysieren dein Schreiben und senden dir die vollständige Analyse sowie den fertigen Widerspruch per E-Mail an <strong>${esc(email)}</strong>.</p>
+          <p style="font-size:.82rem;color:var(--muted);">Bitte auch den Spam-Ordner prüfen.</p>
+        </div>`;
+    }
   } catch (err) {
-    btn.disabled = false;
-    btn.textContent = 'Erneut versuchen';
+    showStatus('Upload fehlgeschlagen: ' + err.message, 'error');
+
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = 'Hochladen und Analyse starten';
+    }
   }
 }
 
-// ── HELPERS ──────────────────────────────────────────────────────────────────
+// ── Helpers ─────────────────────────────────────────────────────────────────
 
 function esc(str) {
   return String(str || '')
-    .replaceAll('&','&amp;')
-    .replaceAll('<','&lt;')
-    .replaceAll('>','&gt;');
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;');
 }
 
-// ── INIT ─────────────────────────────────────────────────────────────────────
+// ── Init ────────────────────────────────────────────────────────────────────
 
 initFaq();
 initModal();
