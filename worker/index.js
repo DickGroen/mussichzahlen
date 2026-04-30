@@ -3,6 +3,7 @@ import { handleAnalyzeFree } from "./routes/analyze-free.js";
 import { handleSubmitPaid } from "./routes/submit-paid.js";
 import { handleCron } from "./routes/cron.js";
 import { handleTrack } from "./routes/track.js";
+import { handleStripeWebhook } from "./routes/stripe-webhook.js";
 
 export default {
   async fetch(request, env) {
@@ -24,6 +25,9 @@ export default {
 
         case "/api/track":
           return await handleTrack(request, env);
+
+        case "/api/stripe-webhook":
+          return await handleStripeWebhook(request, env);
 
         default:
           return jsonResponse({ ok: false, error: "Unbekannter Endpunkt" }, 404);
