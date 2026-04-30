@@ -6,7 +6,7 @@ const ALLOWED_EXT     = ['.pdf', '.jpg', '.jpeg', '.png'];
 
 // ── Analytics ────────────────────────────────────────────────────────────────
 
-export function trackEvent(eventName, payload = {}) {
+export function track(eventName, payload = {}) {
   const event = {
     event: eventName,
     path: window.location.pathname,
@@ -38,6 +38,9 @@ export function trackEvent(eventName, payload = {}) {
     }).catch(() => {});
   } catch (_) {}
 }
+
+// Backwards compatible alias
+export const trackEvent = track;
 
 // ── Bestand validatie ────────────────────────────────────────────────────────
 
@@ -187,7 +190,6 @@ export function initModal() {
 
 export function openModal(id = 'modal') {
   const modal = document.getElementById(id);
-
   if (!modal) return;
 
   modal.classList.add('modal--open');
@@ -197,7 +199,6 @@ export function openModal(id = 'modal') {
 
 export function closeModal(id = 'modal') {
   const modal = document.getElementById(id);
-
   if (!modal) return;
 
   modal.classList.remove('modal--open');
