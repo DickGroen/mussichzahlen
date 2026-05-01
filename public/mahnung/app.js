@@ -65,7 +65,13 @@ function checkGratisReady() {
 
   if (!btn) return;
 
-  btn.disabled = !(gratisFile && name && email.includes('@'));
+  const isValidEmail =
+    email &&
+    email.includes('@') &&
+    email.includes('.') &&
+    email.length > 5;
+
+  btn.disabled = !(gratisFile && name && isValidEmail);
 }
 
 document.getElementById('gratis-name')?.addEventListener('input', checkGratisReady);
@@ -98,6 +104,7 @@ window.startGratisUpload = async function() {
     });
 
     const triage = normalizeTriage(data.triage || {});
+
     stripeLink =
       data.stripeLink ||
       data.teaser?.stripeLink ||
@@ -365,8 +372,8 @@ async function doSubmit() {
   const params = new URLSearchParams(window.location.search);
   const file = document.getElementById('real-file-input')?.files?.[0] || selectedFile;
 
-  if (!name || !email?.includes('@') || !file) {
-    showStatus('Bitte alle Felder ausfüllen und eine Datei auswählen.', 'error');
+  if (!name || !email?.includes('@') || !email.includes('.') || !file) {
+    showStatus('Bitte alle Felder ausfüllen und eine gültige E-Mail sowie Datei auswählen.', 'error');
     return;
   }
 
