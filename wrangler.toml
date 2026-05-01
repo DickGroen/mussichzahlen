@@ -24,4 +24,3 @@ bucket_name = "mussichzahlen-docs"
 
 [triggers]
 crons = ["0 3 * * *"]
-
