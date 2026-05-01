@@ -109,19 +109,19 @@ export async function submitAutoPaid({ type, sessionId, onStatus }) {
     })
   });
 
-  let data;
-  try {
-    data = await res.json();
-  } catch (_) {
-    throw new Error('Serverantwort konnte nicht gelesen werden.');
-  }
+  const data = await res.json().catch(() => ({}));
 
   if (!res.ok || !data.ok) {
-    const err = new Error(data?.error || 'Automatische Analyse fehlgeschlagen');
-    err.needUpload = Boolean(data?.need_upload);
+    const err = new Error(data?.error || `Fehler ${res.status}`);
+
+    if (data?.need_upload || data?.needUpload || res.status === 404) {
+      err.needUpload = true;
+    }
+
     throw err;
   }
 
+  onStatus?.('success', 'Analyse gestartet.');
   return data;
 }
 
