@@ -59,28 +59,35 @@ window.handleGratisFileSelect = function(input) {
 };
 
 function checkGratisReady() {
-  const name = document.getElementById('gratis-name')?.value.trim();
+  const name  = document.getElementById('gratis-name')?.value.trim();
   const email = document.getElementById('gratis-email')?.value.trim();
-  const btn = document.getElementById('gratis-btn');
+  const btn   = document.getElementById('gratis-btn');
+  const hint  = document.getElementById('gratis-email-hint');
 
   if (!btn) return;
 
-  const isValidEmail =
-    email &&
-    email.includes('@') &&
-    email.includes('.') &&
-    email.length > 5;
+  const emailOk = email.includes('@') && email.includes('.');
+  const ready   = !!(gratisFile && name && emailOk);
 
-  btn.disabled = !(gratisFile && name && isValidEmail);
+  btn.disabled = !ready;
+
+  if (hint) {
+    if (email.length > 3 && !emailOk) {
+      hint.textContent = 'Bitte eine gültige E-Mail-Adresse eingeben.';
+      hint.style.display = 'block';
+    } else {
+      hint.style.display = 'none';
+    }
+  }
 }
 
 document.getElementById('gratis-name')?.addEventListener('input', checkGratisReady);
 document.getElementById('gratis-email')?.addEventListener('input', checkGratisReady);
 
 window.startGratisUpload = async function() {
-  const name = document.getElementById('gratis-name')?.value.trim();
-  const email = document.getElementById('gratis-email')?.value.trim();
-  const btn = document.getElementById('gratis-btn');
+  const name   = document.getElementById('gratis-name')?.value.trim();
+  const email  = document.getElementById('gratis-email')?.value.trim();
+  const btn    = document.getElementById('gratis-btn');
   const status = document.getElementById('gratis-status');
 
   if (!gratisFile || !name || !email) return;
@@ -104,7 +111,6 @@ window.startGratisUpload = async function() {
     });
 
     const triage = normalizeTriage(data.triage || {});
-
     stripeLink =
       data.stripeLink ||
       data.teaser?.stripeLink ||
@@ -164,7 +170,7 @@ function renderTeaser(triage) {
   const teaser = document.getElementById('teaser');
   if (!teaser) return;
 
-  const risk = triage.risk || 'medium';
+  const risk   = triage.risk || 'medium';
   const amount = triage.amount_claimed || null;
 
   teaser.style.display = 'block';
@@ -180,9 +186,9 @@ function renderTeaser(triage) {
   });
 
   const riskLabel = {
-    high: '🔴 Hohe Auffälligkeit erkannt',
+    high:   '🔴 Hohe Auffälligkeit erkannt',
     medium: '🟠 Mögliche Auffälligkeiten erkannt',
-    low: '🟡 Geringe Auffälligkeit'
+    low:    '🟡 Geringe Auffälligkeit'
   };
 
   const title = document.getElementById('teaser-company');
@@ -235,13 +241,13 @@ function renderTeaser(triage) {
 
 function ctaText(risk) {
   if (risk === 'high') return `Jetzt prüfen und unnötige Kosten vermeiden — €${PRICE} →`;
-  if (risk === 'low') return `Klarheit schaffen mit vollständiger Analyse — €${PRICE} →`;
+  if (risk === 'low')  return `Klarheit schaffen mit vollständiger Analyse — €${PRICE} →`;
   return `Vollständige Analyse + Widerspruch erhalten — €${PRICE} →`;
 }
 
 window.goToStripe = function() {
   track('stripe_clicked', {
-    type: TYPE,
+    type:  TYPE,
     price: PRICE
   });
 
@@ -294,10 +300,9 @@ if (document.getElementById('submit-btn')) {
 }
 
 function validateSession() {
-  const params = new URLSearchParams(window.location.search);
+  const params    = new URLSearchParams(window.location.search);
   const sessionId = params.get('session_id');
-
-  const autoCard = document.getElementById('auto-card');
+  const autoCard  = document.getElementById('auto-card');
 
   // Hybride B-flow: danke.html beheert auto/fallback state.
   // app.js mag hier niet zelf thankyou-app tonen, anders ontstaat race condition.
@@ -367,13 +372,19 @@ function showStatus(msg, type) {
 }
 
 async function doSubmit() {
-  const name = document.getElementById('customer-name')?.value.trim();
-  const email = document.getElementById('customer-email')?.value.trim();
+  const name   = document.getElementById('customer-name')?.value.trim();
+  const email  = document.getElementById('customer-email')?.value.trim();
   const params = new URLSearchParams(window.location.search);
-  const file = document.getElementById('real-file-input')?.files?.[0] || selectedFile;
+  const file   = document.getElementById('real-file-input')?.files?.[0] || selectedFile;
 
-  if (!name || !email?.includes('@') || !email.includes('.') || !file) {
-    showStatus('Bitte alle Felder ausfüllen und eine gültige E-Mail sowie Datei auswählen.', 'error');
+  const emailOk =
+    email &&
+    email.includes('@') &&
+    email.includes('.') &&
+    email.length > 5;
+
+  if (!name || !emailOk || !file) {
+    showStatus('Bitte alle Felder korrekt ausfüllen.', 'error');
     return;
   }
 
@@ -391,7 +402,7 @@ async function doSubmit() {
       email,
       type: TYPE,
       sessionId: params.get('session_id'),
-      onStatus: showStatus
+      onStatus:  showStatus
     });
 
     const fallback = document.getElementById('thankyou-app');
