@@ -5,21 +5,18 @@ compatibility_flags = ["nodejs_compat"]
 
 [vars]
 ENV = "production"
-ADMIN_EMAIL = "support@mussichzahlen.de"
 
-# Secrets via: wrangler secret put <NAAM>
-# ANTHROPIC_API_KEY
-# STRIPE_SECRET_KEY
-# STRIPE_WEBHOOK_SECRET
-# RESEND_API_KEY
+# Secrets worden ingesteld via: wrangler secret put <NAAM>
+# Nooit hier invullen: ANTHROPIC_API_KEY, STRIPE_SECRET_KEY,
+# STRIPE_WEBHOOK_SECRET, RESEND_API_KEY, ADMIN_EMAIL
 
 [[kv_namespaces]]
 binding = "SESSIONS_KV"
-id = "REPLACE_AFTER_WRANGLER_CREATE"
+id = "394807db041c4b83907c9f6818a4184b"
 
 [[kv_namespaces]]
 binding = "JOBS_KV"
-id = "REPLACE_AFTER_WRANGLER_CREATE"
+id = "1025d11aaba64a869ae40d2a7143ab40"
 
 [[r2_buckets]]
 binding = "DOCS_BUCKET"
