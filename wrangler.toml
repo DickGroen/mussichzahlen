@@ -1,11 +1,29 @@
-
 name = "mussichzahlen"
 main = "worker/index.js"
 compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+ENV = "production"
+ADMIN_EMAIL = "support@mussichzahlen.de"
+
+# Secrets via: wrangler secret put <NAAM>
+# ANTHROPIC_API_KEY
+# STRIPE_SECRET_KEY
+# STRIPE_WEBHOOK_SECRET
+# RESEND_API_KEY
 
 [[kv_namespaces]]
-binding = "MAHNUNG_QUEUE"
-id = "394807db041c4b83907c9f6818a4184b"
+binding = "SESSIONS_KV"
+id = "REPLACE_AFTER_WRANGLER_CREATE"
+
+[[kv_namespaces]]
+binding = "JOBS_KV"
+id = "REPLACE_AFTER_WRANGLER_CREATE"
+
+[[r2_buckets]]
+binding = "DOCS_BUCKET"
+bucket_name = "mussichzahlen-docs"
 
 [triggers]
-crons = ["*/15 * * * *"]
+crons = ["0 3 * * *"]
