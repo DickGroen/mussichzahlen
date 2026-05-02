@@ -25,3 +25,7 @@ bucket_name = "mussichzahlen-docs"
 
 [triggers]
 crons = ["*/5 * * * *"]
+
+routes = [
+  { pattern = "mussichzahlen.de/api/*", zone_name = "mussichzahlen.de" }
+]
