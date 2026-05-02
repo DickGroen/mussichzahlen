@@ -83,7 +83,7 @@ async function recordPaidCompleted(env, data) {
 
   const key = `track:${entry.type}:paid_completed:${Date.now()}:${id}`;
 
-  await env.MAHNUNG_QUEUE.put(key, JSON.stringify(entry), {
+  await env.JOBS_KV.put(key, JSON.stringify(entry), {
     expirationTtl: TRACK_TTL_SECONDS,
   });
 }
