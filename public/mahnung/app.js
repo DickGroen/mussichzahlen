@@ -170,8 +170,11 @@ function renderTeaser(triage) {
   const teaser = document.getElementById('teaser');
   if (!teaser) return;
 
-  const risk   = triage.risk || 'medium';
-  const amount = triage.amount_claimed || null;
+  track('teaser_shown', {
+    type: TYPE,
+    risk: triage.risk || 'medium',
+    amount: triage.amount_claimed || null
+  });
 
   teaser.style.display = 'block';
 
@@ -179,62 +182,26 @@ function renderTeaser(triage) {
     teaser.classList.add('teaser--visible');
   }, 10);
 
-  track('teaser_shown', {
-    type: TYPE,
-    risk,
-    amount
-  });
-
-  const riskLabel = {
-    high:   '🔴 Hohe Auffälligkeit erkannt',
-    medium: '🟠 Mögliche Auffälligkeiten erkannt',
-    low:    '🟡 Geringe Auffälligkeit'
-  };
-
-  const title = document.getElementById('teaser-company');
-  if (title) {
-    title.textContent = 'Erste Einschätzung abgeschlossen';
-  }
-
-  const sub = document.getElementById('teaser-sub');
-  if (sub) {
-    sub.textContent = `${riskLabel[risk] || riskLabel.medium}${amount ? ` • Betrag: €${esc(amount)}` : ''}`;
-  }
-
-  const copy = document.getElementById('modal-dynamic-copy');
-  if (copy) {
-    copy.textContent = triage.teaser;
-  }
-
-  const financial = document.getElementById('teaser-financial');
-  if (financial) {
-    financial.innerHTML = amount
-      ? `💸 <strong>Möglicher finanzieller Einfluss:</strong><br>Ohne weitere Prüfung riskierst du, bis zu <strong>€${esc(amount)}</strong> zu zahlen — möglicherweise unnötig.`
-      : `💸 <strong>Mögliche Kosten:</strong><br>Ohne genauere Analyse könnten unnötige Kosten entstehen.`;
-  }
-
-  const cta = document.getElementById('teaser-cta');
-  if (cta) {
-    cta.innerHTML = `
-      <h3>🔍 Vollständige Analyse + fertiger Widerspruch</h3>
-      <ul>
-        <li>✓ Konkrete Bewertung deiner Situation</li>
-        <li>✓ Klare Handlungsempfehlung</li>
-        <li>✓ Fertiger Widerspruch zum direkten Versand</li>
-      </ul>
-      <button class="offer-cta" onclick="goToStripe()">
-        ${ctaText(risk)}
-      </button>
-      <div style="margin-top:8px;font-size:.85rem;color:var(--muted);">
-        Einmalig €${PRICE} · kein Abo · sichere Zahlung
+  teaser.innerHTML = `
+    <div class="offer-card teaser-card" style="border-color:var(--green);background:#f0fdf4;max-width:620px;margin:0 auto;">
+      <div style="font-size:1.1rem;font-weight:700;color:#14532d;margin-bottom:12px;">
+        ✓ Ihr Schreiben ist eingegangen.
       </div>
-    `;
-  }
-
-  const modalLink = document.querySelector('.js-stripe-link, .modal__cta');
-  if (modalLink && stripeLink) {
-    modalLink.href = stripeLink;
-  }
+      <p style="color:#166534;margin-bottom:12px;line-height:1.7;">
+        Wir werden Ihr Dokument sorgfältig prüfen und Ihnen spätestens am nächsten Werktag bis 16:00 Uhr eine erste Einschätzung per E-Mail zukommen lassen.
+      </p>
+      <div style="background:#fff;border:1px solid #bbf7d0;border-radius:8px;padding:14px;margin-bottom:14px;">
+        <strong style="color:#14532d;">Warum das wichtig ist:</strong>
+        <p style="color:#166534;margin-top:6px;margin-bottom:0;line-height:1.65;">
+          Bei Zahlungserinnerungen und Mahnschreiben können Fristen und zusätzliche Kosten entstehen, wenn Sie nicht rechtzeitig reagieren. Unsere Einschätzung klärt, ob Handlungsbedarf besteht.
+        </p>
+      </div>
+      <p style="font-size:.85rem;color:#166534;">
+        → Bitte prüfen Sie auch Ihren Spam-Ordner, falls Sie keine E-Mail erhalten.
+      </p>
+      <p style="font-size:.85rem;color:#166534;margin-top:8px;">Vielen Dank für Ihr Vertrauen.</p>
+    </div>
+  `;
 
   teaser.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
