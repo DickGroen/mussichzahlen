@@ -10,7 +10,7 @@ const RECOVERY_DELAYS = [
   { stage: 3, delay_ms: 48 * 60 * 60 * 1000 },
 ];
 
-const PAID_SEND_DELAY_MS = 23 * 60 * 60 * 1000;
+const PAID_SEND_DELAY_MS = 0; // direct versturen; later: 23 * 60 * 60 * 1000
 
 function normalizeEmail(email) {
   return String(email || "").trim().toLowerCase();
@@ -144,18 +144,20 @@ export async function enqueueFree(env, { type, name, email, triage, stripeLink }
     const key = `${baseKey}:stage_${item.stage}`;
 
     const entry = {
-      kind:       "free",
-      stage:      item.stage,
+      kind:        "free",
+      stage:       item.stage,
       type,
       name,
-      email:      normalizeEmail(email),
+      email:       normalizeEmail(email),
       triage,
       stripe_link: stripeLink,
-      created_at: new Date(createdAt).toISOString(),
-      send_at:    new Date(createdAt + item.delay_ms).toISOString(),
+      created_at:  new Date(createdAt).toISOString(),
+      send_at:     new Date(createdAt + item.delay_ms).toISOString(),
     };
 
-    await env.SESSIONS_KV.put(key, JSON.stringify(entry));
+    await env.SESSIONS_KV.put(key, JSON.stringify(entry), {
+      expirationTtl: 60 * 60 * 24 * 7, // 7 dagen
+    });
   }
 
   return baseKey;
