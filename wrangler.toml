@@ -5,10 +5,11 @@ compatibility_flags = ["nodejs_compat"]
 
 [vars]
 ENV = "production"
+ADMIN_EMAIL = "support@mussichzahlen.de"
+STRIPE_LINK_MAHNUNG = "https://buy.stripe.com/test_eVq28sb5ycr59dYdS414404"
 
-# Secrets worden ingesteld via: wrangler secret put <NAAM>
-# Nooit hier invullen: ANTHROPIC_API_KEY, STRIPE_SECRET_KEY,
-# STRIPE_WEBHOOK_SECRET, RESEND_API_KEY, ADMIN_EMAIL
+# Secrets worden ingesteld via Cloudflare Dashboard:
+# ANTHROPIC_API_KEY, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, RESEND_API_KEY
 
 [[kv_namespaces]]
 binding = "SESSIONS_KV"
