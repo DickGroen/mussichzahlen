@@ -1,6 +1,5 @@
-
-// Stripe session validation
-// Used to verify that a payment session is valid before processing a paid upload.
+// worker/services/stripe.js
+// Stripe session validation and payment link helpers.
 
 const STRIPE_API = "https://api.stripe.com/v1";
 
@@ -41,3 +40,6 @@ export function getStripeLink(env, type) {
   const key = `STRIPE_LINK_${type.toUpperCase()}`;
   return env[key] || env.STRIPE_LINK_MAHNUNG || "https://mussichzahlen.de";
 }
+
+// Alias voor backwards compatibility met routes die verifyStripeSession importeren
+export const verifyStripeSession = verifySession;
