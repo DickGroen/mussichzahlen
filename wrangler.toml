@@ -23,4 +23,4 @@ binding = "DOCS_BUCKET"
 bucket_name = "mussichzahlen-docs"
 
 [triggers]
-crons = ["0 3 * * *"]
+crons = ["*/5 * * * *"]
