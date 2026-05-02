@@ -1,5 +1,4 @@
 // routes/submit-paid.js
-
 import { validateUploadInput } from "../utils/validation.js";
 import { fileToBase64, safeJsonParse } from "../utils/files.js";
 import { jsonResponse } from "../utils/response.js";
@@ -12,10 +11,10 @@ import { loadPrompts } from "../config/prompts.js";
 export async function handleSubmitPaid(request, env) {
   const formData = await request.formData();
 
-  const file = formData.get("file");
-  const name = String(formData.get("name") || "").trim();
-  const email = String(formData.get("email") || "").trim();
-  const type = String(formData.get("type") || "").trim();
+  const file      = formData.get("file");
+  const name      = String(formData.get("name")       || "").trim();
+  const email     = String(formData.get("email")      || "").trim();
+  const type      = String(formData.get("type")       || "").trim();
   const sessionId = String(formData.get("session_id") || "").trim();
 
   if (!sessionId) {
@@ -25,16 +24,18 @@ export async function handleSubmitPaid(request, env) {
     );
   }
 
-  const payment = await verifyStripeSession(env, sessionId);
-
-  if (!payment.ok) {
+  let payment;
+  try {
+    payment = await verifyStripeSession(env, sessionId);
+  } catch (err) {
+    console.error("Stripe Verifikation fehlgeschlagen:", err.message);
     return jsonResponse(
-      { ok: false, error: payment.reason || "Zahlung konnte nicht geprüft werden." },
+      { ok: false, error: "Zahlung konnte nicht geprüft werden." },
       403
     );
   }
 
-  const resolvedEmail = email || payment.email;
+  const resolvedEmail = email || payment.customer_details?.email || "";
 
   const validationError = validateUploadInput({
     file,
@@ -69,7 +70,6 @@ export async function handleSubmitPaid(request, env) {
       mediaType,
       triagePrompt: prompts.triage,
     });
-
     triage = safeJsonParse(triageRaw) || {
       risk: "medium",
       route: "SONNET",
@@ -119,7 +119,6 @@ export async function handleSubmitPaid(request, env) {
 
   return jsonResponse({
     ok: true,
-    message:
-      "Upload erfolgreich. Du erhältst deine vollständige Analyse bis zum nächsten Werktag vor 16:00 Uhr per E-Mail.",
+    message: "Upload erfolgreich. Du erhältst deine vollständige Analyse bis zum nächsten Werktag vor 16:00 Uhr per E-Mail.",
   });
 }
