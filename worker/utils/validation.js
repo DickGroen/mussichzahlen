@@ -72,5 +72,11 @@ export function validateFreeSubmitForm(formData) {
   return { type, name, email, file };
 }
 
-// Alias voor backwards compatibility met routes die validateUploadInput importeren
-export const validateUploadInput = validatePaidSubmitForm;
+// Gebruikt door analyze-free.js — geeft null terug bij succes, string bij fout
+export function validateUploadInput({ file, name, email, type }) {
+  try { validateUploadFile(file); } catch (e) { return e.message; }
+  try { validateName(name); } catch (e) { return e.message; }
+  try { validateEmail(email); } catch (e) { return e.message; }
+  try { validateFunnelType(type); } catch (e) { return e.message; }
+  return null;
+}
