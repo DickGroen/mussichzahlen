@@ -39,19 +39,32 @@ function bulletLines(text) {
     .split("\n")
     .map(l => l.trim())
     .filter(Boolean)
-    .map(l => `{\\pard\\sb0\\sa200\\fi-300\\li300\\f1\\fs22 \\bullet  ${rtfEscape(l.replace(/^- /, ""))}\\par}`)
+    .map(l => `{\\pard\\sb0\\sa200\\fi-300\\li300\\f1\\fs22 \\bullet  ${rtfEscape(l.replace(/^[-•] /, ""))}\\par}`)
+    .join("\n");
+}
+
+function numberedLines(text) {
+  let i = 0;
+  return String(text || "")
+    .split("\n")
+    .map(l => l.trim())
+    .filter(Boolean)
+    .map(l => {
+      i++;
+      return `{\\pard\\sb0\\sa160\\fi-300\\li300\\f1\\fs22 ${i}.  ${rtfEscape(l.replace(/^\d+\.\s*/, ""))}\\par}`;
+    })
     .join("\n");
 }
 
 function rtfHeader() {
-  return `{\\rtf1\\ansi\\deff0\n{\\fonttbl{\\f0\\froman\\fcharset0 Times New Roman;}{\\f1\\fswiss\\fcharset0 Arial;}}\n{\\colortbl;\\red27\\green58\\blue140;\\red153\\green26\\blue26;\\red34\\green197\\blue94;}\n\\paperw11906\\paperh16838\\margl1800\\margr1800\\margt1440\\margb1440\\f1\\fs22\n`;
+  return `{\\rtf1\\ansi\\deff0\n{\\fonttbl{\\f0\\froman\\fcharset0 Times New Roman;}{\\f1\\fswiss\\fcharset0 Arial;}}\n{\\colortbl;\\red27\\green58\\blue140;\\red153\\green26\\blue26;\\red34\\green197\\blue94;\\red245\\green158\\blue11;}\n\\paperw11906\\paperh16838\\margl1800\\margr1800\\margt1440\\margb1440\\f1\\fs22\n`;
 }
 
 function rtfFooter(note) {
   return `{\\pard\\sb400\\sa100\\f1\\fs18\\cf0\\i ${rtfEscape(note || DISCLAIMER_RTF)}\\par}\n}`;
 }
 
-// ── Confirmation RTF (bijlage bij stage 1 email) ──────────────────────────────
+// ── Confirmation RTF ──────────────────────────────────────────────────────────
 
 export function makeConfirmationRtf(name) {
   return rtfHeader()
@@ -70,24 +83,56 @@ export function makeConfirmationRtf(name) {
 // ── Analysis RTF ──────────────────────────────────────────────────────────────
 
 export function makeAnalysisRtf(analysis, customerName, customerEmail, triage, type) {
-  const title  = extractTaggedSection(analysis, "TITLE") || "MussIchZahlen Analyse";
+  const title      = extractTaggedSection(analysis, "TITLE")    || "MussIchZahlen Analyse";
+  const intro      = extractTaggedSection(analysis, "INTRO")    || "";
+  const howToUse   = extractTaggedSection(analysis, "HOW_TO_USE") || "";
+  const summary    = extractTaggedSection(analysis, "SUMMARY")  || "";
+  const issues     = extractTaggedSection(analysis, "ISSUES")   || "";
+  const assessment = extractTaggedSection(analysis, "ASSESSMENT") || "";
+  const nextSteps  = extractTaggedSection(analysis, "NEXT_STEPS") || "";
+
   const amount = triage?.amount_claimed
     ? `\\u8364?${triage.amount_claimed}`
     : triage?.fine_amount ? `\\u8364?${triage.fine_amount}` : "unbekannt";
 
-  return rtfHeader()
-    + `{\\pard\\sb400\\sa200\\f1\\fs32\\b\\cf1 ${rtfEscape(title)}\\par}\n`
-    + `{\\pard\\sb0\\sa100\\f1\\fs20\\cf0 ${rtfEscape("Name: ")}${rtfEscape(customerName || "")} (${rtfEscape(customerEmail || "")})\\par}\n`
-    + `{\\pard\\sb0\\sa200\\f1\\fs20\\cf0 ${rtfEscape("Typ: ")}${rtfEscape(type || "")} | ${rtfEscape("Betrag: ")}${amount} | ${rtfEscape("Risiko: ")}${rtfEscape(triage?.risk || "")}\\par}\n`
-    + `{\\pard\\sb300\\sa120\\f1\\fs24\\b ${rtfEscape("Zusammenfassung")}\\par}\n`
-    + `{\\pard\\sa200\\f1\\fs22 ${rtfEscape(extractTaggedSection(analysis, "SUMMARY"))}\\par}\n`
-    + `{\\pard\\sb300\\sa120\\f1\\fs24\\b ${rtfEscape("Befunde")}\\par}\n`
-    + bulletLines(extractTaggedSection(analysis, "ISSUES"))
-    + `{\\pard\\sb300\\sa120\\f1\\fs24\\b ${rtfEscape("Einsch\u00E4tzung")}\\par}\n`
-    + `{\\pard\\sa200\\f1\\fs22 ${rtfEscape(extractTaggedSection(analysis, "ASSESSMENT"))}\\par}\n`
-    + `{\\pard\\sb300\\sa120\\f1\\fs24\\b ${rtfEscape("N\u00E4chste Schritte")}\\par}\n`
-    + bulletLines(extractTaggedSection(analysis, "NEXT_STEPS"))
-    + rtfFooter();
+  let out = rtfHeader();
+
+  // Titel
+  out += `{\\pard\\sb400\\sa200\\f1\\fs32\\b\\cf1 ${rtfEscape(title)}\\par}\n`;
+
+  // Meta
+  out += `{\\pard\\sb0\\sa100\\f1\\fs20\\cf0 ${rtfEscape("Name: ")}${rtfEscape(customerName || "")} (${rtfEscape(customerEmail || "")})\\par}\n`;
+  out += `{\\pard\\sb0\\sa200\\f1\\fs20\\cf0 ${rtfEscape("Typ: ")}${rtfEscape(type || "")} | ${rtfEscape("Betrag: ")}${amount} | ${rtfEscape("Risiko: ")}${rtfEscape(triage?.risk || "")}\\par}\n`;
+
+  // Intro (empathisch)
+  if (intro) {
+    out += `{\\pard\\sb200\\sa200\\f1\\fs22\\i ${rtfEscape(intro)}\\par}\n`;
+  }
+
+  // Zusammenfassung
+  out += `{\\pard\\sb300\\sa120\\f1\\fs24\\b ${rtfEscape("Zusammenfassung")}\\par}\n`;
+  out += `{\\pard\\sa200\\f1\\fs22 ${rtfEscape(summary)}\\par}\n`;
+
+  // HOW_TO_USE
+  if (howToUse) {
+    out += `{\\pard\\sb300\\sa120\\f1\\fs24\\b\\cf4 ${rtfEscape("So verwenden Sie dieses Ergebnis")}\\par}\n`;
+    out += numberedLines(howToUse);
+  }
+
+  // Befunde
+  out += `{\\pard\\sb300\\sa120\\f1\\fs24\\b ${rtfEscape("Befunde")}\\par}\n`;
+  out += bulletLines(issues);
+
+  // Einschätzung
+  out += `{\\pard\\sb300\\sa120\\f1\\fs24\\b ${rtfEscape("Einsch\u00E4tzung")}\\par}\n`;
+  out += `{\\pard\\sa200\\f1\\fs22 ${rtfEscape(assessment)}\\par}\n`;
+
+  // Nächste Schritte
+  out += `{\\pard\\sb300\\sa120\\f1\\fs24\\b ${rtfEscape("N\u00E4chste Schritte")}\\par}\n`;
+  out += bulletLines(nextSteps);
+
+  out += rtfFooter();
+  return out;
 }
 
 // ── Letter RTF ────────────────────────────────────────────────────────────────
