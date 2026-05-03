@@ -23,12 +23,15 @@ export async function handleSubmitAuto(request, env) {
     return jsonResponse({ ok: false, need_upload: true, error: "Keine gültige Zahlungssitzung." }, 403);
   }
 
-  const payment = await verifyStripeSession(env, sessionId);
-  if (!payment.ok) {
-    return jsonResponse({ ok: false, need_upload: true, error: payment.reason || "Zahlung konnte nicht geprüft werden." }, 403);
+  let session;
+  try {
+    session = await verifyStripeSession(env, sessionId);
+  } catch (err) {
+    return jsonResponse({ ok: false, need_upload: true, error: err.message || "Zahlung konnte nicht geprüft werden." }, 403);
   }
 
-  const email = payment.email;
+  const email = session.customer_details?.email || session.customer_email || null;
+
   if (!email) {
     return jsonResponse({ ok: false, need_upload: true, error: "Keine E-Mail in der Zahlung gefunden." }, 400);
   }
