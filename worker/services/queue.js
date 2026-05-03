@@ -1,7 +1,7 @@
 // services/queue.js
-
-const PAID_MARKER_TTL_SECONDS  = 60 * 60 * 24 * 30;
-const FREE_CASE_TTL_SECONDS    = 60 * 60 * 24 * 3;
+0;
+const FREE_CASE_TTL_SECONDS    = 60 * 60 * 24 
+const PAID_MARKER_TTL_SECONDS  = 60 * 60 * 24 * 3* 3;
 const FREE_TRIAGE_TTL_SECONDS  = 60 * 60 * 24 * 14;
 
 const PAID_SEND_DELAY_MS = 0;
