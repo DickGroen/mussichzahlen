@@ -141,7 +141,7 @@ export async function enqueueFree(env, { type, name, email, triage, stripeLink }
   const emailKey     = safeEmailKey(email);
   const baseKey      = `free:${type}:${createdAt}:${emailKey}`;
 
-  const stage1SendAt = new Date(Date.now() + 2 * 60 * 1000).toISOString();
+  const stage1SendAt = nextWorkdayAt15CET(createdAt);
   const stage1Ms     = new Date(stage1SendAt).getTime();
 
   const sendAts = {
@@ -219,3 +219,16 @@ export async function getDueEntries(env) {
 
         if (new Date(entry.send_at).getTime() <= now) {
           due.push({ key: key.name, entry });
+        }
+      } catch (err) {
+        console.error(`Queue-Lesefehler für ${key.name}:`, err.message);
+      }
+    }
+  } while (cursor);
+
+  return due;
+}
+
+export async function deleteEntry(env, key) {
+  await env.SESSIONS_KV.delete(key);
+}
