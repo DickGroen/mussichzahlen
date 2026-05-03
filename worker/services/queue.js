@@ -196,8 +196,7 @@ export async function enqueuePaid(env, { type, name, email, triage, analysis }) 
 // ── Cron helpers ─────────────────────────────────────────────────────────────
 
 export async function getDueEntries(env) {
-  // Geen tijdfilter — alle entries worden direct doorgegeven aan Resend
-  // Resend verwerkt scheduled_at zelf
+  const now = Date.now();
   const due = [];
   let cursor;
 
@@ -216,6 +215,7 @@ export async function getDueEntries(env) {
         if (!raw) continue;
 
         const entry = JSON.parse(raw);
-        due.push({ key: key.name, entry });
-      } catch (err) {
-        cons
+        if (!entry.send_at) continue;
+
+        if (new Date(entry.send_at).getTime() <= now) {
+          due.push({ key: key.name, entry });
