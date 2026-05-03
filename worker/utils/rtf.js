@@ -1,6 +1,5 @@
 import { extractTaggedSection } from "./files.js";
 
-// German letter tag per type
 const LETTER_TAG = {
   mahnung:    "WIDERSPRUCH",
   parkstrafe: "EINSPRUCH",
@@ -44,14 +43,28 @@ function bulletLines(text) {
     .join("\n");
 }
 
-// ── RTF header / footer ───────────────────────────────────────────────────────
-
 function rtfHeader() {
-  return `{\\rtf1\\ansi\\deff0\n{\\fonttbl{\\f0\\froman\\fcharset0 Times New Roman;}{\\f1\\fswiss\\fcharset0 Arial;}}\n{\\colortbl;\\red27\\green58\\blue140;\\red153\\green26\\blue26;}\n\\paperw11906\\paperh16838\\margl1800\\margr1800\\margt1440\\margb1440\\f1\\fs22\n`;
+  return `{\\rtf1\\ansi\\deff0\n{\\fonttbl{\\f0\\froman\\fcharset0 Times New Roman;}{\\f1\\fswiss\\fcharset0 Arial;}}\n{\\colortbl;\\red27\\green58\\blue140;\\red153\\green26\\blue26;\\red34\\green197\\blue94;}\n\\paperw11906\\paperh16838\\margl1800\\margr1800\\margt1440\\margb1440\\f1\\fs22\n`;
 }
 
 function rtfFooter(note) {
   return `{\\pard\\sb400\\sa100\\f1\\fs18\\cf0\\i ${rtfEscape(note || DISCLAIMER_RTF)}\\par}\n}`;
+}
+
+// ── Confirmation RTF (bijlage bij stage 1 email) ──────────────────────────────
+
+export function makeConfirmationRtf(name) {
+  return rtfHeader()
+    + `{\\pard\\sb400\\sa200\\f1\\fs28\\b\\cf1 ${rtfEscape("Eingangsbestätigung")}\\par}\n`
+    + `{\\pard\\sb200\\sa200\\f1\\fs22\\cf3\\b ${rtfEscape("\u2713 Ihr Schreiben ist eingegangen.")}\\par}\n`
+    + `{\\pard\\sb200\\sa200\\f1\\fs22 ${rtfEscape("Sehr geehrte/r " + (name || "Nutzer/in") + ",")}\\par}\n`
+    + `{\\pard\\sa200\\f1\\fs22 ${rtfEscape("wir haben Ihr Dokument erhalten und werden es sorgf\u00E4ltig pr\u00FCfen. Sie erhalten sp\u00E4testens am n\u00E4chsten Werktag bis 16:00 Uhr eine erste Einsch\u00E4tzung per E-Mail.")}\\par}\n`
+    + `{\\pard\\sb300\\sa120\\f1\\fs24\\b ${rtfEscape("Warum das wichtig ist")}\\par}\n`
+    + `{\\pard\\sa200\\f1\\fs22 ${rtfEscape("Bei Zahlungserinnerungen und Mahnschreiben k\u00F6nnen Fristen und zus\u00E4tzliche Kosten entstehen, wenn Sie nicht rechtzeitig reagieren. Unsere Einsch\u00E4tzung kl\u00E4rt, ob Handlungsbedarf besteht.")}\\par}\n`
+    + `{\\pard\\sb200\\sa200\\f1\\fs20\\cf0\\i ${rtfEscape("\u2192 Bitte pr\u00FCfen Sie auch Ihren Spam-Ordner, falls Sie keine E-Mail erhalten.")}\\par}\n`
+    + `{\\pard\\sb300\\sa100\\f1\\fs22 ${rtfEscape("Vielen Dank f\u00FCr Ihr Vertrauen.")}\\par}\n`
+    + `{\\pard\\sa100\\f1\\fs22 ${rtfEscape("Ihr Pr\u00FCfdienst")}\\par}\n`
+    + rtfFooter();
 }
 
 // ── Analysis RTF ──────────────────────────────────────────────────────────────
