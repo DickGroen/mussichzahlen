@@ -57,7 +57,7 @@ export async function runAnalysis(env, { fileBase64, mediaType, route, haikuProm
 
   const analysis = await callClaude(env, {
     model: useSonnet ? SONNET_MODEL : HAIKU_MODEL,
-    maxTokens: useSonnet ? 3500 : 1800,
+    maxTokens: useSonnet ? 6000 : 1800,
     prompt: useSonnet ? sonnetPrompt : haikuPrompt,
     fileBase64,
     mediaType
