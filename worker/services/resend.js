@@ -1,12 +1,10 @@
 import { escapeHtml } from "../utils/files.js";
-import { makeAnalysisRtf, makeLetterRtf, rtfToBase64 } from "../utils/rtf.js";
+import { makeAnalysisRtf, makeLetterRtf, makeConfirmationRtf, rtfToBase64 } from "../utils/rtf.js";
 
 const FROM = "MussIchZahlen <noreply@mussichzahlen.de>";
 
 const DISCLAIMER =
   "Dies ist eine informative Analyse und keine Rechtsberatung. Wir übernehmen keine rechtliche Vertretung. Bei komplexen Fällen empfehlen wir die Verbraucherzentrale oder einen Anwalt.";
-
-// ── Type labels ───────────────────────────────────────────────────────────────
 
 const TYPE_LABELS = {
   mahnung: {
@@ -14,7 +12,7 @@ const TYPE_LABELS = {
     letter: "Widerspruch",
     filename: "Widerspruch.rtf",
     price: "49",
-    stripe_label: "Analyse + fertiger Widerspruch — €49"
+    stripe_label: "Vollständige Analyse + fertiger Widerspruch — €49"
   },
   parkstrafe: {
     title: "Bußgeldbescheid",
@@ -80,56 +78,13 @@ async function sendEmail(env, { to, subject, html, attachments = [] }) {
 
 function formatAmount(triage) {
   if (triage?.amount_claimed) return `€${triage.amount_claimed}`;
-  if (triage?.fine_amount) return `€${triage.fine_amount}`;
-  if (triage?.total_price) return `€${triage.total_price}`;
+  if (triage?.fine_amount)    return `€${triage.fine_amount}`;
+  if (triage?.total_price)    return `€${triage.total_price}`;
   return "unbekannt";
 }
 
 function riskLabel(risk) {
-  return {
-    low: "Gering",
-    medium: "Mittel",
-    high: "Hoch"
-  }[risk] || risk || "unbekannt";
-}
-
-function recoverySubject(stage, labels) {
-  if (stage === 1) {
-    return `Nicht vergessen: Deine Einschätzung ist bereit — ${labels.title}`;
-  }
-
-  if (stage === 2) {
-    return `Mögliche Zusatzkosten vermeiden — ${labels.title}`;
-  }
-
-  return `Letzte Erinnerung: mögliche Fristen beachten — ${labels.title}`;
-}
-
-function recoveryIntro(stage, labels) {
-  if (stage === 1) {
-    return `
-      <p>du hast dein Schreiben prüfen lassen. Deine erste Einschätzung zeigt, ob eine vollständige Analyse sinnvoll sein könnte.</p>
-      <p><strong>Wichtig:</strong> Ohne weitere Prüfung könnten zusätzliche Kosten oder weitere Schritte folgen.</p>
-    `;
-  }
-
-  if (stage === 2) {
-    return `
-      <p>deine kostenlose Ersteinschätzung liegt weiterhin vor.</p>
-      <p>In vielen Fällen entstehen unnötige Kosten, wenn nicht rechtzeitig reagiert wird. Eine vollständige Analyse kann dir helfen, deine nächsten Schritte klarer einzuschätzen.</p>
-    `;
-  }
-
-  return `
-    <p>dies ist die letzte Erinnerung zu deiner kostenlosen Ersteinschätzung.</p>
-    <p>Wenn du nicht reagierst, können mögliche Einwände ungenutzt bleiben oder zusätzliche Kosten entstehen.</p>
-  `;
-}
-
-function ctaLabel(stage, labels) {
-  if (stage === 1) return `${labels.stripe_label} →`;
-  if (stage === 2) return `Jetzt vollständig prüfen lassen — €${labels.price} →`;
-  return `Analyse jetzt abschließen — €${labels.price} →`;
+  return { low: "Gering", medium: "Mittel", high: "Hoch" }[risk] || risk || "unbekannt";
 }
 
 // ── Admin notifications ──────────────────────────────────────────────────────
@@ -160,7 +115,7 @@ export async function notifyAdminFree(env, { name, email, type, triage }) {
 export async function notifyAdminPaid(env, { name, email, type, triage, analysis }) {
   const labels = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
   const amount = formatAmount(triage);
-  const rtf = makeAdminRtf(analysis, name, email, triage, type);
+  const rtf    = makeAnalysisRtf(analysis, name, email, triage, type);
 
   await sendEmail(env, {
     to: env.ADMIN_EMAIL,
@@ -177,30 +132,109 @@ export async function notifyAdminPaid(env, { name, email, type, triage, analysis
       <p><strong>Risiko:</strong> ${escapeHtml(triage?.risk || "")}</p>
     </div>`,
     attachments: [
-      {
-        filename: "MussIchZahlen-Analyse.rtf",
-        content: rtfToBase64(rtf)
-      }
+      { filename: "MussIchZahlen-Analyse.rtf", content: rtfToBase64(rtf) }
     ]
   });
 }
 
-// ── Customer emails: recovery sequence ───────────────────────────────────────
+// ── Stage 1 email: eerste einschätzung + bevestiging als bijlage ─────────────
 
 export async function sendFreeEmail(env, { name, email, type, triage, stripeLink, stage = 1 }) {
-  const labels = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
-  const amount = formatAmount(triage);
+  const labels      = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
+  const amount      = formatAmount(triage);
   const stageNumber = Number(stage) || 1;
+
+  if (stageNumber === 1) {
+    const confirmationRtf = makeConfirmationRtf(name);
+
+    // Triage bullets: maximaal 2 punten
+    const triagePoints = [];
+    if (triage?.teaser) triagePoints.push(triage.teaser);
+    if (triage?.risk)   triagePoints.push(`Eingeschätztes Risiko: ${riskLabel(triage.risk)}`);
+
+    const bulletHtml = triagePoints
+      .map(p => `<li style="margin-bottom:6px;">${escapeHtml(p)}</li>`)
+      .join("");
+
+    await sendEmail(env, {
+      to: email,
+      subject: `Erste Einschätzung zu deinem Schreiben — ${labels.title}`,
+      html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
+
+        <p>Hallo ${escapeHtml(name)},</p>
+
+        <p>wir haben dein Schreiben geprüft und eine erste Einschätzung für dich erstellt.</p>
+
+        <p><strong>👉 Erste Einordnung:</strong><br>
+        Es handelt sich um ein <strong>${escapeHtml(labels.title)}</strong>.
+        ${triage?.sender ? `Absender: <strong>${escapeHtml(triage.sender)}</strong>.` : ""}
+        ${amount !== "unbekannt" ? `Geforderter Betrag: <strong>${escapeHtml(amount)}</strong>.` : ""}
+        </p>
+
+        <p><strong>👉 Was uns aufgefallen ist:</strong></p>
+        <ul style="padding-left:20px;margin:0 0 16px 0;">
+          ${bulletHtml || `<li>Es könnten Ansatzpunkte vorliegen, die eine genauere Prüfung sinnvoll machen.</li>`}
+        </ul>
+
+        <p><strong>👉 Wichtig:</strong><br>
+        In solchen Fällen können Fristen oder zusätzliche Kosten entstehen, wenn man nicht rechtzeitig reagiert.</p>
+
+        <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;">
+
+        <p>Wenn du möchtest, kannst du eine vollständige Prüfung inklusive fertigem Antwortschreiben erhalten.</p>
+
+        <p style="margin:0;">Dabei bekommst du:</p>
+        <ul style="padding-left:20px;margin:8px 0 16px 0;">
+          <li>eine klare Bewertung deiner Situation</li>
+          <li>konkrete Handlungsempfehlungen</li>
+          <li>ein fertiges Schreiben, das du direkt versenden kannst</li>
+        </ul>
+
+        <p style="margin:20px 0;">
+          <a href="${escapeHtml(stripeLink)}"
+             style="display:inline-block;background:#1d3a6e;color:#fff;padding:13px 24px;border-radius:6px;text-decoration:none;font-weight:bold;">
+            👉 Vollständige Analyse starten — €${escapeHtml(labels.price)}
+          </a>
+        </p>
+
+        <p style="font-size:0.85rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
+
+        <p style="font-size:0.85rem;color:#6b7280;background:#f9fafb;padding:10px;border-radius:4px;">
+          Hinweis: Viele Nutzer entscheiden sich für die vollständige Analyse, um auf Nummer sicher zu gehen.
+        </p>
+
+        <p style="margin-top:24px;">Falls du Fragen hast, kannst du einfach auf diese E-Mail antworten.</p>
+
+        <p>Viele Grüße<br><strong>Dein Prüfdienst</strong></p>
+
+        <p style="color:#6b7280;font-size:0.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
+      </div>`,
+      attachments: [
+        { filename: "Eingangsbestaetigung.rtf", content: rtfToBase64(confirmationRtf) }
+      ]
+    });
+
+    return;
+  }
+
+  // ── Stage 2 & 3: follow-up ────────────────────────────────────────────────
+
+  const subjects = {
+    2: `Nicht vergessen: deine Einschätzung wartet — ${labels.title}`,
+    3: `Letzte Erinnerung: mögliche Fristen beachten — ${labels.title}`,
+  };
+
+  const intros = {
+    2: `<p>deine kostenlose Ersteinschätzung liegt noch vor. In vielen Fällen entstehen unnötige Kosten, wenn nicht rechtzeitig reagiert wird.</p>`,
+    3: `<p>dies ist die letzte Erinnerung zu deiner Ersteinschätzung. Wenn du nicht reagierst, können mögliche Einwände ungenutzt bleiben.</p>`,
+  };
 
   await sendEmail(env, {
     to: email,
-    subject: recoverySubject(stageNumber, labels),
-    html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.6;">
-      <h2 style="color:#1d3a6e;margin-bottom:10px;">Deine Einschätzung ist noch offen</h2>
-
+    subject: subjects[stageNumber] || subjects[2],
+    html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
       <p>Hallo ${escapeHtml(name)},</p>
-
-      ${recoveryIntro(stageNumber, labels)}
+      ${intros[stageNumber] || intros[2]}
 
       <table style="width:100%;border-collapse:collapse;margin:20px 0;border:1px solid #e5e7eb;">
         <tr style="background:#f3f4f6;">
@@ -216,41 +250,30 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
           <td style="padding:10px;font-weight:bold;color:#1d3a6e;">${escapeHtml(amount)}</td>
         </tr>
         <tr>
-          <td style="padding:10px;font-weight:bold;">Widerspruchspotenzial</td>
+          <td style="padding:10px;font-weight:bold;">Einschätzung</td>
           <td style="padding:10px;">${escapeHtml(riskLabel(triage?.risk))}</td>
         </tr>
       </table>
 
-      <div style="background:#fef9c3;border-left:4px solid #eab308;padding:14px;border-radius:6px;margin:18px 0;">
-        ${escapeHtml(triage?.teaser || "Auf Basis deines Schreibens könnten möglicherweise Ansatzpunkte vorliegen. Ohne weitere Prüfung können unnötige Kosten entstehen.")}
-      </div>
-
-      <p style="margin:18px 0;">
-        Für die vollständige Analyse und ein fertiges ${escapeHtml(labels.letter)}:
+      <p style="margin:20px 0;">
+        <a href="${escapeHtml(stripeLink)}"
+           style="display:inline-block;background:#1d3a6e;color:#fff;padding:13px 24px;border-radius:6px;text-decoration:none;font-weight:bold;">
+          Jetzt vollständig prüfen lassen — €${escapeHtml(labels.price)} →
+        </a>
       </p>
 
-      <a href="${escapeHtml(stripeLink)}"
-         style="display:inline-block;background:#1d3a6e;color:#fff;padding:13px 24px;border-radius:6px;text-decoration:none;font-weight:bold;">
-        ${escapeHtml(ctaLabel(stageNumber, labels))}
-      </a>
-
-      <p style="font-size:0.85rem;color:#6b7280;margin-top:14px;">
-        Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung
-      </p>
-
-      <p style="color:#6b7280;font-size:0.82rem;margin-top:24px;">
-        ${escapeHtml(DISCLAIMER)}
-      </p>
+      <p style="font-size:0.85rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
+      <p style="color:#6b7280;font-size:0.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
     </div>`
   });
 }
 
-// ── Customer emails: paid delivery ───────────────────────────────────────────
+// ── Paid delivery ─────────────────────────────────────────────────────────────
 
 export async function sendPaidEmail(env, { name, email, type, triage, analysis }) {
-  const labels = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
+  const labels      = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
   const analysisRtf = makeAnalysisRtf(analysis, name, email, triage, type);
-  const letterRtf = makeLetterRtf(analysis, name, triage, type);
+  const letterRtf   = makeLetterRtf(analysis, name, triage, type);
 
   await sendEmail(env, {
     to: email,
@@ -269,20 +292,8 @@ export async function sendPaidEmail(env, { name, email, type, triage, analysis }
       <p style="color:#6b7280;font-size:0.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
     </div>`,
     attachments: [
-      {
-        filename: "MussIchZahlen-Analyse.rtf",
-        content: rtfToBase64(analysisRtf)
-      },
-      {
-        filename: labels.filename,
-        content: rtfToBase64(letterRtf)
-      }
+      { filename: "MussIchZahlen-Analyse.rtf", content: rtfToBase64(analysisRtf) },
+      { filename: labels.filename,              content: rtfToBase64(letterRtf)   }
     ]
   });
-}
-
-// ── Admin RTF ────────────────────────────────────────────────────────────────
-
-function makeAdminRtf(analysis, name, email, triage, type) {
-  return makeAnalysisRtf(analysis, name, email, triage, type);
 }
