@@ -7,7 +7,7 @@ export async function handleCron(env) {
   console.log("Cron: Warteschlange wird geprüft…");
 
   const due = await getDueEntries(env);
-  console.log(`Cron: ${due.length} Einträge gefunden`);
+  console.log(`Cron: ${due.length} fällige Einträge gefunden`);
 
   for (const { key, entry } of due) {
     try {
@@ -21,13 +21,12 @@ export async function handleCron(env) {
         }
 
         await sendFreeEmail(env, {
-          name:        entry.name,
-          email:       entry.email,
-          type:        entry.type,
-          triage:      entry.triage,
-          stripeLink:  entry.stripe_link || "https://mussichzahlen.de",
-          stage:       entry.stage || 1,
-          scheduledAt: entry.send_at,
+          name:       entry.name,
+          email:      entry.email,
+          type:       entry.type,
+          triage:     entry.triage,
+          stripeLink: entry.stripe_link || "https://mussichzahlen.de",
+          stage:      entry.stage || 1,
         });
 
       } else if (entry.kind === "paid") {
@@ -44,7 +43,7 @@ export async function handleCron(env) {
       }
 
       await deleteEntry(env, key);
-      console.log(`Cron: Übergeben und gelöscht: ${key}`);
+      console.log(`Cron: Gesendet und gelöscht: ${key}`);
     } catch (err) {
       console.error(`Cron: Fehler bei ${key}:`, err.message);
     }
