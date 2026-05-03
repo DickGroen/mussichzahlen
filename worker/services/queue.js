@@ -1,16 +1,10 @@
 // services/queue.js
 
-const PAID_MARKER_TTL_SECONDS  = 60 * 60 * 24 * 30; // 30 dagen
-const FREE_CASE_TTL_SECONDS    = 60 * 60 * 24 * 3;  // 3 dagen voor automatische B-flow
-const FREE_TRIAGE_TTL_SECONDS  = 60 * 60 * 24 * 14; // 14 dagen voor fallback-consistentie
+const PAID_MARKER_TTL_SECONDS  = 60 * 60 * 24 * 30;
+const FREE_CASE_TTL_SECONDS    = 60 * 60 * 24 * 3;
+const FREE_TRIAGE_TTL_SECONDS  = 60 * 60 * 24 * 14;
 
-const RECOVERY_DELAYS = [
-  { stage: 1, delay_ms:  3 * 60 * 60 * 1000 },
-  { stage: 2, delay_ms: 24 * 60 * 60 * 1000 },
-  { stage: 3, delay_ms: 48 * 60 * 60 * 1000 },
-];
-
-const PAID_SEND_DELAY_MS = 0; // direct versturen; later: 23 * 60 * 60 * 1000
+const PAID_SEND_DELAY_MS = 0;
 
 function normalizeEmail(email) {
   return String(email || "").trim().toLowerCase();
@@ -32,7 +26,23 @@ function freeCaseKey(type, email) {
   return `free_case:${type}:${safeEmailKey(email)}`;
 }
 
-// ── Paid marker: stopt recovery na betaling ─────────────────────────────────
+// Volgende werkdag 15:00 CET (UTC+1, DST buiten beschouwing)
+function nextWorkdayAt15CET(fromMs) {
+  const TARGET_HOUR_UTC = 14; // 15:00 CET = 14:00 UTC
+
+  const d = new Date(fromMs);
+  d.setUTCDate(d.getUTCDate() + 1);
+  d.setUTCHours(TARGET_HOUR_UTC, 0, 0, 0);
+
+  // Skip zaterdag (6) en zondag (0)
+  while (d.getUTCDay() === 0 || d.getUTCDay() === 6) {
+    d.setUTCDate(d.getUTCDate() + 1);
+  }
+
+  return d.toISOString();
+}
+
+// ── Paid marker ──────────────────────────────────────────────────────────────
 
 export async function markPaid(env, email) {
   const normalized = normalizeEmail(email);
@@ -53,7 +63,7 @@ export async function hasPaid(env, email) {
   return value === "1";
 }
 
-// ── Free triage: A-flow fallback consistentie ────────────────────────────────
+// ── Free triage ──────────────────────────────────────────────────────────────
 
 export async function saveFreeTriage(env, { type, name, email, triage, stripeLink }) {
   const entry = {
@@ -85,18 +95,11 @@ export async function getFreeTriage(env, { type, email }) {
   }
 }
 
-// ── Free case: B-flow automatische analyse zonder tweede upload ──────────────
+// ── Free case ────────────────────────────────────────────────────────────────
 
 export async function saveFreeCase(env, {
-  type,
-  name,
-  email,
-  triage,
-  stripeLink,
-  fileBase64,
-  mediaType,
-  fileName,
-  fileSize,
+  type, name, email, triage, stripeLink,
+  fileBase64, mediaType, fileName, fileSize,
 }) {
   const entry = {
     type,
@@ -136,27 +139,37 @@ export async function getFreeCase(env, { type, email }) {
 export async function enqueueFree(env, { type, name, email, triage, stripeLink }) {
   await saveFreeTriage(env, { type, name, email, triage, stripeLink });
 
-  const createdAt = Date.now();
-  const emailKey  = safeEmailKey(email);
-  const baseKey   = `free:${type}:${createdAt}:${emailKey}`;
+  const createdAt    = Date.now();
+  const emailKey     = safeEmailKey(email);
+  const baseKey      = `free:${type}:${createdAt}:${emailKey}`;
 
-  for (const item of RECOVERY_DELAYS) {
-    const key = `${baseKey}:stage_${item.stage}`;
+  // Stage 1: volgende werkdag 15:00 CET
+  const stage1SendAt = nextWorkdayAt15CET(createdAt);
+  const stage1Ms     = new Date(stage1SendAt).getTime();
+
+  const sendAts = {
+    1: stage1SendAt,
+    2: new Date(stage1Ms + 24 * 60 * 60 * 1000).toISOString(),
+    3: new Date(stage1Ms + 48 * 60 * 60 * 1000).toISOString(),
+  };
+
+  for (const stage of [1, 2, 3]) {
+    const key = `${baseKey}:stage_${stage}`;
 
     const entry = {
       kind:        "free",
-      stage:       item.stage,
+      stage,
       type,
       name,
       email:       normalizeEmail(email),
       triage,
       stripe_link: stripeLink,
       created_at:  new Date(createdAt).toISOString(),
-      send_at:     new Date(createdAt + item.delay_ms).toISOString(),
+      send_at:     sendAts[stage],
     };
 
     await env.SESSIONS_KV.put(key, JSON.stringify(entry), {
-      expirationTtl: 60 * 60 * 24 * 7, // 7 dagen
+      expirationTtl: 60 * 60 * 24 * 7,
     });
   }
 
@@ -188,7 +201,6 @@ export async function enqueuePaid(env, { type, name, email, triage, analysis }) 
 export async function getDueEntries(env) {
   const now = Date.now();
   const due = [];
-
   let cursor;
 
   do {
