@@ -46,7 +46,7 @@ const TYPE_LABELS = {
 
 // ── Core send ────────────────────────────────────────────────────────────────
 
-async function sendEmail(env, { to, subject, html, attachments = [] }) {
+async function sendEmail(env, { to, subject, html, attachments = [], scheduledAt }) {
   const body = {
     from: FROM,
     to: Array.isArray(to) ? to : [to],
@@ -54,9 +54,8 @@ async function sendEmail(env, { to, subject, html, attachments = [] }) {
     html
   };
 
-  if (attachments.length) {
-    body.attachments = attachments;
-  }
+  if (attachments.length) body.attachments = attachments;
+  if (scheduledAt) body.scheduled_at = scheduledAt;
 
   const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -122,7 +121,7 @@ export async function notifyAdminPaid(env, { name, email, type, triage, analysis
     subject: `[MussIchZahlen] BEZAHLT: ${name} (${type})`,
     html: `<div style="font-family:Arial,sans-serif;">
       <p style="background:#f3f4f6;padding:10px;border-radius:6px;font-size:0.85rem;">
-        📬 Recovery-Sequenz wird gestoppt, Kunden-E-Mail mit Anhängen wird geplant
+        📬 Recovery-Sequenz wordt gestopt, Kunden-E-Mail mit Anhängen wird geplant
       </p>
       <h3>Bezahlte Analyse — ${escapeHtml(labels.title)}</h3>
       <p><strong>Name:</strong> ${escapeHtml(name)}</p>
@@ -137,9 +136,9 @@ export async function notifyAdminPaid(env, { name, email, type, triage, analysis
   });
 }
 
-// ── Stage 1 email: eerste einschätzung + bevestiging als bijlage ─────────────
+// ── Stage 1: eerste einschätzung + bevestiging als bijlage ───────────────────
 
-export async function sendFreeEmail(env, { name, email, type, triage, stripeLink, stage = 1 }) {
+export async function sendFreeEmail(env, { name, email, type, triage, stripeLink, stage = 1, scheduledAt }) {
   const labels      = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
   const amount      = formatAmount(triage);
   const stageNumber = Number(stage) || 1;
@@ -147,7 +146,6 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
   if (stageNumber === 1) {
     const confirmationRtf = makeConfirmationRtf(name);
 
-    // Triage bullets: maximaal 2 punten
     const triagePoints = [];
     if (triage?.teaser) triagePoints.push(triage.teaser);
     if (triage?.risk)   triagePoints.push(`Eingeschätztes Risiko: ${riskLabel(triage.risk)}`);
@@ -159,6 +157,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     await sendEmail(env, {
       to: email,
       subject: `Erste Einschätzung zu deinem Schreiben — ${labels.title}`,
+      scheduledAt,
       html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
 
         <p>Hallo ${escapeHtml(name)},</p>
@@ -217,7 +216,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     return;
   }
 
-  // ── Stage 2 & 3: follow-up ────────────────────────────────────────────────
+  // ── Stage 2 & 3 ───────────────────────────────────────────────────────────
 
   const subjects = {
     2: `Nicht vergessen: deine Einschätzung wartet — ${labels.title}`,
@@ -232,6 +231,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
   await sendEmail(env, {
     to: email,
     subject: subjects[stageNumber] || subjects[2],
+    scheduledAt,
     html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
       <p>Hallo ${escapeHtml(name)},</p>
       ${intros[stageNumber] || intros[2]}
