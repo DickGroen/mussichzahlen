@@ -1,4 +1,3 @@
-
 import { extractTaggedSection } from "./files.js";
 
 // German letter tag per type
@@ -65,15 +64,15 @@ export function makeAnalysisRtf(analysis, customerName, customerEmail, triage, t
 
   return rtfHeader()
     + `{\\pard\\sb400\\sa200\\f1\\fs32\\b\\cf1 ${rtfEscape(title)}\\par}\n`
-    + `{\\pard\\sb0\\sa100\\f1\\fs20\\cf0 Name: ${rtfEscape(customerName || "")} (${rtfEscape(customerEmail || "")})\\par}\n`
-    + `{\\pard\\sb0\\sa200\\f1\\fs20\\cf0 Typ: ${rtfEscape(type || "")} | Betrag: ${amount} | Risiko: ${rtfEscape(triage?.risk || "")}\\par}\n`
-    + `{\\pard\\sb300\\sa120\\f1\\fs24\\b Zusammenfassung\\par}\n`
+    + `{\\pard\\sb0\\sa100\\f1\\fs20\\cf0 ${rtfEscape("Name: ")}${rtfEscape(customerName || "")} (${rtfEscape(customerEmail || "")})\\par}\n`
+    + `{\\pard\\sb0\\sa200\\f1\\fs20\\cf0 ${rtfEscape("Typ: ")}${rtfEscape(type || "")} | ${rtfEscape("Betrag: ")}${amount} | ${rtfEscape("Risiko: ")}${rtfEscape(triage?.risk || "")}\\par}\n`
+    + `{\\pard\\sb300\\sa120\\f1\\fs24\\b ${rtfEscape("Zusammenfassung")}\\par}\n`
     + `{\\pard\\sa200\\f1\\fs22 ${rtfEscape(extractTaggedSection(analysis, "SUMMARY"))}\\par}\n`
-    + `{\\pard\\sb300\\sa120\\f1\\fs24\\b Befunde\\par}\n`
+    + `{\\pard\\sb300\\sa120\\f1\\fs24\\b ${rtfEscape("Befunde")}\\par}\n`
     + bulletLines(extractTaggedSection(analysis, "ISSUES"))
-    + `{\\pard\\sb300\\sa120\\f1\\fs24\\b Einsch\u00E4tzung\\par}\n`
+    + `{\\pard\\sb300\\sa120\\f1\\fs24\\b ${rtfEscape("Einsch\u00E4tzung")}\\par}\n`
     + `{\\pard\\sa200\\f1\\fs22 ${rtfEscape(extractTaggedSection(analysis, "ASSESSMENT"))}\\par}\n`
-    + `{\\pard\\sb300\\sa120\\f1\\fs24\\b N\u00E4chste Schritte\\par}\n`
+    + `{\\pard\\sb300\\sa120\\f1\\fs24\\b ${rtfEscape("N\u00E4chste Schritte")}\\par}\n`
     + bulletLines(extractTaggedSection(analysis, "NEXT_STEPS"))
     + rtfFooter();
 }
@@ -87,7 +86,7 @@ export function makeLetterRtf(analysis, customerName, triage, type) {
 
   return rtfHeader()
     + `{\\pard\\sb400\\sa200\\f1\\fs28\\b\\cf2 ${rtfEscape(title)}\\par}\n`
-    + `{\\pard\\sb0\\sa200\\f1\\fs20\\cf0 Erstellt f\u00FCr: ${rtfEscape(customerName || "")} | Absender: ${rtfEscape(sender)}\\par}\n`
+    + `{\\pard\\sb0\\sa200\\f1\\fs20\\cf0 ${rtfEscape("Erstellt f\u00FCr: ")}${rtfEscape(customerName || "")} | ${rtfEscape("Absender: ")}${rtfEscape(sender)}\\par}\n`
     + `{\\pard\\sb300\\sa200\\f1\\fs22\\cf0 ${rtfEscape(extractTaggedSection(analysis, tag))}\\par}\n`
     + rtfFooter("Hinweis: Dies ist ein Entwurf und keine Rechtsberatung. MussIchZahlen haftet nicht f\u00FCr das Ergebnis.");
 }
