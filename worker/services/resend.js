@@ -85,6 +85,14 @@ function riskLabel(risk) {
   return { low: "Gering", medium: "Mittel", high: "Hoch" }[risk] || risk || "unbekannt";
 }
 
+function riskAssessment(risk) {
+  return {
+    high: "Nach erster Einschätzung bestehen deutliche Hinweise auf mögliche Unstimmigkeiten. Es könnte sinnvoll sein, die Forderung vor einer Zahlung genauer zu überprüfen.",
+    medium: "Nach erster Einschätzung bestehen mögliche Unklarheiten. Es könnte sinnvoll sein, die Forderung vor einer Zahlung genauer zu überprüfen.",
+    low: "Nach erster Einschätzung wirkt die Forderung grundsätzlich nachvollziehbar. Eine kurze Prüfung kann dennoch sinnvoll sein.",
+  }[risk] || "Nach erster Einschätzung bestehen mögliche Unklarheiten. Es könnte sinnvoll sein, die Forderung vor einer Zahlung genauer zu überprüfen.";
+}
+
 // ── Admin notifications ──────────────────────────────────────────────────────
 
 export async function notifyAdminFree(env, { name, email, type, triage }) {
@@ -145,13 +153,18 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
   if (stageNumber === 1) {
     const confirmationRtf = makeConfirmationRtf(name);
 
-    const triagePoints = [];
-    if (triage?.teaser) triagePoints.push(triage.teaser);
-    if (triage?.risk)   triagePoints.push(`Eingeschätztes Risiko: ${riskLabel(triage.risk)}`);
+    // Erste Einordnung: documenttype + sender + betrag
+    const senderPart  = triage?.sender ? ` der ${escapeHtml(triage.sender)}` : "";
+    const amountPart  = amount !== "unbekannt" ? ` über einen Betrag von ${escapeHtml(amount)}` : "";
+    const einordnung  = `Es handelt sich um ein ${escapeHtml(labels.title)}${senderPart}${amountPart}.`;
 
-    const bulletHtml = triagePoints
-      .map(p => `<li style="margin-bottom:6px;">${escapeHtml(p)}</li>`)
-      .join("");
+    // Was uns aufgefallen ist: teaser of standaard
+    const aufgefallen = triage?.teaser
+      ? escapeHtml(triage.teaser)
+      : "In diesem Schreiben gibt es Hinweise darauf, dass einzelne Positionen oder Kosten genauer geprüft werden sollten.";
+
+    // Einschätzung op basis van risk
+    const einschaetzung = riskAssessment(triage?.risk);
 
     await sendEmail(env, {
       to: email,
@@ -163,15 +176,13 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
         <p>wir haben dein Schreiben geprüft und eine erste Einschätzung für dich erstellt.</p>
 
         <p><strong>👉 Erste Einordnung:</strong><br>
-        Es handelt sich um ein <strong>${escapeHtml(labels.title)}</strong>.
-        ${triage?.sender ? `Absender: <strong>${escapeHtml(triage.sender)}</strong>.` : ""}
-        ${amount !== "unbekannt" ? `Geforderter Betrag: <strong>${escapeHtml(amount)}</strong>.` : ""}
-        </p>
+        ${einordnung}</p>
 
-        <p><strong>👉 Was uns aufgefallen ist:</strong></p>
-        <ul style="padding-left:20px;margin:0 0 16px 0;">
-          ${bulletHtml || `<li>Es könnten Ansatzpunkte vorliegen, die eine genauere Prüfung sinnvoll machen.</li>`}
-        </ul>
+        <p><strong>👉 Was uns aufgefallen ist:</strong><br>
+        ${aufgefallen}</p>
+
+        <p><strong>👉 Einschätzung:</strong><br>
+        ${escapeHtml(einschaetzung)}</p>
 
         <p><strong>👉 Wichtig:</strong><br>
         In solchen Fällen können Fristen oder zusätzliche Kosten entstehen, wenn man nicht rechtzeitig reagiert.</p>
@@ -181,10 +192,10 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
         <p>Wenn du möchtest, kannst du eine vollständige Prüfung inklusive fertigem Antwortschreiben erhalten.</p>
 
         <p style="margin:0;">Dabei bekommst du:</p>
-        <ul style="padding-left:20px;margin:8px 0 16px 0;">
-          <li>eine klare Bewertung deiner Situation</li>
-          <li>konkrete Handlungsempfehlungen</li>
-          <li>ein fertiges Schreiben, das du direkt versenden kannst</li>
+        <ul style="padding-left:20px;margin:8px 0 16px 0;list-style:none;">
+          <li>✓ eine klare Bewertung deiner Situation</li>
+          <li>✓ konkrete Handlungsempfehlungen</li>
+          <li>✓ ein fertiges Schreiben, das du direkt versenden kannst</li>
         </ul>
 
         <p style="margin:20px 0;">
@@ -200,7 +211,9 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
           Hinweis: Viele Nutzer entscheiden sich für die vollständige Analyse, um auf Nummer sicher zu gehen.
         </p>
 
-        <p style="margin-top:24px;">Falls du Fragen hast, kannst du einfach auf diese E-Mail antworten.</p>
+        <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;">
+
+        <p>Falls du Fragen hast, kannst du einfach auf diese E-Mail antworten.</p>
 
         <p>Viele Grüße<br><strong>Dein Prüfdienst</strong></p>
 
