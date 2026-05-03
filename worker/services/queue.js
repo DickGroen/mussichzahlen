@@ -26,7 +26,6 @@ function freeCaseKey(type, email) {
   return `free_case:${type}:${safeEmailKey(email)}`;
 }
 
-// Volgende werkdag 15:00 CET (UTC+1, DST buiten beschouwing)
 function nextWorkdayAt15CET(fromMs) {
   const TARGET_HOUR_UTC = 14; // 15:00 CET = 14:00 UTC
 
@@ -34,7 +33,6 @@ function nextWorkdayAt15CET(fromMs) {
   d.setUTCDate(d.getUTCDate() + 1);
   d.setUTCHours(TARGET_HOUR_UTC, 0, 0, 0);
 
-  // Skip zaterdag (6) en zondag (0)
   while (d.getUTCDay() === 0 || d.getUTCDay() === 6) {
     d.setUTCDate(d.getUTCDate() + 1);
   }
@@ -143,7 +141,6 @@ export async function enqueueFree(env, { type, name, email, triage, stripeLink }
   const emailKey     = safeEmailKey(email);
   const baseKey      = `free:${type}:${createdAt}:${emailKey}`;
 
-  // Stage 1: volgende werkdag 15:00 CET
   const stage1SendAt = nextWorkdayAt15CET(createdAt);
   const stage1Ms     = new Date(stage1SendAt).getTime();
 
@@ -199,7 +196,8 @@ export async function enqueuePaid(env, { type, name, email, triage, analysis }) 
 // ── Cron helpers ─────────────────────────────────────────────────────────────
 
 export async function getDueEntries(env) {
-  const now = Date.now();
+  // Geen tijdfilter — alle entries worden direct doorgegeven aan Resend
+  // Resend verwerkt scheduled_at zelf
   const due = [];
   let cursor;
 
@@ -218,20 +216,6 @@ export async function getDueEntries(env) {
         if (!raw) continue;
 
         const entry = JSON.parse(raw);
-        if (!entry.send_at) continue;
-
-        if (new Date(entry.send_at).getTime() <= now) {
-          due.push({ key: key.name, entry });
-        }
+        due.push({ key: key.name, entry });
       } catch (err) {
-        console.error(`Queue-Lesefehler für ${key.name}:`, err.message);
-      }
-    }
-  } while (cursor);
-
-  return due;
-}
-
-export async function deleteEntry(env, key) {
-  await env.SESSIONS_KV.delete(key);
-}
+        cons
