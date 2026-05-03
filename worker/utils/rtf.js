@@ -34,12 +34,27 @@ export function rtfToBase64(rtfString) {
   return btoa(binary);
 }
 
+// ── Markdown stripper ─────────────────────────────────────────────────────────
+
+function stripMarkdown(str) {
+  return String(str || "")
+    .replace(/\*\*(.+?)\*\*/g, "$1")   // **bold** → bold
+    .replace(/\*(.+?)\*/g, "$1")        // *italic* → italic
+    .replace(/^---+$/gm, "")            // --- scheidingslijnen
+    .replace(/^#{1,6}\s/gm, "")         // ## headers
+    .replace(/^\s*[-•]\s*/gm, "")       // leading bullets (worden apart behandeld)
+    .trim();
+}
+
 function bulletLines(text) {
   return String(text || "")
     .split("\n")
     .map(l => l.trim())
     .filter(Boolean)
-    .map(l => `{\\pard\\sb0\\sa200\\fi-300\\li300\\f1\\fs22 \\bullet  ${rtfEscape(l.replace(/^[-•] /, ""))}\\par}`)
+    .map(l => {
+      const cleaned = stripMarkdown(l.replace(/^[-•]\s*/, ""));
+      return `{\\pard\\sb0\\sa200\\fi-300\\li300\\f1\\fs22 \\bullet  ${rtfEscape(cleaned)}\\par}`;
+    })
     .join("\n");
 }
 
@@ -51,7 +66,8 @@ function numberedLines(text) {
     .filter(Boolean)
     .map(l => {
       i++;
-      return `{\\pard\\sb0\\sa160\\fi-300\\li300\\f1\\fs22 ${i}.  ${rtfEscape(l.replace(/^\d+\.\s*/, ""))}\\par}`;
+      const cleaned = stripMarkdown(l.replace(/^\d+\.\s*/, ""));
+      return `{\\pard\\sb0\\sa160\\fi-300\\li300\\f1\\fs22 ${i}.  ${rtfEscape(cleaned)}\\par}`;
     })
     .join("\n");
 }
@@ -83,12 +99,12 @@ export function makeConfirmationRtf(name) {
 // ── Analysis RTF ──────────────────────────────────────────────────────────────
 
 export function makeAnalysisRtf(analysis, customerName, customerEmail, triage, type) {
-  const title      = extractTaggedSection(analysis, "TITLE")    || "MussIchZahlen Analyse";
-  const intro      = extractTaggedSection(analysis, "INTRO")    || "";
+  const title      = stripMarkdown(extractTaggedSection(analysis, "TITLE")       || "MussIchZahlen Analyse");
+  const intro      = stripMarkdown(extractTaggedSection(analysis, "INTRO")       || "");
   const howToUse   = extractTaggedSection(analysis, "HOW_TO_USE") || "";
-  const summary    = extractTaggedSection(analysis, "SUMMARY")  || "";
-  const issues     = extractTaggedSection(analysis, "ISSUES")   || "";
-  const assessment = extractTaggedSection(analysis, "ASSESSMENT") || "";
+  const summary    = stripMarkdown(extractTaggedSection(analysis, "SUMMARY")     || "");
+  const issues     = extractTaggedSection(analysis, "ISSUES")     || "";
+  const assessment = stripMarkdown(extractTaggedSection(analysis, "ASSESSMENT")  || "");
   const nextSteps  = extractTaggedSection(analysis, "NEXT_STEPS") || "";
 
   const amount = triage?.amount_claimed
@@ -97,37 +113,28 @@ export function makeAnalysisRtf(analysis, customerName, customerEmail, triage, t
 
   let out = rtfHeader();
 
-  // Titel
   out += `{\\pard\\sb400\\sa200\\f1\\fs32\\b\\cf1 ${rtfEscape(title)}\\par}\n`;
-
-  // Meta
   out += `{\\pard\\sb0\\sa100\\f1\\fs20\\cf0 ${rtfEscape("Name: ")}${rtfEscape(customerName || "")} (${rtfEscape(customerEmail || "")})\\par}\n`;
   out += `{\\pard\\sb0\\sa200\\f1\\fs20\\cf0 ${rtfEscape("Typ: ")}${rtfEscape(type || "")} | ${rtfEscape("Betrag: ")}${amount} | ${rtfEscape("Risiko: ")}${rtfEscape(triage?.risk || "")}\\par}\n`;
 
-  // Intro (empathisch)
   if (intro) {
     out += `{\\pard\\sb200\\sa200\\f1\\fs22\\i ${rtfEscape(intro)}\\par}\n`;
   }
 
-  // Zusammenfassung
   out += `{\\pard\\sb300\\sa120\\f1\\fs24\\b ${rtfEscape("Zusammenfassung")}\\par}\n`;
   out += `{\\pard\\sa200\\f1\\fs22 ${rtfEscape(summary)}\\par}\n`;
 
-  // HOW_TO_USE
   if (howToUse) {
     out += `{\\pard\\sb300\\sa120\\f1\\fs24\\b\\cf4 ${rtfEscape("So verwenden Sie dieses Ergebnis")}\\par}\n`;
     out += numberedLines(howToUse);
   }
 
-  // Befunde
   out += `{\\pard\\sb300\\sa120\\f1\\fs24\\b ${rtfEscape("Befunde")}\\par}\n`;
   out += bulletLines(issues);
 
-  // Einschätzung
   out += `{\\pard\\sb300\\sa120\\f1\\fs24\\b ${rtfEscape("Einsch\u00E4tzung")}\\par}\n`;
   out += `{\\pard\\sa200\\f1\\fs22 ${rtfEscape(assessment)}\\par}\n`;
 
-  // Nächste Schritte
   out += `{\\pard\\sb300\\sa120\\f1\\fs24\\b ${rtfEscape("N\u00E4chste Schritte")}\\par}\n`;
   out += bulletLines(nextSteps);
 
@@ -138,13 +145,15 @@ export function makeAnalysisRtf(analysis, customerName, customerEmail, triage, t
 // ── Letter RTF ────────────────────────────────────────────────────────────────
 
 export function makeLetterRtf(analysis, customerName, triage, type) {
-  const tag    = LETTER_TAG[type]   || "WIDERSPRUCH";
-  const title  = LETTER_TITLE[type] || "Schreiben";
-  const sender = triage?.sender     || "unbekannt";
+  const tag     = LETTER_TAG[type]   || "WIDERSPRUCH";
+  const title   = LETTER_TITLE[type] || "Schreiben";
+  const sender  = triage?.sender     || "unbekannt";
+  const content = stripMarkdown(extractTaggedSection(analysis, tag) || "");
 
   return rtfHeader()
     + `{\\pard\\sb400\\sa200\\f1\\fs28\\b\\cf2 ${rtfEscape(title)}\\par}\n`
     + `{\\pard\\sb0\\sa200\\f1\\fs20\\cf0 ${rtfEscape("Erstellt f\u00FCr: ")}${rtfEscape(customerName || "")} | ${rtfEscape("Absender: ")}${rtfEscape(sender)}\\par}\n`
-    + `{\\pard\\sb300\\sa200\\f1\\fs22\\cf0 ${rtfEscape(extractTaggedSection(analysis, tag))}\\par}\n`
+    + `{\\pard\\sb0\\sa300\\f1\\fs20\\cf4\\i ${rtfEscape("Bitte erg\u00E4nzen Sie Ihre pers\u00F6nlichen Angaben ([Ort], [Datum], Name, Adresse) und pr\u00FCfen Sie das Schreiben vor dem Versand.")}\\par}\n`
+    + `{\\pard\\sb300\\sa200\\f1\\fs22\\cf0 ${rtfEscape(content)}\\par}\n`
     + rtfFooter("Hinweis: Dies ist ein Entwurf und keine Rechtsberatung. MussIchZahlen haftet nicht f\u00FCr das Ergebnis.");
 }
