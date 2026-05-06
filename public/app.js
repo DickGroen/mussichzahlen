@@ -92,6 +92,12 @@ export async function submitFree({ file, name, email, type, onStatus }) {
     throw new Error(data?.error || 'Prüfung fehlgeschlagen');
   }
 
+  track('upload_completed', {
+    type,
+    fileType: file.type || null,
+    fileSize: file.size || null,
+  });
+
   return data;
 }
 
