@@ -6,6 +6,20 @@ const FROM = "MussIchZahlen <noreply@mussichzahlen.de>";
 const DISCLAIMER =
   "Dies ist eine informative Analyse und keine Rechtsberatung. Wir übernehmen keine rechtliche Vertretung. Bei komplexen Fällen empfehlen wir die Verbraucherzentrale oder einen Anwalt.";
 
+async function trackEvent(env, event, data = {}) {
+  try {
+    const id  = crypto.randomUUID();
+    const key = `track:${data.type || "unknown"}:${event}:${Date.now()}:${id}`;
+    await env.SESSIONS_KV.put(key, JSON.stringify({
+      event,
+      ...data,
+      received_at: new Date().toISOString(),
+    }), { expirationTtl: 60 * 60 * 24 * 90 });
+  } catch (err) {
+    console.error("Track error:", err.message);
+  }
+}
+
 const TYPE_LABELS = {
   mahnung: {
     title: "Mahnung / Inkassoschreiben",
@@ -224,6 +238,8 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
       ]
     });
 
+    await trackEvent(env, "email_sent", { type, stage: 1, kind: "free" });
+
     return;
   }
 
@@ -276,6 +292,8 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
       <p style="color:#6b7280;font-size:0.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
     </div>`
   });
+
+  await trackEvent(env, "email_sent", { type, stage: stageNumber, kind: "free" });
 }
 
 // ── Paid delivery ─────────────────────────────────────────────────────────────
@@ -306,4 +324,6 @@ export async function sendPaidEmail(env, { name, email, type, triage, analysis }
       { filename: labels.filename,              content: rtfToBase64(letterRtf)   }
     ]
   });
+
+  await trackEvent(env, "email_sent", { type, kind: "paid" });
 }
