@@ -1,5 +1,5 @@
 import { escapeHtml } from "../utils/files.js";
-import { makeAnalysisRtf, makeLetterRtf, makeConfirmationRtf, rtfToBase64 } from "../utils/rtf.js";
+import { makeAnalysisRtf, makeLetterRtf, rtfToBase64 } from "../utils/rtf.js";
 
 const FROM = "MussIchZahlen <noreply@mussichzahlen.de>";
 
@@ -110,8 +110,6 @@ function riskAssessment(risk) {
 // ── Directe bevestigingsemail na upload ──────────────────────────────────────
 
 export async function sendConfirmationEmail(env, { name, email }) {
-  const confirmationRtf = makeConfirmationRtf(name);
-
   await sendEmail(env, {
     to: email,
     subject: "Ihr Schreiben ist eingegangen — MussIchZahlen",
@@ -135,10 +133,7 @@ export async function sendConfirmationEmail(env, { name, email }) {
       <p>Vielen Dank für Ihr Vertrauen.<br><strong>Ihr Prüfdienst</strong></p>
 
       <p style="color:#6b7280;font-size:0.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
-    </div>`,
-    attachments: [
-      { filename: "Eingangsbestaetigung.rtf", content: rtfToBase64(confirmationRtf) }
-    ]
+    </div>`
   });
 }
 
