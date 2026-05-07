@@ -1,10 +1,8 @@
 // services/queue.js
-0;
-const FREE_CASE_TTL_SECONDS    = 60 * 60 * 24 
-const PAID_MARKER_TTL_SECONDS  = 60 * 60 * 24 * 3* 3;
-const FREE_TRIAGE_TTL_SECONDS  = 60 * 60 * 24 * 14;
 
-const PAID_SEND_DELAY_MS = 0;
+const FREE_CASE_TTL_SECONDS   = 60 * 60 * 24 * 3;
+const PAID_MARKER_TTL_SECONDS = 60 * 60 * 24 * 3;
+const FREE_TRIAGE_TTL_SECONDS = 60 * 60 * 24 * 14;
 
 function normalizeEmail(email) {
   return String(email || "").trim().toLowerCase();
@@ -32,6 +30,21 @@ function nextWorkdayAt15CET(fromMs) {
   const d = new Date(fromMs);
   d.setUTCDate(d.getUTCDate() + 1);
   d.setUTCHours(TARGET_HOUR_UTC, 0, 0, 0);
+
+  while (d.getUTCDay() === 0 || d.getUTCDay() === 6) {
+    d.setUTCDate(d.getUTCDate() + 1);
+  }
+
+  return d.toISOString();
+}
+
+function nextWorkdayAt1515CET(fromMs) {
+  const TARGET_HOUR_UTC   = 13; // 15:15 CET = 13:15 UTC
+  const TARGET_MINUTE_UTC = 15;
+
+  const d = new Date(fromMs);
+  d.setUTCDate(d.getUTCDate() + 1);
+  d.setUTCHours(TARGET_HOUR_UTC, TARGET_MINUTE_UTC, 0, 0);
 
   while (d.getUTCDay() === 0 || d.getUTCDay() === 6) {
     d.setUTCDate(d.getUTCDate() + 1);
@@ -102,7 +115,7 @@ export async function saveFreeCase(env, {
   const entry = {
     type,
     name,
-    email: normalizeEmail(email),
+    email:       normalizeEmail(email),
     triage,
     stripe_link: stripeLink,
     file_base64: fileBase64,
@@ -137,11 +150,11 @@ export async function getFreeCase(env, { type, email }) {
 export async function enqueueFree(env, { type, name, email, triage, stripeLink }) {
   await saveFreeTriage(env, { type, name, email, triage, stripeLink });
 
-  const createdAt    = Date.now();
-  const emailKey     = safeEmailKey(email);
-  const baseKey      = `free:${type}:${createdAt}:${emailKey}`;
+  const createdAt = Date.now();
+  const emailKey  = safeEmailKey(email);
+  const baseKey   = `free:${type}:${createdAt}:${emailKey}`;
 
-  const stage1SendAt = new Date(Date.now() + 2 * 60 * 1000).toISOString();
+  const stage1SendAt = nextWorkdayAt15CET(createdAt);
   const stage1Ms     = new Date(stage1SendAt).getTime();
 
   const sendAts = {
@@ -186,7 +199,7 @@ export async function enqueuePaid(env, { type, name, email, triage, analysis }) 
     triage,
     analysis,
     created_at: new Date().toISOString(),
-    send_at:    new Date(Date.now() + PAID_SEND_DELAY_MS).toISOString(),
+    send_at:    nextWorkdayAt1515CET(Date.now()),
   };
 
   await env.SESSIONS_KV.put(key, JSON.stringify(entry));
