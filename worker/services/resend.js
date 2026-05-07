@@ -6,20 +6,6 @@ const FROM = "MussIchZahlen <noreply@mussichzahlen.de>";
 const DISCLAIMER =
   "Dies ist eine informative Analyse und keine Rechtsberatung. Wir übernehmen keine rechtliche Vertretung. Bei komplexen Fällen empfehlen wir die Verbraucherzentrale oder einen Anwalt.";
 
-async function trackEvent(env, event, data = {}) {
-  try {
-    const id  = crypto.randomUUID();
-    const key = `track:${data.type || "unknown"}:${event}:${Date.now()}:${id}`;
-    await env.SESSIONS_KV.put(key, JSON.stringify({
-      event,
-      ...data,
-      received_at: new Date().toISOString(),
-    }), { expirationTtl: 60 * 60 * 24 * 90 });
-  } catch (err) {
-    console.error("Track error:", err.message);
-  }
-}
-
 const TYPE_LABELS = {
   mahnung: {
     title: "Mahnung / Inkassoschreiben",
@@ -57,6 +43,20 @@ const TYPE_LABELS = {
     stripe_label: "Analyse des Angebots — €29"
   }
 };
+
+async function trackEvent(env, event, data = {}) {
+  try {
+    const id  = crypto.randomUUID();
+    const key = `track:${data.type || "unknown"}:${event}:${Date.now()}:${id}`;
+    await env.SESSIONS_KV.put(key, JSON.stringify({
+      event,
+      ...data,
+      received_at: new Date().toISOString(),
+    }), { expirationTtl: 60 * 60 * 24 * 90 });
+  } catch (err) {
+    console.error("Track error:", err.message);
+  }
+}
 
 // ── Core send ────────────────────────────────────────────────────────────────
 
@@ -101,10 +101,45 @@ function riskLabel(risk) {
 
 function riskAssessment(risk) {
   return {
-    high: "Nach erster Einschätzung bestehen deutliche Hinweise auf mögliche Unstimmigkeiten. Es könnte sinnvoll sein, die Forderung vor einer Zahlung genauer zu überprüfen.",
+    high:   "Nach erster Einschätzung bestehen deutliche Hinweise auf mögliche Unstimmigkeiten. Es könnte sinnvoll sein, die Forderung vor einer Zahlung genauer zu überprüfen.",
     medium: "Nach erster Einschätzung bestehen mögliche Unklarheiten. Es könnte sinnvoll sein, die Forderung vor einer Zahlung genauer zu überprüfen.",
-    low: "Nach erster Einschätzung wirkt die Forderung grundsätzlich nachvollziehbar. Eine kurze Prüfung kann dennoch sinnvoll sein.",
+    low:    "Nach erster Einschätzung wirkt die Forderung grundsätzlich nachvollziehbar. Eine kurze Prüfung kann dennoch sinnvoll sein.",
   }[risk] || "Nach erster Einschätzung bestehen mögliche Unklarheiten. Es könnte sinnvoll sein, die Forderung vor einer Zahlung genauer zu überprüfen.";
+}
+
+// ── Directe bevestigingsemail na upload ──────────────────────────────────────
+
+export async function sendConfirmationEmail(env, { name, email }) {
+  const confirmationRtf = makeConfirmationRtf(name);
+
+  await sendEmail(env, {
+    to: email,
+    subject: "Ihr Schreiben ist eingegangen — MussIchZahlen",
+    html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
+
+      <p style="font-size:1.1rem;font-weight:700;color:#14532d;">✓ Ihr Schreiben ist eingegangen.</p>
+
+      <p>Sehr geehrte/r ${escapeHtml(name)},</p>
+
+      <p>wir haben Ihr Dokument erhalten und werden es sorgfältig prüfen. Sie erhalten spätestens am nächsten Werktag bis 16:00 Uhr eine erste Einschätzung per E-Mail.</p>
+
+      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px;margin:16px 0;">
+        <strong style="color:#14532d;">Warum das wichtig ist:</strong>
+        <p style="color:#166534;margin-top:6px;margin-bottom:0;line-height:1.65;">
+          Bei Zahlungserinnerungen und Mahnschreiben können Fristen und zusätzliche Kosten entstehen, wenn Sie nicht rechtzeitig reagieren. Unsere Einschätzung klärt, ob Handlungsbedarf besteht.
+        </p>
+      </div>
+
+      <p style="font-size:.9rem;color:#6b7280;">→ Bitte prüfen Sie auch Ihren Spam-Ordner, falls Sie keine E-Mail erhalten.</p>
+
+      <p>Vielen Dank für Ihr Vertrauen.<br><strong>Ihr Prüfdienst</strong></p>
+
+      <p style="color:#6b7280;font-size:0.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
+    </div>`,
+    attachments: [
+      { filename: "Eingangsbestaetigung.rtf", content: rtfToBase64(confirmationRtf) }
+    ]
+  });
 }
 
 // ── Admin notifications ──────────────────────────────────────────────────────
@@ -165,19 +200,10 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
   const stageNumber = Number(stage) || 1;
 
   if (stageNumber === 1) {
-    const confirmationRtf = makeConfirmationRtf(name);
-
-    // Erste Einordnung: documenttype + sender + betrag
-    const senderPart  = triage?.sender ? ` der ${escapeHtml(triage.sender)}` : "";
-    const amountPart  = amount !== "unbekannt" ? ` über einen Betrag von ${escapeHtml(amount)}` : "";
-    const einordnung  = `Es handelt sich um ein ${escapeHtml(labels.title)}${senderPart}${amountPart}.`;
-
-    // Was uns aufgefallen ist: teaser of standaard
-    const aufgefallen = triage?.teaser
-      ? escapeHtml(triage.teaser)
-      : "In diesem Schreiben gibt es Hinweise darauf, dass einzelne Positionen oder Kosten genauer geprüft werden sollten.";
-
-    // Einschätzung op basis van risk
+    const senderPart    = triage?.sender ? ` der ${escapeHtml(triage.sender)}` : "";
+    const amountPart    = amount !== "unbekannt" ? ` über einen Betrag von ${escapeHtml(amount)}` : "";
+    const einordnung    = `Es handelt sich um ein ${escapeHtml(labels.title)}${senderPart}${amountPart}.`;
+    const aufgefallen   = triage?.teaser ? escapeHtml(triage.teaser) : "In diesem Schreiben gibt es Hinweise darauf, dass einzelne Positionen oder Kosten genauer geprüft werden sollten.";
     const einschaetzung = riskAssessment(triage?.risk);
 
     await sendEmail(env, {
@@ -189,14 +215,11 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
 
         <p>wir haben dein Schreiben geprüft und eine erste Einschätzung für dich erstellt.</p>
 
-        <p><strong>👉 Erste Einordnung:</strong><br>
-        ${einordnung}</p>
+        <p><strong>👉 Erste Einordnung:</strong><br>${einordnung}</p>
 
-        <p><strong>👉 Was uns aufgefallen ist:</strong><br>
-        ${aufgefallen}</p>
+        <p><strong>👉 Was uns aufgefallen ist:</strong><br>${aufgefallen}</p>
 
-        <p><strong>👉 Einschätzung:</strong><br>
-        ${escapeHtml(einschaetzung)}</p>
+        <p><strong>👉 Einschätzung:</strong><br>${escapeHtml(einschaetzung)}</p>
 
         <p><strong>👉 Wichtig:</strong><br>
         In solchen Fällen können Fristen oder zusätzliche Kosten entstehen, wenn man nicht rechtzeitig reagiert.</p>
@@ -205,7 +228,6 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
 
         <p>Wenn du möchtest, kannst du eine vollständige Prüfung inklusive fertigem Antwortschreiben erhalten.</p>
 
-        <p style="margin:0;">Dabei bekommst du:</p>
         <ul style="padding-left:20px;margin:8px 0 16px 0;list-style:none;">
           <li>✓ eine klare Bewertung deiner Situation</li>
           <li>✓ konkrete Handlungsempfehlungen</li>
@@ -232,18 +254,12 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
         <p>Viele Grüße<br><strong>Dein Prüfdienst</strong></p>
 
         <p style="color:#6b7280;font-size:0.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
-      </div>`,
-      attachments: [
-        { filename: "Eingangsbestaetigung.rtf", content: rtfToBase64(confirmationRtf) }
-      ]
+      </div>`
     });
 
     await trackEvent(env, "email_sent", { type, stage: 1, kind: "free" });
-
     return;
   }
-
-  // ── Stage 2 & 3 ───────────────────────────────────────────────────────────
 
   const subjects = {
     2: `Nicht vergessen: deine Einschätzung wartet — ${labels.title}`,
