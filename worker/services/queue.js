@@ -206,6 +206,52 @@ export async function enqueuePaid(env, { type, name, email, triage, analysis }) 
   return key;
 }
 
+
+// ── Abandoned checkout queue ─────────────────────────────────────────────────
+
+const ABANDONED_TTL_SECONDS = 60 * 60 * 24 * 7; // 7 days
+
+function abandonedKey(email, stage) {
+  return `abandoned:${safeEmailKey(email)}:stage_${stage}`;
+}
+
+export async function saveAbandoned(env, { email, name, type, amount, stripeLink }) {
+  const normalized = normalizeEmail(email);
+  if (!normalized) return;
+
+  const now = Date.now();
+
+  const sendAts = {
+    1: new Date(now + 1  * 60 * 60 * 1000).toISOString(),  // +1 uur
+    2: new Date(now + 24 * 60 * 60 * 1000).toISOString(),  // +24 uur
+    3: new Date(now + 48 * 60 * 60 * 1000).toISOString(),  // +48 uur
+  };
+
+  for (const stage of [1, 2, 3]) {
+    const key = abandonedKey(normalized, stage);
+
+    // Niet overschrijven als al bestaat
+    const existing = await env.SESSIONS_KV.get(key);
+    if (existing) continue;
+
+    const entry = {
+      kind:        "abandoned",
+      stage,
+      type,
+      name,
+      email:       normalized,
+      amount:      amount || null,
+      stripe_link: stripeLink,
+      created_at:  new Date(now).toISOString(),
+      send_at:     sendAts[stage],
+    };
+
+    await env.SESSIONS_KV.put(key, JSON.stringify(entry), {
+      expirationTtl: ABANDONED_TTL_SECONDS,
+    });
+  }
+}
+
 // ── Cron helpers ─────────────────────────────────────────────────────────────
 
 export async function getDueEntries(env) {
@@ -222,6 +268,7 @@ export async function getDueEntries(env) {
       if (key.name.startsWith("free_triage:")) continue;
       if (key.name.startsWith("free_case:"))   continue;
       if (key.name.startsWith("track:"))        continue;
+      if (key.name.startsWith("analysis_sent:")) continue;
 
       try {
         const raw = await env.SESSIONS_KV.get(key.name);
