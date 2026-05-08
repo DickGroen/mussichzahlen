@@ -9,6 +9,20 @@ import { notifyAdminFree, sendConfirmationEmail } from "../services/resend.js";
 import { loadPrompts } from "../config/prompts.js";
 import { getStripeLink } from "../services/stripe.js";
 
+
+function getTriageDecision({ chance, flags }) {
+  const c = Number(chance) || 0;
+  const f = Number(flags)  || 0;
+
+  if (c >= 60 && f >= 2) {
+    return { tier: "tier1", showUpsell: true,  emailType: "stark"    };
+  }
+  if (c >= 40 || f === 1) {
+    return { tier: "tier2", showUpsell: true,  emailType: "soft"     };
+  }
+  return   { tier: "tier3", showUpsell: false, emailType: "vertrauen" };
+}
+
 export async function handleAnalyzeFree(request, env) {
   const formData = await request.formData();
 
@@ -53,7 +67,15 @@ export async function handleAnalyzeFree(request, env) {
 
   console.log("FREE TRIAGE:", JSON.stringify(triage));
 
-  const stripeLink = getStripeLink(env, type);
+  const decision = getTriageDecision({
+    chance: triage.chance,
+    flags:  triage.flagCount,
+  });
+
+  triage.tier      = decision.tier;
+  triage.emailType = decision.emailType;
+
+  const stripeLink = decision.showUpsell ? getStripeLink(env, type) : null;
 
   await saveFreeCase(env, {
     type,
