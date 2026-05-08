@@ -1,7 +1,7 @@
 // routes/cron.js
 
 import { getDueEntries, deleteEntry, hasPaid } from "../services/queue.js";
-import { sendFreeEmail, sendPaidEmail } from "../services/resend.js";
+import { sendFreeEmail, sendPaidEmail, sendAbandonedEmail } from "../services/resend.js";
 
 export async function handleCron(env) {
   console.log("Cron: Warteschlange wird geprüft…");
@@ -36,6 +36,24 @@ export async function handleCron(env) {
           type:     entry.type,
           triage:   entry.triage,
           analysis: entry.analysis,
+        });
+
+      } else if (entry.kind === "abandoned") {
+        const alreadyPaid = await hasPaid(env, entry.email);
+
+        if (alreadyPaid) {
+          await deleteEntry(env, key);
+          console.log(`Cron: Abandoned übersprungen, bereits bezahlt: ${entry.email}`);
+          continue;
+        }
+
+        await sendAbandonedEmail(env, {
+          name:       entry.name,
+          email:      entry.email,
+          type:       entry.type,
+          amount:     entry.amount,
+          stripeLink: entry.stripe_link,
+          stage:      entry.stage || 1,
         });
 
       } else {
