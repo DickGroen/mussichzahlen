@@ -193,8 +193,57 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
   const labels      = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
   const amount      = formatAmount(triage);
   const stageNumber = Number(stage) || 1;
+  const emailType   = triage?.emailType || "stark";
 
   if (stageNumber === 1) {
+    // Tier 3 (vertrauen) — geen harde verkoop
+    if (emailType === "vertrauen") {
+      await sendEmail(env, {
+        to: email,
+        subject: `Dein Dokument wurde geprüft`,
+        html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
+          <p>Hallo ${escapeHtml(name)},</p>
+          <p>wir haben dein Schreiben geprüft.</p>
+          <p>Auf den ersten Blick scheint die Forderung relativ klar zu sein — aber es kann trotzdem hilfreich sein, die Details sorgfältig zu prüfen, bevor du reagierst.</p>
+          <p>${escapeHtml(triage?.teaser || "")}</p>
+          ${stripeLink ? `<p>Wenn du eine vollständige Prüfung möchtest: <a href="${escapeHtml(stripeLink)}" style="color:#1a3a6b;font-weight:bold;">Hier klicken — €${escapeHtml(labels.price)}</a></p>` : ""}
+          <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;">
+          <p>Mit freundlichen Grüßen,<br><strong>MussIchZahlen</strong></p>
+          <p style="font-size:0.8rem;color:#6b7280;">${escapeHtml(DISCLAIMER)}</p>
+        </div>`
+      });
+      await trackEvent(env, "email_sent", { type, stage: 1, kind: "free", emailType });
+      return;
+    }
+
+    // Tier 2 (soft) — zacht
+    if (emailType === "soft") {
+      await sendEmail(env, {
+        to: email,
+        subject: `Vielleicht lohnt sich ein zweiter Blick`,
+        html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
+          <p>Hallo ${escapeHtml(name)},</p>
+          <p>wir haben einen ersten Blick auf dein Schreiben geworfen.</p>
+          <p>Es könnte Punkte geben, die sich lohnen zu prüfen, bevor du zahlst.</p>
+          <p>${escapeHtml(triage?.teaser || "")}</p>
+          <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;">
+          <p>Wenn du ein klareres Bild möchtest, kannst du eine vollständige Analyse erhalten:</p>
+          <p style="margin:20px 0;">
+            <a href="${escapeHtml(stripeLink)}"
+               style="display:inline-block;background:#1a3a6b;color:#fff;padding:14px 24px;border-radius:6px;text-decoration:none;font-weight:bold;">
+              Vor der Zahlung prüfen — €${escapeHtml(labels.price)} →
+            </a>
+          </p>
+          <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;">
+          <p>Mit freundlichen Grüßen,<br><strong>MussIchZahlen</strong></p>
+          <p style="font-size:0.8rem;color:#6b7280;">${escapeHtml(DISCLAIMER)}</p>
+        </div>`
+      });
+      await trackEvent(env, "email_sent", { type, stage: 1, kind: "free", emailType });
+      return;
+    }
+
+    // Tier 1 (stark) — default
     const senderPart    = triage?.sender ? ` der ${escapeHtml(triage.sender)}` : "";
     const amountPart    = amount !== "unbekannt" ? ` über einen Betrag von ${escapeHtml(amount)}` : "";
     const einordnung    = `Es handelt sich um ein ${escapeHtml(labels.title)}${senderPart}${amountPart}.`;
@@ -337,4 +386,72 @@ export async function sendPaidEmail(env, { name, email, type, triage, analysis }
   });
 
   await trackEvent(env, "email_sent", { type, kind: "paid" });
+}
+
+
+// ── Abandoned checkout emails ─────────────────────────────────────────────────
+
+export async function sendAbandonedEmail(env, { name, email, type, amount, stripeLink, stage = 1 }) {
+  const labels      = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
+  const stageNumber = Number(stage) || 1;
+  const amountPart  = amount ? ` €${amount}` : "";
+
+  let subject, bodyHtml;
+
+  if (stageNumber === 1) {
+    subject = `Kurze Erinnerung — bevor du zahlst`;
+    bodyHtml = `
+      <p>Hallo ${escapeHtml(name)},</p>
+      <p>du hast angefangen, dein Dokument zu prüfen — aber den Vorgang nicht abgeschlossen.</p>
+      <p>Bevor du zahlst, lohnt es sich oft, genauer hinzuschauen — besonders wenn es um${escapeHtml(amountPart)} geht.</p>
+      <p style="margin:20px 0;">
+        <a href="${escapeHtml(stripeLink)}"
+           style="display:inline-block;background:#1a3a6b;color:#fff;padding:14px 24px;border-radius:6px;text-decoration:none;font-weight:bold;">
+          Weiter — €${escapeHtml(labels.price)} →
+        </a>
+      </p>
+      <p style="font-size:0.9rem;color:#374151;">Die meisten prüfen lieber zuerst, bevor sie zu viel zahlen.</p>`;
+
+  } else if (stageNumber === 2) {
+    subject = `Bevor du zahlst — noch ein Blick`;
+    bodyHtml = `
+      <p>Hallo ${escapeHtml(name)},</p>
+      <p>nur eine kurze Erinnerung.</p>
+      <p>Viele merken erst im Nachhinein, dass sie eine Forderung hätten anfechten können.</p>
+      <p>Wenn du unsicher bist, ist es sicherer, zuerst zu prüfen.</p>
+      <p style="margin:20px 0;">
+        <a href="${escapeHtml(stripeLink)}"
+           style="display:inline-block;background:#1a3a6b;color:#fff;padding:14px 24px;border-radius:6px;text-decoration:none;font-weight:bold;">
+          Vor der Zahlung prüfen — €${escapeHtml(labels.price)} →
+        </a>
+      </p>`;
+
+  } else {
+    subject = amount && Number(amount) > 500
+      ? `Bevor du €${amount} zahlst — prüf das zuerst`
+      : `Letzte Erinnerung — bevor du zahlst`;
+    bodyHtml = `
+      <p>Hallo ${escapeHtml(name)},</p>
+      <p>wenn du jetzt nicht prüfst, zahlst du möglicherweise unnötigerweise.</p>
+      <p>Das ist deine letzte Möglichkeit, alles klar zu überblicken — bevor du eine Entscheidung triffst.</p>
+      <p style="margin:20px 0;">
+        <a href="${escapeHtml(stripeLink)}"
+           style="display:inline-block;background:#1a3a6b;color:#fff;padding:14px 24px;border-radius:6px;text-decoration:none;font-weight:bold;">
+          Deine Optionen prüfen — €${escapeHtml(labels.price)} →
+        </a>
+      </p>`;
+  }
+
+  await sendEmail(env, {
+    to: email,
+    subject,
+    html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
+      ${bodyHtml}
+      <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;">
+      <p>Mit freundlichen Grüßen,<br><strong>MussIchZahlen</strong></p>
+      <p style="font-size:0.8rem;color:#6b7280;">${escapeHtml(DISCLAIMER)}</p>
+    </div>`
+  });
+
+  await trackEvent(env, "email_sent", { type, stage: stageNumber, kind: "abandoned" });
 }
