@@ -1,7 +1,10 @@
 // routes/stripe-webhook.js
 
 import { jsonResponse } from "../utils/response.js";
-import { markPaid } from "../services/queue.js";
+import { markPaid, getFreeCase, enqueuePaid } from "../services/queue.js";
+import { notifyAdminPaid } from "../services/resend.js";
+import { runAnalysis } from "../services/claude.js";
+import { loadPrompts } from "../config/prompts.js";
 
 const TRACK_TTL_SECONDS = 60 * 60 * 24 * 90;
 
@@ -51,9 +54,57 @@ export async function handleStripeWebhook(request, env) {
     session.customer_email ||
     null;
 
+  // Deduplicatie — skip als al verwerkt
+  const dedupKey = `analysis_sent:${session.id || "unknown"}`;
+  const alreadyDone = await env.JOBS_KV.get(dedupKey);
+  if (alreadyDone) {
+    console.log("Duplicate webhook — already processed:", session.id);
+    return jsonResponse({ ok: true });
+  }
+
   if (email) {
     await markPaid(env, email);
   }
+
+  // Auto-analyse als free case beschikbaar
+  const saved = email ? await getFreeCase(env, { type, email }) : null;
+
+  if (saved?.file_base64 && saved?.media_type && saved?.triage) {
+    try {
+      const prompts  = loadPrompts(type);
+      const triage   = saved.triage;
+      const analysis = await runAnalysis(env, {
+        fileBase64:   saved.file_base64,
+        mediaType:    saved.media_type,
+        route:        triage.route || "SONNET",
+        haikuPrompt:  prompts.haiku,
+        sonnetPrompt: prompts.sonnet,
+      });
+
+      await enqueuePaid(env, {
+        type,
+        name:  saved.name || "Kunde",
+        email,
+        triage,
+        analysis,
+      });
+
+      await notifyAdminPaid(env, {
+        name:  saved.name || "Kunde",
+        email,
+        type,
+        triage,
+        analysis,
+      });
+
+      console.log("Auto-Analyse erfolgreich für:", email);
+    } catch (err) {
+      console.error("Auto-Analyse fehlgeschlagen:", err.message);
+    }
+  }
+
+  // Markeer als verwerkt
+  await env.JOBS_KV.put(dedupKey, "1", { expirationTtl: 60 * 60 * 24 * 30 });
 
   await recordPaidCompleted(env, {
     type,
