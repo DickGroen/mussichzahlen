@@ -1,5 +1,6 @@
 // routes/track.js
 import { jsonResponse } from "../utils/response.js";
+import { saveAbandoned } from "../services/queue.js";
 
 const TRACK_TTL_SECONDS = 60 * 60 * 24 * 90; // 90 Tage
 
@@ -36,6 +37,21 @@ export async function handleTrack(request, env) {
     });
   } catch (err) {
     console.error("Track KV error:", err.message);
+  }
+
+  // Bij stripe_clicked — abandoned entry opslaan
+  if (event === "stripe_clicked" && payload.email && payload.name && payload.stripeLink) {
+    try {
+      await saveAbandoned(env, {
+        email:      payload.email,
+        name:       payload.name,
+        type:       payload.type || "mahnung",
+        amount:     payload.amount || null,
+        stripeLink: payload.stripeLink,
+      });
+    } catch (err) {
+      console.error("Abandoned save error:", err.message);
+    }
   }
 
   return jsonResponse({ ok: true });
