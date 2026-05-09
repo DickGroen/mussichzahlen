@@ -3,6 +3,10 @@ main = "worker/index.js"
 compatibility_date = "2025-01-01"
 compatibility_flags = ["nodejs_compat"]
 
+routes = [
+  { pattern = "mussichzahlen.de/api/*", zone_name = "mussichzahlen.de" }
+]
+
 [vars]
 ENV = "production"
 ADMIN_EMAIL = "groenvantexel@gmail.com"
@@ -25,7 +29,3 @@ bucket_name = "mussichzahlen-docs"
 
 [triggers]
 crons = ["*/5 * * * *"]
-
-routes = [
-  { pattern = "mussichzahlen.de/api/*", zone_name = "mussichzahlen.de" }
-]
