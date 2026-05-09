@@ -6,7 +6,7 @@ compatibility_flags = ["nodejs_compat"]
 routes = [
   { pattern = "mussichzahlen.de/api/*", zone_name = "mussichzahlen.de" }
 ]
-
+ 
 [vars]
 ENV = "production"
 ADMIN_EMAIL = "groenvantexel@gmail.com"
