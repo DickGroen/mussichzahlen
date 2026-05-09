@@ -10,10 +10,13 @@ routes = [
 [vars]
 ENV = "production"
 ADMIN_EMAIL = "groenvantexel@gmail.com"
-STRIPE_LINK_MAHNUNG = "https://buy.stripe.com/test_eVq28sb5ycr59dYdS414404"
+STRIPE_LINK_MAHNUNG = "https://buy.stripe.com/test_aFa5kE5Le9eT61MdS41440d"
 
 # Secrets worden ingesteld via Cloudflare Dashboard:
-# ANTHROPIC_API_KEY, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, RESEND_API_KEY
+# ANTHROPIC_API_KEY
+# STRIPE_SECRET_KEY
+# STRIPE_WEBHOOK_SECRET
+# RESEND_API_KEY
 
 [[kv_namespaces]]
 binding = "SESSIONS_KV"
