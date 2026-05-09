@@ -1,51 +1,134 @@
+// worker/index.js
+
 import { corsResponse, jsonResponse } from "./utils/response.js";
+
 import { handleAnalyzeFree } from "./routes/analyze-free.js";
 import { handleSubmitPaid } from "./routes/submit-paid.js";
-import { handleSubmitAuto } from "./routes/submit-auto.js";
-import { handleCron } from "./routes/cron.js";
+import { handleCreateCheckout } from "./routes/create-checkout.js";
 import { handleTrack } from "./routes/track.js";
-import { handleStripeWebhook } from "./routes/stripe-webhook.js";
+import { handleCron } from "./routes/cron.js";
+import { handleStripeWebhook } from "./routes/webhook.js";
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
+    const url = new URL(request.url);
+
+    // ── CORS ────────────────────────────────────────────────────────────────
+
     if (request.method === "OPTIONS") {
       return corsResponse();
     }
 
-    const url = new URL(request.url);
+    // ── DEBUG ───────────────────────────────────────────────────────────────
 
-    if (request.method !== "POST") {
-      return new Response("Nicht gefunden", { status: 404 });
+    if (url.pathname === "/api/health") {
+      return jsonResponse({
+        ok: true,
+        worker: "mussichzahlen",
+        timestamp: new Date().toISOString(),
+      });
     }
 
-    try {
-      switch (url.pathname) {
-        case "/api/analyze-free":
-          return await handleAnalyzeFree(request, env);
+    // ── MANUAL CRON TEST ────────────────────────────────────────────────────
 
-        case "/api/submit":
-          return await handleSubmitPaid(request, env);
+    if (
+      url.pathname === "/api/test-cron" &&
+      request.method === "GET"
+    ) {
+      try {
+        await handleCron(env);
 
-        case "/api/submit-auto":
-          return await handleSubmitAuto(request, env);
+        return jsonResponse({
+          ok: true,
+          message: "Cron ran successfully",
+        });
+      } catch (err) {
+        console.error("test-cron FAILED:", err);
 
-        case "/api/track":
-          return await handleTrack(request, env);
-
-        case "/api/stripe-webhook":
-          return await handleStripeWebhook(request, env);
-
-        default:
-          return jsonResponse(
-            { ok: false, error: "Unbekannter Endpunkt" },
-            404
-          );
+        return jsonResponse(
+          {
+            ok: false,
+            error: err?.message || "Cron failed",
+          },
+          500
+        );
       }
+    }
+
+    // ── API ROUTES ──────────────────────────────────────────────────────────
+
+    try {
+
+      // STRIPE WEBHOOK
+      if (
+        url.pathname === "/api/stripe-webhook" &&
+        request.method === "POST"
+      ) {
+        return await handleStripeWebhook(request, env);
+      }
+
+      // ANALYZE FREE
+      if (
+        url.pathname === "/api/analyze-free" &&
+        request.method === "POST"
+      ) {
+        return await handleAnalyzeFree(request, env);
+      }
+
+      // CREATE CHECKOUT
+      if (
+        url.pathname === "/api/create-checkout" &&
+        request.method === "POST"
+      ) {
+        return await handleCreateCheckout(request, env);
+      }
+
+      // TRACK EVENTS
+      if (
+        url.pathname === "/api/track" &&
+        request.method === "POST"
+      ) {
+        return await handleTrack(request, env);
+      }
+
+      // SUBMIT PAID
+      if (
+        url.pathname === "/api/submit" &&
+        request.method === "POST"
+      ) {
+        return await handleSubmitPaid(request, env);
+      }
+
+      // ── API NOT FOUND ────────────────────────────────────────────────────
+
+      if (url.pathname.startsWith("/api/")) {
+        return jsonResponse(
+          {
+            ok: false,
+            error: `API endpoint not found: ${url.pathname}`,
+          },
+          404
+        );
+      }
+
+      // ── FALLBACK ─────────────────────────────────────────────────────────
+
+      return new Response("Not found", {
+        status: 404,
+      });
+
     } catch (err) {
-      console.error("Unbehandelter Fehler:", err.message, err.stack);
+      console.error(
+        "UNHANDLED WORKER ERROR:",
+        err?.message,
+        err?.stack
+      );
 
       return jsonResponse(
-        { ok: false, error: "Interner Serverfehler" },
+        {
+          ok: false,
+          error: err?.message || "Internal server error",
+        },
         500
       );
     }
@@ -53,5 +136,5 @@ export default {
 
   async scheduled(event, env, ctx) {
     ctx.waitUntil(handleCron(env));
-  }
+  },
 };
