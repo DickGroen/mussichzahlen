@@ -1,6 +1,6 @@
 // worker/services/resend.js — mussichzahlen (tiered email)
 
-import { escapeHtml } from "../utils/html.js";
+import { escapeHtml } from "../utils/files.js";
 import { makeAnalysisRtf, makeLetterRtf, rtfToBase64 } from "../utils/rtf.js";
 
 const FROM = "MussIchZahlen <noreply@mussichzahlen.de>";
@@ -236,8 +236,6 @@ export async function sendFreeEmail(
 
   const emailType =
     triage?.emailType || "stark";
-
-  // ── STAGE 1 ─────────────────────────────────────────────────────────
 
   if (stageNumber === 1) {
 
