@@ -1,4 +1,4 @@
-// worker/services/resend.js — mussichzahlen (tiered email)
+// worker/services/resend.js — mussichzahlen
 
 import { escapeHtml } from "../utils/files.js";
 import { makeAnalysisRtf, makeLetterRtf, rtfToBase64 } from "../utils/rtf.js";
@@ -7,30 +7,6 @@ const FROM = "MussIchZahlen <noreply@mussichzahlen.de>";
 
 const DISCLAIMER =
   "Dies ist ausschließlich eine allgemeine Einschätzung und keine Rechtsberatung. MussIchZahlen bietet keine anwaltliche Vertretung an.";
-
-async function trackEvent(env, event, data = {}) {
-  try {
-    const id = crypto.randomUUID();
-
-    const key =
-      `track:${data.type || "unknown"}:` +
-      `${event}:${Date.now()}:${id}`;
-
-    await env.JOBS_KV.put(
-      key,
-      JSON.stringify({
-        event,
-        ...data,
-        received_at: new Date().toISOString(),
-      }),
-      {
-        expirationTtl: 60 * 60 * 24 * 90,
-      }
-    );
-  } catch (err) {
-    console.error("Track error:", err.message);
-  }
-}
 
 const TYPE_LABELS = {
   mahnung: {
@@ -41,10 +17,26 @@ const TYPE_LABELS = {
   },
 };
 
-async function sendEmail(
-  env,
-  { to, subject, html, attachments = [] }
-) {
+async function trackEvent(env, event, data = {}) {
+  try {
+    const id = crypto.randomUUID();
+    const key = `track:${data.type || "unknown"}:${event}:${Date.now()}:${id}`;
+
+    await env.JOBS_KV.put(
+      key,
+      JSON.stringify({
+        event,
+        ...data,
+        received_at: new Date().toISOString(),
+      }),
+      { expirationTtl: 60 * 60 * 24 * 90 }
+    );
+  } catch (err) {
+    console.error("Track error:", err.message);
+  }
+}
+
+async function sendEmail(env, { to, subject, html, attachments = [] }) {
   const body = {
     from: FROM,
     to: Array.isArray(to) ? to : [to],
@@ -52,21 +44,16 @@ async function sendEmail(
     html,
   };
 
-  if (attachments.length) {
-    body.attachments = attachments;
-  }
+  if (attachments.length) body.attachments = attachments;
 
-  const res = await fetch(
-    "https://api.resend.com/emails",
-    {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${env.RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    }
-  );
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${env.RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
 
   if (!res.ok) {
     const err = await res.text();
@@ -77,248 +64,139 @@ async function sendEmail(
 }
 
 function formatAmount(triage) {
-  if (triage?.amount_claimed) {
-    return `€${triage.amount_claimed}`;
-  }
-
+  if (triage?.amount_claimed) return `€${triage.amount_claimed}`;
+  if (triage?.fine_amount) return `€${triage.fine_amount}`;
   return "unbekannt";
 }
 
-// ── CONFIRMATION EMAIL ─────────────────────────────────────────────────
+// ── Confirmation ─────────────────────────────────────────────────────────────
 
-export async function sendConfirmationEmail(
-  env,
-  { name, email, type = "mahnung" }
-) {
-  const labels =
-    TYPE_LABELS[type] || TYPE_LABELS.mahnung;
+export async function sendConfirmationEmail(env, { name, email, type = "mahnung" }) {
+  const labels = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
 
   await sendEmail(env, {
     to: email,
-    subject:
-      "Wir haben dein Schreiben erhalten — MussIchZahlen",
-
+    subject: "Wir haben dein Schreiben erhalten — MussIchZahlen",
     html: `
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
-
-        <p style="font-size:1.1rem;font-weight:700;color:#14532d;">
-          ✓ Dein Schreiben wurde erfolgreich übermittelt.
-        </p>
-
+        <p style="font-size:1.1rem;font-weight:700;color:#14532d;">✓ Dein Schreiben wurde erfolgreich übermittelt.</p>
         <p>Hallo ${escapeHtml(name)},</p>
-
-        <p>
-          Wir prüfen dein ${escapeHtml(labels.title)}
-          sorgfältig und senden dir deine erste Einschätzung
-          bis zum nächsten Werktag vor 16:00 Uhr per E-Mail.
-        </p>
-
+        <p>Wir prüfen dein ${escapeHtml(labels.title)} sorgfältig und senden dir deine erste Einschätzung per E-Mail.</p>
         <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px;margin:16px 0;">
-
-          <strong style="color:#14532d;">
-            Warum das wichtig ist:
-          </strong>
-
+          <strong style="color:#14532d;">Warum das wichtig ist:</strong>
           <p style="color:#166534;margin-top:6px;margin-bottom:0;line-height:1.65;">
-            Viele Menschen zahlen vorschnell,
-            obwohl bestimmte Forderungen,
-            Zusatzkosten oder Nachweise
-            zunächst geprüft werden sollten.
+            Viele Menschen zahlen vorschnell, obwohl bestimmte Forderungen, Zusatzkosten oder Nachweise zunächst geprüft werden sollten.
           </p>
-
         </div>
-
-        <p style="font-size:.9rem;color:#6b7280;">
-          → Bitte prüfe auch deinen Spam-Ordner,
-          falls du keine Nachricht erhältst.
-        </p>
-
-        <p>
-          Viele Grüße<br>
-          <strong>MussIchZahlen</strong>
-        </p>
-
-        <p style="color:#6b7280;font-size:0.82rem;margin-top:24px;">
-          ${escapeHtml(DISCLAIMER)}
-        </p>
-
+        <p style="font-size:.9rem;color:#6b7280;">→ Bitte prüfe auch deinen Spam-Ordner.</p>
+        <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
+        <p style="color:#6b7280;font-size:0.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
       </div>
     `,
   });
 }
 
-// ── ADMIN EMAILS ───────────────────────────────────────────────────────
+// ── Admin ────────────────────────────────────────────────────────────────────
 
-export async function notifyAdminFree(
-  env,
-  { name, email, type, triage, stripeLink }
-) {
-  const amount = formatAmount(triage);
+export async function notifyAdminFree(env, { name, email, type, triage, stripeLink }) {
+  await sendEmail(env, {
+    to: env.ADMIN_EMAIL,
+    subject: `[MussIchZahlen] Free check: ${name} (${type})`,
+    html: `
+      <div style="font-family:Arial,sans-serif;">
+        <h3>Kostenlose Prüfung — ${escapeHtml(type)}</h3>
+        <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+        <p><strong>Absender:</strong> ${escapeHtml(triage?.sender || "unbekannt")}</p>
+        <p><strong>Betrag:</strong> ${escapeHtml(formatAmount(triage))}</p>
+        <p><strong>Chance:</strong> ${escapeHtml(String(triage?.chance ?? "unbekannt"))}</p>
+        <p><strong>Flags:</strong> ${escapeHtml(String(triage?.flagCount ?? "0"))}</p>
+        <p><strong>Tier:</strong> ${escapeHtml(triage?.tier || "unbekannt")}</p>
+        <p><strong>Email-Typ:</strong> ${escapeHtml(triage?.emailType || "unbekannt")}</p>
+        <p><strong>Stripe-Link:</strong> ${stripeLink ? "JA" : "NEIN"}</p>
+      </div>
+    `,
+  });
+}
+
+export async function notifyAdminPaid(env, { name, email, type, triage, analysis }) {
+  const analysisRtf = makeAnalysisRtf(analysis, name, email, triage, type);
 
   await sendEmail(env, {
     to: env.ADMIN_EMAIL,
-
-    subject:
-      `[MussIchZahlen] Free check: ${name} (${type})`,
-
+    subject: `[MussIchZahlen] BEZAHLT: ${name} (${type})`,
     html: `
       <div style="font-family:Arial,sans-serif;">
-
-        <p style="background:#f3f4f6;padding:10px;border-radius:6px;font-size:0.85rem;">
-          📬 Neue kostenlose Prüfung
-        </p>
-
-        <h3>Kostenlose Prüfung — ${escapeHtml(type)}</h3>
-
+        <h3>Bezahlte Analyse — ${escapeHtml(type)}</h3>
         <p><strong>Name:</strong> ${escapeHtml(name)}</p>
         <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-
-        <p>
-          <strong>Absender:</strong>
-          ${escapeHtml(triage?.sender || "unbekannt")}
-        </p>
-
-        <p>
-          <strong>Betrag:</strong>
-          ${escapeHtml(amount)}
-        </p>
-
-        <p>
-          <strong>Chance:</strong>
-          ${escapeHtml(String(triage?.chance ?? "unbekannt"))}
-        </p>
-
-        <p>
-          <strong>Flags:</strong>
-          ${escapeHtml(String(triage?.flagCount ?? "0"))}
-        </p>
-
-        <p>
-          <strong>Tier:</strong>
-          ${escapeHtml(triage?.tier || "unbekannt")}
-        </p>
-
-        <p>
-          <strong>Email-Typ:</strong>
-          ${escapeHtml(triage?.emailType || "unbekannt")}
-        </p>
-
-        <p>
-          <strong>Stripe-Link:</strong>
-          ${stripeLink ? "JA" : "NEIN"}
-        </p>
-
+        <p><strong>Absender:</strong> ${escapeHtml(triage?.sender || "unbekannt")}</p>
+        <p><strong>Betrag:</strong> ${escapeHtml(formatAmount(triage))}</p>
       </div>
     `,
+    attachments: [
+      {
+        filename: "Analyse-Admin.rtf",
+        content: rtfToBase64(analysisRtf),
+      },
+    ],
   });
 }
 
-// ── FREE EMAILS ────────────────────────────────────────────────────────
+// ── Free email / recovery ────────────────────────────────────────────────────
 
-export async function sendFreeEmail(
-  env,
-  {
-    name,
-    email,
-    type,
-    triage,
-    stripeLink,
-    stage = 1,
-  }
-) {
-
-  const labels =
-    TYPE_LABELS[type] || TYPE_LABELS.mahnung;
-
+export async function sendFreeEmail(env, { name, email, type, triage, stripeLink, stage = 1 }) {
+  const labels = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
   const amount = formatAmount(triage);
-
   const stageNumber = Number(stage) || 1;
-
-  const emailType =
-    triage?.emailType || "stark";
+  const emailType = triage?.emailType || "stark";
 
   if (stageNumber === 1) {
+    const senderPart = triage?.sender ? ` der ${escapeHtml(triage.sender)}` : "";
+    const amountStr = amount !== "unbekannt" ? escapeHtml(amount) : "";
 
-    const senderPart =
-      triage?.sender
-        ? ` der ${escapeHtml(triage.sender)}`
-        : "";
-
-    const amountStr =
-      amount !== "unbekannt"
-        ? escapeHtml(amount)
-        : "";
-
-    const subject =
-      amountStr
-        ? `Bevor du ${amountStr} zahlst — bitte zuerst prüfen`
-        : `Bitte zuerst prüfen, bevor du zahlst`;
+    const subject = amountStr
+      ? `Bevor du ${amountStr} zahlst — bitte zuerst prüfen`
+      : `Bitte zuerst prüfen, bevor du zahlst`;
 
     let bodyHtml = "";
 
-    // ── STRONG ───────────────────────────────────────────────────────
-
     if (emailType === "stark") {
-
       bodyHtml = `
         <p>Hallo ${escapeHtml(name)},</p>
-
-        <p>
-          wir haben dein Schreiben geprüft
-          und eine erste Einschätzung erstellt.
-        </p>
+        <p>wir haben dein Schreiben geprüft und eine erste Einschätzung erstellt.</p>
 
         <div style="margin-top:20px;">
           <strong>Erste Einordnung:</strong>
-
           <p style="margin-top:6px;">
-            Es handelt sich um ein
-            ${escapeHtml(labels.title)}
-            ${senderPart}
-            ${amountStr ? ` über ${amountStr}` : ""}.
+            Es handelt sich um ein ${escapeHtml(labels.title)}${senderPart}${amountStr ? ` über ${amountStr}` : ""}.
           </p>
         </div>
 
         <div style="margin-top:20px;">
           <strong>Was auffällt:</strong>
-
           <p style="margin-top:6px;">
-            Es gibt mögliche Unklarheiten,
-            die vor einer Zahlung geprüft werden sollten
-            — insbesondere bei Betrag,
-            Nachweisen oder zusätzlichen Kosten.
+            Es gibt mögliche Unklarheiten, die vor einer Zahlung geprüft werden sollten — insbesondere bei Betrag, Nachweisen oder zusätzlichen Kosten.
           </p>
         </div>
 
         <div style="margin-top:20px;">
           <strong>Einschätzung:</strong>
-
           <p style="margin-top:6px;">
-            Es wäre nicht sinnvoll,
-            vorschnell zu zahlen,
-            ohne die Forderung genauer prüfen zu lassen.
+            Es wäre nicht sinnvoll, vorschnell zu zahlen, ohne die Forderung genauer prüfen zu lassen.
           </p>
         </div>
 
         <div style="margin-top:20px;">
           <strong>Wichtig:</strong>
-
           <p style="margin-top:6px;">
-            Bei Mahnungen können Fristen
-            oder zusätzliche Kosten entstehen,
-            wenn man gar nicht reagiert.
-
-            Eine schriftliche Reaktion
-            ist daher meist besser als Abwarten.
+            Bei Mahnungen können Fristen oder zusätzliche Kosten entstehen, wenn man gar nicht reagiert. Eine schriftliche Reaktion ist daher meist besser als Abwarten.
           </p>
         </div>
 
         <hr style="border:none;border-top:1px solid #e5e7eb;margin:28px 0;">
 
-        <p>
-          Du kannst jetzt die vollständige Prüfung
-          inklusive fertigem Antwortschreiben erhalten:
-        </p>
+        <p>Du kannst jetzt die vollständige Prüfung inklusive fertigem Antwortschreiben erhalten:</p>
 
         <ul style="padding-left:20px;margin:14px 0 18px 0;list-style:none;">
           <li>✓ klare Bewertung deiner Situation</li>
@@ -328,229 +206,183 @@ export async function sendFreeEmail(
 
         ${
           stripeLink
-            ? `
-          <p style="margin:24px 0;">
-            <a href="${escapeHtml(stripeLink)}"
-               style="display:inline-block;background:#1d3a6e;color:#fff;padding:14px 24px;border-radius:6px;text-decoration:none;font-weight:bold;">
-
-              Vollständige Analyse + Antwortschreiben — €49 →
-
-            </a>
-          </p>
-        `
+            ? `<p style="margin:24px 0;">
+                <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#fff;padding:14px 24px;border-radius:6px;text-decoration:none;font-weight:bold;">
+                  Vollständige Analyse + Antwortschreiben — €${escapeHtml(labels.price)} →
+                </a>
+              </p>`
             : ""
         }
       `;
-    }
-
-    // ── SOFT ─────────────────────────────────────────────────────────
-
-    else if (emailType === "soft") {
-
+    } else if (emailType === "soft") {
       bodyHtml = `
         <p>Hallo ${escapeHtml(name)},</p>
-
-        <p>
-          wir haben dein Schreiben geprüft.
-        </p>
-
-        <p>
-          Es gibt Hinweise darauf,
-          dass bestimmte Punkte vor einer Zahlung
-          genauer geprüft werden sollten.
-        </p>
-
-        <p>
-          Gerade bei Mahnungen oder Inkassoschreiben
-          kann eine vorschnelle Zahlung
-          unnötige Kosten verursachen.
-        </p>
-
-        <hr style="border:none;border-top:1px solid #e5e7eb;margin:28px 0;">
-
-        <p>
-          Du kannst jetzt die vollständige Prüfung
-          inklusive Antwortschreiben erhalten:
-        </p>
+        <p>wir haben dein Schreiben geprüft.</p>
+        <p>Es gibt Hinweise darauf, dass bestimmte Punkte vor einer Zahlung genauer geprüft werden sollten.</p>
+        <p>Gerade bei Mahnungen oder Inkassoschreiben kann eine vorschnelle Zahlung unnötige Kosten verursachen.</p>
 
         ${
           stripeLink
-            ? `
-          <p style="margin:24px 0;">
-            <a href="${escapeHtml(stripeLink)}"
-               style="display:inline-block;background:#1d3a6e;color:#fff;padding:14px 24px;border-radius:6px;text-decoration:none;font-weight:bold;">
-
-              Vollständige Analyse — €49 →
-
-            </a>
-          </p>
-        `
+            ? `<p style="margin:24px 0;">
+                <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#fff;padding:14px 24px;border-radius:6px;text-decoration:none;font-weight:bold;">
+                  Vollständige Analyse + Antwortschreiben — €${escapeHtml(labels.price)} →
+                </a>
+              </p>`
             : ""
         }
       `;
-    }
-
-    // ── TRUST ────────────────────────────────────────────────────────
-
-    else {
-
+    } else {
       bodyHtml = `
         <p>Hallo ${escapeHtml(name)},</p>
-
-        <p>
-          wir haben dein Schreiben geprüft.
-        </p>
-
-        <p>
-          Nach erster Einschätzung
-          wirkt die Forderung überwiegend nachvollziehbar.
-        </p>
-
-        <p>
-          Trotzdem kann es sinnvoll sein,
-          die Details vor einer Zahlung
-          noch einmal vollständig zu prüfen.
-        </p>
-
-        ${
-          stripeLink
-            ? `
-          <p style="margin:24px 0;">
-            <a href="${escapeHtml(stripeLink)}"
-               style="display:inline-block;background:#1d3a6e;color:#fff;padding:14px 24px;border-radius:6px;text-decoration:none;font-weight:bold;">
-
-              Vollständige Analyse — €49 →
-
-            </a>
-          </p>
-        `
-            : ""
-        }
+        <p>wir haben dein Schreiben geprüft.</p>
+        <p>Nach erster Einschätzung wirkt die Forderung überwiegend nachvollziehbar.</p>
+        <p>Trotzdem kann es sinnvoll sein, die Details vor einer Zahlung noch einmal vollständig zu prüfen.</p>
       `;
     }
 
     await sendEmail(env, {
       to: email,
       subject,
-
       html: `
         <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
-
           ${bodyHtml}
-
           <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;">
-
-          <p>
-            Bei Fragen erreichst du uns unter
-            support@mussichzahlen.de
-          </p>
-
-          <p>
-            Viele Grüße<br>
-            <strong>MussIchZahlen</strong>
-          </p>
-
-          <p style="font-size:0.8rem;color:#6b7280;margin-top:24px;">
-            ${escapeHtml(DISCLAIMER)}
-          </p>
-
+          <p>Bei Fragen erreichst du uns unter support@mussichzahlen.de</p>
+          <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
+          <p style="font-size:0.8rem;color:#6b7280;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
         </div>
       `,
     });
 
-    await trackEvent(env, "email_sent", {
-      type,
-      stage: 1,
-      kind: "free",
-      emailType,
-    });
-
+    await trackEvent(env, "email_sent", { type, stage: 1, kind: "free", emailType });
     return;
   }
-}
 
-// ── PAID EMAIL ─────────────────────────────────────────────────────────
+  if (!stripeLink) return;
 
-export async function sendPaidEmail(
-  env,
-  { name, email, type, triage, analysis }
-) {
+  const subject =
+    stageNumber === 2
+      ? "Bevor du zahlst — noch einmal prüfen"
+      : "Letzte Erinnerung — bevor du zahlst";
 
-  const labels =
-    TYPE_LABELS[type] || TYPE_LABELS.mahnung;
-
-  const analysisRtf =
-    makeAnalysisRtf(
-      analysis,
-      name,
-      email,
-      triage,
-      type
-    );
-
-  const letterRtf =
-    makeLetterRtf(
-      analysis,
-      name,
-      triage,
-      type
-    );
+  const bodyHtml =
+    stageNumber === 2
+      ? `
+        <p>Hallo ${escapeHtml(name)},</p>
+        <p>kurze Erinnerung zu deinem ${escapeHtml(labels.title)}.</p>
+        <p>Wenn du unsicher bist, ist es meist besser, die Forderung vor einer Zahlung zu prüfen.</p>
+      `
+      : `
+        <p>Hallo ${escapeHtml(name)},</p>
+        <p>dies ist unsere letzte Erinnerung, bevor wir diese Nachverfolgung schließen.</p>
+        <p>Falls du noch prüfen möchtest, ob eine Reaktion sinnvoll ist, kannst du die vollständige Analyse hier starten.</p>
+      `;
 
   await sendEmail(env, {
     to: email,
-
-    subject:
-      "Deine Analyse ist fertig — nächste Schritte",
-
+    subject,
     html: `
       <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
+        ${bodyHtml}
+        <p style="margin:24px 0;">
+          <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#fff;padding:14px 24px;border-radius:6px;text-decoration:none;font-weight:bold;">
+            Vollständige Analyse + Antwortschreiben — €${escapeHtml(labels.price)} →
+          </a>
+        </p>
+        <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
+        <p style="font-size:0.8rem;color:#6b7280;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
+      </div>
+    `,
+  });
 
+  await trackEvent(env, { type, stage: stageNumber, kind: "free", emailType });
+}
+
+// ── Abandoned checkout ───────────────────────────────────────────────────────
+
+export async function sendAbandonedEmail(env, { name, email, type, amount, stripeLink, stage = 1 }) {
+  if (!stripeLink) return;
+
+  const labels = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
+  const stageNumber = Number(stage) || 1;
+  const amountPhrase = amount ? ` — besonders wenn es um €${escapeHtml(String(amount))} geht` : "";
+
+  let subject;
+  let bodyHtml;
+
+  if (stageNumber === 1) {
+    subject = "Kurze Erinnerung — bevor du zahlst";
+    bodyHtml = `
+      <p>Hallo ${escapeHtml(name)},</p>
+      <p>du hast angefangen, dein Schreiben prüfen zu lassen, aber den Vorgang nicht abgeschlossen.</p>
+      <p>Bevor du zahlst, lohnt es sich oft, genauer hinzuschauen${amountPhrase}.</p>
+    `;
+  } else if (stageNumber === 2) {
+    subject = "Bevor du zahlst — noch ein Blick";
+    bodyHtml = `
+      <p>Hallo ${escapeHtml(name)},</p>
+      <p>nur eine kurze Erinnerung.</p>
+      <p>Viele merken erst im Nachhinein, dass sie eine Forderung besser vorher geprüft hätten.</p>
+    `;
+  } else {
+    subject = "Letzte Erinnerung — bevor du zahlst";
+    bodyHtml = `
+      <p>Hallo ${escapeHtml(name)},</p>
+      <p>dies ist unsere letzte Erinnerung, bevor wir diese Nachverfolgung schließen.</p>
+      <p>Du kannst die Prüfung noch abschließen, bevor du entscheidest, ob du zahlst.</p>
+    `;
+  }
+
+  await sendEmail(env, {
+    to: email,
+    subject,
+    html: `
+      <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
+        ${bodyHtml}
+        <p style="margin:24px 0;">
+          <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#fff;padding:14px 24px;border-radius:6px;text-decoration:none;font-weight:bold;">
+            Prüfung abschließen — €${escapeHtml(labels.price)} →
+          </a>
+        </p>
+        <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
+        <p style="font-size:0.8rem;color:#6b7280;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
+      </div>
+    `,
+  });
+
+  await trackEvent(env, "email_sent", { type, stage: stageNumber, kind: "abandoned" });
+}
+
+// ── Paid customer delivery ───────────────────────────────────────────────────
+
+export async function sendPaidEmail(env, { name, email, type, triage, analysis }) {
+  const labels = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
+
+  const analysisRtf = makeAnalysisRtf(analysis, name, email, triage, type);
+  const letterRtf = makeLetterRtf(analysis, name, triage, type);
+
+  await sendEmail(env, {
+    to: email,
+    subject: "Deine Analyse ist fertig — nächste Schritte",
+    html: `
+      <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
         <p>Hallo ${escapeHtml(name)},</p>
-
-        <p>
-          deine vollständige Analyse ist fertig.
-        </p>
-
-        <p>
-          Im Anhang findest du:
-        </p>
-
+        <p>deine vollständige Analyse ist fertig.</p>
+        <p>Im Anhang findest du:</p>
         <ul style="padding-left:20px;margin:8px 0 16px 0;list-style:none;">
           <li>✓ Analyse.rtf — vollständige Einschätzung</li>
           <li>✓ ${escapeHtml(labels.filename)} — fertiges Schreiben</li>
         </ul>
-
-        <p>
-          Das Schreiben kann direkt verwendet
-          und versendet werden.
-        </p>
-
-        <p>
-          Viele Grüße<br>
-          <strong>MussIchZahlen</strong>
-        </p>
-
-        <p style="font-size:0.8rem;color:#6b7280;margin-top:24px;">
-          ${escapeHtml(DISCLAIMER)}
-        </p>
-
+        <p>Das Schreiben kann direkt verwendet und versendet werden.</p>
+        <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
+        <p style="font-size:0.8rem;color:#6b7280;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
       </div>
     `,
-
     attachments: [
-      {
-        filename: "Analyse.rtf",
-        content: rtfToBase64(analysisRtf),
-      },
-      {
-        filename: labels.filename,
-        content: rtfToBase64(letterRtf),
-      },
+      { filename: "Analyse.rtf", content: rtfToBase64(analysisRtf) },
+      { filename: labels.filename, content: rtfToBase64(letterRtf) },
     ],
   });
 
-  await trackEvent(env, "email_sent", {
-    type,
-    kind: "paid",
-  });
+  await trackEvent(env, "email_sent", { type, kind: "paid" });
 }
