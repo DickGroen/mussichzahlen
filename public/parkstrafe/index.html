@@ -4,157 +4,111 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bu&szlig;geld erhalten? Erst pr&uuml;fen, dann zahlen | MussIchZahlen.de</title>
-  <meta name="description" content="Viele Bu&szlig;geldbescheide enthalten Fehler. Pr&uuml;fe deinen Bescheid und erhalte ein fertiges Einspruchsschreiben innerhalb von 24 Stunden. Einmalig &euro;19.">
+  <meta name="description" content="Viele Bu&szlig;geldbescheide enthalten Fehler. Pr&uuml;fe deinen Bescheid und erhalte ein fertiges Einspruchsschreiben. Einmalig &euro;19.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --ink:         #0f1923;
-      --ink-2:       #2d3748;
-      --ink-3:       #4a5568;
-      --muted:       #718096;
-      --line:        #e2e8f0;
-      --surface:     #f7f9fc;
-      --white:       #ffffff;
-      --accent:      #1a3a6b;
-      --accent-2:    #2d5499;
-      --accent-soft: #ebf1ff;
-      --green:       #166534;
-      --green-soft:  #dcfce7;
-      --red:         #991b1b;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'DM Sans', sans-serif; font-size: 16px; line-height: 1.65; color: var(--ink); background: var(--white); -webkit-font-smoothing: antialiased; }
-    h1, h2, h3 { font-family: 'Lora', Georgia, serif; line-height: 1.2; }
-    a { color: var(--accent); }
-    .container { max-width: 860px; margin: 0 auto; padding: 0 24px; }
-
-    /* FRIST BANNER */
-    .frist-banner { background: #fef2f2; border-bottom: 2px solid #fca5a5; padding: 10px 0; text-align: center; font-size: .84rem; font-weight: 600; color: var(--red); }
-
-    /* HEADER */
-    .header { background: var(--white); border-bottom: 1px solid var(--line); padding: 16px 0; position: sticky; top: 0; z-index: 100; }
-    .header__inner { display: flex; align-items: center; justify-content: space-between; }
-    .logo { font-family: 'Lora', serif; font-size: 1.15rem; font-weight: 700; color: var(--accent); }
-    .logo-dot { display: inline-block; width: 8px; height: 8px; background: var(--accent-2); border-radius: 50%; margin-right: 6px; vertical-align: middle; }
-    .header-cta { background: var(--accent); color: var(--white); border: none; border-radius: 8px; padding: 10px 20px; font-family: 'DM Sans', sans-serif; font-size: .88rem; font-weight: 700; cursor: pointer; }
-    .header-cta:hover { background: var(--accent-2); }
-
-    /* HERO */
-    .hero { padding: 64px 0 48px; text-align: center; }
-    .hero h1 { font-size: clamp(1.9rem, 5vw, 2.9rem); color: var(--ink); margin-bottom: 20px; max-width: 700px; margin-left: auto; margin-right: auto; }
-    .hero__sub { font-size: 1.05rem; color: var(--ink-3); max-width: 540px; margin: 0 auto 32px; line-height: 1.7; }
-    .hero-cta { display: inline-block; background: var(--accent); color: var(--white); text-decoration: none; padding: 18px 40px; border-radius: 10px; font-size: 1.1rem; font-weight: 700; transition: background .2s; }
-    .hero-cta:hover { background: var(--accent-2); }
-    .hero-sub-note { font-size: .82rem; color: var(--muted); margin-top: 10px; }
-
-    /* TRUST TRIGGERS */
-    .trust-triggers { background: var(--green-soft); border: 1px solid #bbf7d0; border-radius: 12px; padding: 20px 24px; margin: 40px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    @media (max-width: 600px) { .trust-triggers { grid-template-columns: 1fr; } }
-    .trust-trigger { display: flex; align-items: flex-start; gap: 10px; font-size: .87rem; color: var(--green); line-height: 1.55; }
-    .trust-trigger strong { display: block; font-weight: 700; color: #14532d; margin-bottom: 2px; }
-
-    /* SECTION */
-    .section { padding: 72px 0; }
-    .section--alt { background: var(--surface); }
-    .section-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--accent-2); margin-bottom: 10px; }
-    .section h2 { font-size: clamp(1.5rem, 3vw, 2rem); color: var(--ink); margin-bottom: 32px; }
-
-    /* VALUE STRIP */
-    .value-strip { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 36px; justify-content: center; }
-    .value-item { display: flex; align-items: center; gap: 7px; background: var(--surface); border: 1px solid var(--line); border-radius: 100px; padding: 8px 16px; font-size: .86rem; color: var(--ink-2); font-weight: 500; }
-    .vi-check { color: var(--green); font-weight: 700; }
-
-    /* OFFER CARD */
-    .offer-card { background: var(--white); border: 2px solid var(--accent); border-radius: 16px; padding: 36px 32px; max-width: 580px; margin: 0 auto; box-shadow: 0 12px 40px rgba(26,58,107,.1); }
-    @media (max-width: 600px) { .offer-card { padding: 24px 20px; } }
-    .offer-badge { display: inline-block; background: var(--accent); color: var(--white); font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; padding: 4px 12px; border-radius: 100px; margin-bottom: 16px; }
-    .offer-title { font-family: 'Lora', serif; font-size: 1.45rem; color: var(--ink); margin-bottom: 8px; }
-    .offer-desc { color: var(--ink-3); font-size: .93rem; margin-bottom: 20px; line-height: 1.65; }
-    .offer-list { list-style: none; margin-bottom: 24px; display: grid; gap: 8px; }
-    .offer-list li { display: flex; align-items: flex-start; gap: 10px; font-size: .93rem; color: var(--ink-2); line-height: 1.55; }
-    .offer-list li::before { content: "✓"; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
-    hr.offer-divider { border: none; border-top: 1px solid var(--line); margin: 20px 0; }
-    .offer-price { font-size: 2rem; font-weight: 700; color: var(--accent); font-family: 'Lora', serif; }
-    .offer-price span { font-size: .95rem; color: var(--muted); font-weight: 400; font-family: 'DM Sans', sans-serif; }
-    .offer-cta { display: block; background: var(--accent); color: var(--white); text-decoration: none; text-align: center; padding: 17px; border-radius: 10px; font-size: 1.05rem; font-weight: 700; margin-top: 20px; }
-    .offer-cta:hover { background: var(--accent-2); }
-    .offer-security { text-align: center; font-size: .78rem; color: var(--muted); margin-top: 10px; }
-    .offer-refund { text-align: center; font-size: .76rem; color: var(--muted); margin-top: 6px; }
-
-    /* STEPS */
-    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
-    @media (max-width: 640px) { .steps { grid-template-columns: 1fr; } }
-    .step__num { font-family: 'Lora', serif; font-size: 2.2rem; font-weight: 700; color: var(--line); margin-bottom: 10px; line-height: 1; }
-    .step__title { font-weight: 700; color: var(--ink); margin-bottom: 6px; font-size: .98rem; }
-    .step__desc { font-size: .87rem; color: var(--ink-3); line-height: 1.65; }
-
-    /* TRUST GRID */
-    .trust-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    @media (max-width: 680px) { .trust-grid { grid-template-columns: 1fr; } }
-    .trust-item { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 20px; }
-    .trust-item__label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--accent); margin-bottom: 8px; }
-    .trust-item__text { font-size: .87rem; color: var(--ink-3); line-height: 1.65; }
-
-    /* FAQ */
-    .faq-list { display: grid; gap: 4px; }
-    .faq-item { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--white); }
-    .faq-q { display: flex; align-items: center; justify-content: space-between; padding: 17px 20px; cursor: pointer; font-weight: 600; font-size: .93rem; color: var(--ink); user-select: none; gap: 12px; }
-    .faq-q:hover { background: var(--surface); }
-    .faq-chevron { flex-shrink: 0; color: var(--muted); transition: transform .25s; }
-    .faq-a { max-height: 0; overflow: hidden; transition: max-height .3s ease; font-size: .9rem; color: var(--ink-3); line-height: 1.7; padding: 0 20px; }
-    .faq-item--open .faq-a { max-height: 300px; padding: 0 20px 17px; }
-    .faq-item--open .faq-chevron { transform: rotate(180deg); }
-
-    /* FINAL CTA */
-    .final-cta { background: var(--accent); color: var(--white); padding: 72px 0; text-align: center; }
-    .final-cta h2 { font-size: clamp(1.6rem, 3.5vw, 2.1rem); color: var(--white); margin-bottom: 12px; }
-    .final-cta p { color: rgba(255,255,255,.75); margin-bottom: 32px; font-size: .98rem; }
-    .final-cta-btn { display: inline-block; background: var(--white); color: var(--accent); text-decoration: none; padding: 17px 40px; border-radius: 10px; font-size: 1.05rem; font-weight: 700; }
-    .final-cta-btn:hover { opacity: .9; }
-    .final-cta-note { color: rgba(255,255,255,.6); font-size: .8rem; margin-top: 12px; }
-
-    /* STICKY FOOTER */
-    .sticky-footer { position: fixed; bottom: 0; left: 0; right: 0; background: var(--ink); color: var(--white); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; transform: translateY(100%); transition: transform .3s ease; z-index: 200; }
-    .sticky-footer.visible { transform: translateY(0); }
-    .sticky-footer__text { font-size: .9rem; font-weight: 600; }
-    .sticky-footer__sub { font-size: .76rem; color: rgba(255,255,255,.6); margin-top: 2px; }
-    .sticky-cta { background: var(--white); color: var(--accent); border: none; border-radius: 8px; padding: 10px 20px; font-family: 'DM Sans', sans-serif; font-size: .88rem; font-weight: 700; cursor: pointer; white-space: nowrap; flex-shrink: 0; }
-    @media (max-width: 500px) { .sticky-footer { flex-direction: column; text-align: center; } .sticky-cta { width: 100%; } }
-
-    /* MODAL */
-    .modal-overlay { position: fixed; inset: 0; background: rgba(15,25,35,.6); backdrop-filter: blur(4px); z-index: 300; display: none; align-items: center; justify-content: center; padding: 24px; }
-    .modal-overlay.open { display: flex; }
-    .modal { background: var(--white); border-radius: 16px; max-width: 480px; width: 100%; overflow: hidden; box-shadow: 0 24px 64px rgba(0,0,0,.2); }
-    .modal__header { background: var(--accent); color: var(--white); padding: 28px 28px 24px; }
-    .modal__eyebrow { font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; opacity: .7; margin-bottom: 8px; }
-    .modal__title { font-family: 'Lora', serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 8px; }
-    .modal__price { font-size: 1.6rem; font-weight: 700; font-family: 'Lora', serif; }
-    .modal__price span { font-size: .95rem; opacity: .7; font-weight: 400; font-family: 'DM Sans', sans-serif; }
-    .modal__body { padding: 24px 28px; }
-    .modal__feature { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; font-size: .92rem; color: var(--ink-2); }
-    .modal__feature .check { color: var(--green); font-weight: 700; flex-shrink: 0; }
-    .modal__disclaimer { background: var(--surface); border-radius: 8px; padding: 10px 14px; font-size: .8rem; color: var(--muted); margin: 16px 0; line-height: 1.55; }
-    .modal__cta { display: block; background: var(--accent); color: var(--white); text-decoration: none; text-align: center; padding: 16px; border-radius: 10px; font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
-    .modal__security { text-align: center; font-size: .78rem; color: var(--muted); }
-    .modal__close { display: block; text-align: center; margin-top: 14px; font-size: .84rem; color: var(--muted); cursor: pointer; }
-    .modal__close:hover { color: var(--ink); }
-
-    /* FOOTER */
-    .footer-trust { padding: 32px 0 16px; font-size: .85rem; color: var(--ink-3); line-height: 1.75; border-top: 1px solid var(--line); }
-    .disclaimer { padding: 16px 0 80px; font-size: .78rem; color: var(--muted); line-height: 1.7; }
+    :root{--ink:#0f1923;--ink-2:#2d3748;--ink-3:#4a5568;--muted:#718096;--line:#e2e8f0;--surface:#f7f9fc;--white:#ffffff;--accent:#1a3a6b;--accent-2:#2d5499;--accent-soft:#ebf1ff;--green:#166534;--green-soft:#dcfce7;--red:#991b1b;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.65;color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased;}
+    h1,h2,h3{font-family:'Lora',Georgia,serif;line-height:1.2;}
+    a{color:var(--accent);}
+    .container{max-width:860px;margin:0 auto;padding:0 24px;}
+    .frist-banner{background:#fef2f2;border-bottom:2px solid #fca5a5;padding:10px 0;text-align:center;font-size:.84rem;font-weight:600;color:var(--red);}
+    .header{background:var(--white);border-bottom:1px solid var(--line);padding:16px 0;position:sticky;top:0;z-index:100;}
+    .header__inner{display:flex;align-items:center;justify-content:space-between;}
+    .logo{font-family:'Lora',serif;font-size:1.15rem;font-weight:700;color:var(--accent);}
+    .logo-dot{display:inline-block;width:8px;height:8px;background:var(--accent-2);border-radius:50%;margin-right:6px;vertical-align:middle;}
+    .header-cta{background:var(--accent);color:var(--white);border:none;border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;}
+    .header-cta:hover{background:var(--accent-2);}
+    .hero{padding:64px 0 48px;text-align:center;}
+    .hero h1{font-size:clamp(1.9rem,5vw,2.9rem);color:var(--ink);margin-bottom:20px;max-width:700px;margin-left:auto;margin-right:auto;}
+    .hero__sub{font-size:1.05rem;color:var(--ink-3);max-width:540px;margin:0 auto 32px;line-height:1.7;}
+    .hero-cta{display:inline-block;background:var(--accent);color:var(--white);text-decoration:none;padding:18px 40px;border-radius:10px;font-size:1.1rem;font-weight:700;transition:background .2s;}
+    .hero-cta:hover{background:var(--accent-2);}
+    .hero-sub-note{font-size:.82rem;color:var(--muted);margin-top:10px;}
+    .trust-triggers{background:var(--green-soft);border:1px solid #bbf7d0;border-radius:12px;padding:20px 24px;margin:40px 0 0;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+    @media(max-width:600px){.trust-triggers{grid-template-columns:1fr;}}
+    .trust-trigger{display:flex;align-items:flex-start;gap:10px;font-size:.87rem;color:var(--green);line-height:1.55;}
+    .trust-trigger strong{display:block;font-weight:700;color:#14532d;margin-bottom:2px;}
+    .section{padding:72px 0;}
+    .section--alt{background:var(--surface);}
+    .section-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-2);margin-bottom:10px;}
+    .section h2{font-size:clamp(1.5rem,3vw,2rem);color:var(--ink);margin-bottom:32px;}
+    .value-strip{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 36px;justify-content:center;}
+    .value-item{display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--line);border-radius:100px;padding:8px 16px;font-size:.86rem;color:var(--ink-2);font-weight:500;}
+    .vi-check{color:var(--green);font-weight:700;}
+    .offer-card{background:var(--white);border:2px solid var(--accent);border-radius:16px;padding:36px 32px;max-width:580px;margin:0 auto;box-shadow:0 12px 40px rgba(26,58,107,.1);}
+    @media(max-width:600px){.offer-card{padding:24px 20px;}}
+    .offer-badge{display:inline-block;background:var(--accent);color:var(--white);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 12px;border-radius:100px;margin-bottom:16px;}
+    .offer-title{font-family:'Lora',serif;font-size:1.45rem;color:var(--ink);margin-bottom:8px;}
+    .offer-desc{color:var(--ink-3);font-size:.93rem;margin-bottom:20px;line-height:1.65;}
+    .offer-list{list-style:none;margin-bottom:24px;display:grid;gap:8px;}
+    .offer-list li{display:flex;align-items:flex-start;gap:10px;font-size:.93rem;color:var(--ink-2);line-height:1.55;}
+    .offer-list li::before{content:"&#10003;";color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px;}
+    hr.offer-divider{border:none;border-top:1px solid var(--line);margin:20px 0;}
+    .offer-price{font-size:2rem;font-weight:700;color:var(--accent);font-family:'Lora',serif;}
+    .offer-price span{font-size:.95rem;color:var(--muted);font-weight:400;font-family:'DM Sans',sans-serif;}
+    .offer-cta{display:block;background:var(--accent);color:var(--white);text-decoration:none;text-align:center;padding:17px;border-radius:10px;font-size:1.05rem;font-weight:700;margin-top:20px;}
+    .offer-cta:hover{background:var(--accent-2);}
+    .offer-security{text-align:center;font-size:.78rem;color:var(--muted);margin-top:10px;}
+    .offer-refund{text-align:center;font-size:.76rem;color:var(--muted);margin-top:6px;}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+    @media(max-width:640px){.steps{grid-template-columns:1fr;}}
+    .step__num{font-family:'Lora',serif;font-size:2.2rem;font-weight:700;color:var(--line);margin-bottom:10px;line-height:1;}
+    .step__title{font-weight:700;color:var(--ink);margin-bottom:6px;font-size:.98rem;}
+    .step__desc{font-size:.87rem;color:var(--ink-3);line-height:1.65;}
+    .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+    @media(max-width:680px){.trust-grid{grid-template-columns:1fr;}}
+    .trust-item{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:20px;}
+    .trust-item__label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:8px;}
+    .trust-item__text{font-size:.87rem;color:var(--ink-3);line-height:1.65;}
+    .faq-list{display:grid;gap:4px;}
+    .faq-item{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--white);}
+    .faq-q{display:flex;align-items:center;justify-content:space-between;padding:17px 20px;cursor:pointer;font-weight:600;font-size:.93rem;color:var(--ink);user-select:none;gap:12px;}
+    .faq-q:hover{background:var(--surface);}
+    .faq-chevron{flex-shrink:0;color:var(--muted);transition:transform .25s;}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;font-size:.9rem;color:var(--ink-3);line-height:1.7;padding:0 20px;}
+    .faq-item--open .faq-a{max-height:300px;padding:0 20px 17px;}
+    .faq-item--open .faq-chevron{transform:rotate(180deg);}
+    .final-cta{background:var(--accent);color:var(--white);padding:72px 0;text-align:center;}
+    .final-cta h2{font-size:clamp(1.6rem,3.5vw,2.1rem);color:var(--white);margin-bottom:12px;}
+    .final-cta p{color:rgba(255,255,255,.75);margin-bottom:32px;font-size:.98rem;}
+    .final-cta-btn{display:inline-block;background:var(--white);color:var(--accent);text-decoration:none;padding:17px 40px;border-radius:10px;font-size:1.05rem;font-weight:700;}
+    .final-cta-btn:hover{opacity:.9;}
+    .final-cta-note{color:rgba(255,255,255,.6);font-size:.8rem;margin-top:12px;}
+    .sticky-footer{position:fixed;bottom:0;left:0;right:0;background:var(--ink);color:var(--white);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;transform:translateY(100%);transition:transform .3s ease;z-index:200;}
+    .sticky-footer.visible{transform:translateY(0);}
+    .sticky-footer__text{font-size:.9rem;font-weight:600;}
+    .sticky-footer__sub{font-size:.76rem;color:rgba(255,255,255,.6);margin-top:2px;}
+    .sticky-cta{background:var(--white);color:var(--accent);border:none;border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+    @media(max-width:500px){.sticky-footer{flex-direction:column;text-align:center;}.sticky-cta{width:100%;}}
+    .modal-overlay{position:fixed;inset:0;background:rgba(15,25,35,.6);backdrop-filter:blur(4px);z-index:300;display:none;align-items:center;justify-content:center;padding:24px;}
+    .modal-overlay.open{display:flex;}
+    .modal{background:var(--white);border-radius:16px;max-width:480px;width:100%;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.2);}
+    .modal__header{background:var(--accent);color:var(--white);padding:28px 28px 24px;}
+    .modal__eyebrow{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;opacity:.7;margin-bottom:8px;}
+    .modal__title{font-family:'Lora',serif;font-size:1.25rem;font-weight:700;margin-bottom:8px;}
+    .modal__price{font-size:1.6rem;font-weight:700;font-family:'Lora',serif;}
+    .modal__price span{font-size:.95rem;opacity:.7;font-weight:400;font-family:'DM Sans',sans-serif;}
+    .modal__body{padding:24px 28px;}
+    .modal__feature{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;font-size:.92rem;color:var(--ink-2);}
+    .modal__feature .check{color:var(--green);font-weight:700;flex-shrink:0;}
+    .modal__disclaimer{background:var(--surface);border-radius:8px;padding:10px 14px;font-size:.8rem;color:var(--muted);margin:16px 0;line-height:1.55;}
+    .modal__cta{display:block;background:var(--accent);color:var(--white);text-decoration:none;text-align:center;padding:16px;border-radius:10px;font-size:1rem;font-weight:700;margin-bottom:10px;}
+    .modal__security{text-align:center;font-size:.78rem;color:var(--muted);}
+    .modal__close{display:block;text-align:center;margin-top:14px;font-size:.84rem;color:var(--muted);cursor:pointer;}
+    .modal__close:hover{color:var(--ink);}
+    .footer-trust{padding:32px 0 16px;font-size:.85rem;color:var(--ink-3);line-height:1.75;border-top:1px solid var(--line);}
+    .disclaimer{padding:16px 0 20px;font-size:.78rem;color:var(--muted);line-height:1.7;}
   </style>
 </head>
 <body>
 
-<!-- FRIST BANNER -->
-<div class="frist-banner">
-  &#9888;&#65039;&nbsp; Einspruchsfrist: 2 Wochen ab Zustellung (&sect;&nbsp;67&nbsp;OWiG) &mdash; nicht vers&auml;umen
-</div>
+<div class="frist-banner">&#9888;&#65039;&nbsp; Einspruchsfrist: 2 Wochen ab Zustellung (&sect;&nbsp;67&nbsp;OWiG) &mdash; nicht vers&auml;umen</div>
 
-<!-- HEADER -->
 <header class="header">
   <div class="container">
     <div class="header__inner">
@@ -164,32 +118,20 @@
   </div>
 </header>
 
-<!-- HERO -->
 <section class="hero">
   <div class="container">
     <h1>Bu&szlig;geld erhalten?<br>Du zahlst m&ouml;glicherweise zu viel.</h1>
     <p class="hero__sub">Viele Bu&szlig;geldbescheide enthalten Fehler. Pr&uuml;fe deinen Bescheid und erhalte ein fertiges Einspruchsschreiben innerhalb von 24&nbsp;Stunden.</p>
-    <a href="https://buy.stripe.com/YOUR_LINK" class="hero-cta">Bescheid jetzt pr&uuml;fen &mdash; &euro;19 &rarr;</a>
+    <a href="https://buy.stripe.com/REPLACE_WITH_PARKSTRAFE_LINK" class="hero-cta">Bescheid jetzt pr&uuml;fen &mdash; &euro;19 &rarr;</a>
     <div class="hero-sub-note">Einmalig &euro;19 &middot; kein Abo &middot; &#128274; Sichere Zahlung &uuml;ber Stripe</div>
-
     <div class="trust-triggers">
-      <div class="trust-trigger">
-        <span>&#128994;</span>
-        <div><strong>Privater Parkzettel?</strong>Nicht dasselbe wie ein Beh&ouml;rdenbescheid &mdash; h&auml;ufig leichter anfechtbar.</div>
-      </div>
-      <div class="trust-trigger">
-        <span>&#128994;</span>
-        <div><strong>Keine direkte Vollstreckung</strong>Private Unternehmen k&ouml;nnen ohne Gerichtsurteil nicht vollstrecken.</div>
-      </div>
-      <div class="trust-trigger">
-        <span>&#128994;</span>
-        <div><strong>Formfehler h&auml;ufig</strong>Viele Bescheide enthalten angreifbare Angaben zu Ort, Zeit oder Fahrzeug.</div>
-      </div>
+      <div class="trust-trigger"><span>&#128994;</span><div><strong>Privater Parkzettel?</strong>Nicht dasselbe wie ein Beh&ouml;rdenbescheid &mdash; h&auml;ufig leichter anfechtbar.</div></div>
+      <div class="trust-trigger"><span>&#128994;</span><div><strong>Keine direkte Vollstreckung</strong>Private Unternehmen k&ouml;nnen ohne Gerichtsurteil nicht vollstrecken.</div></div>
+      <div class="trust-trigger"><span>&#128994;</span><div><strong>Formfehler h&auml;ufig</strong>Viele Bescheide enthalten angreifbare Angaben zu Ort, Zeit oder Fahrzeug.</div></div>
     </div>
   </div>
 </section>
 
-<!-- OFFER -->
 <section class="section">
   <div class="container">
     <div class="value-strip">
@@ -199,11 +141,10 @@
       <span class="value-item"><span class="vi-check">&#10003;</span> Fertiges Einspruchsschreiben</span>
       <span class="value-item"><span class="vi-check">&#10003;</span> Einmalig &euro;19 &mdash; kein Abo</span>
     </div>
-
     <div class="offer-card">
       <div class="offer-badge">Empfohlen</div>
       <div class="offer-title">Vollst&auml;ndige Analyse + Einspruchsschreiben</div>
-      <p class="offer-desc">Wir pr&uuml;fen deinen Bescheid auf alle m&ouml;glichen Ansatzpunkte und erstellen ein fertiges Einspruchsschreiben. Du versendest es &mdash; und beh&auml;ltst m&ouml;glicherweise dein Geld.</p>
+      <p class="offer-desc">Wir pr&uuml;fen deinen Bescheid auf alle m&ouml;glichen Ansatzpunkte und erstellen ein fertiges Einspruchsschreiben.</p>
       <ul class="offer-list">
         <li>Pr&uuml;fung auf formale Fehler im Bu&szlig;geldbescheid</li>
         <li>Pr&uuml;fung von Fristen und Zustellung (&sect;&nbsp;67&nbsp;OWiG)</li>
@@ -216,133 +157,87 @@
       </ul>
       <hr class="offer-divider">
       <div class="offer-price">&euro;19 <span>einmalig &middot; kein Abo</span></div>
-      <a href="https://buy.stripe.com/YOUR_LINK" class="offer-cta">Jetzt pr&uuml;fen lassen &rarr;</a>
+      <a href="https://buy.stripe.com/REPLACE_WITH_PARKSTRAFE_LINK" class="offer-cta">Jetzt pr&uuml;fen lassen &rarr;</a>
       <div class="offer-security">&#128274; Sichere Zahlung &uuml;ber Stripe</div>
       <div class="offer-refund">Bei inhaltlich unvollst&auml;ndiger Analyse: Geld zur&uuml;ck.</div>
     </div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
 <section class="section section--alt">
   <div class="container">
     <div class="section-label">So funktioniert es</div>
     <h2>In 3 Schritten zum fertigen Einspruch</h2>
     <div class="steps">
-      <div class="step">
-        <div class="step__num">01</div>
-        <div class="step__title">Bescheid hochladen</div>
-        <div class="step__desc">Nach der Zahlung l&auml;dst du deinen Bu&szlig;geldbescheid, Strafzettel oder Anh&ouml;rungsbogen hoch. PDF, JPG oder PNG.</div>
-      </div>
-      <div class="step">
-        <div class="step__num">02</div>
-        <div class="step__title">Wir pr&uuml;fen alles</div>
-        <div class="step__desc">Fristen, Formangaben, Beweislage, Beschilderung, m&ouml;gliche Messfehler und Einspruchsgr&uuml;nde.</div>
-      </div>
-      <div class="step">
-        <div class="step__num">03</div>
-        <div class="step__title">Analyse + Einspruch per E-Mail</div>
-        <div class="step__desc">Innerhalb von 24&nbsp;Stunden erh&auml;ltst du deine vollst&auml;ndige Analyse und ein fertiges Einspruchsschreiben.</div>
-      </div>
+      <div class="step"><div class="step__num">01</div><div class="step__title">Bescheid hochladen</div><div class="step__desc">Nach der Zahlung l&auml;dst du deinen Bu&szlig;geldbescheid, Strafzettel oder Anh&ouml;rungsbogen hoch. PDF, JPG oder PNG.</div></div>
+      <div class="step"><div class="step__num">02</div><div class="step__title">Wir pr&uuml;fen alles</div><div class="step__desc">Fristen, Formangaben, Beweislage, Beschilderung, m&ouml;gliche Messfehler und Einspruchsgr&uuml;nde.</div></div>
+      <div class="step"><div class="step__num">03</div><div class="step__title">Analyse + Einspruch per E-Mail</div><div class="step__desc">Innerhalb von 24&nbsp;Stunden erh&auml;ltst du deine vollst&auml;ndige Analyse und ein fertiges Einspruchsschreiben.</div></div>
     </div>
   </div>
 </section>
 
-<!-- TRUST -->
 <section class="section">
   <div class="container">
     <div class="section-label">Wie wir arbeiten</div>
     <h2>Rechtliche Grundlage</h2>
     <div class="trust-grid">
-      <div class="trust-item">
-        <div class="trust-item__label">&sect;&nbsp;67&nbsp;OWiG &mdash; Einspruchsfrist</div>
-        <div class="trust-item__text">Die Einspruchsfrist gegen einen Bu&szlig;geldbescheid betr&auml;gt 2&nbsp;Wochen ab Zustellung. Wir erstellen dein Schreiben rechtzeitig.</div>
-      </div>
-      <div class="trust-item">
-        <div class="trust-item__label">&sect;&nbsp;26&nbsp;Abs.&nbsp;3&nbsp;StVG &mdash; Verj&auml;hrung</div>
-        <div class="trust-item__text">Einfache Verkehrsordnungswidrigkeiten verj&auml;hren nach 3&nbsp;Monaten. Wir pr&uuml;fen, ob dein Bescheid noch fristgerecht ist.</div>
-      </div>
-      <div class="trust-item">
-        <div class="trust-item__label">Keine Rechtsberatung</div>
-        <div class="trust-item__text">Wir erstellen informative Analysen und Schreibenentw&uuml;rfe. Keine rechtliche Vertretung. Bei Fahrverbot empfehlen wir einen Anwalt.</div>
-      </div>
+      <div class="trust-item"><div class="trust-item__label">&sect;&nbsp;67&nbsp;OWiG &mdash; Einspruchsfrist</div><div class="trust-item__text">Die Einspruchsfrist gegen einen Bu&szlig;geldbescheid betr&auml;gt 2&nbsp;Wochen ab Zustellung.</div></div>
+      <div class="trust-item"><div class="trust-item__label">&sect;&nbsp;26&nbsp;Abs.&nbsp;3&nbsp;StVG &mdash; Verj&auml;hrung</div><div class="trust-item__text">Einfache Verkehrsordnungswidrigkeiten verj&auml;hren nach 3&nbsp;Monaten.</div></div>
+      <div class="trust-item"><div class="trust-item__label">Keine Rechtsberatung</div><div class="trust-item__text">Wir erstellen informative Analysen und Schreibenentw&uuml;rfe. Keine rechtliche Vertretung.</div></div>
     </div>
   </div>
 </section>
 
-<!-- FÜR WEN -->
 <section class="section">
   <div class="container">
     <div class="section-label">Passend f&uuml;r dich?</div>
     <h2>F&uuml;r wen ist das geeignet?</h2>
     <div style="display:grid;gap:10px;max-width:560px;">
-      <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 18px;background:var(--green-soft);border:1px solid #bbf7d0;border-radius:10px;font-size:.93rem;color:#14532d;">
-        <span style="font-weight:700;flex-shrink:0;">&#10003;</span>
-        <span>Du hast einen Bu&szlig;geldbescheid oder Strafzettel erhalten</span>
-      </div>
-      <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 18px;background:var(--green-soft);border:1px solid #bbf7d0;border-radius:10px;font-size:.93rem;color:#14532d;">
-        <span style="font-weight:700;flex-shrink:0;">&#10003;</span>
-        <span>Die Einspruchsfrist ist noch nicht abgelaufen</span>
-      </div>
-      <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 18px;background:var(--green-soft);border:1px solid #bbf7d0;border-radius:10px;font-size:.93rem;color:#14532d;">
-        <span style="font-weight:700;flex-shrink:0;">&#10003;</span>
-        <span>Du m&ouml;chtest ein fertiges Schreiben statt selbst zu formulieren</span>
-      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 18px;background:var(--green-soft);border:1px solid #bbf7d0;border-radius:10px;font-size:.93rem;color:#14532d;"><span style="font-weight:700;flex-shrink:0;">&#10003;</span><span>Du hast einen Bu&szlig;geldbescheid oder Strafzettel erhalten</span></div>
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 18px;background:var(--green-soft);border:1px solid #bbf7d0;border-radius:10px;font-size:.93rem;color:#14532d;"><span style="font-weight:700;flex-shrink:0;">&#10003;</span><span>Die Einspruchsfrist ist noch nicht abgelaufen</span></div>
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 18px;background:var(--green-soft);border:1px solid #bbf7d0;border-radius:10px;font-size:.93rem;color:#14532d;"><span style="font-weight:700;flex-shrink:0;">&#10003;</span><span>Du m&ouml;chtest ein fertiges Schreiben statt selbst zu formulieren</span></div>
     </div>
   </div>
 </section>
 
-<!-- FAQ -->
 <section class="section section--alt">
   <div class="container">
     <div class="section-label">H&auml;ufige Fragen</div>
     <h2>Alles, was du wissen m&ouml;chtest</h2>
     <div class="faq-list">
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">Wie lange habe ich Zeit f&uuml;r den Einspruch? <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
-        <div class="faq-a">Die Einspruchsfrist betr&auml;gt 2&nbsp;Wochen ab Zustellung (&sect;&nbsp;67&nbsp;OWiG). Diese Frist ist nicht verl&auml;ngerbar.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">Was ist der Unterschied zwischen privatem Parkzettel und Beh&ouml;rdenbescheid? <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
-        <div class="faq-a">Ein beh&ouml;rdlicher Bescheid kann direkt vollstreckt werden. Zettel von privaten Parkraumunternehmen sind zivilrechtliche Forderungen &mdash; keine direkte Vollstreckung ohne Gerichtsurteil m&ouml;glich.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">K&ouml;nnte mein Bescheid verj&auml;hrt sein? <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
-        <div class="faq-a">Bei einfachen Verkehrsordnungswidrigkeiten betr&auml;gt die Verj&auml;hrungsfrist 3&nbsp;Monate (&sect;&nbsp;26&nbsp;Abs.&nbsp;3&nbsp;StVG). Liegt der Tattag mehr als 3&nbsp;Monate zur&uuml;ck, k&ouml;nnte der Bescheid verj&auml;hrt sein.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">Was passiert nach einem Einspruch? <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
-        <div class="faq-a">Die Beh&ouml;rde pr&uuml;ft und kann aufheben, &auml;ndern oder ans Amtsgericht abgeben. Ein Einspruch ist kostenlos &mdash; das Bu&szlig;geld kann nicht erh&ouml;ht werden.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q" onclick="toggleFaq(this)">Ist das Rechtsberatung? <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div>
-        <div class="faq-a">Nein. MussIchZahlen.de erstellt eine informative Dokumentenanalyse und einen Einspruchsentwurf. Wir vertreten dich nicht rechtlich. Bei Fahrverbot empfehlen wir einen Anwalt f&uuml;r Verkehrsrecht.</div>
-      </div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Wie lange habe ich Zeit f&uuml;r den Einspruch? <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a">Die Einspruchsfrist betr&auml;gt 2&nbsp;Wochen ab Zustellung (&sect;&nbsp;67&nbsp;OWiG). Diese Frist ist nicht verl&auml;ngerbar.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Was ist der Unterschied zwischen privatem Parkzettel und Beh&ouml;rdenbescheid? <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a">Ein beh&ouml;rdlicher Bescheid kann direkt vollstreckt werden. Zettel von privaten Parkraumunternehmen sind zivilrechtliche Forderungen.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">K&ouml;nnte mein Bescheid verj&auml;hrt sein? <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a">Bei einfachen Verkehrsordnungswidrigkeiten betr&auml;gt die Verj&auml;hrungsfrist 3&nbsp;Monate (&sect;&nbsp;26&nbsp;Abs.&nbsp;3&nbsp;StVG).</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Was passiert nach einem Einspruch? <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a">Die Beh&ouml;rde pr&uuml;ft und kann aufheben, &auml;ndern oder ans Amtsgericht abgeben. Ein Einspruch ist kostenlos.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Ist das Rechtsberatung? <svg class="faq-chevron" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></div><div class="faq-a">Nein. MussIchZahlen.de erstellt eine informative Dokumentenanalyse und einen Einspruchsentwurf. Bei Fahrverbot empfehlen wir einen Anwalt.</div></div>
     </div>
   </div>
 </section>
 
-<!-- FINAL CTA -->
 <section class="final-cta">
   <div class="container">
     <h2>Jetzt pr&uuml;fen &mdash; bevor du zahlst</h2>
     <p>Bu&szlig;geldbescheid erhalten? Pr&uuml;fe, ob du wirklich zahlen musst.</p>
-    <a href="https://buy.stripe.com/YOUR_LINK" class="final-cta-btn">Bescheid jetzt pr&uuml;fen &mdash; &euro;19 &rarr;</a>
+    <a href="https://buy.stripe.com/REPLACE_WITH_PARKSTRAFE_LINK" class="final-cta-btn">Bescheid jetzt pr&uuml;fen &mdash; &euro;19 &rarr;</a>
     <div class="final-cta-note">Einmalig &euro;19 &middot; kein Abo &middot; &#128274; Stripe &middot; Ergebnis in 24&nbsp;Std.</div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <div class="container">
-  <div class="footer-trust">
-    <strong>MussIchZahlen.de</strong> ist ein deutscher Dokumenten-Analyse-Service f&uuml;r Verbraucher. Fragen? <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a>. Hochgeladene Dokumente werden nur f&uuml;r die Analyse verwendet und danach gel&ouml;scht.
-  </div>
-  <div class="disclaimer">
-    MussIchZahlen.de bietet informative Analysen und erstellt Entw&uuml;rfe f&uuml;r Einspruchsschreiben. Wir leisten keine Rechtsberatung und &uuml;bernehmen keine rechtliche Vertretung. Ein Einspruch garantiert keine Aufhebung eines Bu&szlig;geldes. Bei Fahrverbot, Punkten oder komplexen F&auml;llen konsultiere einen Anwalt f&uuml;r Verkehrsrecht. Dokumente werden nach Verarbeitung gel&ouml;scht. &copy; 2025 MussIchZahlen.de
-  </div>
+  <div class="footer-trust"><strong>MussIchZahlen.de</strong> ist ein deutscher Dokumenten-Analyse-Service f&uuml;r Verbraucher. Fragen? <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a>.</div>
+  <div class="disclaimer">MussIchZahlen.de bietet informative Analysen und erstellt Entw&uuml;rfe f&uuml;r Einspruchsschreiben. Keine Rechtsberatung. Bei Fahrverbot konsultiere einen Anwalt. &copy; 2026 MussIchZahlen.de</div>
 </div>
 
-<!-- STICKY FOOTER -->
+<footer style="border-top:1px solid var(--line);padding:20px 0;text-align:center;background:var(--white);">
+  <div class="container">
+    <p style="font-size:.78rem;color:var(--muted);margin:0;">
+      <a href="/impressum.html" style="color:var(--muted);margin:0 10px;">Impressum</a>
+      <a href="/datenschutz.html" style="color:var(--muted);margin:0 10px;">Datenschutz</a>
+      <a href="/agb.html" style="color:var(--muted);margin:0 10px;">AGB</a>
+    </p>
+  </div>
+</footer>
+
 <div class="sticky-footer" id="sticky-footer">
   <div>
     <div class="sticky-footer__text">Bu&szlig;geld erhalten? Erst pr&uuml;fen, dann zahlen.</div>
@@ -351,7 +246,6 @@
   <button class="sticky-cta" onclick="openModal()">Bescheid pr&uuml;fen &mdash; &euro;19 &rarr;</button>
 </div>
 
-<!-- MODAL -->
 <div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <div class="modal__header">
@@ -364,8 +258,8 @@
       <div class="modal__feature"><span class="check">&#10003;</span><span>Pr&uuml;fung von Fristen, Beschilderung und Beweisen</span></div>
       <div class="modal__feature"><span class="check">&#10003;</span><span>Fertiges Einspruchsschreiben</span></div>
       <div class="modal__feature"><span class="check">&#10003;</span><span>Konkrete n&auml;chste Schritte bei Ablehnung</span></div>
-      <div class="modal__disclaimer">&#8505;&#65039; Informative Analyse &mdash; keine Rechtsberatung, keine rechtliche Vertretung.</div>
-      <a href="https://buy.stripe.com/YOUR_LINK" class="modal__cta">&euro;19 zahlen und Bescheid pr&uuml;fen lassen &rarr;</a>
+      <div class="modal__disclaimer">&#8505;&#65039; Informative Analyse &mdash; keine Rechtsberatung.</div>
+      <a href="https://buy.stripe.com/REPLACE_WITH_PARKSTRAFE_LINK" class="modal__cta">&euro;19 zahlen und Bescheid pr&uuml;fen lassen &rarr;</a>
       <div class="modal__security">&#128274; Sichere Zahlung &uuml;ber Stripe &middot; Bei unvollst&auml;ndiger Analyse: Geld zur&uuml;ck</div>
       <div class="modal__close" onclick="closeModal()">Abbrechen</div>
     </div>
@@ -373,36 +267,12 @@
 </div>
 
 <script>
-  function openModal() {
-    document.getElementById('modal').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeModal() {
-    document.getElementById('modal').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-  function toggleFaq(el) {
-    const item   = el.closest('.faq-item');
-    const isOpen = item.classList.contains('faq-item--open');
-    document.querySelectorAll('.faq-item--open').forEach(i => i.classList.remove('faq-item--open'));
-    if (!isOpen) item.classList.add('faq-item--open');
-  }
-
-  const sf = document.getElementById('sticky-footer');
-  let ticking = false;
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        const y = window.scrollY;
-        const nearBottom = y + window.innerHeight > document.documentElement.scrollHeight - 200;
-        sf.classList.toggle('visible', y > 400 && !nearBottom);
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }, { passive: true });
+  function openModal(){document.getElementById('modal').classList.add('open');document.body.style.overflow='hidden';}
+  function closeModal(){document.getElementById('modal').classList.remove('open');document.body.style.overflow='';}
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+  function toggleFaq(el){const item=el.closest('.faq-item');const isOpen=item.classList.contains('faq-item--open');document.querySelectorAll('.faq-item--open').forEach(i=>i.classList.remove('faq-item--open'));if(!isOpen)item.classList.add('faq-item--open');}
+  const sf=document.getElementById('sticky-footer');let ticking=false;
+  window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(()=>{const y=window.scrollY;const nearBottom=y+window.innerHeight>document.documentElement.scrollHeight-200;sf.classList.toggle('visible',y>400&&!nearBottom);ticking=false;});ticking=true;}},{passive:true});
 </script>
 </body>
 </html>
