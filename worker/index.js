@@ -24,18 +24,6 @@ export default {
       });
     }
 
-    if (url.pathname === "/api/test-cron" && request.method === "GET") {
-      try {
-        await handleCron(env);
-        return jsonResponse({ ok: true, message: "Cron ran successfully" });
-      } catch (err) {
-        return jsonResponse(
-          { ok: false, error: err?.message || "Cron failed" },
-          500
-        );
-      }
-    }
-
     try {
       if (url.pathname === "/api/stripe-webhook" && request.method === "POST") {
         return await handleStripeWebhook(request, env);
