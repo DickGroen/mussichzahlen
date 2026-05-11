@@ -63,8 +63,6 @@ async function trackEvent(env, event, data = {}) {
   }
 }
 
-// ── Core send ────────────────────────────────────────────────────────────────
-
 async function sendEmail(env, { to, subject, html, attachments = [] }) {
   const body = {
     from: FROM,
@@ -91,8 +89,6 @@ async function sendEmail(env, { to, subject, html, attachments = [] }) {
   return res.json();
 }
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
-
 function formatAmount(triage) {
   if (triage?.amount_claimed) return `€${triage.amount_claimed}`;
   if (triage?.fine_amount)    return `€${triage.fine_amount}`;
@@ -112,37 +108,26 @@ function riskAssessment(risk) {
   }[risk] || "Nach erster Einschätzung bestehen mögliche Unklarheiten. Es könnte sinnvoll sein, die Forderung vor einer Zahlung genauer zu überprüfen.";
 }
 
-// ── Directe bevestigingsemail na upload ──────────────────────────────────────
-
 export async function sendConfirmationEmail(env, { name, email }) {
   await sendEmail(env, {
     to: email,
     subject: "Dein Schreiben ist eingegangen — MussIchZahlen",
     html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
-
       <p style="font-size:1.1rem;font-weight:700;color:#14532d;">✓ Dein Schreiben ist eingegangen.</p>
-
       <p>Hallo ${escapeHtml(capitalizeFirst(name))},</p>
-
       <p>wir haben dein Dokument erhalten und werden es sorgfältig prüfen. Du erhältst spätestens am nächsten Werktag bis 16:00 Uhr eine erste Einschätzung per E-Mail.</p>
-
       <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px;margin:16px 0;">
         <strong style="color:#14532d;">Was wir prüfen:</strong>
         <p style="color:#166534;margin-top:6px;margin-bottom:0;line-height:1.65;">
           Wir schauen uns dein Schreiben genau an und geben dir eine erste Einschätzung, ob es sinnvoll sein könnte, die Forderung vor einer Zahlung genauer prüfen zu lassen.
         </p>
       </div>
-
       <p style="font-size:.9rem;color:#6b7280;">→ Bitte prüf auch deinen Spam-Ordner, falls du keine E-Mail erhältst.</p>
-
       <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
-
       <p style="color:#6b7280;font-size:0.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
     </div>`
   });
 }
-
-// ── Admin notifications ──────────────────────────────────────────────────────
 
 export async function notifyAdminFree(env, { name, email, type, triage }) {
   const labels = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
@@ -192,67 +177,48 @@ export async function notifyAdminPaid(env, { name, email, type, triage, analysis
   });
 }
 
-// ── Free email: recovery sequentie ───────────────────────────────────────────
-
 export async function sendFreeEmail(env, { name, email, type, triage, stripeLink, stage = 1 }) {
   const labels      = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
   const amount      = formatAmount(triage);
   const stageNumber = Number(stage) || 1;
 
   if (stageNumber === 1) {
-    const senderPart    = triage?.sender ? ` der ${escapeHtml(triage.sender)}` : "";
-    const amountPart    = amount !== "unbekannt" ? ` über einen Betrag von ${escapeHtml(amount)}` : "";
-    const einordnung    = `Es handelt sich um ein ${escapeHtml(labels.title)}${senderPart}${amountPart}.`;
-    const aufgefallen   = triage?.teaser ? escapeHtml(triage.teaser) : "In diesem Schreiben gibt es Hinweise darauf, dass einzelne Positionen oder Kosten genauer geprüft werden sollten.";
+    const senderPart  = triage?.sender ? ` der ${escapeHtml(triage.sender)}` : "";
+    const amountPart  = amount !== "unbekannt" ? ` über einen Betrag von ${escapeHtml(amount)}` : "";
+    const einordnung  = `Es handelt sich um ein ${escapeHtml(labels.title)}${senderPart}${amountPart}.`;
+    const aufgefallen = triage?.teaser ? escapeHtml(triage.teaser) : "In diesem Schreiben gibt es Hinweise darauf, dass einzelne Positionen oder Kosten genauer geprüft werden sollten.";
     const einschaetzung = riskAssessment(triage?.risk);
 
     await sendEmail(env, {
       to: email,
       subject: `Erste Einschätzung zu deinem Schreiben — ${labels.title}`,
       html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
-
         <p>Hallo ${escapeHtml(capitalizeFirst(name))},</p>
-
         <p>wir haben dein Schreiben geprüft und eine erste Einschätzung für dich erstellt.</p>
-
         <p><strong>Erste Einordnung:</strong><br>${einordnung}</p>
-
         <p><strong>Was auffällt:</strong><br>${aufgefallen}</p>
-
         <p><strong>Einschätzung:</strong><br>${escapeHtml(einschaetzung)}</p>
-
         <p>${amount !== "unbekannt" ? `Bei einem Betrag von ${escapeHtml(amount)} ist es sinnvoll, die Forderung erst genauer prüfen zu lassen, bevor du zahlst.` : "Es kann sinnvoll sein, die Forderung vor einer Zahlung genauer prüfen zu lassen."}</p>
-
         <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;">
-
         <p>Wenn du möchtest, kannst du eine vollständige Prüfung inklusive fertigem Antwortschreiben erhalten.</p>
-
         <ul style="padding-left:20px;margin:8px 0 16px 0;list-style:none;">
           <li>✓ eine klare Bewertung deiner Situation</li>
           <li>✓ konkrete Punkte, die geprüft werden sollten</li>
           <li>✓ ein fertiges Schreiben, das du direkt versenden kannst</li>
         </ul>
-
         ${stripeLink ? `
         <p style="margin:20px 0;">
-          <a href="${escapeHtml(stripeLink)}"
-             style="display:inline-block;background:#1d3a6e;color:#fff;padding:13px 24px;border-radius:6px;text-decoration:none;font-weight:bold;">
+          <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#fff;padding:13px 24px;border-radius:6px;text-decoration:none;font-weight:bold;">
             Vollständige Analyse + Antwortschreiben — €${escapeHtml(labels.price)} →
           </a>
         </p>
-
         <p style="font-size:0.85rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
-
         <p style="font-size:0.85rem;color:#6b7280;background:#f9fafb;padding:10px;border-radius:4px;">
           Viele entscheiden sich dafür, die Forderung erst prüfen zu lassen — bevor sie zahlen.
         </p>` : ""}
-
         <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;">
-
         <p>Falls du Fragen hast, kannst du einfach auf diese E-Mail antworten.</p>
-
         <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
-
         <p style="color:#6b7280;font-size:0.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
       </div>`
     });
@@ -261,7 +227,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     return;
   }
 
-  if (!stripeLink) return; // geen CTA mogelijk — geen follow-up sturen
+  if (!stripeLink) return;
 
   const subjects = {
     2: `Noch nicht geprüft? Deine Einschätzung wartet — ${labels.title}`,
@@ -279,7 +245,6 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
       <p>Hallo ${escapeHtml(capitalizeFirst(name))},</p>
       ${intros[stageNumber] || intros[2]}
-
       <table style="width:100%;border-collapse:collapse;margin:20px 0;border:1px solid #e5e7eb;">
         <tr style="background:#f3f4f6;">
           <td style="padding:10px;font-weight:bold;">Dokument</td>
@@ -298,14 +263,11 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
           <td style="padding:10px;">${escapeHtml(riskLabel(triage?.risk))}</td>
         </tr>
       </table>
-
       <p style="margin:20px 0;">
-        <a href="${escapeHtml(stripeLink)}"
-           style="display:inline-block;background:#1d3a6e;color:#fff;padding:13px 24px;border-radius:6px;text-decoration:none;font-weight:bold;">
+        <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#fff;padding:13px 24px;border-radius:6px;text-decoration:none;font-weight:bold;">
           Jetzt vollständig prüfen lassen — €${escapeHtml(labels.price)} →
         </a>
       </p>
-
       <p style="font-size:0.85rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
       <p style="color:#6b7280;font-size:0.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
     </div>`
@@ -313,8 +275,6 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
 
   await trackEvent(env, "email_sent", { type, stage: stageNumber, kind: "free" });
 }
-
-// ── Paid delivery ─────────────────────────────────────────────────────────────
 
 export async function sendPaidEmail(env, { name, email, type, triage, analysis }) {
   const labels      = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
