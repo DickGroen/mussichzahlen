@@ -1,190 +1,257 @@
-// routes/stripe-webhook.js
+// worker/routes/webhook.js — mussichzahlen
 
-import { jsonResponse } from "../utils/response.js";
-import { markPaid, getFreeCase, enqueuePaid } from "../services/queue.js";
-import { notifyAdminPaid } from "../services/resend.js";
-import { runAnalysis } from "../services/claude.js";
-import { loadPrompts } from "../config/prompts.js";
+import { json }                                     from "../utils/response.js";
+import { getFreeCase, markPaid, enqueuePaid }        from "../services/queue.js";
+import { requireType }                               from "../config/types.js";
+import { notifyAdminPaid, sendPaidEmail }            from "../services/resend.js";
+import { runAnalysis }                               from "../services/claude.js";
+import { loadPrompts }                               from "../config/prompts.js";
 
-const TRACK_TTL_SECONDS = 60 * 60 * 24 * 90;
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+async function trackEvent(env, event, data = {}) {
+  try {
+    const id  = crypto.randomUUID();
+    const key = `track:${data.type || "unknown"}:${event}:${Date.now()}:${id}`;
+    await env.SESSIONS_KV.put(key, JSON.stringify({
+      event,
+      ...data,
+      received_at: new Date().toISOString(),
+    }), { expirationTtl: 60 * 60 * 24 * 90 });
+  } catch (err) {
+    console.error("Track error:", err.message);
+  }
+}
+
+async function hasAnalysisBeenSent(env, sessionId) {
+  const key = `analysis_sent:${sessionId}`;
+  const val = await env.SESSIONS_KV.get(key);
+  return val === "1";
+}
+
+async function markAnalysisSent(env, sessionId) {
+  const key = `analysis_sent:${sessionId}`;
+  await env.SESSIONS_KV.put(key, "1", { expirationTtl: 60 * 60 * 24 * 30 });
+}
+
+// ── Webhook handler ───────────────────────────────────────────────────────────
 
 export async function handleStripeWebhook(request, env) {
   const signature = request.headers.get("stripe-signature");
-  const rawBody = await request.text();
 
   if (!signature) {
-    return jsonResponse({ ok: false, error: "Stripe signature fehlt" }, 400);
+    return json({ ok: false, error: "Missing Stripe signature" }, 400);
   }
 
-  const valid = await verifyStripeSignature(rawBody, signature, env.STRIPE_WEBHOOK_SECRET);
-
-  if (!valid) {
-    return jsonResponse({ ok: false, error: "Ungültige Stripe Signatur" }, 400);
+  let rawBody;
+  try {
+    rawBody = await request.text();
+  } catch {
+    return json({ ok: false, error: "Unable to read webhook body" }, 400);
   }
 
   let event;
   try {
-    event = JSON.parse(rawBody);
-  } catch (_) {
-    return jsonResponse({ ok: false, error: "Ungültiges JSON" }, 400);
+    event = await verifyStripeWebhook(rawBody, signature, env.STRIPE_WEBHOOK_SECRET);
+  } catch (err) {
+    return json({ ok: false, error: "Invalid webhook signature" }, 400);
   }
 
-  if (event.type !== "checkout.session.completed") {
-    return jsonResponse({ ok: true, ignored: true });
-  }
+  try {
+    switch (event.type) {
 
-  const session = event.data?.object || {};
+      case "checkout.session.completed": {
+        const session = event.data.object;
 
-  if (session.payment_status !== "paid") {
-    return jsonResponse({ ok: true, ignored: true, reason: "not_paid" });
-  }
+        if (session.payment_status !== "paid") {
+          console.log("Session not paid yet:", session.id);
+          break;
+        }
 
-  const type =
-    session.metadata?.type ||
-    session.client_reference_id ||
-    "mahnung";
+        // Deduplication
+        if (await hasAnalysisBeenSent(env, session.id)) {
+          console.log("Duplicate webhook — already processed:", session.id);
+          break;
+        }
 
-  const revenue =
-    session.amount_total
-      ? Number((session.amount_total / 100).toFixed(2))
-      : 49;
+        const email   = session.metadata?.email || session.customer_details?.email || null;
+        const name    = session.metadata?.name  || session.customer_details?.name  || "Kunde";
+        const rawType = session.metadata?.type  || "mahnung";
 
-  const email =
-    session.customer_details?.email ||
-    session.customer_email ||
-    null;
+        let type;
+        try {
+          type = requireType(rawType);
+        } catch {
+          type = "mahnung";
+        }
 
-  // Deduplicatie — skip als al verwerkt
-  const dedupKey = `analysis_sent:${session.id || "unknown"}`;
-  const alreadyDone = await env.JOBS_KV.get(dedupKey);
-  if (alreadyDone) {
-    console.log("Duplicate webhook — already processed:", session.id);
-    return jsonResponse({ ok: true });
-  }
+        console.log("Zahlung abgeschlossen:", { sessionId: session.id, email, type });
 
-  if (email) {
-    await markPaid(env, email);
-  }
+        await trackEvent(env, "payment_success", {
+          type,
+          email,
+          value:      (session.amount_total || 4900) / 100,
+          currency:   session.currency || "eur",
+          session_id: session.id,
+        });
 
-  // Auto-analyse als free case beschikbaar
-  const saved = email ? await getFreeCase(env, { type, email }) : null;
+        if (email) {
+          await markPaid(env, email);
+        }
 
-  if (saved?.file_base64 && saved?.media_type && saved?.triage) {
-    try {
-      const prompts  = loadPrompts(type);
-      const triage   = saved.triage;
-      const analysis = await runAnalysis(env, {
-        fileBase64:   saved.file_base64,
-        mediaType:    saved.media_type,
-        route:        triage.route || "SONNET",
-        haikuPrompt:  prompts.haiku,
-        sonnetPrompt: prompts.sonnet,
-      });
+        // Load free case (contains file + triage)
+        const saved = email ? await getFreeCase(env, { type, email }) : null;
 
-      await enqueuePaid(env, {
-        type,
-        name:  saved.name || "Kunde",
-        email,
-        triage,
-        analysis,
-      });
+        if (saved?.file_base64 && saved?.media_type && saved?.triage) {
+          const customerName = saved.name || name;
 
-      await notifyAdminPaid(env, {
-        name:  saved.name || "Kunde",
-        email,
-        type,
-        triage,
-        analysis,
-      });
+          // Run analysis
+          let analysis = null;
+          try {
+            console.log("Analyse wird gestartet für:", email);
+            const prompts = loadPrompts(type);
+            analysis = await runAnalysis(env, {
+              fileBase64:   saved.file_base64,
+              mediaType:    saved.media_type,
+              route:        saved.triage?.route || "SONNET",
+              haikuPrompt:  prompts.haiku,
+              sonnetPrompt: prompts.sonnet,
+            });
+            console.log("Analyse abgeschlossen für:", email);
+          } catch (err) {
+            console.error("Analyse fehlgeschlagen für:", email, err.message);
+            // Queue for cron retry — cron will run analysis and send email
+            await enqueuePaid(env, {
+              type,
+              name:        customerName,
+              email,
+              triage:      saved.triage,
+              analysis:    null,
+              file_base64: saved.file_base64,
+              media_type:  saved.media_type,
+            });
+            console.log("Fallback: In Cron-Queue gestellt für:", email);
+            await markAnalysisSent(env, session.id);
+            break;
+          }
 
-      console.log("Auto-Analyse erfolgreich für:", email);
-    } catch (err) {
-      console.error("Auto-Analyse fehlgeschlagen:", err.message);
+          // Send customer email
+          try {
+            console.log("Analyse-E-Mail wird gesendet an:", email);
+            await sendPaidEmail(env, {
+              name:     customerName,
+              email,
+              type,
+              triage:   saved.triage,
+              analysis,
+            });
+            console.log("Analyse-E-Mail erfolgreich gesendet an:", email);
+          } catch (err) {
+            console.error("Kunde E-Mail fehlgeschlagen für:", email, err.message);
+            // Queue for cron retry
+            await enqueuePaid(env, {
+              type,
+              name:        customerName,
+              email,
+              triage:      saved.triage,
+              analysis,
+              file_base64: saved.file_base64,
+              media_type:  saved.media_type,
+            });
+            console.log("Fallback: In Cron-Queue gestellt nach E-Mail-Fehler für:", email);
+          }
+
+          // Notify admin (non-blocking)
+          try {
+            await notifyAdminPaid(env, {
+              name:     customerName,
+              email,
+              type,
+              triage:   saved.triage,
+              analysis,
+            });
+          } catch (err) {
+            console.error("Admin-Benachrichtigung fehlgeschlagen:", err.message);
+          }
+
+        } else {
+          console.log("Kein Free Case gefunden für:", email, "— In Cron-Queue stellen");
+          if (email) {
+            await enqueuePaid(env, {
+              type,
+              name,
+              email,
+              triage:      null,
+              analysis:    null,
+              file_base64: null,
+              media_type:  null,
+            });
+          }
+        }
+
+        await markAnalysisSent(env, session.id);
+        break;
+      }
+
+      case "payment_intent.succeeded": {
+        console.log("Payment intent succeeded:", event.data.object.id);
+        break;
+      }
+
+      default: {
+        console.log("Unbekanntes Stripe-Event:", event.type);
+      }
     }
+
+    return json({ ok: true });
+
+  } catch (err) {
+    console.error("Webhook Verarbeitungsfehler:", err);
+    // Always return 200 to prevent Stripe retries on unrecoverable errors
+    return json({ ok: true });
   }
-
-  // Markeer als verwerkt
-  await env.JOBS_KV.put(dedupKey, "1", { expirationTtl: 60 * 60 * 24 * 30 });
-
-  await recordPaidCompleted(env, {
-    type,
-    revenue,
-    email,
-    session_id: session.id || null,
-    currency: session.currency || "eur",
-    payment_status: session.payment_status || null,
-  });
-
-  return jsonResponse({ ok: true });
 }
 
-async function recordPaidCompleted(env, data) {
-  const id = crypto.randomUUID();
+// ── Stripe signature verification ─────────────────────────────────────────────
 
-  const entry = {
-    event: "paid_completed",
-    type: data.type || "mahnung",
-    revenue: data.revenue || 49,
-    email: data.email || null,
-    session_id: data.session_id || null,
-    currency: data.currency || "eur",
-    payment_status: data.payment_status || "paid",
-    received_at: new Date().toISOString(),
-  };
+async function verifyStripeWebhook(rawBody, signatureHeader, webhookSecret) {
+  if (!webhookSecret) throw new Error("Missing STRIPE_WEBHOOK_SECRET");
 
-  const key = `track:${entry.type}:paid_completed:${Date.now()}:${id}`;
+  const parts         = signatureHeader.split(",");
+  const timestampPart = parts.find(p => p.startsWith("t="));
+  const signaturePart = parts.find(p => p.startsWith("v1="));
 
-  await env.JOBS_KV.put(key, JSON.stringify(entry), {
-    expirationTtl: TRACK_TTL_SECONDS,
-  });
-}
+  if (!timestampPart || !signaturePart) throw new Error("Invalid Stripe signature header");
 
-async function verifyStripeSignature(payload, header, secret) {
-  if (!secret) return false;
-
-  const parts = Object.fromEntries(
-    header.split(",").map(part => {
-      const [k, v] = part.split("=");
-      return [k, v];
-    })
-  );
-
-  const timestamp = parts.t;
-  const signature = parts.v1;
-
-  if (!timestamp || !signature) return false;
-
-  const signedPayload = `${timestamp}.${payload}`;
-  const expected = await hmacSha256Hex(secret, signedPayload);
-
-  return timingSafeEqual(expected, signature);
-}
-
-async function hmacSha256Hex(secret, message) {
-  const enc = new TextEncoder();
+  const timestamp = timestampPart.replace("t=", "");
+  const signature = signaturePart.replace("v1=", "");
+  const signed    = `${timestamp}.${rawBody}`;
+  const encoder   = new TextEncoder();
 
   const key = await crypto.subtle.importKey(
     "raw",
-    enc.encode(secret),
+    encoder.encode(webhookSecret),
     { name: "HMAC", hash: "SHA-256" },
     false,
     ["sign"]
   );
 
-  const sig = await crypto.subtle.sign("HMAC", key, enc.encode(message));
+  const result = await crypto.subtle.sign("HMAC", key, encoder.encode(signed));
 
-  return [...new Uint8Array(sig)]
+  const expected = [...new Uint8Array(result)]
     .map(b => b.toString(16).padStart(2, "0"))
     .join("");
+
+  if (!secureCompare(expected, signature)) throw new Error("Webhook signature mismatch");
+
+  return JSON.parse(rawBody);
 }
 
-function timingSafeEqual(a, b) {
-  if (!a || !b || a.length !== b.length) return false;
-
-  let out = 0;
+function secureCompare(a, b) {
+  if (a.length !== b.length) return false;
+  let result = 0;
   for (let i = 0; i < a.length; i++) {
-    out |= a.charCodeAt(i) ^ b.charCodeAt(i);
+    result |= a.charCodeAt(i) ^ b.charCodeAt(i);
   }
-
-  return out === 0;
+  return result === 0;
 }
