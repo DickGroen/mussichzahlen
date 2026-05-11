@@ -304,3 +304,41 @@ export async function sendPaidEmail(env, { name, email, type, triage, analysis }
 
   await trackEvent(env, "email_sent", { type, kind: "paid" });
 }
+
+export async function sendAbandonedEmail(env, { name, email, type, amount, stripeLink, stage = 1 }) {
+  if (!stripeLink) return;
+
+  const labels      = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
+  const stageNumber = Number(stage) || 1;
+  const amountStr   = amount ? ` über einen Betrag von €${escapeHtml(String(amount))}` : "";
+
+  const subjects = {
+    1: `Dein Schreiben wartet noch — ${labels.title}`,
+    2: `Noch nicht geprüft? — ${labels.title}`,
+    3: `Letzte Erinnerung — ${labels.title}`,
+  };
+
+  const intros = {
+    1: `<p>du hast dein Schreiben hochgeladen, aber die Prüfung noch nicht abgeschlossen${amountStr}. Es kann sinnvoll sein, die Forderung vor einer Zahlung genauer prüfen zu lassen.</p>`,
+    2: `<p>deine Einschätzung liegt noch vor. Viele entscheiden sich dafür, die Forderung erst prüfen zu lassen — bevor sie zahlen.</p>`,
+    3: `<p>dies ist unsere letzte Erinnerung. Falls du die Forderung noch nicht geprüft hast, kann ein kurzer Blick lohnenswert sein.</p>`,
+  };
+
+  await sendEmail(env, {
+    to:      email,
+    subject: subjects[stageNumber] || subjects[1],
+    html:    `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
+      <p>Hallo ${escapeHtml(capitalizeFirst(name))},</p>
+      ${intros[stageNumber] || intros[1]}
+      <p style="margin:20px 0;">
+        <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#fff;padding:13px 24px;border-radius:6px;text-decoration:none;font-weight:bold;">
+          Jetzt vollständig prüfen lassen — €${escapeHtml(labels.price)} →
+        </a>
+      </p>
+      <p style="font-size:0.85rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
+      <p style="color:#6b7280;font-size:0.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
+    </div>`
+  });
+
+  await trackEvent(env, "email_sent", { type, stage: stageNumber, kind: "abandoned" });
+}
