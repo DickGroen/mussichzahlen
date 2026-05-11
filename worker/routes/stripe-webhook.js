@@ -1,6 +1,6 @@
 // worker/routes/webhook.js — mussichzahlen
 
-import { json }                                     from "../utils/response.js";
+import { jsonResponse }                                  from "../utils/response.js";
 import { getFreeCase, markPaid, enqueuePaid }        from "../services/queue.js";
 import { notifyAdminPaid, sendPaidEmail }            from "../services/resend.js";
 import { runAnalysis }                               from "../services/claude.js";
@@ -39,21 +39,21 @@ export async function handleStripeWebhook(request, env) {
   const signature = request.headers.get("stripe-signature");
 
   if (!signature) {
-    return json({ ok: false, error: "Missing Stripe signature" }, 400);
+    return jsonResponse({ ok: false, error: "Missing Stripe signature" }, 400);
   }
 
   let rawBody;
   try {
     rawBody = await request.text();
   } catch {
-    return json({ ok: false, error: "Unable to read webhook body" }, 400);
+    return jsonResponse({ ok: false, error: "Unable to read webhook body" }, 400);
   }
 
   let event;
   try {
     event = await verifyStripeWebhook(rawBody, signature, env.STRIPE_WEBHOOK_SECRET);
   } catch (err) {
-    return json({ ok: false, error: "Invalid webhook signature" }, 400);
+    return jsonResponse({ ok: false, error: "Invalid webhook signature" }, 400);
   }
 
   try {
@@ -200,12 +200,12 @@ export async function handleStripeWebhook(request, env) {
       }
     }
 
-    return json({ ok: true });
+    return jsonResponse({ ok: true });
 
   } catch (err) {
     console.error("Webhook Verarbeitungsfehler:", err);
     // Always return 200 to prevent Stripe retries on unrecoverable errors
-    return json({ ok: true });
+    return jsonResponse({ ok: true });
   }
 }
 
