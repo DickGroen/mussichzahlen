@@ -2,7 +2,6 @@
 
 import { json }                                     from "../utils/response.js";
 import { getFreeCase, markPaid, enqueuePaid }        from "../services/queue.js";
-import { requireType }                               from "../config/types.js";
 import { notifyAdminPaid, sendPaidEmail }            from "../services/resend.js";
 import { runAnalysis }                               from "../services/claude.js";
 import { loadPrompts }                               from "../config/prompts.js";
@@ -76,14 +75,12 @@ export async function handleStripeWebhook(request, env) {
 
         const email   = session.metadata?.email || session.customer_details?.email || null;
         const name    = session.metadata?.name  || session.customer_details?.name  || "Kunde";
-        const rawType = session.metadata?.type  || "mahnung";
+        const rawType = session.metadata?.type || session.client_reference_id || "mahnung";
 
-        let type;
-        try {
-          type = requireType(rawType);
-        } catch {
-          type = "mahnung";
-        }
+        const allowedTypes = ["mahnung", "parkstrafe", "rechnung", "vertrag", "angebot"];
+        const type = allowedTypes.includes(String(rawType).trim().toLowerCase())
+          ? String(rawType).trim().toLowerCase()
+          : "mahnung";
 
         console.log("Zahlung abgeschlossen:", { sessionId: session.id, email, type });
 
