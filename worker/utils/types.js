@@ -1,41 +1,50 @@
+// worker/config/types.js — mussichzahlen (DE)
 
-// worker/utils/types.js — mussichzahlen (DE/NL)
+const ALLOWED = new Set(["mahnung", "parkstrafe", "rechnung", "vertrag"]);
 
-export const TYPE_MAP = {
-  // DE
-  mahnung:    "mahnung",
-  parkstrafe: "parkstrafe",
-  rechnung:   "rechnung",
-  vertrag:    "vertrag",
-  angebot:    "angebot",
+export const ALLOWED_TYPES = [...ALLOWED];
 
-  // NL → zelfde rechtssysteem, DE prompts
-  schuld:      "mahnung",
-  boete:       "parkstrafe",
-  factuur:     "rechnung",
-  abonnement:  "vertrag",
-  offerte:     "angebot",
+export const TYPE_CONFIG = {
+  mahnung: {
+    label:    "Mahnung / Inkasso",
+    letter:   "Widerspruch",
+    filename: "Widerspruch.rtf",
+    price:    49,
+    currency: "EUR"
+  },
+  parkstrafe: {
+    label:    "Bußgeldbescheid",
+    letter:   "Einspruchsschreiben",
+    filename: "Einspruch.rtf",
+    price:    19,
+    currency: "EUR"
+  },
+  rechnung: {
+    label:    "Rechnung",
+    letter:   "Widerspruchsschreiben",
+    filename: "Widerspruch.rtf",
+    price:    29,
+    currency: "EUR"
+  },
+  vertrag: {
+    label:    "Vertrag / Kündigung",
+    letter:   "Kündigungsschreiben",
+    filename: "Kuendigungsschreiben.rtf",
+    price:    29,
+    currency: "EUR"
+  }
 };
 
-export const TYPE_LANG = {
-  mahnung:    "de",
-  parkstrafe: "de",
-  rechnung:   "de",
-  vertrag:    "de",
-  angebot:    "de",
-};
-
-export function normalizeType(input) {
-  if (!input) return null;
-  return TYPE_MAP[String(input).toLowerCase().trim()] || null;
+export function requireType(type) {
+  const t = String(type || "").trim().toLowerCase();
+  if (!ALLOWED.has(t)) throw new Error(`Unbekannter Typ: ${t}`);
+  return t;
 }
 
-export function requireType(input) {
-  const type = normalizeType(input);
-  if (!type) throw new Error(`Unbekannter Typ: ${input}`);
-  return type;
+export function isAllowedType(type) {
+  return ALLOWED.has(String(type || "").trim().toLowerCase());
 }
 
-export function getLang(type) {
-  return TYPE_LANG[type] || "de";
+export function getTypeConfig(type) {
+  return TYPE_CONFIG[type] || TYPE_CONFIG.mahnung;
 }
