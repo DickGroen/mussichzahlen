@@ -1,22 +1,27 @@
-// worker/routes/webhook.js — mussichzahlen
+// worker/routes/stripe-webhook.js — mussichzahlen
 
-import { jsonResponse }                                  from "../utils/response.js";
-import { getFreeCase, markPaid, enqueuePaid }        from "../services/queue.js";
-import { notifyAdminPaid, sendPaidEmail }            from "../services/resend.js";
-import { runAnalysis }                               from "../services/claude.js";
-import { loadPrompts }                               from "../config/prompts.js";
+import { jsonResponse } from "../utils/response.js";
+import { getFreeCase, markPaid, enqueuePaid } from "../services/queue.js";
+import { notifyAdminPaid, sendPaidEmail } from "../services/resend.js";
+import { runAnalysis } from "../services/claude.js";
+import { loadPrompts } from "../config/prompts.js";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 async function trackEvent(env, event, data = {}) {
   try {
-    const id  = crypto.randomUUID();
+    const id = crypto.randomUUID();
     const key = `track:${data.type || "unknown"}:${event}:${Date.now()}:${id}`;
-    await env.SESSIONS_KV.put(key, JSON.stringify({
-      event,
-      ...data,
-      received_at: new Date().toISOString(),
-    }), { expirationTtl: 60 * 60 * 24 * 90 });
+
+    await env.SESSIONS_KV.put(
+      key,
+      JSON.stringify({
+        event,
+        ...data,
+        received_at: new Date().toISOString(),
+      }),
+      { expirationTtl: 60 * 60 * 24 * 90 }
+    );
   } catch (err) {
     console.error("Track error:", err.message);
   }
@@ -30,7 +35,9 @@ async function hasAnalysisBeenSent(env, sessionId) {
 
 async function markAnalysisSent(env, sessionId) {
   const key = `analysis_sent:${sessionId}`;
-  await env.SESSIONS_KV.put(key, "1", { expirationTtl: 60 * 60 * 24 * 30 });
+  await env.SESSIONS_KV.put(key, "1", {
+    expirationTtl: 60 * 60 * 24 * 30,
+  });
 }
 
 // ── Webhook handler ───────────────────────────────────────────────────────────
@@ -51,14 +58,18 @@ export async function handleStripeWebhook(request, env) {
 
   let event;
   try {
-    event = await verifyStripeWebhook(rawBody, signature, env.STRIPE_WEBHOOK_SECRET);
+    event = await verifyStripeWebhook(
+      rawBody,
+      signature,
+      env.STRIPE_WEBHOOK_SECRET
+    );
   } catch (err) {
+    console.error("Invalid webhook signature:", err.message);
     return jsonResponse({ ok: false, error: "Invalid webhook signature" }, 400);
   }
 
   try {
     switch (event.type) {
-
       case "checkout.session.completed": {
         const session = event.data.object;
 
@@ -67,28 +78,51 @@ export async function handleStripeWebhook(request, env) {
           break;
         }
 
-        // Deduplication
         if (await hasAnalysisBeenSent(env, session.id)) {
           console.log("Duplicate webhook — already processed:", session.id);
           break;
         }
 
-        const email   = session.metadata?.email || session.customer_details?.email || null;
-        const name    = session.metadata?.name  || session.customer_details?.name  || "Kunde";
-        const rawType = session.metadata?.type || session.client_reference_id || "mahnung";
+        const email =
+          session.metadata?.email ||
+          session.customer_details?.email ||
+          session.customer_email ||
+          null;
 
-        const allowedTypes = ["mahnung", "parkstrafe", "rechnung", "vertrag", "angebot"];
+        const name =
+          session.metadata?.name ||
+          session.customer_details?.name ||
+          "Kunde";
+
+        const rawType =
+          session.metadata?.type ||
+          session.client_reference_id ||
+          "mahnung";
+
+        const allowedTypes = [
+          "mahnung",
+          "parkstrafe",
+          "rechnung",
+          "vertrag",
+          "angebot",
+        ];
+
         const type = allowedTypes.includes(String(rawType).trim().toLowerCase())
           ? String(rawType).trim().toLowerCase()
           : "mahnung";
 
-        console.log("Zahlung abgeschlossen:", { sessionId: session.id, email, type });
+        console.log("WEBHOOK PAID:", {
+          session_id: session.id,
+          email,
+          type,
+          payment_status: session.payment_status,
+        });
 
         await trackEvent(env, "payment_success", {
           type,
           email,
-          value:      (session.amount_total || 4900) / 100,
-          currency:   session.currency || "eur",
+          value: (session.amount_total || 4900) / 100,
+          currency: session.currency || "eur",
           session_id: session.id,
         });
 
@@ -96,93 +130,121 @@ export async function handleStripeWebhook(request, env) {
           await markPaid(env, email);
         }
 
-        // Load free case (contains file + triage)
         const saved = email ? await getFreeCase(env, { type, email }) : null;
+
+        console.log("WEBHOOK SAVED FREE CASE:", {
+          found: !!saved,
+          has_file_base64: !!saved?.file_base64,
+          has_media_type: !!saved?.media_type,
+          has_triage: !!saved?.triage,
+          email,
+          type,
+        });
 
         if (saved?.file_base64 && saved?.media_type && saved?.triage) {
           const customerName = saved.name || name;
 
-          // Run analysis
           let analysis = null;
+
           try {
             console.log("Analyse wird gestartet für:", email);
-            const prompts = loadPrompts(type);
+
+            const prompts = await loadPrompts(type);
+
             analysis = await runAnalysis(env, {
-              fileBase64:   saved.file_base64,
-              mediaType:    saved.media_type,
-              route:        saved.triage?.route || "SONNET",
-              haikuPrompt:  prompts.haiku,
+              fileBase64: saved.file_base64,
+              mediaType: saved.media_type,
+              route: saved.triage?.route || "SONNET",
+              haikuPrompt: prompts.haiku,
               sonnetPrompt: prompts.sonnet,
             });
+
             console.log("Analyse abgeschlossen für:", email);
           } catch (err) {
-            console.error("Analyse fehlgeschlagen für:", email, err.message);
-            // Queue for cron retry — cron will run analysis and send email
+            console.error("Analyse fehlgeschlagen für:", email, err.message, err.stack);
+
             await enqueuePaid(env, {
               type,
-              name:        customerName,
+              name: customerName,
               email,
-              triage:      saved.triage,
-              analysis:    null,
+              triage: saved.triage,
+              analysis: null,
               file_base64: saved.file_base64,
-              media_type:  saved.media_type,
+              media_type: saved.media_type,
             });
+
             console.log("Fallback: In Cron-Queue gestellt für:", email);
             await markAnalysisSent(env, session.id);
             break;
           }
 
-          // Send customer email
+          await enqueuePaid(env, {
+            type,
+            name: customerName,
+            email,
+            triage: saved.triage,
+            analysis,
+          });
+
           try {
             console.log("Analyse-E-Mail wird gesendet an:", email);
+
             await sendPaidEmail(env, {
-              name:     customerName,
+              name: customerName,
               email,
               type,
-              triage:   saved.triage,
+              triage: saved.triage,
               analysis,
             });
+
             console.log("Analyse-E-Mail erfolgreich gesendet an:", email);
           } catch (err) {
-            console.error("Kunde E-Mail fehlgeschlagen für:", email, err.message);
-            // Queue for cron retry
+            console.error("Kunde E-Mail fehlgeschlagen für:", email, err.message, err.stack);
+
             await enqueuePaid(env, {
               type,
-              name:        customerName,
+              name: customerName,
               email,
-              triage:      saved.triage,
+              triage: saved.triage,
               analysis,
               file_base64: saved.file_base64,
-              media_type:  saved.media_type,
+              media_type: saved.media_type,
             });
+
             console.log("Fallback: In Cron-Queue gestellt nach E-Mail-Fehler für:", email);
           }
 
-          // Notify admin (non-blocking)
           try {
             await notifyAdminPaid(env, {
-              name:     customerName,
+              name: customerName,
               email,
               type,
-              triage:   saved.triage,
+              triage: saved.triage,
               analysis,
             });
           } catch (err) {
             console.error("Admin-Benachrichtigung fehlgeschlagen:", err.message);
           }
-
         } else {
-          console.log("Kein Free Case gefunden für:", email, "— In Cron-Queue stellen");
+          console.error("NO SAVED FREE CASE FOUND FOR PAID WEBHOOK:", {
+            email,
+            type,
+            session_id: session.id,
+          });
+
           if (email) {
-            await enqueuePaid(env, {
-              type,
-              name,
-              email,
-              triage:      null,
-              analysis:    null,
-              file_base64: null,
-              media_type:  null,
-            });
+            await env.SESSIONS_KV.put(
+              `paid_missing_free_case:${type}:${email}:${Date.now()}`,
+              JSON.stringify({
+                type,
+                name,
+                email,
+                session_id: session.id || null,
+                reason: "paid_but_no_saved_free_case",
+                received_at: new Date().toISOString(),
+              }),
+              { expirationTtl: 60 * 60 * 24 * 30 }
+            );
           }
         }
 
@@ -201,10 +263,8 @@ export async function handleStripeWebhook(request, env) {
     }
 
     return jsonResponse({ ok: true });
-
   } catch (err) {
-    console.error("Webhook Verarbeitungsfehler:", err);
-    // Always return 200 to prevent Stripe retries on unrecoverable errors
+    console.error("Webhook Verarbeitungsfehler:", err.message, err.stack);
     return jsonResponse({ ok: true });
   }
 }
@@ -212,18 +272,22 @@ export async function handleStripeWebhook(request, env) {
 // ── Stripe signature verification ─────────────────────────────────────────────
 
 async function verifyStripeWebhook(rawBody, signatureHeader, webhookSecret) {
-  if (!webhookSecret) throw new Error("Missing STRIPE_WEBHOOK_SECRET");
+  if (!webhookSecret) {
+    throw new Error("Missing STRIPE_WEBHOOK_SECRET");
+  }
 
-  const parts         = signatureHeader.split(",");
-  const timestampPart = parts.find(p => p.startsWith("t="));
-  const signaturePart = parts.find(p => p.startsWith("v1="));
+  const parts = signatureHeader.split(",");
+  const timestampPart = parts.find((p) => p.startsWith("t="));
+  const signaturePart = parts.find((p) => p.startsWith("v1="));
 
-  if (!timestampPart || !signaturePart) throw new Error("Invalid Stripe signature header");
+  if (!timestampPart || !signaturePart) {
+    throw new Error("Invalid Stripe signature header");
+  }
 
   const timestamp = timestampPart.replace("t=", "");
   const signature = signaturePart.replace("v1=", "");
-  const signed    = `${timestamp}.${rawBody}`;
-  const encoder   = new TextEncoder();
+  const signed = `${timestamp}.${rawBody}`;
+  const encoder = new TextEncoder();
 
   const key = await crypto.subtle.importKey(
     "raw",
@@ -236,19 +300,24 @@ async function verifyStripeWebhook(rawBody, signatureHeader, webhookSecret) {
   const result = await crypto.subtle.sign("HMAC", key, encoder.encode(signed));
 
   const expected = [...new Uint8Array(result)]
-    .map(b => b.toString(16).padStart(2, "0"))
+    .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
 
-  if (!secureCompare(expected, signature)) throw new Error("Webhook signature mismatch");
+  if (!secureCompare(expected, signature)) {
+    throw new Error("Webhook signature mismatch");
+  }
 
   return JSON.parse(rawBody);
 }
 
 function secureCompare(a, b) {
-  if (a.length !== b.length) return false;
+  if (!a || !b || a.length !== b.length) return false;
+
   let result = 0;
+
   for (let i = 0; i < a.length; i++) {
     result |= a.charCodeAt(i) ^ b.charCodeAt(i);
   }
+
   return result === 0;
 }
