@@ -34,11 +34,9 @@ function nextWorkdayAt15CET(fromMs = Date.now()) {
   const d = new Date(fromMs);
   d.setUTCDate(d.getUTCDate() + 1);
   d.setUTCHours(14, 0, 0, 0);
-
   while (d.getUTCDay() === 0 || d.getUTCDay() === 6) {
     d.setUTCDate(d.getUTCDate() + 1);
   }
-
   return d.toISOString();
 }
 
@@ -46,11 +44,9 @@ function nextWorkdayAt1515CET(fromMs = Date.now()) {
   const d = new Date(fromMs);
   d.setUTCDate(d.getUTCDate() + 1);
   d.setUTCHours(13, 15, 0, 0);
-
   while (d.getUTCDay() === 0 || d.getUTCDay() === 6) {
     d.setUTCDate(d.getUTCDate() + 1);
   }
-
   return d.toISOString();
 }
 
@@ -142,6 +138,8 @@ export async function getFreeCase(env, { type, email }) {
 }
 
 export async function enqueueFree(env, { type, name, email, triage, stripeLink }) {
+  console.log("QUEUE TEST VERSION ACTIVE 2026-05-12");
+
   await saveFreeTriage(env, { type, name, email, triage, stripeLink });
 
   const createdAt = Date.now();
@@ -149,9 +147,11 @@ export async function enqueueFree(env, { type, name, email, triage, stripeLink }
   const emailKey = safeEmailKey(normalized);
   const baseKey = `free:${type}:${createdAt}:${emailKey}`;
 
-  // TESTMODUS: stage 1 is direct klaar voor de eerstvolgende cron.
-  // PRODUCTIE: vervang door: const stage1SendAt = nextWorkdayAt15CET(createdAt);
+  // TESTMODUS: stage 1 staat direct klaar voor de eerstvolgende cron.
   const stage1SendAt = new Date(createdAt - 10 * 1000).toISOString();
+
+  // PRODUCTIE later terugzetten naar:
+  // const stage1SendAt = nextWorkdayAt15CET(createdAt);
 
   const stage1Ms = new Date(stage1SendAt).getTime();
 
@@ -287,6 +287,7 @@ export async function getDueEntries(env) {
           key: key.name,
           kind: entry.kind,
           stage: entry.stage || null,
+          email: entry.email || null,
           send_at: entry.send_at,
           due: sendAtMs <= now,
         }));
