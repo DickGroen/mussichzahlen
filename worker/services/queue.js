@@ -1,10 +1,10 @@
 // services/queue.js
 
-const FREE_CASE_TTL_SECONDS = 60 * 60 * 24 * 3;
-const PAID_MARKER_TTL_SECONDS = 60 * 60 * 24 * 3;
-const FREE_TRIAGE_TTL_SECONDS = 60 * 60 * 24 * 14;
-const QUEUE_TTL_SECONDS = 60 * 60 * 24 * 7;
-const ABANDONED_TTL_SECONDS = 60 * 60 * 24 * 7;
+const FREE_CASE_TTL_SECONDS    = 60 * 60 * 24 * 3;
+const PAID_MARKER_TTL_SECONDS  = 60 * 60 * 24 * 3;
+const FREE_TRIAGE_TTL_SECONDS  = 60 * 60 * 24 * 14;
+const QUEUE_TTL_SECONDS        = 60 * 60 * 24 * 7;
+const ABANDONED_TTL_SECONDS    = 60 * 60 * 24 * 7;
 
 function normalizeEmail(email) {
   return String(email || "").trim().toLowerCase();
@@ -142,15 +142,15 @@ export async function enqueueFree(env, { type, name, email, triage, stripeLink }
 
   await saveFreeTriage(env, { type, name, email, triage, stripeLink });
 
-  const createdAt = Date.now();
+  const createdAt  = Date.now();
   const normalized = normalizeEmail(email);
-  const emailKey = safeEmailKey(normalized);
-  const baseKey = `free:${type}:${createdAt}:${emailKey}`;
+  const emailKey   = safeEmailKey(normalized);
+  const baseKey    = `free:${type}:${createdAt}:${emailKey}`;
 
   // TESTMODUS: stage 1 staat direct klaar voor de eerstvolgende cron.
   const stage1SendAt = new Date(createdAt - 10 * 1000).toISOString();
 
-  // PRODUCTIE later terugzetten naar:
+  // PRODUCTIE: terugzetten naar:
   // const stage1SendAt = nextWorkdayAt15CET(createdAt);
 
   const stage1Ms = new Date(stage1SendAt).getTime();
@@ -192,7 +192,7 @@ export async function enqueueFree(env, { type, name, email, triage, stripeLink }
   return baseKey;
 }
 
-export async function enqueuePaid(env, { type, name, email, triage, analysis }) {
+export async function enqueuePaid(env, { type, name, email, triage, analysis, file_base64, media_type }) {
   const key = `paid:${type}:${Date.now()}:${safeEmailKey(email)}`;
 
   const entry = {
@@ -201,9 +201,15 @@ export async function enqueuePaid(env, { type, name, email, triage, analysis }) 
     name,
     email: normalizeEmail(email),
     triage,
-    analysis,
+    analysis: analysis || null,
+    file_base64: file_base64 || null,
+    media_type: media_type || null,
     created_at: new Date().toISOString(),
-    send_at: nextWorkdayAt1515CET(Date.now()),
+    // TESTMODUS: direct oppikken door de eerstvolgende cron.
+    send_at: new Date(Date.now() - 10 * 1000).toISOString(),
+
+    // PRODUCTIE: terugzetten naar:
+    // send_at: nextWorkdayAt1515CET(Date.now()),
   };
 
   await env.SESSIONS_KV.put(key, JSON.stringify(entry));
@@ -268,11 +274,12 @@ export async function getDueEntries(env) {
     }));
 
     for (const key of list.keys) {
-      if (key.name.startsWith("paid_marker:")) continue;
-      if (key.name.startsWith("free_triage:")) continue;
-      if (key.name.startsWith("free_case:")) continue;
-      if (key.name.startsWith("track:")) continue;
-      if (key.name.startsWith("analysis_sent:")) continue;
+      if (key.name.startsWith("paid_marker:"))        continue;
+      if (key.name.startsWith("free_triage:"))        continue;
+      if (key.name.startsWith("free_case:"))          continue;
+      if (key.name.startsWith("track:"))              continue;
+      if (key.name.startsWith("analysis_sent:"))      continue;
+      if (key.name.startsWith("paid_missing_free_case:")) continue;
 
       try {
         const raw = await env.SESSIONS_KV.get(key.name);
