@@ -91,11 +91,29 @@ async function sendEmail(env, { to, subject, html, attachments = [] }) {
   return res.json();
 }
 
-function formatAmount(triage) {
-  if (triage?.amount_claimed) return `€${triage.amount_claimed}`;
-  if (triage?.fine_amount) return `€${triage.fine_amount}`;
-  if (triage?.total_price) return `€${triage.total_price}`;
-  return "unbekannt";
+function formatAmount(triage = {}) {
+  const amount =
+    triage?.amount_claimed ??
+    triage?.fine_amount ??
+    triage?.total_price ??
+    null;
+
+  if (amount === null || amount === undefined || amount === "") {
+    return "unbekannt";
+  }
+
+  const currency =
+    triage?.currency_symbol ||
+    triage?.currency ||
+    triage?.amount_currency ||
+    "€";
+
+  if (String(currency).toUpperCase() === "GBP") return `£${amount}`;
+  if (String(currency).toUpperCase() === "EUR") return `€${amount}`;
+  if (String(currency).includes("£")) return `£${amount}`;
+  if (String(currency).includes("€")) return `€${amount}`;
+
+  return `€${amount}`;
 }
 
 function riskLabel(risk) {
@@ -109,12 +127,12 @@ function riskLabel(risk) {
 function riskAssessment(risk) {
   return {
     high:
-      "Nach erster Einschätzung bestehen mehrere prüfenswerte Auffälligkeiten. Es könnte sinnvoll sein, die Forderung vor einer Zahlung genauer überprüfen zu lassen.",
+      "Nach erster Einschätzung bestehen mehrere prüfenswerte Auffälligkeiten. Eine genauere Prüfung vor einer Zahlung könnte sinnvoll sein.",
     medium:
-      "Nach erster Einschätzung bestehen mögliche Unklarheiten. Es könnte sinnvoll sein, die Forderung vor einer Zahlung genauer überprüfen zu lassen.",
+      "Nach erster Einschätzung bestehen mögliche Unklarheiten. Eine genauere Prüfung vor einer Zahlung könnte sinnvoll sein.",
     low:
       "Nach erster Einschätzung wirkt die Forderung grundsätzlich nachvollziehbar. Eine kurze Prüfung kann dennoch sinnvoll sein."
-  }[risk] || "Nach erster Einschätzung bestehen mögliche Unklarheiten. Es könnte sinnvoll sein, die Forderung vor einer Zahlung genauer überprüfen zu lassen.";
+  }[risk] || "Nach erster Einschätzung bestehen mögliche Unklarheiten. Eine genauere Prüfung vor einer Zahlung könnte sinnvoll sein.";
 }
 
 function teaserList(triage) {
@@ -122,7 +140,7 @@ function teaserList(triage) {
 
   if (!raw) {
     return [
-      "mögliche zusätzliche Inkassokosten",
+      "mögliche zusätzliche Inkasso- oder Mahnkosten",
       "fehlende Nachweise oder unklare Forderungsgrundlage"
     ];
   }
@@ -147,7 +165,7 @@ export async function sendConfirmationEmail(env, { name, email }) {
     ✓ Ihr Schreiben ist eingegangen.
   </p>
 
-  <p>Hallo ${escapeHtml(capitalizeFirst(name || "Kunde"))},</p>
+  <p>Guten Tag ${escapeHtml(capitalizeFirst(name || "Kunde"))},</p>
 
   <p>
     wir haben Ihr Dokument erhalten und werden es sorgfältig prüfen.
@@ -257,6 +275,7 @@ export async function sendFreeEmail(env, {
 
   if (stageNumber === 1) {
     const safeName = capitalizeFirst(name || "Kunde");
+
     const senderText = triage?.sender
       ? ` von <strong>${escapeHtml(triage.sender)}</strong>`
       : "";
@@ -269,7 +288,7 @@ export async function sendFreeEmail(env, {
       subject: `Erste Einschätzung zu Ihrem Schreiben — ${labels.title}`,
       html: `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
-  <p>Hallo ${escapeHtml(safeName)},</p>
+  <p>Guten Tag ${escapeHtml(safeName)},</p>
 
   <p>
     wir haben Ihr Schreiben geprüft und eine erste Einschätzung erstellt.
@@ -309,8 +328,7 @@ export async function sendFreeEmail(env, {
   </table>
 
   <p style="background:#f9fafb;padding:14px;border-radius:8px;color:#374151;">
-    Viele Verbraucher lassen Forderungen zunächst prüfen,
-    bevor sie bezahlen oder reagieren.
+    Viele Verbraucher lassen Forderungen zunächst prüfen, bevor sie bezahlen oder reagieren.
   </p>
 
   <p>
@@ -414,7 +432,7 @@ export async function sendFreeEmail(env, {
     subject: subjects[stageNumber] || subjects[2],
     html: `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
-  <p>Hallo ${escapeHtml(capitalizeFirst(name || "Kunde"))},</p>
+  <p>Guten Tag ${escapeHtml(capitalizeFirst(name || "Kunde"))},</p>
 
   ${intros[stageNumber] || intros[2]}
 
@@ -493,7 +511,7 @@ export async function sendPaidEmail(env, {
     subject: `Ihre Analyse ist fertig — ${labels.title} | MussIchZahlen`,
     html: `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;">
-  <p>Hallo ${escapeHtml(capitalizeFirst(name || "Kunde"))},</p>
+  <p>Guten Tag ${escapeHtml(capitalizeFirst(name || "Kunde"))},</p>
 
   <p>
     Ihre Analyse ist fertig.
