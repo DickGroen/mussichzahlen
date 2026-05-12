@@ -24,7 +24,7 @@ function freeCaseKey(type, email) {
   return `free_case:${type}:${safeEmailKey(email)}`;
 }
 
-function nextWorkdayAt15CET(fromMs) {
+function nextWorkdayAt15CET(fromMs = Date.now()) {
   const TARGET_HOUR_UTC = 14; // 15:00 CET = 14:00 UTC
 
   const d = new Date(fromMs);
@@ -38,8 +38,8 @@ function nextWorkdayAt15CET(fromMs) {
   return d.toISOString();
 }
 
-function nextWorkdayAt1515CET(fromMs) {
-  const TARGET_HOUR_UTC   = 13; // 15:15 CET = 13:15 UTC
+function nextWorkdayAt1515CET(fromMs = Date.now()) {
+  const TARGET_HOUR_UTC   = 13;
   const TARGET_MINUTE_UTC = 15;
 
   const d = new Date(fromMs);
@@ -154,8 +154,12 @@ export async function enqueueFree(env, { type, name, email, triage, stripeLink }
   const emailKey  = safeEmailKey(email);
   const baseKey   = `free:${type}:${createdAt}:${emailKey}`;
 
-  const stage1At = new Date(Date.now() + 2 * 60 * 1000);
-  const stage1Ms     = new Date(stage1SendAt).getTime();
+  // TESTMODUS: stage 1 na 2 minuten.
+  // Voor productie vervangen door:
+  // const stage1SendAt = nextWorkdayAt15CET(createdAt);
+  const stage1SendAt = new Date(createdAt + 2 * 60 * 1000).toISOString();
+
+  const stage1Ms = new Date(stage1SendAt).getTime();
 
   const sendAts = {
     1: stage1SendAt,
@@ -206,10 +210,9 @@ export async function enqueuePaid(env, { type, name, email, triage, analysis }) 
   return key;
 }
 
-
 // ── Abandoned checkout queue ─────────────────────────────────────────────────
 
-const ABANDONED_TTL_SECONDS = 60 * 60 * 24 * 7; // 7 days
+const ABANDONED_TTL_SECONDS = 60 * 60 * 24 * 7;
 
 function abandonedKey(email, stage) {
   return `abandoned:${safeEmailKey(email)}:stage_${stage}`;
@@ -222,15 +225,14 @@ export async function saveAbandoned(env, { email, name, type, amount, stripeLink
   const now = Date.now();
 
   const sendAts = {
-    1: new Date(now + 1  * 60 * 60 * 1000).toISOString(),  // +1 uur
-    2: new Date(now + 24 * 60 * 60 * 1000).toISOString(),  // +24 uur
-    3: new Date(now + 48 * 60 * 60 * 1000).toISOString(),  // +48 uur
+    1: new Date(now + 1  * 60 * 60 * 1000).toISOString(),
+    2: new Date(now + 24 * 60 * 60 * 1000).toISOString(),
+    3: new Date(now + 48 * 60 * 60 * 1000).toISOString(),
   };
 
   for (const stage of [1, 2, 3]) {
     const key = abandonedKey(normalized, stage);
 
-    // Niet overschrijven als al bestaat
     const existing = await env.SESSIONS_KV.get(key);
     if (existing) continue;
 
@@ -266,8 +268,8 @@ export async function getDueEntries(env) {
     for (const key of list.keys) {
       if (key.name.startsWith("paid_marker:")) continue;
       if (key.name.startsWith("free_triage:")) continue;
-      if (key.name.startsWith("free_case:"))   continue;
-      if (key.name.startsWith("track:"))        continue;
+      if (key.name.startsWith("free_case:")) continue;
+      if (key.name.startsWith("track:")) continue;
       if (key.name.startsWith("analysis_sent:")) continue;
 
       try {
