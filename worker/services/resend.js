@@ -6,7 +6,7 @@ import { makeAnalysisRtf, makeLetterRtf, rtfToBase64 } from "../utils/rtf.js";
 const FROM = "MussIchZahlen <noreply@mussichzahlen.de>";
 const DISCLAIMER =
   "MussIchZahlen bietet informative Analysen — keine Rechtsberatung und keine anwaltliche Vertretung.";
-
+ 
 function capitalizeFirst(str) {
   const s = String(str || "").trim();
   return s.charAt(0).toUpperCase() + s.slice(1);
