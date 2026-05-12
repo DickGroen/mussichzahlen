@@ -1,4 +1,3 @@
-```js
 import { escapeHtml } from "../utils/files.js";
 import { makeAnalysisRtf, makeLetterRtf, rtfToBase64 } from "../utils/rtf.js";
 
@@ -20,7 +19,6 @@ const TYPE_LABELS = {
     price: "49",
     stripe_label: "Vollständige Analyse + fertiger Widerspruch — €49"
   },
-
   parkstrafe: {
     title: "Bußgeldbescheid",
     letter: "Einspruchsschreiben",
@@ -28,7 +26,6 @@ const TYPE_LABELS = {
     price: "19",
     stripe_label: "Analyse + fertiges Einspruchsschreiben — €19"
   },
-
   rechnung: {
     title: "Rechnung",
     letter: "Widerspruchsschreiben",
@@ -36,7 +33,6 @@ const TYPE_LABELS = {
     price: "29",
     stripe_label: "Analyse + fertiges Widerspruchsschreiben — €29"
   },
-
   vertrag: {
     title: "Vertrag / Kündigung",
     letter: "Kündigungsschreiben",
@@ -44,7 +40,6 @@ const TYPE_LABELS = {
     price: "29",
     stripe_label: "Analyse + fertiges Kündigungsschreiben — €29"
   },
-
   angebot: {
     title: "Angebot / Kostenvoranschlag",
     letter: "Prüfbericht",
@@ -57,9 +52,7 @@ const TYPE_LABELS = {
 async function trackEvent(env, event, data = {}) {
   try {
     const id = crypto.randomUUID();
-
-    const key =
-      `track:${data.type || "unknown"}:${event}:${Date.now()}:${id}`;
+    const key = `track:${data.type || "unknown"}:${event}:${Date.now()}:${id}`;
 
     await env.SESSIONS_KV.put(
       key,
@@ -68,20 +61,14 @@ async function trackEvent(env, event, data = {}) {
         ...data,
         received_at: new Date().toISOString(),
       }),
-      {
-        expirationTtl: 60 * 60 * 24 * 90
-      }
+      { expirationTtl: 60 * 60 * 24 * 90 }
     );
-
   } catch (err) {
     console.error("Track error:", err.message);
   }
 }
 
-// ── Core send ────────────────────────────────────────────────────────────────
-
 async function sendEmail(env, { to, subject, html, attachments = [] }) {
-
   const body = {
     from: FROM,
     to: Array.isArray(to) ? to : [to],
@@ -109,27 +96,14 @@ async function sendEmail(env, { to, subject, html, attachments = [] }) {
   return res.json();
 }
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
-
 function formatAmount(triage) {
-
-  if (triage?.amount_claimed) {
-    return `€${triage.amount_claimed}`;
-  }
-
-  if (triage?.fine_amount) {
-    return `€${triage.fine_amount}`;
-  }
-
-  if (triage?.total_price) {
-    return `€${triage.total_price}`;
-  }
-
+  if (triage?.amount_claimed) return `€${triage.amount_claimed}`;
+  if (triage?.fine_amount) return `€${triage.fine_amount}`;
+  if (triage?.total_price) return `€${triage.total_price}`;
   return "unbekannt";
 }
 
 function riskLabel(risk) {
-
   return {
     low: "Gering",
     medium: "Mittel",
@@ -138,39 +112,27 @@ function riskLabel(risk) {
 }
 
 function riskAssessment(risk) {
-
   return {
     high:
       "Es bestehen deutliche Hinweise auf mögliche Unstimmigkeiten. Eine genauere Prüfung vor einer Zahlung könnte sinnvoll sein.",
-
     medium:
       "Es bestehen mögliche Unklarheiten, die vor einer Zahlung geprüft werden sollten.",
-
     low:
       "Die Forderung wirkt grundsätzlich nachvollziehbar. Eine kurze Prüfung kann dennoch sinnvoll sein."
-  }[risk]
-    || "Es bestehen mögliche Unklarheiten, die vor einer Zahlung geprüft werden sollten.";
+  }[risk] || "Es bestehen mögliche Unklarheiten, die vor einer Zahlung geprüft werden sollten.";
 }
 
-// ── Confirmation email ───────────────────────────────────────────────────────
-
 export async function sendConfirmationEmail(env, { name, email }) {
-
   await sendEmail(env, {
     to: email,
-
     subject: "Ihr Schreiben ist eingegangen — MussIchZahlen",
-
     html: `
 <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
-
   <p style="font-size:1.1rem;font-weight:700;color:#14532d;">
     ✓ Ihr Schreiben ist eingegangen.
   </p>
 
-  <p>
-    Guten Tag ${escapeHtml(capitalizeFirst(name || "Kunde"))},
-  </p>
+  <p>Guten Tag ${escapeHtml(capitalizeFirst(name || "Kunde"))},</p>
 
   <p>
     wir haben Ihr Dokument erhalten und werden es sorgfältig prüfen.
@@ -179,24 +141,16 @@ export async function sendConfirmationEmail(env, { name, email }) {
   </p>
 
   <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px;margin:16px 0;">
-
-    <strong style="color:#14532d;">
-      Was wir prüfen:
-    </strong>
-
+    <strong style="color:#14532d;">Was wir prüfen:</strong>
     <p style="color:#166534;margin-top:6px;margin-bottom:0;line-height:1.65;">
-
       Wir schauen uns Ihr Schreiben genau an und geben Ihnen
       eine erste Einschätzung, ob einzelne Forderungen,
       Zusatzkosten oder Nachweise genauer geprüft werden sollten.
-
     </p>
-
   </div>
 
   <p style="font-size:.9rem;color:#6b7280;">
-    → Bitte prüfen Sie auch Ihren Spam-Ordner,
-    falls Sie keine E-Mail erhalten.
+    → Bitte prüfen Sie auch Ihren Spam-Ordner, falls Sie keine E-Mail erhalten.
   </p>
 
   <p>
@@ -207,12 +161,36 @@ export async function sendConfirmationEmail(env, { name, email }) {
   <p style="color:#6b7280;font-size:0.82rem;margin-top:24px;">
     ${escapeHtml(DISCLAIMER)}
   </p>
-
 </div>`
   });
 }
-```
 
+export async function notifyAdminFree(env, { name, email, type, triage }) {
+  const labels = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
+  const amount = formatAmount(triage);
+
+  await sendEmail(env, {
+    to: env.ADMIN_EMAIL,
+    subject: `[MussIchZahlen] Kostenlose Anfrage: ${name} (${type})`,
+    html: `
+<div style="font-family:Arial,sans-serif;">
+  <p style="background:#f3f4f6;padding:10px;border-radius:6px;font-size:0.85rem;">
+    📬 Recovery-Sequenz wird automatisch geplant für
+    <strong>${escapeHtml(email)}</strong>
+  </p>
+
+  <h3>Kostenlose Anfrage — ${escapeHtml(labels.title)}</h3>
+
+  <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+  <p><strong>E-Mail:</strong> ${escapeHtml(email)}</p>
+  <p><strong>Absender:</strong> ${escapeHtml(triage?.sender || "unbekannt")}</p>
+  <p><strong>Betrag:</strong> ${escapeHtml(amount)}</p>
+  <p><strong>Risiko:</strong> ${escapeHtml(triage?.risk || "")}</p>
+  <p><strong>Chance:</strong> ${escapeHtml(String(triage?.chance ?? "unbekannt"))}</p>
+  <p><strong>Flags:</strong> ${escapeHtml(String(triage?.flagCount ?? "unbekannt"))}</p>
+</div>`
+  });
+}
 ```js
 // ── Admin notifications ──────────────────────────────────────────────────────
 
