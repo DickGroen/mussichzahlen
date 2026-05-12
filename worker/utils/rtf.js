@@ -21,6 +21,8 @@ const LETTER_TITLE = {
 const DISCLAIMER_RTF =
   "MussIchZahlen bietet informative Analysen — keine Rechtsberatung und keine anwaltliche Vertretung.";
 
+// ── Escape helpers ───────────────────────────────────────────────────────────
+
 export function rtfEscape(value = "") {
   return String(value)
     .replace(/\\/g, "\\\\")
@@ -50,6 +52,8 @@ export function rtfToBase64(rtfString) {
   return btoa(binary);
 }
 
+// ── Cleanup helpers ──────────────────────────────────────────────────────────
+
 function stripMarkdown(value = "") {
   return String(value)
     .replace(/\*\*(.*?)\*\*/g, "$1")
@@ -60,8 +64,37 @@ function stripMarkdown(value = "") {
     .trim();
 }
 
+// ── AI safety filter ─────────────────────────────────────────────────────────
+
+function sanitizeLegalTone(text = "") {
+  return String(text || "")
+
+    .replace(/Dies ist ein erhebliches Manko\.?/gi,
+      "Es bestehen mögliche Unklarheiten.")
+
+    .replace(/14-Tage-Frist beginnt[^.]*\.?/gi,
+      "Bitte prüfen Sie mögliche Fristen sorgfältig.")
+
+    .replace(/RDG(EG)?/gi, "")
+
+    .replace(/eindeutig rechtswidrig/gi,
+      "möglicherweise problematisch")
+
+    .replace(/zweifelsfrei/gi,
+      "nach erster Einschätzung")
+
+    .replace(/garantiert/gi,
+      "möglicherweise")
+
+    .trim();
+}
+
 function getSection(analysis, tag) {
-  return stripMarkdown(extractTaggedSection(analysis, tag) || "");
+  return sanitizeLegalTone(
+    stripMarkdown(
+      extractTaggedSection(analysis, tag) || ""
+    )
+  );
 }
 
 function getLetterSection(analysis, type) {
@@ -80,11 +113,22 @@ function getLetterSection(analysis, type) {
 
   for (const tag of possibleTags) {
     const found = getSection(analysis, tag);
+
     if (found) return found;
   }
 
   return "";
 }
+
+function cleanLetter(text = "") {
+  return sanitizeLegalTone(
+    stripMarkdown(text)
+      .replace(/\[\/?\w+\]/g, "")
+      .trim()
+  );
+}
+
+// ── Layout ───────────────────────────────────────────────────────────────────
 
 function rtfHeader() {
   return `{\\rtf1\\ansi\\ansicpg1252\\deff0
@@ -104,18 +148,24 @@ function rtfFooter(note = DISCLAIMER_RTF) {
 
 function paragraph(text = "", spacing = 180) {
   if (!text) return "";
+
   return `{\\pard\\sb0\\sa${spacing}\\f1\\fs22 ${rtfEscape(text)}\\par}\n`;
 }
 
 function heading(text = "") {
   if (!text) return "";
+
   return `{\\pard\\sb360\\sa120\\f1\\fs26\\b\\cf1 ${rtfEscape(text)}\\b0\\cf0\\par}\n`;
 }
 
 function bulletLines(text = "") {
   const lines = String(text || "")
     .split("\n")
-    .map((line) => stripMarkdown(line.replace(/^\s*[-•]\s*/, "").trim()))
+    .map((line) =>
+      stripMarkdown(
+        line.replace(/^\s*[-•]\s*/, "").trim()
+      )
+    )
     .filter(Boolean);
 
   if (!lines.length) return "";
@@ -131,7 +181,11 @@ function bulletLines(text = "") {
 function numberedLines(text = "") {
   const lines = String(text || "")
     .split("\n")
-    .map((line) => stripMarkdown(line.replace(/^\s*\d+\.\s*/, "").trim()))
+    .map((line) =>
+      stripMarkdown(
+        line.replace(/^\s*\d+\.\s*/, "").trim()
+      )
+    )
     .filter(Boolean);
 
   if (!lines.length) return "";
@@ -148,6 +202,7 @@ function formatAmount(triage = {}) {
   if (triage?.amount_claimed) return `€${triage.amount_claimed}`;
   if (triage?.fine_amount) return `€${triage.fine_amount}`;
   if (triage?.total_price) return `€${triage.total_price}`;
+
   return "unbekannt";
 }
 
@@ -155,38 +210,45 @@ function riskLabel(risk) {
   if (risk === "high") return "hoch";
   if (risk === "medium") return "mittel";
   if (risk === "low") return "gering";
+
   return risk || "unbekannt";
 }
 
-function cleanLetter(text = "") {
-  return stripMarkdown(text)
-    .replace(/\[\/?\w+\]/g, "")
-    .trim();
-}
-
-// ── Confirmation RTF ──────────────────────────────────────────────────────────
+// ── Confirmation RTF ─────────────────────────────────────────────────────────
 
 export function makeConfirmationRtf(name = "") {
-  const customer = String(name || "Kunde").trim();
+
+  const customer =
+    String(name || "Kunde").trim();
 
   return (
-    rtfHeader() +
-    `{\\pard\\sb400\\sa160\\f1\\fs30\\b\\cf1 ${rtfEscape("Dein Schreiben ist eingegangen")}\\b0\\cf0\\par}\n` +
-    paragraph(`Hallo ${customer},`) +
-    paragraph(
-      "wir haben dein Dokument erhalten und werden es sorgfältig prüfen. Du erhältst spätestens am nächsten Werktag bis 16:00 Uhr eine erste Einschätzung per E-Mail."
-    ) +
-    heading("Was wir prüfen") +
-    paragraph(
-      "Wir schauen uns dein Schreiben genau an und geben dir eine erste Einschätzung, ob es sinnvoll sein könnte, die Forderung vor einer Zahlung genauer prüfen zu lassen."
-    ) +
-    paragraph("Bitte prüfe auch deinen Spam-Ordner, falls du keine E-Mail erhältst.") +
-    paragraph("Viele Grüße\nMussIchZahlen") +
-    rtfFooter()
+    rtfHeader()
+
+    + `{\\pard\\sb400\\sa160\\f1\\fs30\\b\\cf1 ${rtfEscape("Ihr Schreiben ist eingegangen")}\\b0\\cf0\\par}\n`
+
+    + paragraph(`Guten Tag ${customer},`)
+
+    + paragraph(
+      "wir haben Ihr Dokument erhalten und werden es sorgfältig prüfen. Sie erhalten spätestens am nächsten Werktag bis 16:00 Uhr eine erste Einschätzung per E-Mail."
+    )
+
+    + heading("Was wir prüfen")
+
+    + paragraph(
+      "Wir schauen uns Ihr Schreiben genau an und geben Ihnen eine erste Einschätzung, ob es sinnvoll sein könnte, die Forderung vor einer Zahlung genauer prüfen zu lassen."
+    )
+
+    + paragraph(
+      "Bitte prüfen Sie auch Ihren Spam-Ordner, falls Sie keine E-Mail erhalten."
+    )
+
+    + paragraph("Viele Grüße\nMussIchZahlen")
+
+    + rtfFooter()
   );
 }
 
-// ── Analysis RTF ──────────────────────────────────────────────────────────────
+// ── Analysis RTF ─────────────────────────────────────────────────────────────
 
 export function makeAnalysisRtf(
   analysis,
@@ -195,28 +257,55 @@ export function makeAnalysisRtf(
   triage = {},
   type = "mahnung"
 ) {
-  const title = getSection(analysis, "TITLE") || "MussIchZahlen Analyse";
-  const intro = getSection(analysis, "INTRO");
-  const howToUse = getSection(analysis, "HOW_TO_USE");
-  const summary = getSection(analysis, "SUMMARY");
-  const issues = getSection(analysis, "ISSUES");
-  const assessment = getSection(analysis, "ASSESSMENT");
-  const nextSteps = getSection(analysis, "NEXT_STEPS");
 
-  const amount = formatAmount(triage);
-  const sender = triage?.sender || "unbekannt";
-  const risk = riskLabel(triage?.risk);
-  const dateStr = new Date().toLocaleDateString("de-DE");
+  const title =
+    getSection(analysis, "TITLE")
+    || "MussIchZahlen Analyse";
+
+  const intro =
+    getSection(analysis, "INTRO");
+
+  const howToUse =
+    getSection(analysis, "HOW_TO_USE");
+
+  const summary =
+    getSection(analysis, "SUMMARY");
+
+  const issues =
+    getSection(analysis, "ISSUES");
+
+  const assessment =
+    getSection(analysis, "ASSESSMENT");
+
+  const nextSteps =
+    getSection(analysis, "NEXT_STEPS");
+
+  const amount =
+    formatAmount(triage);
+
+  const sender =
+    triage?.sender || "unbekannt";
+
+  const risk =
+    riskLabel(triage?.risk);
+
+  const dateStr =
+    new Date().toLocaleDateString("de-DE");
 
   let out = rtfHeader();
 
   out += `{\\pard\\sb400\\sa120\\f1\\fs34\\b\\cf1 ${rtfEscape(title)}\\b0\\cf0\\par}\n`;
+
   out += `{\\pard\\sb0\\sa80\\f1\\fs20\\cf0 ${rtfEscape(customerName || "")} ${customerEmail ? `(${rtfEscape(customerEmail)})` : ""}\\par}\n`;
+
   out += `{\\pard\\sb0\\sa280\\f1\\fs20\\cf0 ${rtfEscape(`Typ: ${type} | Betrag: ${amount} | Risiko: ${risk} | Datum: ${dateStr}`)}\\par}\n`;
 
   out += heading("Fallübersicht");
+
   out += paragraph(`Absender: ${sender}`, 100);
+
   out += paragraph(`Betrag: ${amount}`, 100);
+
   out += paragraph(`Einschätzung: ${risk}`, 180);
 
   if (intro) {
@@ -241,12 +330,15 @@ export function makeAnalysisRtf(
 
   if (nextSteps) {
     out += heading("Nächste Schritte");
-    out += numberedLines(nextSteps) || bulletLines(nextSteps) || paragraph(nextSteps);
+    out += numberedLines(nextSteps)
+      || bulletLines(nextSteps)
+      || paragraph(nextSteps);
   }
 
   if (howToUse) {
     out += heading("So verwenden Sie dieses Ergebnis");
-    out += numberedLines(howToUse) || paragraph(howToUse);
+    out += numberedLines(howToUse)
+      || paragraph(howToUse);
   }
 
   out += paragraph(
@@ -256,7 +348,7 @@ export function makeAnalysisRtf(
   return out + rtfFooter();
 }
 
-// ── Letter RTF ────────────────────────────────────────────────────────────────
+// ── Letter RTF ───────────────────────────────────────────────────────────────
 
 export function makeLetterRtf(
   analysis,
@@ -264,18 +356,27 @@ export function makeLetterRtf(
   triage = {},
   type = "mahnung"
 ) {
-  const title = LETTER_TITLE[type] || "Schreiben";
-  const sender = triage?.sender || "[Empfänger]";
-  const content =
-    cleanLetter(getLetterSection(analysis, type)) ||
-    fallbackLetter(type, triage);
 
-  const dateStr = new Date().toLocaleDateString("de-DE");
+  const title =
+    LETTER_TITLE[type] || "Schreiben";
+
+  const sender =
+    triage?.sender || "[Empfänger]";
+
+  const content =
+    cleanLetter(
+      getLetterSection(analysis, type)
+    ) || fallbackLetter(type, triage);
+
+  const dateStr =
+    new Date().toLocaleDateString("de-DE");
 
   let out = rtfHeader();
 
   out += `{\\pard\\sb400\\sa160\\f1\\fs30\\b\\cf2 ${rtfEscape(title)}\\b0\\cf0\\par}\n`;
+
   out += `{\\pard\\sb0\\sa80\\f1\\fs20\\cf0 ${rtfEscape(`Erstellt für: ${customerName || "[Name]"}`)}\\par}\n`;
+
   out += `{\\pard\\sb0\\sa260\\f1\\fs20\\cf4\\i ${rtfEscape("Bitte ergänzen Sie Ihre persönlichen Angaben, Datum, Adresse und Aktenzeichen vor dem Versand.")}\\i0\\cf0\\par}\n`;
 
   out += `{\\pard\\sb240\\sa180\\f1\\fs22\\cf0
@@ -298,37 +399,42 @@ ${rtfEscape(content)}
 \\par
 }`;
 
-  return out + rtfFooter("MussIchZahlen bietet informative Analysen — keine Rechtsberatung und keine anwaltliche Vertretung.");
+  return out + rtfFooter(
+    "MussIchZahlen bietet informative Analysen — keine Rechtsberatung und keine anwaltliche Vertretung."
+  );
 }
 
 // ── Fallback letters ─────────────────────────────────────────────────────────
 
 function fallbackLetter(type, triage = {}) {
+
   if (type === "mahnung") {
     return fallbackMahnungLetter(triage);
   }
 
   if (type === "parkstrafe") {
-    return fallbackParkstrafeLetter(triage);
+    return fallbackParkstrafeLetter();
   }
 
   if (type === "rechnung") {
-    return fallbackRechnungLetter(triage);
+    return fallbackRechnungLetter();
   }
 
   if (type === "vertrag") {
-    return fallbackVertragLetter(triage);
+    return fallbackVertragLetter();
   }
 
   if (type === "angebot") {
-    return fallbackAngebotLetter(triage);
+    return fallbackAngebotLetter();
   }
 
-  return fallbackNeutralLetter(triage);
+  return fallbackNeutralLetter();
 }
 
 function fallbackMahnungLetter(triage = {}) {
-  const amount = formatAmount(triage);
+
+  const amount =
+    formatAmount(triage);
 
   return `Betreff: Bitte um Nachweis und Klärung Ihrer Forderung
 
@@ -336,7 +442,7 @@ Sehr geehrte Damen und Herren,
 
 ich nehme Bezug auf Ihr Schreiben bezüglich der von Ihnen geltend gemachten Forderung${amount !== "unbekannt" ? ` in Höhe von ${amount}` : ""}.
 
-Ich bestreite die Forderung derzeit nicht abschließend, erkenne sie jedoch auch nicht an. Bevor eine Zahlung geprüft werden kann, bitte ich um eine vollständige schriftliche Darlegung und Nachweise zu Ihrer Forderung.
+Ich bestreite die Forderung vorsorglich und ohne Anerkennung einer Rechtspflicht, solange keine vollständigen Nachweise vorliegen.
 
 Bitte übersenden Sie mir insbesondere:
 
@@ -358,13 +464,14 @@ Mit freundlichen Grüßen
 }
 
 function fallbackParkstrafeLetter() {
+
   return `Betreff: Einspruch gegen den Bußgeldbescheid / Zahlungsaufforderung
 
 Sehr geehrte Damen und Herren,
 
 hiermit lege ich vorsorglich Einspruch gegen den genannten Bescheid bzw. die Zahlungsaufforderung ein.
 
-Ich bitte um eine vollständige schriftliche Erläuterung des Vorwurfs sowie um Übersendung aller Belege, Fotos, Messdaten oder sonstigen Nachweise, auf die Sie sich stützen.
+Ich bitte um eine vollständige schriftliche Erläuterung des Vorwurfs sowie um Übersendung aller Belege, Fotos, Messdaten oder sonstigen Nachweise.
 
 Dieses Schreiben stellt kein Anerkenntnis einer Zahlungspflicht dar.
 
@@ -376,13 +483,14 @@ Mit freundlichen Grüßen
 }
 
 function fallbackRechnungLetter() {
+
   return `Betreff: Klärung Ihrer Rechnung
 
 Sehr geehrte Damen und Herren,
 
 ich nehme Bezug auf Ihre Rechnung.
 
-Derzeit kann ich die Rechnung nicht vollständig nachvollziehen. Bitte übersenden Sie mir eine genaue Aufstellung der berechneten Positionen sowie die vertragliche oder sonstige Grundlage der Forderung.
+Derzeit kann ich die Rechnung nicht vollständig nachvollziehen. Bitte übersenden Sie mir eine genaue Aufstellung der berechneten Positionen sowie die vertragliche Grundlage der Forderung.
 
 Bis zur Klärung erkenne ich die Forderung nicht an.
 
@@ -394,6 +502,7 @@ Mit freundlichen Grüßen
 }
 
 function fallbackVertragLetter() {
+
   return `Betreff: Klärung / Kündigung des Vertragsverhältnisses
 
 Sehr geehrte Damen und Herren,
@@ -412,6 +521,7 @@ Mit freundlichen Grüßen
 }
 
 function fallbackAngebotLetter() {
+
   return `Betreff: Rückfrage zu Ihrem Angebot / Kostenvoranschlag
 
 Sehr geehrte Damen und Herren,
@@ -428,6 +538,7 @@ Mit freundlichen Grüßen
 }
 
 function fallbackNeutralLetter() {
+
   return `Betreff: Bitte um Klärung
 
 Sehr geehrte Damen und Herren,
