@@ -8,7 +8,6 @@ import { enqueueFree, saveFreeCase } from "../services/queue.js";
 import {
   notifyAdminFree,
   sendConfirmationEmail,
-  sendFreeEmail,
 } from "../services/resend.js";
 import { loadPrompts } from "../config/prompts.js";
 import { getStripeLink } from "../services/stripe.js";
@@ -18,19 +17,20 @@ function getTriageDecision({ chance, flags }) {
   const f = Number(flags) || 0;
 
   if (c >= 60 && f >= 2) {
-    return { tier: "tier1", showUpsell: true, emailType: "stark" };
+    return { tier: "tier1", showUpsell: true, emailType: "strong" };
   }
 
   if (c >= 40 || f === 1) {
     return { tier: "tier2", showUpsell: true, emailType: "soft" };
   }
 
-  return { tier: "tier3", showUpsell: false, emailType: "vertrauen" };
+  return { tier: "tier3", showUpsell: false, emailType: "trust" };
 }
 
 export async function handleAnalyzeFree(request, env) {
   try {
     const formData = await request.formData();
+    console.log("STEP 1 formData OK");
 
     const file = formData.get("file");
     const name = String(formData.get("name") || "").trim();
@@ -43,8 +43,10 @@ export async function handleAnalyzeFree(request, env) {
     }
 
     const { base64, mediaType } = await fileToBase64(file);
+    console.log("STEP 2 fileToBase64 OK");
 
     const prompts = await loadPrompts(type);
+    console.log("STEP 3 prompts loaded");
 
     if (!prompts?.triage) {
       return jsonResponse(
@@ -58,6 +60,7 @@ export async function handleAnalyzeFree(request, env) {
       mediaType,
       triagePrompt: prompts.triage,
     });
+    console.log("STEP 4 runTriage OK");
 
     const triage = normalizeTriage(
       safeJsonParse(raw) || {
@@ -79,6 +82,7 @@ export async function handleAnalyzeFree(request, env) {
       }
     );
 
+    console.log("STEP 5 normalizeTriage OK");
     console.log("FREE TRIAGE:", JSON.stringify(triage));
 
     const decision = getTriageDecision({
@@ -107,7 +111,7 @@ export async function handleAnalyzeFree(request, env) {
         fileSize: file.size || null,
       });
 
-      console.log("saveFreeCase: OK");
+      console.log("STEP 6 saveFreeCase OK");
     } catch (err) {
       console.error("saveFreeCase FAILED:", err.message);
       return jsonResponse(
@@ -153,21 +157,6 @@ export async function handleAnalyzeFree(request, env) {
       console.log("notifyAdminFree: OK");
     } catch (err) {
       console.error("Admin-Benachrichtigung fehlgeschlagen:", err.message);
-    }
-
-    try {
-      await sendFreeEmail(env, {
-        name,
-        email,
-        type,
-        triage,
-        stripeLink,
-        stage: 1,
-      });
-
-      console.log("sendFreeEmail stage 1: OK");
-    } catch (err) {
-      console.error("sendFreeEmail stage 1 fehlgeschlagen:", err.message);
     }
 
     return jsonResponse({
