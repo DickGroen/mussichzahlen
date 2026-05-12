@@ -1,8 +1,10 @@
 // services/queue.js
 
-const FREE_CASE_TTL_SECONDS   = 60 * 60 * 24 * 3;
+const FREE_CASE_TTL_SECONDS = 60 * 60 * 24 * 3;
 const PAID_MARKER_TTL_SECONDS = 60 * 60 * 24 * 3;
 const FREE_TRIAGE_TTL_SECONDS = 60 * 60 * 24 * 14;
+const QUEUE_TTL_SECONDS = 60 * 60 * 24 * 7;
+const ABANDONED_TTL_SECONDS = 60 * 60 * 24 * 7;
 
 function normalizeEmail(email) {
   return String(email || "").trim().toLowerCase();
@@ -24,12 +26,14 @@ function freeCaseKey(type, email) {
   return `free_case:${type}:${safeEmailKey(email)}`;
 }
 
-function nextWorkdayAt15CET(fromMs = Date.now()) {
-  const TARGET_HOUR_UTC = 14; // 15:00 CET = 14:00 UTC
+function abandonedKey(email, stage) {
+  return `abandoned:${safeEmailKey(email)}:stage_${stage}`;
+}
 
+function nextWorkdayAt15CET(fromMs = Date.now()) {
   const d = new Date(fromMs);
   d.setUTCDate(d.getUTCDate() + 1);
-  d.setUTCHours(TARGET_HOUR_UTC, 0, 0, 0);
+  d.setUTCHours(14, 0, 0, 0);
 
   while (d.getUTCDay() === 0 || d.getUTCDay() === 6) {
     d.setUTCDate(d.getUTCDate() + 1);
@@ -39,12 +43,9 @@ function nextWorkdayAt15CET(fromMs = Date.now()) {
 }
 
 function nextWorkdayAt1515CET(fromMs = Date.now()) {
-  const TARGET_HOUR_UTC   = 13;
-  const TARGET_MINUTE_UTC = 15;
-
   const d = new Date(fromMs);
   d.setUTCDate(d.getUTCDate() + 1);
-  d.setUTCHours(TARGET_HOUR_UTC, TARGET_MINUTE_UTC, 0, 0);
+  d.setUTCHours(13, 15, 0, 0);
 
   while (d.getUTCDay() === 0 || d.getUTCDay() === 6) {
     d.setUTCDate(d.getUTCDate() + 1);
@@ -53,17 +54,13 @@ function nextWorkdayAt1515CET(fromMs = Date.now()) {
   return d.toISOString();
 }
 
-// ── Paid marker ──────────────────────────────────────────────────────────────
-
 export async function markPaid(env, email) {
   const normalized = normalizeEmail(email);
   if (!normalized) return;
 
-  await env.SESSIONS_KV.put(
-    paidMarkerKey(normalized),
-    "1",
-    { expirationTtl: PAID_MARKER_TTL_SECONDS }
-  );
+  await env.SESSIONS_KV.put(paidMarkerKey(normalized), "1", {
+    expirationTtl: PAID_MARKER_TTL_SECONDS,
+  });
 }
 
 export async function hasPaid(env, email) {
@@ -73,8 +70,6 @@ export async function hasPaid(env, email) {
   const value = await env.SESSIONS_KV.get(paidMarkerKey(normalized));
   return value === "1";
 }
-
-// ── Free triage ──────────────────────────────────────────────────────────────
 
 export async function saveFreeTriage(env, { type, name, email, triage, stripeLink }) {
   const entry = {
@@ -86,11 +81,9 @@ export async function saveFreeTriage(env, { type, name, email, triage, stripeLin
     created_at: new Date().toISOString(),
   };
 
-  await env.SESSIONS_KV.put(
-    freeTriageKey(type, email),
-    JSON.stringify(entry),
-    { expirationTtl: FREE_TRIAGE_TTL_SECONDS }
-  );
+  await env.SESSIONS_KV.put(freeTriageKey(type, email), JSON.stringify(entry), {
+    expirationTtl: FREE_TRIAGE_TTL_SECONDS,
+  });
 
   return entry;
 }
@@ -106,30 +99,33 @@ export async function getFreeTriage(env, { type, email }) {
   }
 }
 
-// ── Free case ────────────────────────────────────────────────────────────────
-
 export async function saveFreeCase(env, {
-  type, name, email, triage, stripeLink,
-  fileBase64, mediaType, fileName, fileSize,
+  type,
+  name,
+  email,
+  triage,
+  stripeLink,
+  fileBase64,
+  mediaType,
+  fileName,
+  fileSize,
 }) {
   const entry = {
     type,
     name,
-    email:       normalizeEmail(email),
+    email: normalizeEmail(email),
     triage,
     stripe_link: stripeLink,
     file_base64: fileBase64,
-    media_type:  mediaType,
-    file_name:   fileName || null,
-    file_size:   fileSize || null,
-    created_at:  new Date().toISOString(),
+    media_type: mediaType,
+    file_name: fileName || null,
+    file_size: fileSize || null,
+    created_at: new Date().toISOString(),
   };
 
-  await env.SESSIONS_KV.put(
-    freeCaseKey(type, email),
-    JSON.stringify(entry),
-    { expirationTtl: FREE_CASE_TTL_SECONDS }
-  );
+  await env.SESSIONS_KV.put(freeCaseKey(type, email), JSON.stringify(entry), {
+    expirationTtl: FREE_CASE_TTL_SECONDS,
+  });
 
   return entry;
 }
@@ -145,19 +141,17 @@ export async function getFreeCase(env, { type, email }) {
   }
 }
 
-// ── Free recovery queue ──────────────────────────────────────────────────────
-
 export async function enqueueFree(env, { type, name, email, triage, stripeLink }) {
   await saveFreeTriage(env, { type, name, email, triage, stripeLink });
 
   const createdAt = Date.now();
-  const emailKey  = safeEmailKey(email);
-  const baseKey   = `free:${type}:${createdAt}:${emailKey}`;
+  const normalized = normalizeEmail(email);
+  const emailKey = safeEmailKey(normalized);
+  const baseKey = `free:${type}:${createdAt}:${emailKey}`;
 
-  // TESTMODUS: stage 1 na 2 minuten.
-  // Voor productie vervangen door:
-  // const stage1SendAt = nextWorkdayAt15CET(createdAt);
-  const stage1SendAt = new Date(createdAt + 2 * 60 * 1000).toISOString();
+  // TESTMODUS: stage 1 is direct klaar voor de eerstvolgende cron.
+  // PRODUCTIE: vervang door: const stage1SendAt = nextWorkdayAt15CET(createdAt);
+  const stage1SendAt = new Date(createdAt - 10 * 1000).toISOString();
 
   const stage1Ms = new Date(stage1SendAt).getTime();
 
@@ -167,55 +161,56 @@ export async function enqueueFree(env, { type, name, email, triage, stripeLink }
     3: new Date(stage1Ms + 48 * 60 * 60 * 1000).toISOString(),
   };
 
+  console.log("ENQUEUE FREE DEBUG:", JSON.stringify({
+    baseKey,
+    email: normalized,
+    sendAts,
+  }));
+
   for (const stage of [1, 2, 3]) {
     const key = `${baseKey}:stage_${stage}`;
 
     const entry = {
-      kind:        "free",
+      kind: "free",
       stage,
       type,
       name,
-      email:       normalizeEmail(email),
+      email: normalized,
       triage,
       stripe_link: stripeLink,
-      created_at:  new Date(createdAt).toISOString(),
-      send_at:     sendAts[stage],
+      created_at: new Date(createdAt).toISOString(),
+      send_at: sendAts[stage],
     };
 
     await env.SESSIONS_KV.put(key, JSON.stringify(entry), {
-      expirationTtl: 60 * 60 * 24 * 7,
+      expirationTtl: QUEUE_TTL_SECONDS,
     });
+
+    console.log("ENQUEUED FREE KEY:", key, "SEND_AT:", sendAts[stage]);
   }
 
   return baseKey;
 }
 
-// ── Paid delivery queue ──────────────────────────────────────────────────────
-
 export async function enqueuePaid(env, { type, name, email, triage, analysis }) {
   const key = `paid:${type}:${Date.now()}:${safeEmailKey(email)}`;
 
   const entry = {
-    kind:       "paid",
+    kind: "paid",
     type,
     name,
-    email:      normalizeEmail(email),
+    email: normalizeEmail(email),
     triage,
     analysis,
     created_at: new Date().toISOString(),
-    send_at:    nextWorkdayAt1515CET(Date.now()),
+    send_at: nextWorkdayAt1515CET(Date.now()),
   };
 
   await env.SESSIONS_KV.put(key, JSON.stringify(entry));
+
+  console.log("ENQUEUED PAID KEY:", key, "SEND_AT:", entry.send_at);
+
   return key;
-}
-
-// ── Abandoned checkout queue ─────────────────────────────────────────────────
-
-const ABANDONED_TTL_SECONDS = 60 * 60 * 24 * 7;
-
-function abandonedKey(email, stage) {
-  return `abandoned:${safeEmailKey(email)}:stage_${stage}`;
 }
 
 export async function saveAbandoned(env, { email, name, type, amount, stripeLink }) {
@@ -225,7 +220,7 @@ export async function saveAbandoned(env, { email, name, type, amount, stripeLink
   const now = Date.now();
 
   const sendAts = {
-    1: new Date(now + 1  * 60 * 60 * 1000).toISOString(),
+    1: new Date(now + 1 * 60 * 60 * 1000).toISOString(),
     2: new Date(now + 24 * 60 * 60 * 1000).toISOString(),
     3: new Date(now + 48 * 60 * 60 * 1000).toISOString(),
   };
@@ -237,33 +232,40 @@ export async function saveAbandoned(env, { email, name, type, amount, stripeLink
     if (existing) continue;
 
     const entry = {
-      kind:        "abandoned",
+      kind: "abandoned",
       stage,
       type,
       name,
-      email:       normalized,
-      amount:      amount || null,
+      email: normalized,
+      amount: amount || null,
       stripe_link: stripeLink,
-      created_at:  new Date(now).toISOString(),
-      send_at:     sendAts[stage],
+      created_at: new Date(now).toISOString(),
+      send_at: sendAts[stage],
     };
 
     await env.SESSIONS_KV.put(key, JSON.stringify(entry), {
       expirationTtl: ABANDONED_TTL_SECONDS,
     });
+
+    console.log("ENQUEUED ABANDONED KEY:", key, "SEND_AT:", sendAts[stage]);
   }
 }
-
-// ── Cron helpers ─────────────────────────────────────────────────────────────
 
 export async function getDueEntries(env) {
   const now = Date.now();
   const due = [];
   let cursor;
 
+  console.log("GET DUE START:", new Date(now).toISOString());
+
   do {
     const list = await env.SESSIONS_KV.list(cursor ? { cursor } : undefined);
     cursor = list.cursor;
+
+    console.log("KV LIST PAGE:", JSON.stringify({
+      count: list.keys.length,
+      cursor: cursor || null,
+    }));
 
     for (const key of list.keys) {
       if (key.name.startsWith("paid_marker:")) continue;
@@ -279,7 +281,17 @@ export async function getDueEntries(env) {
         const entry = JSON.parse(raw);
         if (!entry.send_at) continue;
 
-        if (new Date(entry.send_at).getTime() <= now) {
+        const sendAtMs = new Date(entry.send_at).getTime();
+
+        console.log("QUEUE CHECK:", JSON.stringify({
+          key: key.name,
+          kind: entry.kind,
+          stage: entry.stage || null,
+          send_at: entry.send_at,
+          due: sendAtMs <= now,
+        }));
+
+        if (sendAtMs <= now) {
           due.push({ key: key.name, entry });
         }
       } catch (err) {
@@ -288,9 +300,12 @@ export async function getDueEntries(env) {
     }
   } while (cursor);
 
+  console.log("GET DUE DONE:", due.length);
+
   return due;
 }
 
 export async function deleteEntry(env, key) {
   await env.SESSIONS_KV.delete(key);
+  console.log("DELETED QUEUE KEY:", key);
 }
