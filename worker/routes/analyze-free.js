@@ -8,6 +8,7 @@ import { enqueueFree, saveFreeCase } from "../services/queue.js";
 import {
   notifyAdminFree,
   sendConfirmationEmail,
+  sendFreeEmail,
 } from "../services/resend.js";
 import { loadPrompts } from "../config/prompts.js";
 import { getStripeLink } from "../services/stripe.js";
@@ -157,6 +158,24 @@ export async function handleAnalyzeFree(request, env) {
       console.log("notifyAdminFree: OK");
     } catch (err) {
       console.error("Admin-Benachrichtigung fehlgeschlagen:", err.message);
+    }
+
+    // NOODOPLOSSING:
+    // Stage 1 direct verzenden, zodat klant meteen beoordeling + betaallink krijgt.
+    // enqueueFree blijft bestaan voor stage 2/3 en latere cron-debug.
+    try {
+      await sendFreeEmail(env, {
+        name,
+        email,
+        type,
+        triage,
+        stripeLink,
+        stage: 1,
+      });
+
+      console.log("sendFreeEmail stage 1 DIRECT: OK");
+    } catch (err) {
+      console.error("sendFreeEmail stage 1 DIRECT fehlgeschlagen:", err.message);
     }
 
     return jsonResponse({
