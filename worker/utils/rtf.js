@@ -1,68 +1,446 @@
-{\rtf1\ansi\deff0
-{\fonttbl{\f0 Arial;}}
-{\colortbl;\red31\green41\blue55;\red107\green114\blue128;}
-\f0\fs24
+// worker/utils/rtf.js
 
-\b Widerspruch gegen die Forderung\b0
-\line\line
+import { extractTaggedSection } from "./files.js";
 
-\i Bitte erg\'e4nze deine pers\'f6nlichen Angaben und pr\'fcfe das Schreiben vor dem Versand.\i0
-\line\line
+const LETTER_TAG = {
+  mahnung: "WIDERSPRUCH",
+  parkstrafe: "EINSPRUCH",
+  rechnung: "WIDERSPRUCHSSCHREIBEN",
+  vertrag: "KUENDIGUNGSSCHREIBEN",
+  angebot: "ANTWORTSCHREIBEN",
+};
 
-[Ort], [Datum]
-\line\line
+const LETTER_TITLE = {
+  mahnung: "Widerspruch",
+  parkstrafe: "Einspruchsschreiben",
+  rechnung: "Widerspruchsschreiben",
+  vertrag: "Kündigungsschreiben",
+  angebot: "Antwortschreiben",
+};
 
-\b Absender:\b0
-\line
-[Vorname Nachname]
-\line
-[Stra\'dfe und Hausnummer]
-\line
-[PLZ Ort]
-\line\line
+const DISCLAIMER_RTF =
+  "MussIchZahlen bietet informative Analysen — keine Rechtsberatung und keine anwaltliche Vertretung.";
 
-\b Empf\'e4nger:\b0
-\line
-[Inkassounternehmen]
-\line
-[Adresse]
-\line\line
+export function rtfEscape(value = "") {
+  return String(value)
+    .replace(/\\/g, "\\\\")
+    .replace(/{/g, "\\{")
+    .replace(/}/g, "\\}")
+    .replace(/\u2014/g, "\\emdash ")
+    .replace(/\u2013/g, "\\endash ")
+    .replace(/\u2018/g, "\\'91")
+    .replace(/\u2019/g, "\\'92")
+    .replace(/\u201c/g, "\\'93")
+    .replace(/\u201d/g, "\\'94")
+    .replace(/\u00a0/g, " ")
+    .replace(/\u20ac/g, "\\'80")
+    .replace(/\u00a3/g, "\\'a3")
+    .replace(/[^\x00-\x7F]/g, (char) => `\\u${char.charCodeAt(0)}?`)
+    .replace(/\n/g, "\\par\n");
+}
 
-\b Betreff:\b0  Widerspruch gegen Ihre Zahlungsaufforderung
-\line
-\b Aktenzeichen:\b0  [Aktenzeichen / Referenznummer]
-\line\line
+export function rtfToBase64(rtfString) {
+  const bytes = new TextEncoder().encode(String(rtfString || ""));
+  let binary = "";
+
+  for (const byte of bytes) {
+    binary += String.fromCharCode(byte);
+  }
+
+  return btoa(binary);
+}
+
+function stripMarkdown(value = "") {
+  return String(value)
+    .replace(/\*\*(.*?)\*\*/g, "$1")
+    .replace(/\*(.*?)\*/g, "$1")
+    .replace(/^#{1,6}\s+/gm, "")
+    .replace(/^---+$/gm, "")
+    .replace(/```[\s\S]*?```/g, "")
+    .trim();
+}
+
+function getSection(analysis, tag) {
+  return stripMarkdown(extractTaggedSection(analysis, tag) || "");
+}
+
+function getLetterSection(analysis, type) {
+  const primary = LETTER_TAG[type] || "WIDERSPRUCH";
+
+  const possibleTags = [
+    primary,
+    "LETTER",
+    "ANTWORTSCHREIBEN",
+    "SCHREIBEN",
+    "WIDERSPRUCH",
+    "EINSPRUCH",
+    "WIDERSPRUCHSSCHREIBEN",
+    "KUENDIGUNGSSCHREIBEN",
+  ];
+
+  for (const tag of possibleTags) {
+    const found = getSection(analysis, tag);
+    if (found) return found;
+  }
+
+  return "";
+}
+
+function rtfHeader() {
+  return `{\\rtf1\\ansi\\ansicpg1252\\deff0
+{\\fonttbl{\\f0\\froman\\fcharset0 Times New Roman;}{\\f1\\fswiss\\fcharset0 Arial;}}
+{\\colortbl;\\red27\\green58\\blue140;\\red153\\green26\\blue26;\\red34\\green139\\blue34;\\red180\\green140\\blue0;}
+\\paperw11906\\paperh16838\\margl1800\\margr1800\\margt1440\\margb1440
+\\f1\\fs22
+`;
+}
+
+function rtfFooter(note = DISCLAIMER_RTF) {
+  return `
+{\\pard\\sb500\\sa0\\brdrb\\brdrs\\brdrw5\\brsp60\\f1\\fs18\\cf0\\par}
+{\\pard\\sb100\\sa0\\f1\\fs16\\cf0\\i ${rtfEscape(note)}\\i0\\par}
+}`;
+}
+
+function paragraph(text = "", spacing = 180) {
+  if (!text) return "";
+  return `{\\pard\\sb0\\sa${spacing}\\f1\\fs22 ${rtfEscape(text)}\\par}\n`;
+}
+
+function heading(text = "") {
+  if (!text) return "";
+  return `{\\pard\\sb360\\sa120\\f1\\fs26\\b\\cf1 ${rtfEscape(text)}\\b0\\cf0\\par}\n`;
+}
+
+function bulletLines(text = "") {
+  const lines = String(text || "")
+    .split("\n")
+    .map((line) => stripMarkdown(line.replace(/^\s*[-•]\s*/, "").trim()))
+    .filter(Boolean);
+
+  if (!lines.length) return "";
+
+  return lines
+    .map(
+      (line) =>
+        `{\\pard\\sb0\\sa120\\fi-300\\li300\\f1\\fs22 \\bullet  ${rtfEscape(line)}\\par}`
+    )
+    .join("\n");
+}
+
+function numberedLines(text = "") {
+  const lines = String(text || "")
+    .split("\n")
+    .map((line) => stripMarkdown(line.replace(/^\s*\d+\.\s*/, "").trim()))
+    .filter(Boolean);
+
+  if (!lines.length) return "";
+
+  return lines
+    .map(
+      (line, index) =>
+        `{\\pard\\sb0\\sa140\\fi-300\\li300\\f1\\fs22 ${index + 1}.  ${rtfEscape(line)}\\par}`
+    )
+    .join("\n");
+}
+
+function formatAmount(triage = {}) {
+  if (triage?.amount_claimed) return `€${triage.amount_claimed}`;
+  if (triage?.fine_amount) return `€${triage.fine_amount}`;
+  if (triage?.total_price) return `€${triage.total_price}`;
+  return "unbekannt";
+}
+
+function riskLabel(risk) {
+  if (risk === "high") return "hoch";
+  if (risk === "medium") return "mittel";
+  if (risk === "low") return "gering";
+  return risk || "unbekannt";
+}
+
+function cleanLetter(text = "") {
+  return stripMarkdown(text)
+    .replace(/\[\/?\w+\]/g, "")
+    .trim();
+}
+
+// ── Confirmation RTF ──────────────────────────────────────────────────────────
+
+export function makeConfirmationRtf(name = "") {
+  const customer = String(name || "Kunde").trim();
+
+  return (
+    rtfHeader() +
+    `{\\pard\\sb400\\sa160\\f1\\fs30\\b\\cf1 ${rtfEscape("Dein Schreiben ist eingegangen")}\\b0\\cf0\\par}\n` +
+    paragraph(`Hallo ${customer},`) +
+    paragraph(
+      "wir haben dein Dokument erhalten und werden es sorgfältig prüfen. Du erhältst spätestens am nächsten Werktag bis 16:00 Uhr eine erste Einschätzung per E-Mail."
+    ) +
+    heading("Was wir prüfen") +
+    paragraph(
+      "Wir schauen uns dein Schreiben genau an und geben dir eine erste Einschätzung, ob es sinnvoll sein könnte, die Forderung vor einer Zahlung genauer prüfen zu lassen."
+    ) +
+    paragraph("Bitte prüfe auch deinen Spam-Ordner, falls du keine E-Mail erhältst.") +
+    paragraph("Viele Grüße\nMussIchZahlen") +
+    rtfFooter()
+  );
+}
+
+// ── Analysis RTF ──────────────────────────────────────────────────────────────
+
+export function makeAnalysisRtf(
+  analysis,
+  customerName = "",
+  customerEmail = "",
+  triage = {},
+  type = "mahnung"
+) {
+  const title = getSection(analysis, "TITLE") || "MussIchZahlen Analyse";
+  const intro = getSection(analysis, "INTRO");
+  const howToUse = getSection(analysis, "HOW_TO_USE");
+  const summary = getSection(analysis, "SUMMARY");
+  const issues = getSection(analysis, "ISSUES");
+  const assessment = getSection(analysis, "ASSESSMENT");
+  const nextSteps = getSection(analysis, "NEXT_STEPS");
+
+  const amount = formatAmount(triage);
+  const sender = triage?.sender || "unbekannt";
+  const risk = riskLabel(triage?.risk);
+  const dateStr = new Date().toLocaleDateString("de-DE");
+
+  let out = rtfHeader();
+
+  out += `{\\pard\\sb400\\sa120\\f1\\fs34\\b\\cf1 ${rtfEscape(title)}\\b0\\cf0\\par}\n`;
+  out += `{\\pard\\sb0\\sa80\\f1\\fs20\\cf0 ${rtfEscape(customerName || "")} ${customerEmail ? `(${rtfEscape(customerEmail)})` : ""}\\par}\n`;
+  out += `{\\pard\\sb0\\sa280\\f1\\fs20\\cf0 ${rtfEscape(`Typ: ${type} | Betrag: ${amount} | Risiko: ${risk} | Datum: ${dateStr}`)}\\par}\n`;
+
+  out += heading("Fallübersicht");
+  out += paragraph(`Absender: ${sender}`, 100);
+  out += paragraph(`Betrag: ${amount}`, 100);
+  out += paragraph(`Einschätzung: ${risk}`, 180);
+
+  if (intro) {
+    out += heading("Einordnung");
+    out += paragraph(intro);
+  }
+
+  if (summary) {
+    out += heading("Zusammenfassung");
+    out += paragraph(summary);
+  }
+
+  if (issues) {
+    out += heading("Geprüfte Punkte");
+    out += bulletLines(issues) || paragraph(issues);
+  }
+
+  if (assessment) {
+    out += heading("Einschätzung");
+    out += paragraph(assessment);
+  }
+
+  if (nextSteps) {
+    out += heading("Nächste Schritte");
+    out += numberedLines(nextSteps) || bulletLines(nextSteps) || paragraph(nextSteps);
+  }
+
+  if (howToUse) {
+    out += heading("So verwenden Sie dieses Ergebnis");
+    out += numberedLines(howToUse) || paragraph(howToUse);
+  }
+
+  out += paragraph(
+    "Bitte senden Sie das beigefügte Schreiben separat. Die Analyse ist für Ihre eigene Orientierung bestimmt."
+  );
+
+  return out + rtfFooter();
+}
+
+// ── Letter RTF ────────────────────────────────────────────────────────────────
+
+export function makeLetterRtf(
+  analysis,
+  customerName = "",
+  triage = {},
+  type = "mahnung"
+) {
+  const title = LETTER_TITLE[type] || "Schreiben";
+  const sender = triage?.sender || "[Empfänger]";
+  const content =
+    cleanLetter(getLetterSection(analysis, type)) ||
+    fallbackLetter(type, triage);
+
+  const dateStr = new Date().toLocaleDateString("de-DE");
+
+  let out = rtfHeader();
+
+  out += `{\\pard\\sb400\\sa160\\f1\\fs30\\b\\cf2 ${rtfEscape(title)}\\b0\\cf0\\par}\n`;
+  out += `{\\pard\\sb0\\sa80\\f1\\fs20\\cf0 ${rtfEscape(`Erstellt für: ${customerName || "[Name]"}`)}\\par}\n`;
+  out += `{\\pard\\sb0\\sa260\\f1\\fs20\\cf4\\i ${rtfEscape("Bitte ergänzen Sie Ihre persönlichen Angaben, Datum, Adresse und Aktenzeichen vor dem Versand.")}\\i0\\cf0\\par}\n`;
+
+  out += `{\\pard\\sb240\\sa180\\f1\\fs22\\cf0
+${rtfEscape("[Ihr Name]")}
+\\par
+${rtfEscape("[Ihre Adresse]")}
+\\par
+${rtfEscape("[PLZ Ort]")}
+\\par
+\\par
+${rtfEscape(sender)}
+\\par
+${rtfEscape("[Adresse des Empfängers]")}
+\\par
+\\par
+${rtfEscape(dateStr)}
+\\par
+\\par
+${rtfEscape(content)}
+\\par
+}`;
+
+  return out + rtfFooter("MussIchZahlen bietet informative Analysen — keine Rechtsberatung und keine anwaltliche Vertretung.");
+}
+
+// ── Fallback letters ─────────────────────────────────────────────────────────
+
+function fallbackLetter(type, triage = {}) {
+  if (type === "mahnung") {
+    return fallbackMahnungLetter(triage);
+  }
+
+  if (type === "parkstrafe") {
+    return fallbackParkstrafeLetter(triage);
+  }
+
+  if (type === "rechnung") {
+    return fallbackRechnungLetter(triage);
+  }
+
+  if (type === "vertrag") {
+    return fallbackVertragLetter(triage);
+  }
+
+  if (type === "angebot") {
+    return fallbackAngebotLetter(triage);
+  }
+
+  return fallbackNeutralLetter(triage);
+}
+
+function fallbackMahnungLetter(triage = {}) {
+  const amount = formatAmount(triage);
+
+  return `Betreff: Bitte um Nachweis und Klärung Ihrer Forderung
 
 Sehr geehrte Damen und Herren,
-\line\line
-Ihr Schreiben habe ich erhalten.
-\line\line
-Nach Pr\'fcfung der Unterlagen bitte ich um eine nachvollziehbare schriftliche Darlegung der geltend gemachten Forderung sowie um \'dcbersendung geeigneter Nachweise.
-\line\line
-Nach erster Einsch\'e4tzung bestehen derzeit mehrere offene Punkte, die aus meiner Sicht einer weiteren Kl\'e4rung bed\'fcrfen.
-\line\line
-Insbesondere bitte ich um:
-\line\line
-- eine nachvollziehbare Aufstellung s\'e4mtlicher geltend gemachter Kosten,
-\line
-- eine Kopie der zugrunde liegenden Vertragsunterlagen,
-\line
-- eine Darstellung der geltend gemachten Hauptforderung,
-\line
-- sowie Informationen dar\'fcber, ob die Forderung abgetreten wurde oder ob Sie im Auftrag eines Dritten handeln.
-\line\line
-Dar\'fcber hinaus bitte ich um Mitteilung, ob aus Ihrer Sicht Umst\'e4nde vorliegen, die einer m\'f6glichen Verj\'e4hrung entgegenstehen k\'f6nnten.
-\line\line
-Bis zur vollst\'e4ndigen Kl\'e4rung und \'dcbersendung entsprechender Nachweise kann ich die Forderung derzeit weder anerkennen noch die geltend gemachte Summe nachvollziehen.
-\line\line
-Ich bitte um schriftliche Antwort innerhalb von 14 Tagen.
-\line\line
-Mit freundlichen Gr\'fc\'dfen
-\line\line
-[Vorname Nachname]
-\line\line\line
 
-\cf2\fs20 Hinweis: Dieses Schreiben sollte m\'f6glichst nachweisbar versendet werden, zum Beispiel per Einschreiben.
-\line\line
-MussIchZahlen bietet informative Analysen \'96 keine Rechtsberatung und keine anwaltliche Vertretung.\cf1\fs24
+ich nehme Bezug auf Ihr Schreiben bezüglich der von Ihnen geltend gemachten Forderung${amount !== "unbekannt" ? ` in Höhe von ${amount}` : ""}.
+
+Ich bestreite die Forderung derzeit nicht abschließend, erkenne sie jedoch auch nicht an. Bevor eine Zahlung geprüft werden kann, bitte ich um eine vollständige schriftliche Darlegung und Nachweise zu Ihrer Forderung.
+
+Bitte übersenden Sie mir insbesondere:
+
+1. eine Kopie des ursprünglichen Vertrags, der Rechnung oder der sonstigen Grundlage der Forderung,
+2. eine vollständige und nachvollziehbare Aufstellung des geforderten Betrags,
+3. eine Erklärung, wie Mahnkosten, Inkassokosten oder sonstige Zusatzkosten berechnet wurden,
+4. einen Nachweis Ihrer Berechtigung, diese Forderung geltend zu machen,
+5. das Datum, an dem die Forderung erstmals fällig geworden sein soll.
+
+Bis zur vollständigen Klärung bitte ich darum, weitere Maßnahmen auszusetzen.
+
+Dieses Schreiben stellt kein Anerkenntnis einer Zahlungspflicht dar.
+
+Ich bitte um schriftliche Antwort.
+
+Mit freundlichen Grüßen
+
+[Unterschrift]`;
+}
+
+function fallbackParkstrafeLetter() {
+  return `Betreff: Einspruch gegen den Bußgeldbescheid / Zahlungsaufforderung
+
+Sehr geehrte Damen und Herren,
+
+hiermit lege ich vorsorglich Einspruch gegen den genannten Bescheid bzw. die Zahlungsaufforderung ein.
+
+Ich bitte um eine vollständige schriftliche Erläuterung des Vorwurfs sowie um Übersendung aller Belege, Fotos, Messdaten oder sonstigen Nachweise, auf die Sie sich stützen.
+
+Dieses Schreiben stellt kein Anerkenntnis einer Zahlungspflicht dar.
+
+Bitte bestätigen Sie den Eingang dieses Schreibens schriftlich.
+
+Mit freundlichen Grüßen
+
+[Unterschrift]`;
+}
+
+function fallbackRechnungLetter() {
+  return `Betreff: Klärung Ihrer Rechnung
+
+Sehr geehrte Damen und Herren,
+
+ich nehme Bezug auf Ihre Rechnung.
+
+Derzeit kann ich die Rechnung nicht vollständig nachvollziehen. Bitte übersenden Sie mir eine genaue Aufstellung der berechneten Positionen sowie die vertragliche oder sonstige Grundlage der Forderung.
+
+Bis zur Klärung erkenne ich die Forderung nicht an.
+
+Ich bitte um schriftliche Rückmeldung.
+
+Mit freundlichen Grüßen
+
+[Unterschrift]`;
+}
+
+function fallbackVertragLetter() {
+  return `Betreff: Klärung / Kündigung des Vertragsverhältnisses
+
+Sehr geehrte Damen und Herren,
+
+ich nehme Bezug auf das bestehende Vertragsverhältnis.
+
+Bitte bestätigen Sie mir schriftlich den aktuellen Vertragsstatus, die Vertragslaufzeit, mögliche Kündigungsfristen sowie etwaige offene Beträge.
+
+Soweit eine Kündigung möglich ist, kündige ich den Vertrag vorsorglich zum nächstmöglichen Zeitpunkt.
+
+Ich bitte um schriftliche Bestätigung.
+
+Mit freundlichen Grüßen
+
+[Unterschrift]`;
+}
+
+function fallbackAngebotLetter() {
+  return `Betreff: Rückfrage zu Ihrem Angebot / Kostenvoranschlag
+
+Sehr geehrte Damen und Herren,
+
+ich nehme Bezug auf Ihr Angebot bzw. den Kostenvoranschlag.
+
+Bitte erläutern Sie die einzelnen Kostenpositionen näher und teilen Sie mir mit, welche Leistungen, Materialien und Zusatzkosten im Betrag enthalten sind.
+
+Ich bitte um schriftliche Rückmeldung, bevor ich über eine Annahme des Angebots entscheide.
+
+Mit freundlichen Grüßen
+
+[Unterschrift]`;
+}
+
+function fallbackNeutralLetter() {
+  return `Betreff: Bitte um Klärung
+
+Sehr geehrte Damen und Herren,
+
+ich nehme Bezug auf Ihr Schreiben.
+
+Bitte erläutern Sie mir schriftlich die Grundlage Ihres Anliegens und übersenden Sie mir die dazugehörigen Nachweise.
+
+Dieses Schreiben stellt kein Anerkenntnis einer Zahlungspflicht dar.
+
+Ich bitte um schriftliche Rückmeldung.
+
+Mit freundlichen Grüßen
+
+[Unterschrift]`;
 }
