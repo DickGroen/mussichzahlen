@@ -1,7 +1,6 @@
 // worker/index.js
 
 import { corsResponse, jsonResponse } from "./utils/response.js";
-
 import { handleAnalyzeFree }   from "./routes/analyze-free.js";
 import { handleSubmitPaid }    from "./routes/submit-paid.js";
 import { handleTrack }         from "./routes/track.js";
@@ -26,7 +25,7 @@ export default {
 
     try {
       if (url.pathname === "/api/stripe-webhook" && request.method === "POST") {
-        return await handleStripeWebhook(request, env);
+        return await handleStripeWebhook(request, env, ctx);
       }
 
       if (url.pathname === "/api/analyze-free" && request.method === "POST") {
