@@ -135,22 +135,41 @@ export async function notifyAdminFree(env, { name, email, type, triage, stripeLi
   const labels = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
   const amount = formatAmount(triage);
 
+  const riskLabel = { low: "Niedrig", medium: "Mittel", high: "Hoch" }[triage?.risk] || triage?.risk || "unbekannt";
+  const tier      = triage?.tier ? triage.tier.charAt(0).toUpperCase() + triage.tier.slice(1) : "unbekannt";
+  const route     = triage?.route || "unbekannt";
+
+  const flags = [
+    triage?.possible_verjährt          ? "mögliche Verjährung"              : null,
+    triage?.possible_überhöhte_kosten  ? "mögliche zusätzliche Inkassokosten": null,
+    triage?.possible_kein_nachweis     ? "fehlende Nachweise"                : null,
+    triage?.possible_falscher_empfänger? "falscher Empfänger"                : null,
+  ].filter(Boolean);
+
+  const flagsHtml = flags.length
+    ? flags.map(f => `<li>${escapeHtml(f)}</li>`).join("")
+    : "<li>keine</li>";
+
   await sendEmail(env, {
     to:      env.ADMIN_EMAIL,
     subject: `[MussIchZahlen] Kostenlose Anfrage: ${name} (${type})`,
-    html: `<div style="font-family:Arial,sans-serif;">
+    html: `<div style="font-family:Arial,sans-serif;max-width:600px;">
       <p style="background:#f3f4f6;padding:10px;border-radius:6px;font-size:0.85rem;">
         📬 Recovery-Sequenz wird automatisch geplant für <strong>${escapeHtml(email)}</strong>
       </p>
       <h3>Kostenlose Anfrage — ${escapeHtml(labels.title)}</h3>
-      <p><strong>Name:</strong> ${escapeHtml(name)}</p>
-      <p><strong>E-Mail:</strong> ${escapeHtml(email)}</p>
-      <p><strong>Absender:</strong> ${escapeHtml(triage?.sender || "unbekannt")}</p>
-      <p><strong>Betrag:</strong> ${escapeHtml(amount)}</p>
-      <p><strong>Risiko:</strong> ${escapeHtml(triage?.risk || "")}</p>
-      <p><strong>Chance:</strong> ${escapeHtml(String(triage?.chance ?? "unbekannt"))}</p>
-      <p><strong>Flags:</strong> ${escapeHtml(String(triage?.flagCount ?? "unbekannt"))}</p>
-      ${stripeLink ? `<p><strong>Stripe link:</strong> <a href="${escapeHtml(stripeLink)}">${escapeHtml(stripeLink)}</a></p>` : ""}
+      <table style="width:100%;border-collapse:collapse;font-size:0.9rem;">
+        <tr><td style="padding:6px 10px;font-weight:bold;width:40%;">Name</td><td style="padding:6px 10px;">${escapeHtml(name)}</td></tr>
+        <tr style="background:#f9fafb;"><td style="padding:6px 10px;font-weight:bold;">E-Mail</td><td style="padding:6px 10px;">${escapeHtml(email)}</td></tr>
+        <tr><td style="padding:6px 10px;font-weight:bold;">Absender</td><td style="padding:6px 10px;">${escapeHtml(triage?.sender || "unbekannt")}</td></tr>
+        <tr style="background:#f9fafb;"><td style="padding:6px 10px;font-weight:bold;">Betrag</td><td style="padding:6px 10px;font-weight:bold;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
+        <tr><td style="padding:6px 10px;font-weight:bold;">Risikoeinschätzung</td><td style="padding:6px 10px;">${escapeHtml(riskLabel)}</td></tr>
+        <tr style="background:#f9fafb;"><td style="padding:6px 10px;font-weight:bold;">Prüfungschance</td><td style="padding:6px 10px;">${escapeHtml(String(triage?.chance ?? "?"))}%</td></tr>
+        <tr><td style="padding:6px 10px;font-weight:bold;">Auffälligkeiten</td><td style="padding:6px 10px;"><ul style="margin:0;padding-left:16px;">${flagsHtml}</ul></td></tr>
+        <tr style="background:#f9fafb;"><td style="padding:6px 10px;font-weight:bold;">Tier</td><td style="padding:6px 10px;">${escapeHtml(tier)}</td></tr>
+        <tr><td style="padding:6px 10px;font-weight:bold;">Route</td><td style="padding:6px 10px;">${escapeHtml(route)}</td></tr>
+        ${stripeLink ? `<tr style="background:#f9fafb;"><td style="padding:6px 10px;font-weight:bold;">Stripe</td><td style="padding:6px 10px;"><a href="${escapeHtml(stripeLink)}">${escapeHtml(stripeLink)}</a></td></tr>` : ""}
+      </table>
     </div>`,
   });
 }
