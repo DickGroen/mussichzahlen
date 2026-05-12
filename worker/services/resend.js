@@ -117,14 +117,10 @@ export async function sendConfirmationEmail(env, { name, email }) {
     html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
       <p style="font-size:1.1rem;font-weight:700;color:#14532d;">✓ Dein Schreiben ist eingegangen.</p>
       <p>Hallo ${escapeHtml(capitalizeFirst(name))},</p>
-      <p>wir haben dein Dokument erhalten und werden es sorgfältig prüfen. Du erhältst spätestens am nächsten Werktag bis 16:00 Uhr eine erste Einschätzung per E-Mail.</p>
-      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px;margin:16px 0;">
-        <strong style="color:#14532d;">Was wir prüfen:</strong>
-        <p style="color:#166534;margin-top:6px;margin-bottom:0;line-height:1.65;">
-          Wir schauen uns dein Schreiben genau an und geben dir eine erste Einschätzung, ob es sinnvoll sein könnte, die Forderung vor einer Zahlung genauer prüfen zu lassen.
-        </p>
-      </div>
-      <p style="font-size:.9rem;color:#6b7280;">→ Bitte prüf auch deinen Spam-Ordner, falls du keine E-Mail erhältst.</p>
+      <p>wir haben dein Dokument erhalten und werden es sorgfältig prüfen.</p>
+      <p>Du erhältst spätestens am nächsten Werktag bis 16:00 Uhr eine erste Einschätzung per E-Mail — mit möglichen Auffälligkeiten und Hinweisen zu deinem Schreiben.</p>
+      <p style="font-size:.9rem;color:#6b7280;">→ Bitte prüf auch deinen Spam-Ordner, falls du keine Nachricht erhältst.</p>
+      <p>Falls du Fragen hast, kannst du einfach auf diese E-Mail antworten.</p>
       <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
       <p style="color:#6b7280;font-size:0.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
     </div>`,
