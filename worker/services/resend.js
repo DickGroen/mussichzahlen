@@ -165,7 +165,7 @@ export async function notifyAdminPaid(env, { name, email, type, triage, analysis
     subject: `[MussIchZahlen] BEZAHLT: ${name} (${type})`,
     html: `<div style="font-family:Arial,sans-serif;">
       <p style="background:#f3f4f6;padding:10px;border-radius:6px;font-size:0.85rem;">
-        📬 Recovery-Sequenz wordt gestopt, klant-e-mail met bijlagen wordt geplant
+        📬 Recovery-Sequenz wird gestoppt, Kunden-E-Mail mit Anhängen wird geplant
       </p>
       <h3>Betaalde Analyse — ${escapeHtml(labels.title)}</h3>
       <p><strong>Name:</strong> ${escapeHtml(name)}</p>
