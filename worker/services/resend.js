@@ -390,6 +390,10 @@ export async function sendPaidEmail(env, { name, email, type, triage, analysis }
     <li><strong>MussIchZahlen-Analyse.rtf</strong> — vollständige Analyse mit Befunden und nächsten Schritten</li>
     <li><strong>${escapeHtml(labels.filename)}</strong> — fertiges ${escapeHtml(labels.letter)}, direkt verwendbar</li>
   </ul>
+  <p style="font-size:0.9rem;color:#6b7280;">Die Dateien können mit Microsoft Word, LibreOffice oder einem kompatiblen Textprogramm geöffnet werden.</p>
+  <p style="background:#fef9c3;border-left:4px solid #ca8a04;padding:12px;border-radius:4px;font-size:0.9rem;color:#713f12;">
+    <strong>Wichtig:</strong> Lesen Sie zuerst die Analyse, bevor Sie das Schreiben versenden. Die Analyse enthält wichtige Hinweise zu Ihrem weiteren Vorgehen.
+  </p>
   <p style="background:#f0fdf4;border-left:4px solid #22c55e;padding:12px;border-radius:4px;font-size:0.9rem;">
     💡 Tipp: Senden Sie das Schreiben möglichst per Einschreiben oder per E-Mail mit Versandnachweis. Bewahren Sie den Nachweis auf.
   </p>
@@ -431,6 +435,7 @@ export async function sendAbandonedEmail(env, { name, email, type, amount, strip
   <p>Guten Tag ${safeName},</p>
   ${intros[stageNumber] || intros[1]}
   <div style="margin:28px 0;text-align:center;">
+    <p style="font-size:0.9rem;color:#374151;margin-bottom:16px;">Viele Nutzer lassen Forderungen erst prüfen, bevor sie zahlen.</p>
     <a href="${escapeHtml(stripeLink)}" target="_blank" rel="noopener noreferrer"
       style="background:#1d3a6e;color:#ffffff;text-decoration:none;padding:14px 24px;border-radius:8px;display:inline-block;font-weight:bold;font-size:16px;">
       Jetzt vollständig prüfen lassen — €${escapeHtml(labels.price)} →
