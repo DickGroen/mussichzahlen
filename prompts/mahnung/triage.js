@@ -64,12 +64,9 @@ Regeln:
 - Wenn nicht genug Informationen vorhanden sind, nutze null statt zu raten.
 
 5. Risk
-- risk high:
-  4 oder mehr Flags true, Verjährung wahrscheinlich, falscher Empfänger möglich, gerichtlicher Bezug, Anwaltsschreiben, sehr hohe Kosten oder mehrere starke Auffälligkeiten.
-- risk medium:
-  2–3 Flags true — ein oder mehrere mögliche Ansatzpunkte, aber nicht eindeutig genug für eine starke Bewertung.
-- risk low:
-  0–1 Flags true — Forderung wirkt überwiegend plausibel oder es sind kaum Ansatzpunkte erkennbar.
+- risk high: 4 oder mehr Flags true, Verjährung wahrscheinlich, falscher Empfänger möglich, gerichtlicher Bezug, Anwaltsschreiben, sehr hohe Kosten oder mehrere starke Auffälligkeiten.
+- risk medium: 2–3 Flags true — ein oder mehrere mögliche Ansatzpunkte, aber nicht eindeutig genug für eine starke Bewertung.
+- risk low: 0–1 Flags true — Forderung wirkt überwiegend plausibel oder es sind kaum Ansatzpunkte erkennbar.
 - Wenn documentType "gericht" ist, ist risk mindestens "high".
 - Wenn documentType "anwalt" ist, ist risk mindestens "medium".
 
@@ -88,7 +85,7 @@ Regeln:
 
 7. FlagCount
 - flagCount = Anzahl der possible_*-Felder, die true sind.
-- Gezählt werden: possible_verjährt, possible_überhöhte_kosten, possible_kein_nachweis, possible_falscher_empfänger, possible_kein_abtretungsnachweis, possible_keine_registrierung.
+- Gezählt werden alle 6 Felder: possible_verjährt, possible_überhöhte_kosten, possible_kein_nachweis, possible_falscher_empfänger, possible_kein_abtretungsnachweis, possible_keine_registrierung.
 - false und null zählen nicht.
 - Niemals raten.
 - flagCount muss immer eine ganze Zahl zwischen 0 und 6 sein.
@@ -98,13 +95,13 @@ Der teaser darf NICHT frei formuliert werden.
 Wähle exakt einen dieser drei Texte passend zum risk-Wert:
 
 Wenn risk = "high":
-"Es deutet einiges darauf hin, dass hier mögliche Unstimmigkeiten bestehen. Wenn Sie nicht reagieren, kann sich die Situation finanziell deutlich verschlechtern."
+"Bei dieser Forderung gibt es mehrere Punkte, die vor einer Zahlung geprüft werden sollten — eine voreilige Zahlung könnte sich im Nachhinein als unnötig herausstellen."
 
 Wenn risk = "medium":
-"In diesem Schreiben könnten Ansatzpunkte vorliegen, die ohne rechtzeitige Reaktion zu unnötigen Mehrkosten führen können."
+"Dieses Schreiben enthält Punkte, die sich lohnen könnten genauer anzuschauen — bevor Sie reagieren oder zahlen."
 
 Wenn risk = "low":
-"Es gibt Hinweise darauf, dass diese Forderung nicht vollständig eindeutig ist. Ohne Prüfung könnten unnötige Kosten entstehen."
+"Auch bei dieser Forderung kann eine kurze Prüfung sinnvoll sein, bevor Sie zahlen oder antworten."
 
 Wenn risk unklar ist:
 Nutze den medium-Text.
@@ -138,6 +135,6 @@ Keine Formulierungen wie "Sie müssen nicht zahlen".
   flagCount: 0,
   risk: "low",
   route: "HAIKU",
-  teaser: "Es gibt Hinweise darauf, dass diese Forderung nicht vollständig eindeutig ist. Ohne Prüfung könnten unnötige Kosten entstehen."
+  teaser: "Auch bei dieser Forderung kann eine kurze Prüfung sinnvoll sein, bevor Sie zahlen oder antworten."
 
 NUR JSON zurückgeben. Keine Erklärung. Kein Markdown.`;
