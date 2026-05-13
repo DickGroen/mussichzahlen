@@ -112,10 +112,10 @@ function riskLabel(risk) {
 
 function riskAssessment(risk) {
   return {
-    high:   "Nach erster Einschätzung bestehen mehrere prüfenswerte Auffälligkeiten. Eine genauere Prüfung vor einer Zahlung könnte sinnvoll sein.",
-    medium: "Nach erster Einschätzung bestehen mögliche Unklarheiten. Eine genauere Prüfung vor einer Zahlung könnte sinnvoll sein.",
+    high:   "Nach erster Einschätzung bestehen mehrere prüfenswerte Auffälligkeiten. Eine genauere Prüfung vor einer Zahlung kann empfehlenswert sein.",
+    medium: "Nach erster Einschätzung bestehen mögliche Unklarheiten. Eine genauere Prüfung vor einer Zahlung kann sinnvoll sein.",
     low:    "Nach erster Einschätzung wirkt die Forderung grundsätzlich nachvollziehbar. Eine kurze Prüfung kann dennoch sinnvoll sein.",
-  }[risk] || "Nach erster Einschätzung bestehen mögliche Unklarheiten. Eine genauere Prüfung vor einer Zahlung könnte sinnvoll sein.";
+  }[risk] || "Nach erster Einschätzung bestehen mögliche Unklarheiten. Eine genauere Prüfung vor einer Zahlung kann sinnvoll sein.";
 }
 
 function teaserList(triage) {
@@ -343,12 +343,19 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     3: `<p>Dies ist unsere letzte Erinnerung zu Ihrer Ersteinschätzung. Falls Sie die Forderung noch nicht geprüft haben, könnte eine kurze Prüfung sinnvoll sein — bevor Sie zahlen.</p>`,
   };
 
+  const teaserHint = triage?.teaser ? `
+  <div style="background:#fff7ed;border:1px solid #fdba74;padding:12px;border-radius:8px;margin:18px 0;color:#9a3412;">
+    <strong>Hinweis aus der ersten Prüfung:</strong><br>
+    ${escapeHtml(teaserList(triage)[0])}
+  </div>` : "";
+
   await sendEmail(env, {
     to:      email,
     subject: subjects[stageNumber] || subjects[2],
     html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
   <p>Guten Tag ${safeName},</p>
   ${intros[stageNumber] || intros[2]}
+  ${teaserHint}
   <table style="width:100%;border-collapse:collapse;margin:20px 0;border:1px solid #e5e7eb;">
     <tr style="background:#f3f4f6;"><td style="padding:10px;font-weight:bold;">Dokument</td><td style="padding:10px;">${escapeHtml(labels.title)}</td></tr>
     <tr><td style="padding:10px;font-weight:bold;">Absender</td><td style="padding:10px;">${escapeHtml(triage?.sender || "unbekannt")}</td></tr>
