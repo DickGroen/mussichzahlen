@@ -1,4 +1,166 @@
-```html
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analyse wird erstellt | MussIchZahlen.de</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body{font-family:'DM Sans',sans-serif;background:#f7f9fc;color:#0f1923;margin:0;-webkit-font-smoothing:antialiased;}
+    h1,h2{font-family:'Lora',Georgia,serif;line-height:1.2;}
+    .wrap{max-width:760px;margin:56px auto;padding:0 24px 120px;}
+    .card{background:#fff;border-radius:16px;padding:34px 28px;box-shadow:0 12px 40px rgba(26,58,107,.1);}
+    .hidden{display:none;}
+    h1{margin-top:0;color:#1d3a6e;}
+    p{line-height:1.7;}
+    .status-box{margin-top:14px;padding:13px 15px;border-radius:10px;background:#f3f4f6;font-size:.95rem;font-weight:600;line-height:1.6;}
+    .status-box.error{background:#fee2e2;color:#991b1b;border:1px solid #fecaca;}
+    .status-box.success{background:#dcfce7;color:#166534;border:1px solid #bbf7d0;}
+    .status-box.info{background:#eef4ff;color:#1d3a6e;border:1px solid #dbeafe;}
+    .badge{display:inline-flex;align-items:center;gap:8px;background:#dcfce7;color:#166534;border-radius:100px;padding:6px 14px;font-size:.78rem;font-weight:700;margin-bottom:18px;}
+    .dot{width:8px;height:8px;background:#166534;border-radius:50%;}
+    .progress-bar{display:flex;align-items:center;gap:8px;font-size:.8rem;color:#718096;margin-bottom:18px;}
+    .progress-bar__step--done{color:#166534;font-weight:700;}
+    .progress-bar__step--current{color:#1d3a6e;font-weight:700;}
+    .progress-bar__divider{width:24px;height:1px;background:#e2e8f0;}
+    .deadline-box{background:#fff7ed;border-left:4px solid #f97316;border-radius:10px;padding:13px 15px;margin:18px 0 22px;color:#92400e;font-size:.9rem;line-height:1.65;}
+    .steps{display:grid;gap:14px;margin:22px 0 28px;background:#f7f9fc;border:1px solid #e2e8f0;border-radius:12px;padding:18px 18px 8px;}
+    .step{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;}
+    .step-num{width:28px;height:28px;flex-shrink:0;border-radius:50%;background:#eef4ff;color:#1d3a6e;display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:700;}
+    .step-title{font-weight:700;color:#0f1923;font-size:.95rem;margin-bottom:2px;}
+    .step-desc{color:#718096;font-size:.86rem;line-height:1.7;}
+    .input{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:8px;margin-bottom:10px;font-size:1rem;box-sizing:border-box;font-family:'DM Sans',sans-serif;}
+    .input:focus{outline:none;border-color:#1d3a6e;}
+    .upload-panel{border:2px dashed #d1d5db;border-radius:12px;padding:28px 22px;text-align:center;cursor:pointer;margin:18px 0 12px;background:#f9fafb;transition:.2s;}
+    .upload-panel:hover,.upload-panel.drag-over{border-color:#1d3a6e;background:#eef4ff;}
+    .upload-icon{width:52px;height:52px;margin:0 auto 14px;border-radius:10px;border:1.5px solid #e2e8f0;background:#fff;display:flex;align-items:center;justify-content:center;}
+    .selected-file{display:none;margin:10px 0 16px;padding:12px;background:#f3f4f6;border-radius:8px;font-size:.92rem;}
+    .selected-file.show{display:block;}
+    .selected-file a{color:#1d3a6e;font-size:.85rem;}
+    .offer-cta{display:block;width:100%;background:#1d3a6e;color:#fff;border:none;border-radius:10px;padding:15px;font-weight:700;font-size:1rem;cursor:pointer;margin-top:16px;font-family:'DM Sans',sans-serif;}
+    .offer-cta:hover{background:#2d5499;}
+    .offer-cta:disabled{opacity:.55;cursor:not-allowed;}
+    .note{font-size:.84rem;color:#6b7280;margin-top:12px;}
+    .security{text-align:center;font-size:.78rem;color:#718096;margin:12px 0 16px;}
+    .fallback-box{margin-top:24px;padding:18px;background:#f7f9fc;border:1px solid #e2e8f0;border-radius:12px;}
+    .fallback-box strong{display:block;margin-bottom:6px;color:#0f1923;font-size:.9rem;}
+    .fallback-box p{color:#718096;font-size:.83rem;line-height:1.7;margin:0;}
+    .fallback-email{font-weight:700;font-size:.98rem;color:#1d3a6e;margin-top:6px;display:inline-block;}
+    .success-icon{width:54px;height:54px;border-radius:999px;background:#dcfce7;color:#166534;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.6rem;margin-bottom:14px;}
+    @media(max-width:600px){.wrap{padding:32px 16px 100px;margin:0 auto}.card{padding:24px 18px;}}
+  </style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <div class="card" id="auto-card">
+    <div class="badge"><span class="dot"></span>Zahlung erfolgreich</div>
+    <h1>Analyse wird erstellt…</h1>
+    <p>Wir prüfen deine Zahlung und starten automatisch die vollständige Analyse auf Basis deines bereits hochgeladenen Bescheids.</p>
+    <div id="auto-status" class="status-box info">Zahlung wird geprüft…</div>
+    <p class="note">Du kannst diese Seite geöffnet lassen. Das Ergebnis erhältst du per E-Mail — normalerweise innerhalb weniger Minuten.</p>
+  </div>
+
+  <div class="card hidden" id="thankyou-app">
+    <div class="badge"><span class="dot"></span>Zahlung erfolgreich</div>
+
+    <div class="progress-bar">
+      <span class="progress-bar__step progress-bar__step--done">✓ Bezahlt</span>
+      <span class="progress-bar__divider"></span>
+      <span class="progress-bar__step progress-bar__step--current">Fallback: Parkstrafe hochladen</span>
+    </div>
+
+    <h1>Fast fertig — lade deinen Bescheid hoch</h1>
+    <p>Wir konnten deinen ursprünglichen Bescheid nicht automatisch finden. Bitte lade ihn noch einmal hoch, damit wir die Analyse starten können.</p>
+
+    <div class="deadline-box">
+      ⚠️ <strong>Frist beachten:</strong> Wenn eine Einspruchs- oder Zahlungsfrist läuft, prüfe sie bitte selbst im Bescheid. Wir liefern dir die Analyse und den Einspruchsentwurf per E-Mail.
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Bescheid hochladen</div>
+          <div class="step-desc">Parkstrafe, Bußgeldbescheid, Verwarnung, Parkzettel oder Zahlungsaufforderung. PDF, JPG oder PNG.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Wir prüfen den Bescheid</div>
+          <div class="step-desc">Fristen, Formfehler, Zustellung, Fahrzeugdaten, Beschilderung und mögliche Einspruchspunkte.</div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Einspruchsentwurf per E-Mail</div>
+          <div class="step-desc">Du erhältst die vollständige Analyse und einen fertigen Einspruchsentwurf per E-Mail.</div>
+        </div>
+      </div>
+    </div>
+
+    <input id="customer-name" class="input" placeholder="Dein Name" autocomplete="name">
+    <input id="customer-email" class="input" placeholder="Deine E-Mail" type="email" autocomplete="email">
+
+    <div id="upload-panel" class="upload-panel">
+      <div class="upload-icon">
+        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#6B7A90" stroke-width="1.8">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+      </div>
+      <strong>Datei auswählen oder hierher ziehen</strong><br>
+      <span>PDF, JPG oder PNG · max. 8 MB</span>
+      <input id="real-file-input" type="file" accept=".pdf,.jpg,.jpeg,.png" style="display:none;">
+    </div>
+
+    <div class="security">🔒 Sichere Verbindung · Dokument wird nur zur Analyse verarbeitet · Keine Weitergabe an Dritte</div>
+
+    <div id="selected-file" class="selected-file">
+      <strong id="selected-file-name"></strong><br>
+      <span id="selected-file-meta"></span><br>
+      <a href="#" id="remove-file">Datei entfernen</a>
+    </div>
+
+    <button id="submit-btn" class="offer-cta" disabled>Zuerst eine Datei wählen</button>
+
+    <div id="status-box" class="status-box hidden"></div>
+
+    <p class="note">Dieser Upload ist nur nötig, wenn die automatische Zuordnung nicht gefunden werden konnte.</p>
+
+    <div class="fallback-box">
+      <strong>Upload funktioniert nicht?</strong>
+      <p>Sende deinen Bescheid direkt per E-Mail an uns. Bitte gib deinen Namen und die E-Mail-Adresse an, mit der du bezahlt hast.</p>
+      <a href="mailto:support@mussichzahlen.de" class="fallback-email">support@mussichzahlen.de</a>
+    </div>
+  </div>
+
+  <div class="card hidden" id="locked-screen">
+    <h1>Zahlung nicht gefunden</h1>
+    <p>Bitte starte den Vorgang erneut über die Parkstrafe-Prüfung.</p>
+    <div class="status-box error">Keine gültige Zahlungssitzung gefunden.</div>
+  </div>
+
+  <div class="card hidden" id="success-screen">
+    <div class="success-icon">✓</div>
+    <h1>Alles erledigt</h1>
+    <p>Deine Parkstrafe-Analyse wird vorbereitet.</p>
+    <p>Du erhältst deine vollständige Analyse und deinen fertigen Einspruchsentwurf per E-Mail.</p>
+    <p class="note">Bitte prüfe auch deinen Spam-Ordner, falls du die E-Mail nicht innerhalb weniger Minuten siehst.</p>
+  </div>
+
+</div>
+
 <script type="module">
   import {
     submitAutoPaid,
@@ -41,7 +203,6 @@
     [autoCard, fallback, locked, success].forEach(node => {
       if (node) node.classList.add("hidden");
     });
-
     if (el) el.classList.remove("hidden");
   }
 
@@ -57,9 +218,7 @@
     const hasEmail = Boolean(emailEl.value.trim());
 
     submitBtn.disabled = !(hasFile && hasName && hasEmail);
-    submitBtn.textContent = hasFile
-      ? "Analyse starten"
-      : "Zuerst eine Datei auswählen";
+    submitBtn.textContent = hasFile ? "Analyse starten" : "Zuerst eine Datei auswählen";
   }
 
   function setFile(file) {
@@ -78,7 +237,6 @@
     selectedFileMeta.textContent = formatFileSize(file.size);
     selectedFile.classList.add("show");
     statusBox.classList.add("hidden");
-
     updateSubmitState();
   }
 
@@ -110,11 +268,9 @@
 
   removeFile.addEventListener("click", e => {
     e.preventDefault();
-
     chosenFile = null;
     fileInput.value = "";
     selectedFile.classList.remove("show");
-
     updateSubmitState();
   });
 
@@ -136,20 +292,14 @@
       });
 
       track("paid_fallback_upload_completed", { type });
-
       showOnly(success);
-
     } catch (err) {
       track("paid_fallback_upload_failed", {
         type,
         error: err.message
       });
 
-      setStatus(
-        "error",
-        err.message || "Upload fehlgeschlagen. Bitte erneut versuchen."
-      );
-
+      setStatus("error", err.message || "Upload fehlgeschlagen. Bitte erneut versuchen.");
       submitBtn.disabled = false;
       submitBtn.textContent = "Analyse starten";
     }
@@ -157,7 +307,6 @@
 
   if (!sessionId || !sessionId.startsWith("cs_")) {
     showOnly(locked);
-
   } else {
     try {
       autoStatus.textContent = "Zahlung wird geprüft…";
@@ -171,39 +320,27 @@
       });
 
       track("auto_paid_analysis_started", { type });
-
       showOnly(success);
-
     } catch (err) {
-
       if (err.needUpload) {
-
         track("auto_paid_fallback_upload_needed", {
           type,
           reason: err.message
         });
 
-        if (emailEl && params.get("email")) {
-          emailEl.value = params.get("email");
-        }
-
-        if (nameEl && params.get("name")) {
-          nameEl.value = params.get("name");
-        }
+        if (emailEl && params.get("email")) emailEl.value = params.get("email");
+        if (nameEl && params.get("name")) nameEl.value = params.get("name");
 
         showOnly(fallback);
-
         updateSubmitState();
-
       } else {
-
         autoStatus.className = "status-box error";
-
         autoStatus.textContent =
-          err.message ||
-          "Automatische Analyse fehlgeschlagen. Bitte kontaktiere support@mussichzahlen.de";
+          err.message || "Automatische Analyse fehlgeschlagen. Bitte kontaktiere support@mussichzahlen.de";
       }
     }
   }
 </script>
-```
+
+</body>
+</html>
