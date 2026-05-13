@@ -4,148 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Analyse wird erstellt | MussIchZahlen.de</title>
-  <link rel="stylesheet" href="../styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f7f9fc;
-      color: #0f1923;
-      margin: 0;
-    }
-
-    .wrap {
-      max-width: 620px;
-      margin: 70px auto;
-      padding: 0 20px;
-    }
-
-    .card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 32px;
-      box-shadow: 0 12px 40px rgba(26, 58, 107, .1);
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    h1 {
-      margin-top: 0;
-      color: #1d3a6e;
-      line-height: 1.2;
-    }
-
-    p {
-      line-height: 1.6;
-    }
-
-    .status-box {
-      margin-top: 14px;
-      padding: 12px;
-      border-radius: 8px;
-      background: #f3f4f6;
-      font-size: .95rem;
-    }
-
-    .status-box.error {
-      background: #fee2e2;
-      color: #991b1b;
-    }
-
-    .status-box.success {
-      background: #dcfce7;
-      color: #166534;
-    }
-
-    .status-box.info {
-      background: #eef4ff;
-      color: #1d3a6e;
-    }
-
-    .input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #d1d5db;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      font-size: 1rem;
-      box-sizing: border-box;
-    }
-
-    .upload-panel {
-      border: 2px dashed #d1d5db;
-      border-radius: 12px;
-      padding: 24px;
-      text-align: center;
-      cursor: pointer;
-      margin: 18px 0;
-      background: #f9fafb;
-    }
-
-    .upload-panel:hover,
-    .upload-panel.drag-over {
-      border-color: #1d3a6e;
-      background: #eef4ff;
-    }
-
-    .selected-file {
-      display: none;
-      margin: 10px 0;
-      padding: 12px;
-      background: #f3f4f6;
-      border-radius: 8px;
-      font-size: .92rem;
-    }
-
-    .selected-file.show {
-      display: block;
-    }
-
-    .selected-file a {
-      color: #1d3a6e;
-      font-size: .85rem;
-    }
-
-    .offer-cta {
-      display: block;
-      width: 100%;
-      background: #1d3a6e;
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      padding: 15px;
-      font-weight: bold;
-      font-size: 1rem;
-      cursor: pointer;
-      margin-top: 16px;
-    }
-
-    .offer-cta:disabled {
-      opacity: .55;
-      cursor: not-allowed;
-    }
-
-    .note {
-      font-size: .84rem;
-      color: #6b7280;
-      margin-top: 12px;
-    }
-
-    .success-icon {
-      width: 46px;
-      height: 46px;
-      border-radius: 999px;
-      background: #dcfce7;
-      color: #166534;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 1.4rem;
-      margin-bottom: 14px;
-    }
+    body{font-family:'DM Sans',sans-serif;background:#f7f9fc;color:#0f1923;margin:0;-webkit-font-smoothing:antialiased;}
+    h1,h2{font-family:'Lora',Georgia,serif;line-height:1.2;}
+    .wrap{max-width:620px;margin:70px auto;padding:0 20px;}
+    .card{background:#fff;border-radius:16px;padding:32px;box-shadow:0 12px 40px rgba(26,58,107,.1);}
+    .hidden{display:none;}
+    h1{margin-top:0;color:#1d3a6e;}
+    p{line-height:1.6;}
+    .status-box{margin-top:14px;padding:12px;border-radius:8px;background:#f3f4f6;font-size:.95rem;}
+    .status-box.error{background:#fee2e2;color:#991b1b;}
+    .status-box.success{background:#dcfce7;color:#166534;}
+    .status-box.info{background:#eef4ff;color:#1d3a6e;}
+    .input{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:8px;margin-bottom:10px;font-size:1rem;box-sizing:border-box;font-family:'DM Sans',sans-serif;}
+    .input:focus{outline:none;border-color:#1d3a6e;}
+    .upload-panel{border:2px dashed #d1d5db;border-radius:12px;padding:24px;text-align:center;cursor:pointer;margin:18px 0;background:#f9fafb;}
+    .upload-panel:hover,.upload-panel.drag-over{border-color:#1d3a6e;background:#eef4ff;}
+    .selected-file{display:none;margin:10px 0;padding:12px;background:#f3f4f6;border-radius:8px;font-size:.92rem;}
+    .selected-file.show{display:block;}
+    .selected-file a{color:#1d3a6e;font-size:.85rem;}
+    .offer-cta{display:block;width:100%;background:#1d3a6e;color:#fff;border:none;border-radius:10px;padding:15px;font-weight:700;font-size:1rem;cursor:pointer;margin-top:16px;font-family:'DM Sans',sans-serif;}
+    .offer-cta:hover{background:#2d5499;}
+    .offer-cta:disabled{opacity:.55;cursor:not-allowed;}
+    .note{font-size:.84rem;color:#6b7280;margin-top:12px;}
+    .success-icon{width:46px;height:46px;border-radius:999px;background:#dcfce7;color:#166534;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.4rem;margin-bottom:14px;}
   </style>
 </head>
 
@@ -153,23 +39,21 @@
 
 <div class="wrap">
 
-  <!-- B-FLOW: automatische analyse zonder tweede upload -->
   <div class="card" id="auto-card">
-    <h1>Deine Analyse wird erstellt…</h1>
-    <p>Wir prüfen deine Zahlung und starten automatisch die vollständige Analyse auf Basis deines bereits hochgeladenen Schreibens.</p>
-    <div id="auto-status" class="status-box info">Bitte einen Moment Geduld…</div>
-    <p class="note">Du kannst diese Seite geöffnet lassen. Das Ergebnis erhältst du per E-Mail.</p>
+    <h1>Analyse wird erstellt…</h1>
+    <p>Wir prüfen deine Zahlung und starten automatisch die vollständige Analyse auf Basis deines bereits hochgeladenen Dokuments.</p>
+    <div id="auto-status" class="status-box info">Zahlung wird geprüft…</div>
+    <p class="note">Du kannst diese Seite geöffnet lassen. Das Ergebnis erhältst du per E-Mail — normalerweise innerhalb weniger Minuten.</p>
   </div>
 
-  <!-- A-FLOW FALLBACK: alleen als automatische case niet gevonden wordt -->
   <div class="card hidden" id="thankyou-app">
     <h1>Fast fertig</h1>
-    <p>Wir konnten deine ursprüngliche Datei nicht automatisch finden. Bitte lade dein Schreiben noch einmal hoch, damit wir die Analyse starten können.</p>
+    <p>Wir konnten deine ursprüngliche Datei nicht automatisch finden. Bitte lade dein Dokument noch einmal hoch, damit wir die Analyse starten können.</p>
 
-    <input id="customer-name" class="input" placeholder="Dein Name">
-    <input id="customer-email" class="input" placeholder="Deine E-Mail">
+    <input id="customer-name" class="input" placeholder="Dein Name" autocomplete="name">
+    <input id="customer-email" class="input" placeholder="Deine E-Mail" type="email" autocomplete="email">
 
-    <div id="upload-panel" class="upload-panel" onclick="document.getElementById('real-file-input').click()">
+    <div id="upload-panel" class="upload-panel">
       <strong>Datei auswählen</strong><br>
       <span>PDF, JPG oder PNG · max. 8 MB</span>
       <input id="real-file-input" type="file" accept=".pdf,.jpg,.jpeg,.png" style="display:none;">
@@ -187,61 +71,175 @@
 
     <div id="status-box" class="status-box hidden"></div>
 
-    <p class="note">
-      Diese fallback upload stap is alleen nodig als de automatische koppeling niet lukt.
-    </p>
+    <p class="note">Dieser Upload ist nur nötig, wenn die automatische Zuordnung nicht gefunden werden konnte.</p>
   </div>
 
-  <!-- Geen geldige session -->
   <div class="card hidden" id="locked-screen">
     <h1>Zahlung nicht gefunden</h1>
     <p>Bitte starte den Vorgang erneut über die Zahlungsseite.</p>
     <div class="status-box error">Keine gültige Zahlungssitzung gefunden.</div>
   </div>
 
-  <!-- Succes -->
   <div class="card hidden" id="success-screen">
     <div class="success-icon">✓</div>
-    <h1>Analyse gestartet</h1>
-    <p>Deine vollständige Analyse und dein fertiger Widerspruch werden erstellt.</p>
-    <p>Du erhältst das Ergebnis per E-Mail.</p>
-    <p class="note">Bitte prüfe auch deinen Spam-Ordner.</p>
+    <h1>Alles erledigt</h1>
+    <p>Deine Analyse wird vorbereitet.</p>
+    <p>Du erhältst deine vollständige Analyse und dein fertiges Schreiben per E-Mail.</p>
+    <p class="note">Bitte prüfe auch deinen Spam-Ordner, falls du die E-Mail nicht innerhalb weniger Minuten siehst.</p>
   </div>
 
 </div>
 
 <script type="module">
-  import { submitAutoPaid, track } from '../app.js';
+  import {
+    submitAutoPaid,
+    submitPaid,
+    validateFile,
+    formatFileSize,
+    track
+  } from "../app.js";
 
   const params = new URLSearchParams(window.location.search);
 
-  const sessionId = params.get('session_id');
-  const type = params.get('type') || 'mahnung';
+  const sessionId = params.get("session_id");
+  const type = params.get("type") || "mahnung";
 
-  const autoCard = document.getElementById('auto-card');
-  const autoStatus = document.getElementById('auto-status');
-  const fallback = document.getElementById('thankyou-app');
-  const locked = document.getElementById('locked-screen');
-  const success = document.getElementById('success-screen');
+  const autoCard = document.getElementById("auto-card");
+  const autoStatus = document.getElementById("auto-status");
+  const fallback = document.getElementById("thankyou-app");
+  const locked = document.getElementById("locked-screen");
+  const success = document.getElementById("success-screen");
 
-  track('paid_thankyou_view', {
+  const nameEl = document.getElementById("customer-name");
+  const emailEl = document.getElementById("customer-email");
+  const uploadPanel = document.getElementById("upload-panel");
+  const fileInput = document.getElementById("real-file-input");
+  const selectedFile = document.getElementById("selected-file");
+  const selectedFileName = document.getElementById("selected-file-name");
+  const selectedFileMeta = document.getElementById("selected-file-meta");
+  const removeFile = document.getElementById("remove-file");
+  const submitBtn = document.getElementById("submit-btn");
+  const statusBox = document.getElementById("status-box");
+
+  let chosenFile = null;
+
+  track("paid_thankyou_view", {
     type,
     has_session: Boolean(sessionId)
   });
 
   function showOnly(el) {
     [autoCard, fallback, locked, success].forEach(node => {
-      if (node) node.classList.add('hidden');
+      if (node) node.classList.add("hidden");
     });
 
-    if (el) el.classList.remove('hidden');
+    if (el) el.classList.remove("hidden");
   }
 
-  if (!sessionId || !sessionId.startsWith('cs_')) {
+  function setStatus(kind, message) {
+    statusBox.className = `status-box ${kind || ""}`;
+    statusBox.textContent = message;
+    statusBox.classList.remove("hidden");
+  }
+
+  function updateSubmitState() {
+    const hasFile = Boolean(chosenFile);
+    const hasName = Boolean(nameEl.value.trim());
+    const hasEmail = Boolean(emailEl.value.trim());
+
+    submitBtn.disabled = !(hasFile && hasName && hasEmail);
+    submitBtn.textContent = hasFile ? "Analyse starten" : "Zuerst eine Datei wählen";
+  }
+
+  function setFile(file) {
+    const error = validateFile(file);
+
+    if (error) {
+      chosenFile = null;
+      selectedFile.classList.remove("show");
+      setStatus("error", error);
+      updateSubmitState();
+      return;
+    }
+
+    chosenFile = file;
+    selectedFileName.textContent = file.name;
+    selectedFileMeta.textContent = formatFileSize(file.size);
+    selectedFile.classList.add("show");
+    statusBox.classList.add("hidden");
+    updateSubmitState();
+  }
+
+  uploadPanel.addEventListener("click", () => fileInput.click());
+
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files && fileInput.files[0];
+    if (file) setFile(file);
+  });
+
+  ["dragenter", "dragover"].forEach(eventName => {
+    uploadPanel.addEventListener(eventName, e => {
+      e.preventDefault();
+      uploadPanel.classList.add("drag-over");
+    });
+  });
+
+  ["dragleave", "drop"].forEach(eventName => {
+    uploadPanel.addEventListener(eventName, e => {
+      e.preventDefault();
+      uploadPanel.classList.remove("drag-over");
+    });
+  });
+
+  uploadPanel.addEventListener("drop", e => {
+    const file = e.dataTransfer.files && e.dataTransfer.files[0];
+    if (file) setFile(file);
+  });
+
+  removeFile.addEventListener("click", e => {
+    e.preventDefault();
+    chosenFile = null;
+    fileInput.value = "";
+    selectedFile.classList.remove("show");
+    updateSubmitState();
+  });
+
+  nameEl.addEventListener("input", updateSubmitState);
+  emailEl.addEventListener("input", updateSubmitState);
+
+  submitBtn.addEventListener("click", async () => {
+    try {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Upload läuft…";
+
+      await submitPaid({
+        file: chosenFile,
+        name: nameEl.value.trim(),
+        email: emailEl.value.trim(),
+        type,
+        sessionId,
+        onStatus: setStatus
+      });
+
+      track("paid_fallback_upload_completed", { type });
+      showOnly(success);
+    } catch (err) {
+      track("paid_fallback_upload_failed", {
+        type,
+        error: err.message
+      });
+
+      setStatus("error", err.message || "Upload fehlgeschlagen. Bitte erneut versuchen.");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Analyse starten";
+    }
+  });
+
+  if (!sessionId || !sessionId.startsWith("cs_")) {
     showOnly(locked);
   } else {
     try {
-      autoStatus.textContent = 'Zahlung wird geprüft…';
+      autoStatus.textContent = "Zahlung wird geprüft…";
 
       await submitAutoPaid({
         type,
@@ -251,37 +249,28 @@
         }
       });
 
-      track('auto_paid_analysis_started', {
-        type
-      });
-
+      track("auto_paid_analysis_started", { type });
       showOnly(success);
     } catch (err) {
       if (err.needUpload) {
-        track('auto_paid_fallback_upload_needed', {
+        track("auto_paid_fallback_upload_needed", {
           type,
           reason: err.message
         });
 
+        if (emailEl && params.get("email")) emailEl.value = params.get("email");
+        if (nameEl && params.get("name")) nameEl.value = params.get("name");
+
         showOnly(fallback);
-
-        const emailEl = document.getElementById('customer-email');
-        const nameEl = document.getElementById('customer-name');
-
-        const emailFromUrl = params.get('email');
-        const nameFromUrl = params.get('name');
-
-        if (emailEl && emailFromUrl) emailEl.value = emailFromUrl;
-        if (nameEl && nameFromUrl) nameEl.value = nameFromUrl;
+        updateSubmitState();
       } else {
-        autoStatus.className = 'status-box error';
-        autoStatus.textContent = err.message || 'Automatische Analyse fehlgeschlagen.';
+        autoStatus.className = "status-box error";
+        autoStatus.textContent =
+          err.message || "Automatische Analyse fehlgeschlagen. Bitte kontaktiere support@mussichzahlen.de";
       }
     }
   }
 </script>
-
-<script type="module" src="./app.js"></script>
 
 </body>
 </html>
