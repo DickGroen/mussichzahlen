@@ -18,8 +18,10 @@ Lies das Dokument und gib NUR dieses JSON zurück — kein Text davor oder danac
   "possible_überhöhte_kosten": true oder false oder null,
   "possible_kein_nachweis": true oder false oder null,
   "possible_falscher_empfänger": true oder false oder null,
+  "possible_kein_abtretungsnachweis": true oder false oder null,
+  "possible_keine_registrierung": true oder false oder null,
   "chance": <ganze Zahl zwischen 0 und 100>,
-  "flagCount": <ganze Zahl zwischen 0 und 5>,
+  "flagCount": <ganze Zahl zwischen 0 und 6>,
   "teaser": "string",
   "route": "HAIKU|SONNET",
   "risk": "low|medium|high"
@@ -54,18 +56,20 @@ Regeln:
 4. Prüfhinweise
 - possible_verjährt: true, wenn die Forderung älter als 3 Jahre erscheint oder das Forderungsjahr deutlich zurückliegt (§ 195 BGB).
 - possible_überhöhte_kosten: true, wenn Inkasso-, Mahn- oder Zusatzkosten auffällig hoch im Verhältnis zur Hauptforderung erscheinen (§ 4 RDGEG).
-- possible_kein_nachweis: true, wenn kein Originalvertrag, keine Rechnung, keine Abtretung oder kein nachvollziehbarer Forderungsnachweis erkennbar ist (§ 409 BGB).
+- possible_kein_nachweis: true, wenn kein Originalvertrag, keine Rechnung, keine Rechnungsnummer, kein Leistungszeitraum oder kein nachvollziehbarer Forderungsnachweis erkennbar ist.
 - possible_falscher_empfänger: true, wenn Name, Adresse, Kundennummer oder Schuldneridentität fraglich wirken.
+- possible_kein_abtretungsnachweis: true, wenn keine wirksame Abtretungsanzeige gemäß § 409 BGB erkennbar ist oder unklar bleibt, ob das Inkassounternehmen Inhaber oder nur Einzugsermächtigung ist.
+- possible_keine_registrierung: true, wenn die Registrierungsnummer des Inkassounternehmens gemäß § 2 Abs. 2 RDGEG fehlt oder nicht erkennbar ist.
 - Setze ein possible_*-Feld nur dann auf true, wenn es im Dokument konkrete Hinweise darauf gibt.
 - Wenn nicht genug Informationen vorhanden sind, nutze null statt zu raten.
 
 5. Risk
 - risk high:
-  Verjährung wahrscheinlich, falscher Empfänger möglich, gerichtlicher Bezug, Anwaltsschreiben, sehr hohe Kosten oder mehrere starke Auffälligkeiten.
+  4 oder mehr Flags true, Verjährung wahrscheinlich, falscher Empfänger möglich, gerichtlicher Bezug, Anwaltsschreiben, sehr hohe Kosten oder mehrere starke Auffälligkeiten.
 - risk medium:
-  Ein oder mehrere mögliche Ansatzpunkte, aber nicht eindeutig genug für eine starke Bewertung.
+  2–3 Flags true — ein oder mehrere mögliche Ansatzpunkte, aber nicht eindeutig genug für eine starke Bewertung.
 - risk low:
-  Forderung wirkt überwiegend plausibel oder es sind kaum Ansatzpunkte erkennbar.
+  0–1 Flags true — Forderung wirkt überwiegend plausibel oder es sind kaum Ansatzpunkte erkennbar.
 - Wenn documentType "gericht" ist, ist risk mindestens "high".
 - Wenn documentType "anwalt" ist, ist risk mindestens "medium".
 
@@ -74,6 +78,8 @@ Regeln:
 - Verjährung erkennbar: 70–90.
 - Falscher Empfänger oder fehlender Nachweis: 65–85.
 - Überhöhte Kosten: 50–75.
+- Fehlender Abtretungsnachweis: 55–75.
+- Fehlende Registrierung: 50–70.
 - Mehrere mögliche Ansatzpunkte: 60–85.
 - Nur kleinere Unklarheiten: 30–50.
 - Alles wirkt plausibel: 10–25.
@@ -82,16 +88,17 @@ Regeln:
 
 7. FlagCount
 - flagCount = Anzahl der possible_*-Felder, die true sind.
+- Gezählt werden: possible_verjährt, possible_überhöhte_kosten, possible_kein_nachweis, possible_falscher_empfänger, possible_kein_abtretungsnachweis, possible_keine_registrierung.
 - false und null zählen nicht.
 - Niemals raten.
-- flagCount muss immer eine ganze Zahl zwischen 0 und 5 sein.
+- flagCount muss immer eine ganze Zahl zwischen 0 und 6 sein.
 
 8. Teaser
 Der teaser darf NICHT frei formuliert werden.
 Wähle exakt einen dieser drei Texte passend zum risk-Wert:
 
 Wenn risk = "high":
-"Es deutet einiges darauf hin, dass hier mögliche Unstimmigkeiten bestehen. Wenn du nicht reagierst, kann sich die Situation finanziell deutlich verschlechtern."
+"Es deutet einiges darauf hin, dass hier mögliche Unstimmigkeiten bestehen. Wenn Sie nicht reagieren, kann sich die Situation finanziell deutlich verschlechtern."
 
 Wenn risk = "medium":
 "In diesem Schreiben könnten Ansatzpunkte vorliegen, die ohne rechtzeitige Reaktion zu unnötigen Mehrkosten führen können."
@@ -106,10 +113,10 @@ Der teaser muss exakt einer dieser drei Texte sein.
 Keine Paragraphen im teaser.
 Keine konkreten Fehler im teaser.
 Keine Erfolgsgarantie.
-Keine Formulierungen wie "du musst nicht zahlen".
+Keine Formulierungen wie "Sie müssen nicht zahlen".
 
 9. Route
-- route: SONNET wenn amount_claimed > 500, risk = "high", documentType = "gericht", documentType = "anwalt" oder die Sachlage komplex wirkt.
+- route: SONNET wenn amount_claimed > 500, risk = "high", flagCount >= 4, documentType = "gericht", documentType = "anwalt" oder die Sachlage komplex wirkt.
 - Sonst HAIKU.
 - route darf nur "HAIKU" oder "SONNET" sein.
 
@@ -125,6 +132,8 @@ Keine Formulierungen wie "du musst nicht zahlen".
   possible_überhöhte_kosten: null,
   possible_kein_nachweis: null,
   possible_falscher_empfänger: null,
+  possible_kein_abtretungsnachweis: null,
+  possible_keine_registrierung: null,
   chance: 0,
   flagCount: 0,
   risk: "low",
