@@ -102,7 +102,19 @@ Regeln:
 - Setze ein possible_*-Feld nur dann auf true, wenn konkrete Hinweise im Dokument vorhanden sind.
 - Wenn nicht genug Informationen vorhanden sind, nutze null statt zu raten.
 
-5. Risk
+5. Besondere Angebotstypen
+- Bei Handwerkerangeboten:
+  Achte auf Aufschlüsselung von Material und Arbeitszeit, Stundensatz, Anfahrtskosten, Entsorgung, Gewährleistung (§ 634a BGB) und ob ein verbindlicher Kostenvoranschlag nach § 650c BGB vorliegt.
+- Bei Dienstleistungsangeboten:
+  Achte auf Leistungsumfang, Stunden oder Tage, Pauschalen ohne Erklärung, Reisekosten, mögliche Nachberechnung und fehlende Erfolgsgarantie.
+- Bei Energie- oder Versorgungsangeboten:
+  Achte auf Laufzeit, Preisgarantie, Preisanpassungsklauseln, Kündigungsfrist und Vergleichbarkeit mit anderen Anbietern.
+- Bei Telekomanngeboten:
+  Achte auf Mindestlaufzeit, automatische Verlängerung, Hardware-Kosten, Aktivierungsgebühren und versteckte Zusatzoptionen.
+- Bei Handels- oder Lieferangeboten:
+  Achte auf Lieferzeit, Versandkosten, Rückgaberecht, Garantie und ob Gesamtpreis inkl. MwSt. klar ausgewiesen ist.
+
+6. Risk
 - risk high:
   mehrere unklare oder auffällige Kostenpositionen;
   hoher Gesamtbetrag ohne nachvollziehbare Aufschlüsselung;
