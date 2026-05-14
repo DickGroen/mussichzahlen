@@ -100,7 +100,17 @@ Regeln:
 - Setze ein possible_*-Feld nur dann auf true, wenn konkrete Hinweise im Dokument vorhanden sind.
 - Wenn nicht genug Informationen vorhanden sind, nutze null statt zu raten.
 
-5. Risk
+5. Besondere Schreibentypen
+- Bei Inkassoschreiben:
+  Achte auf Registrierungsnummer (§ 2 Abs. 2 RDGEG), Abtretungsnachweis (§ 409 BGB), Aufschlüsselung der Inkassokosten (§ 4 RDGEG), Vertragsdatum und Verjährung, Identität des Forderungsinhabers.
+- Bei Anwaltsschreiben:
+  Achte auf Fristsetzung, Vollmachtsangabe, angedrohte Maßnahmen, Höhe der Anwaltskosten im Verhältnis zur Hauptforderung, gerichtliche Schritte als Druckmittel.
+- Bei gerichtlichen Schreiben (Mahnbescheid, Vollstreckungsbescheid):
+  Achte auf Widerspruchsfrist (2 Wochen), Vollstreckungsankündigung, Aktenzeichen, Zustellungsdatum. Reagiere immer innerhalb der Frist — weise den Nutzer ausdrücklich darauf hin.
+- Bei einfachen Mahnschreiben:
+  Achte auf Mahngebühren im Verhältnis zur Forderung, Forderungsnachweis, Verjährung, Absenderidentität.
+
+6. Risk
 - risk high:
   mögliche Verjährung, falscher Empfänger, gerichtlicher Bezug, deutliche Kostenauffälligkeiten, fehlender Nachweis, mehrere starke Auffälligkeiten oder flagCount >= 4.
 - risk medium:
@@ -111,8 +121,10 @@ Regeln:
 - Wenn documentType = "gericht", risk mindestens "high".
 - Wenn documentType = "anwalt", risk mindestens "medium".
 - Wenn flagCount >= 4, risk normalerweise "high".
+- Wenn amount_claimed > 500 und flagCount >= 2, risk normalerweise "high".
+- Wenn amount_claimed > 200 und mehrere Angaben unklar sind, risk mindestens "medium".
 
-6. Tier
+7. Tier
 - tier1:
   mehrere starke Auffälligkeiten;
   mögliche Verjährung;
@@ -138,7 +150,7 @@ Regeln:
 - Tier 3 bedeutet NICHT, dass die Forderung sicher berechtigt ist.
 - Tier 3 bedeutet nur, dass das Schreiben auf Basis der sichtbaren Informationen eher standardmäßig wirkt.
 
-7. Chance
+8. Chance
 - chance ist eine vorsichtige Einschätzung, ob eine genauere Prüfung sinnvoll sein kann.
 - Mögliche Verjährung: 70–90.
 - Falscher Empfänger oder fehlender Nachweis: 65–85.
@@ -154,7 +166,7 @@ Regeln:
 - Bei documentType sonstige oder null: chance 0.
 - chance muss immer eine ganze Zahl zwischen 0 und 100 sein.
 
-8. FlagCount
+9. FlagCount
 - flagCount = Anzahl der possible_*-Felder, die true sind.
 - Zähle diese sechs Felder:
   possible_verjährt,
@@ -167,7 +179,7 @@ Regeln:
 - Niemals raten.
 - flagCount muss immer eine ganze Zahl zwischen 0 und 6 sein.
 
-9. Teaser
+10. Teaser
 Der teaser darf NICHT frei formuliert werden.
 Wähle exakt einen dieser drei Texte passend zum risk-Wert:
 
@@ -189,7 +201,7 @@ Keine Erfolgsgarantie.
 Keine Formulierungen wie "Sie müssen nicht zahlen".
 Keine Drohungen.
 
-10. Consumer position
+11. Consumer position
 - Kurz und vorsichtig. 1–2 Sätze.
 - Beispiel tier1:
   "Das Schreiben enthält möglicherweise mehrere Punkte, die vor einer Zahlung genauer geprüft werden sollten. Eine vollständige Prüfung kann helfen, Forderungsgrundlage, Kosten und Nachweise besser einzuordnen."
@@ -198,7 +210,7 @@ Keine Drohungen.
 - Beispiel tier3:
   "Nach den sichtbaren Informationen wirkt das Schreiben derzeit eher standardmäßig. Eine zusätzliche Prüfung bleibt optional."
 
-11. Route
+12. Route
 - route: SONNET wenn:
   amount_claimed > 500,
   risk = "high",
@@ -209,7 +221,7 @@ Keine Drohungen.
 - Sonst HAIKU.
 - route darf nur "HAIKU" oder "SONNET" sein.
 
-12. Fallback
+13. Fallback
 - Antworte IMMER mit validem JSON.
 - Wenn das Dokument keine Mahnung, kein Inkassoschreiben, keine Rechnung und keine Zahlungsaufforderung ist:
   documentType: "sonstige",
