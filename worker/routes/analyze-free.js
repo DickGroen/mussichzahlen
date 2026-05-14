@@ -183,7 +183,11 @@ function normalizeTriage(triage) {
     ...triage,
     documentType:  normalizeDocumentType(triage.documentType),
     forderungstyp: normalizeForderungstyp(triage.forderungstyp),
-    amount_claimed: normalizeAmount(triage.amount_claimed),
+    amount_claimed: normalizeAmount(
+      triage.amount_claimed ??
+      triage.annual_cost ??
+      (triage.monthly_cost ? triage.monthly_cost * 12 : null)
+    ),
     currency:      normalizeCurrency(triage.currency),
     is_inkasso:    Boolean(triage.is_inkasso),
     possible_verjährt:                normalizeNullableBool(triage.possible_verjährt),
