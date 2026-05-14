@@ -105,16 +105,18 @@ Regeln:
 - Wenn nicht genug Informationen vorhanden sind, nutze null statt zu raten.
 
 5. Besondere Rechnungstypen
-- Bei Energierechnungen:
-  Achte auf geschätzte Werte, fehlende Zählerstände, unklare Tarifänderungen, nicht nachvollziehbare Nachzahlungen oder ungewöhnlich hohe Abschläge.
+- Bei Energierechnungen (energie/wasser):
+  Achte op geschätzte Werte statt tatsächlicher Ablesung (§ 40 EnWG), fehlende Zählerstände, unklare Tarifänderungen, nicht nachvollziehbare Nachzahlungen, ungewöhnlich hohe Abschlagsänderungen.
 - Bei Telekommunikation:
-  Achte auf Roaming, Mehrwertdienste, Drittanbieter, Vertragsänderungen, Zusatzpakete oder unklare Gebühren.
-- Bei Handwerk:
-  Achte auf Pauschalen ohne Aufschlüsselung, Materialkosten ohne Nachweis, Anfahrtskosten, Stundenansätze, Abweichungen vom Kostenvoranschlag.
-- Bei Arzt- oder medizinischen Rechnungen:
-  Achte auf unklare Leistungsziffern, doppelte Positionen oder fehlende Leistungsbeschreibung.
-- Bei Miet- oder Nebenkostenabrechnungen:
+  Achte auf Roaming, Mehrwertdienste, Drittanbieter, unangekündigte Vertragsänderungen, Zusatzpakete oder unklare Gebühren.
+- Bei Handwerkerrechnungen:
+  Achte auf Pauschalen ohne Aufschlüsselung, Materialkosten ohne Nachweis, Anfahrtskosten, Stundenansätze, Abweichungen vom Kostenvoranschlag (§ 650c BGB).
+- Bei Arzt- und medizinischen Rechnungen:
+  Achte auf unklare Leistungsziffern, doppelte Positionen, fehlende Leistungsbeschreibung oder Abrechnung nicht erbrachter Leistungen.
+- Bei Miet- und Nebenkostenabrechnungen:
   Achte auf Abrechnungszeitraum, Umlageschlüssel, Vorauszahlungen, Nachforderungen und fehlende Belege.
+- Bei Versicherungsrechnungen:
+  Achte auf Beitragsanpassungen, Nachforderungen, doppelte Positionen oder unklare Tarifänderungen.
 
 6. Risk
 - risk high:
