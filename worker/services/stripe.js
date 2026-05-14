@@ -11,17 +11,12 @@ const FALLBACK_PAGES = {
   angebot:    "https://mussichzahlen.de/angebot/#pruefen",
 };
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
-
 function normalizeSessionId(sessionId) {
   return String(sessionId || "").trim();
 }
 
 function isValidCheckoutSessionId(sessionId) {
-  return (
-    sessionId.startsWith("cs_live_") ||
-    sessionId.startsWith("cs_test_")
-  );
+  return sessionId.startsWith("cs_live_") || sessionId.startsWith("cs_test_");
 }
 
 function normalizeType(type) {
@@ -33,10 +28,9 @@ function normalizeCurrency(value) {
 }
 
 function normalizeEmail(value) {
-  return String(value || "").trim().toLowerCase();
+  const email = String(value || "").trim().toLowerCase();
+  return email || null;
 }
-
-// ─── Stripe API ───────────────────────────────────────────────────────────────
 
 async function stripeGet(env, path) {
   if (!env?.STRIPE_SECRET_KEY) {
@@ -60,18 +54,12 @@ async function stripeGet(env, path) {
   }
 
   if (!res.ok) {
-    const message =
-      data?.error?.message ||
-      data?.message ||
-      JSON.stringify(data);
-
+    const message = data?.error?.message || data?.message || JSON.stringify(data);
     throw new Error(`Stripe API Fehler: ${message}`);
   }
 
   return data;
 }
-
-// ─── Exports ──────────────────────────────────────────────────────────────────
 
 export async function verifySession(env, sessionId) {
   const id = normalizeSessionId(sessionId);
@@ -94,31 +82,32 @@ export async function verifySession(env, sessionId) {
   return session;
 }
 
-// Alias voor backwards compatibility
 export const verifyStripeSession = verifySession;
 
 export async function verifyPaidSession(env, sessionId) {
   const session = await verifySession(env, sessionId);
 
   return {
-    paid:    true,
+    paid: true,
     session,
     sessionId: session.id,
     email:
       normalizeEmail(session.customer_details?.email) ||
-      normalizeEmail(session.customer_email) ||
-      null,
+      normalizeEmail(session.customer_email),
     name:
       session.metadata?.name ||
       session.customer_details?.name ||
       null,
-    type:
-      normalizeType(session.metadata?.type || session.metadata?.product || "mahnung"),
+    type: normalizeType(
+      session.metadata?.type ||
+      session.metadata?.product ||
+      "mahnung"
+    ),
     amount:
       typeof session.amount_total === "number"
         ? session.amount_total / 100
         : null,
-    currency:       normalizeCurrency(session.currency),
+    currency: normalizeCurrency(session.currency),
     payment_status: session.payment_status,
   };
 }
@@ -127,11 +116,13 @@ export function getStripeLink(env, type) {
   const normalizedType = normalizeType(type);
   const key = `STRIPE_LINK_${normalizedType.toUpperCase()}`;
 
-  if (env?.[key]) return env[key];
+  if (env?.[key]) {
+    return env[key];
+  }
 
-  if (env?.STRIPE_PAYMENT_LINK) return env.STRIPE_PAYMENT_LINK;
-
-  if (env?.STRIPE_LINK_MAHNUNG) return env.STRIPE_LINK_MAHNUNG;
+  if (env?.STRIPE_PAYMENT_LINK) {
+    return env.STRIPE_PAYMENT_LINK;
+  }
 
   return FALLBACK_PAGES[normalizedType] || "https://mussichzahlen.de";
 }
