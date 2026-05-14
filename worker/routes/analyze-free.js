@@ -43,33 +43,11 @@ export async function handleAnalyzeFree(request, env) {
       triagePrompt: prompts.triage,
     });
 
-    const triage = normalizeTriage(
-      safeJsonParse(raw) || {
-        documentType:                  "mahnung",
-        sender:                        null,
-        forderungstyp:                 null,
-        amount_claimed:                null,
-        currency:                      "EUR",
-        is_inkasso:                    false,
-        possible_verjährt:             null,
-        possible_überhöhte_kosten:     null,
-        possible_kein_nachweis:        null,
-        possible_falscher_empfänger:   null,
-        possible_kein_abtretungsnachweis: null,
-        possible_keine_registrierung:  null,
-        risk:                          "medium",
-        route:                         "SONNET",
-        chance:                        50,
-        flagCount:                     0,
-        tier:                          "tier2",
-        consumer_position:             null,
-        teaser:                        "Einzelne Angaben in diesem Schreiben könnten vor einer Zahlung noch geklärt werden, besonders wenn Betrag, Absender oder Nachweise nicht vollständig eindeutig sind.",
-      }
-    );
+    const triage = normalizeTriage(safeJsonParse(raw) || fallbackTriage(type));
 
     console.log("FREE TRIAGE:", JSON.stringify(triage));
 
-    // tier en emailType komen nu direct uit de triage — geen aparte getTriageDecision meer
+    // tier en emailType komen direct uit de triage
     const showUpsell = triage.tier !== "tier3";
     const stripeLink = showUpsell ? getStripeLink(env, type) : null;
 
@@ -128,27 +106,7 @@ export async function handleAnalyzeFree(request, env) {
       tier:      triage.tier,
       emailType: triage.emailType,
       stripeLink,
-      triage: {
-        documentType:                     triage.documentType  ?? null,
-        sender:                           triage.sender        ?? null,
-        forderungstyp:                    triage.forderungstyp ?? null,
-        amount_claimed:                   triage.amount_claimed ?? null,
-        currency:                         triage.currency      ?? null,
-        is_inkasso:                       Boolean(triage.is_inkasso),
-        possible_verjährt:                triage.possible_verjährt             ?? null,
-        possible_überhöhte_kosten:        triage.possible_überhöhte_kosten     ?? null,
-        possible_kein_nachweis:           triage.possible_kein_nachweis        ?? null,
-        possible_falscher_empfänger:      triage.possible_falscher_empfänger   ?? null,
-        possible_kein_abtretungsnachweis: triage.possible_kein_abtretungsnachweis ?? null,
-        possible_keine_registrierung:     triage.possible_keine_registrierung  ?? null,
-        risk:                             triage.risk,
-        chance:                           triage.chance,
-        flagCount:                        triage.flagCount,
-        tier:                             triage.tier,
-        teaser:                           triage.teaser,
-        route:                            triage.route,
-        consumer_position:                triage.consumer_position ?? null,
-      },
+      triage:    publicTriage(triage),
       teaser: {
         chancePercent: triage.chance,
         text:          triage.teaser,
@@ -165,46 +123,149 @@ export async function handleAnalyzeFree(request, env) {
   }
 }
 
+// ─── Fallback ────────────────────────────────────────────────────────────────
+
+function fallbackTriage(type) {
+  return {
+    documentType:    type || "sonstige",
+    sender:          null,
+    forderungstyp:   null,
+    amount_claimed:  null,
+    monthly_cost:    null,
+    annual_cost:     null,
+    currency:        "EUR",
+    is_inkasso:      false,
+    risk:            "medium",
+    route:           "SONNET",
+    chance:          50,
+    flagCount:       0,
+    tier:            "tier2",
+    consumer_position: null,
+    teaser: "Einzelne Angaben in diesem Schreiben könnten vor einer Zahlung noch geklärt werden, besonders wenn Betrag, Absender oder Nachweise nicht vollständig eindeutig sind.",
+  };
+}
+
+// ─── Public response shape ────────────────────────────────────────────────────
+
+function publicTriage(triage) {
+  return {
+    // kern
+    documentType:     triage.documentType     ?? null,
+    sender:           triage.sender           ?? null,
+    forderungstyp:    triage.forderungstyp    ?? null,
+    amount_claimed:   triage.amount_claimed   ?? null,
+    monthly_cost:     triage.monthly_cost     ?? null,
+    annual_cost:      triage.annual_cost      ?? null,
+    currency:         triage.currency         ?? "EUR",
+    is_inkasso:       Boolean(triage.is_inkasso),
+
+    // scores
+    risk:             triage.risk,
+    chance:           triage.chance,
+    flagCount:        triage.flagCount,
+    tier:             triage.tier,
+    emailType:        triage.emailType,
+    teaser:           triage.teaser,
+    route:            triage.route,
+    consumer_position: triage.consumer_position ?? null,
+
+    // mahnung / inkasso flags
+    possible_verjährt:                triage.possible_verjährt                ?? null,
+    possible_überhöhte_kosten:        triage.possible_überhöhte_kosten        ?? null,
+    possible_kein_nachweis:           triage.possible_kein_nachweis           ?? null,
+    possible_falscher_empfänger:      triage.possible_falscher_empfänger      ?? null,
+    possible_kein_abtretungsnachweis: triage.possible_kein_abtretungsnachweis ?? null,
+    possible_keine_registrierung:     triage.possible_keine_registrierung     ?? null,
+
+    // parkstrafe flags
+    possible_falsche_zustellung:  triage.possible_falsche_zustellung  ?? null,
+    possible_kein_tatnachweis:    triage.possible_kein_tatnachweis    ?? null,
+    possible_falscher_halter:     triage.possible_falscher_halter     ?? null,
+    possible_formfehler:          triage.possible_formfehler          ?? null,
+    possible_privater_betreiber:  triage.possible_privater_betreiber  ?? null,
+
+    // rechnung flags
+    possible_falsche_position:         triage.possible_falsche_position         ?? null,
+    possible_doppelte_berechnung:      triage.possible_doppelte_berechnung      ?? null,
+    possible_nicht_erbrachte_leistung: triage.possible_nicht_erbrachte_leistung ?? null,
+    possible_überhöhter_preis:         triage.possible_überhöhter_preis         ?? null,
+    possible_keine_leistungsbeschreibung: triage.possible_keine_leistungsbeschreibung ?? null,
+    possible_unplausible_nachforderung: triage.possible_unplausible_nachforderung ?? null,
+
+    // vertrag flags
+    possible_unwirksame_verlaengerungsklausel: triage.possible_unwirksame_verlaengerungsklausel ?? null,
+    possible_preiserhoehung_sonderkuendigung:  triage.possible_preiserhoehung_sonderkuendigung  ?? null,
+    possible_kuendigung_blockiert:             triage.possible_kuendigung_blockiert             ?? null,
+    possible_widerrufsrecht:                   triage.possible_widerrufsrecht                   ?? null,
+    possible_unklare_laufzeit:                 triage.possible_unklare_laufzeit                 ?? null,
+    possible_unklare_kuendigungsfrist:         triage.possible_unklare_kuendigungsfrist         ?? null,
+
+    // angebot flags
+    possible_überhöhter_gesamtpreis:       triage.possible_überhöhter_gesamtpreis       ?? null,
+    possible_unklare_einzelpositionen:     triage.possible_unklare_einzelpositionen     ?? null,
+    possible_fehlende_leistungsbeschreibung: triage.possible_fehlende_leistungsbeschreibung ?? null,
+    possible_versteckte_zusatzkosten:      triage.possible_versteckte_zusatzkosten      ?? null,
+    possible_unfaire_zahlungsbedingungen:  triage.possible_unfaire_zahlungsbedingungen  ?? null,
+    possible_gültigkeit_oder_frist_unklar: triage.possible_gültigkeit_oder_frist_unklar ?? null,
+  };
+}
+
+// ─── Normalization ────────────────────────────────────────────────────────────
+
 function normalizeTriage(triage) {
-  const risk = ["low", "medium", "high"].includes(triage.risk)
-    ? triage.risk
-    : "medium";
-
-  const route = ["HAIKU", "SONNET"].includes(triage.route)
-    ? triage.route
-    : risk === "high" ? "SONNET" : "HAIKU";
-
-  const tier = normalizeTier(triage.tier, risk, triage.flagCount);
-
-  // emailType afleiden van tier — consistent met resend.js
+  const risk  = normalizeRisk(triage.risk);
+  const route = normalizeRoute(triage.route, risk);
+  const chance = clampChance(triage.chance);
+  const flagCount = normalizeFlagCount(triage);
+  const tier  = normalizeTier(triage.tier, risk, flagCount);
   const emailType = { tier1: "stark", tier2: "soft", tier3: "vertrauen" }[tier] || "soft";
+
+  const monthlyCost = normalizeAmount(triage.monthly_cost);
+  const annualCost  =
+    normalizeAmount(triage.annual_cost) ??
+    (monthlyCost !== null ? Number((monthlyCost * 12).toFixed(2)) : null);
+
+  const amountClaimed =
+    normalizeAmount(triage.amount_claimed) ??
+    annualCost ??
+    monthlyCost;
 
   return {
     ...triage,
     documentType:  normalizeDocumentType(triage.documentType),
+    sender:        normalizeText(triage.sender),
     forderungstyp: normalizeForderungstyp(triage.forderungstyp),
-    amount_claimed: normalizeAmount(
-      triage.amount_claimed ??
-      triage.annual_cost ??
-      (triage.monthly_cost ? triage.monthly_cost * 12 : null)
-    ),
+    amount_claimed: amountClaimed,
+    monthly_cost:   monthlyCost,
+    annual_cost:    annualCost,
     currency:      normalizeCurrency(triage.currency),
     is_inkasso:    Boolean(triage.is_inkasso),
-    possible_verjährt:                normalizeNullableBool(triage.possible_verjährt),
-    possible_überhöhte_kosten:        normalizeNullableBool(triage.possible_überhöhte_kosten),
-    possible_kein_nachweis:           normalizeNullableBool(triage.possible_kein_nachweis),
-    possible_falscher_empfänger:      normalizeNullableBool(triage.possible_falscher_empfänger),
-    possible_kein_abtretungsnachweis: normalizeNullableBool(triage.possible_kein_abtretungsnachweis),
-    possible_keine_registrierung:     normalizeNullableBool(triage.possible_keine_registrierung),
     risk,
     route,
-    chance:    clampChance(triage.chance),
-    flagCount: normalizeFlagCount(triage),
+    chance,
+    flagCount,
     tier,
     emailType,
     teaser:           normalizeTeaser(risk, triage.teaser),
-    consumer_position: triage.consumer_position || null,
+    consumer_position: normalizeConsumerPosition(tier, triage.consumer_position),
   };
+}
+
+function normalizeRisk(value) {
+  return ["low", "medium", "high"].includes(value) ? value : "medium";
+}
+
+function normalizeRoute(value, risk) {
+  if (["HAIKU", "SONNET"].includes(value)) return value;
+  return risk === "high" ? "SONNET" : "HAIKU";
+}
+
+function normalizeTier(value, risk, flagCount) {
+  if (["tier1", "tier2", "tier3"].includes(value)) return value;
+  const f = Number(flagCount) || 0;
+  if (risk === "high" || f >= 4) return "tier1";
+  if (risk === "medium" || f >= 1) return "tier2";
+  return "tier3";
 }
 
 function normalizeDocumentType(value) {
@@ -217,31 +278,30 @@ function normalizeForderungstyp(value) {
   return allowed.includes(value) ? value : null;
 }
 
-function normalizeTier(value, risk, flagCount) {
-  if (["tier1", "tier2", "tier3"].includes(value)) return value;
-
-  // Fallback als triage geen tier geeft
-  const f = Number(flagCount) || 0;
-  if (risk === "high" || f >= 4) return "tier1";
-  if (risk === "medium" || f >= 1) return "tier2";
-  return "tier3";
-}
-
 function normalizeCurrency(value) {
-  const allowed = ["EUR", "GBP", "USD"];
-  return allowed.includes(value) ? value : "EUR";
+  const c = String(value || "").toUpperCase();
+  if (["EUR", "GBP", "USD"].includes(c)) return c;
+  if (c === "€") return "EUR";
+  if (c === "£") return "GBP";
+  if (c === "$") return "USD";
+  return "EUR";
 }
 
 function normalizeAmount(value) {
   if (value === null || value === undefined || value === "") return null;
+  if (typeof value === "string") {
+    const cleaned = value.replace(/[€£$,]/g, "").trim();
+    const n = Number(cleaned);
+    return Number.isFinite(n) ? n : null;
+  }
   const n = Number(value);
   return Number.isFinite(n) ? n : null;
 }
 
-function normalizeNullableBool(value) {
-  if (value === true)  return true;
-  if (value === false) return false;
-  return null;
+function normalizeText(value) {
+  if (value === null || value === undefined) return null;
+  const text = String(value).trim();
+  return text ? text : null;
 }
 
 function clampChance(value) {
@@ -251,16 +311,15 @@ function clampChance(value) {
 }
 
 function normalizeFlagCount(triage) {
-  // Telt alle 6 flags — consistent met de nieuwe triage.js
-  const flags = [
-    triage.possible_verjährt,
-    triage.possible_überhöhte_kosten,
-    triage.possible_kein_nachweis,
-    triage.possible_falscher_empfänger,
-    triage.possible_kein_abtretungsnachweis,
-    triage.possible_keine_registrierung,
-  ];
-  return flags.filter(v => v === true).length;
+  // Gebruik flagCount uit triage als die er al in zit
+  if (Number.isFinite(Number(triage.flagCount))) {
+    return Math.min(12, Math.max(0, Math.round(Number(triage.flagCount))));
+  }
+  // Dynamisch tellen van alle possible_* velden — werkt voor alle 5 types
+  return Object.entries(triage)
+    .filter(([key]) => key.startsWith("possible_"))
+    .filter(([, val]) => val === true)
+    .length;
 }
 
 function normalizeTeaser(risk, teaser) {
@@ -269,8 +328,15 @@ function normalizeTeaser(risk, teaser) {
     medium: "Einzelne Angaben in diesem Schreiben könnten vor einer Zahlung noch geklärt werden, besonders wenn Betrag, Absender oder Nachweise nicht vollständig eindeutig sind.",
     low:    "Auf Basis der sichtbaren Informationen wirkt das Schreiben eher standardmäßig, einzelne Details können vor einer endgültigen Entscheidung dennoch geprüft werden.",
   };
-
   const allowed = new Set(Object.values(map));
   if (allowed.has(teaser)) return teaser;
   return map[risk] || map.medium;
+}
+
+function normalizeConsumerPosition(tier, value) {
+  const text = normalizeText(value);
+  if (text) return text;
+  if (tier === "tier1") return "Das Schreiben enthält möglicherweise mehrere Punkte, die vor einer Zahlung genauer geprüft werden sollten.";
+  if (tier === "tier2") return "Einige Angaben könnten noch klärungsbedürftig sein. Es kann sinnvoll sein, die Grundlage vor einer Zahlung prüfen zu lassen.";
+  return "Nach den sichtbaren Informationen wirkt das Schreiben derzeit eher standardmäßig. Eine zusätzliche Prüfung bleibt optional.";
 }
