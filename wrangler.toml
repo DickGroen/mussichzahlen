@@ -10,6 +10,7 @@ routes = [
 [vars]
 ENV = "production"
 ADMIN_EMAIL = "groenvantexel@gmail.com"
+SITE_URL = "https://mussichzahlen.de"
 
 # Stripe Payment Links (publiek — geen secrets)
 STRIPE_LINK_MAHNUNG    = "https://buy.stripe.com/REPLACE_WITH_MAHNUNG_LINK"
