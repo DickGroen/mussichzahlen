@@ -6,11 +6,17 @@ compatibility_flags = ["nodejs_compat"]
 routes = [
   { pattern = "mussichzahlen.de/api/*", zone_name = "mussichzahlen.de" }
 ]
- 
+
 [vars]
 ENV = "production"
 ADMIN_EMAIL = "groenvantexel@gmail.com"
-STRIPE_LINK_MAHNUNG = "https://buy.stripe.com/test_aFa5kE5Le9eT61MdS41440d"
+
+# Stripe Payment Links (publiek — geen secrets)
+STRIPE_LINK_MAHNUNG    = "https://buy.stripe.com/REPLACE_WITH_MAHNUNG_LINK"
+STRIPE_LINK_PARKSTRAFE = "https://buy.stripe.com/REPLACE_WITH_PARKSTRAFE_LINK"
+STRIPE_LINK_RECHNUNG   = "https://buy.stripe.com/REPLACE_WITH_RECHNUNG_LINK"
+STRIPE_LINK_VERTRAG    = "https://buy.stripe.com/REPLACE_WITH_VERTRAG_LINK"
+STRIPE_LINK_ANGEBOT    = "https://buy.stripe.com/REPLACE_WITH_ANGEBOT_LINK"
 
 # Secrets worden ingesteld via Cloudflare Dashboard:
 # ANTHROPIC_API_KEY
@@ -21,10 +27,6 @@ STRIPE_LINK_MAHNUNG = "https://buy.stripe.com/test_aFa5kE5Le9eT61MdS41440d"
 [[kv_namespaces]]
 binding = "SESSIONS_KV"
 id = "394807db041c4b83907c9f6818a4184b"
-
-[[kv_namespaces]]
-binding = "JOBS_KV"
-id = "1025d11aaba64a869ae40d2a7143ab40"
 
 [[r2_buckets]]
 binding = "DOCS_BUCKET"
