@@ -1,11 +1,13 @@
 // worker/index.js
 
-import { corsResponse, jsonResponse } from "./utils/response.js";
-import { handleAnalyzeFree }   from "./routes/analyze-free.js";
-import { handleSubmitPaid }    from "./routes/submit-paid.js";
-import { handleTrack }         from "./routes/track.js";
-import { handleCron }          from "./routes/cron.js";
-import { handleStripeWebhook } from "./routes/stripe-webhook.js";
+import { corsResponse, jsonResponse }  from "./utils/response.js";
+import { handleAnalyzeFree }           from "./routes/analyze-free.js";
+import { handleSubmitPaid }            from "./routes/submit-paid.js";
+import { handleSubmitAuto }            from "./routes/submit-auto.js";
+import { handleCreateCheckout }        from "./routes/create-checkout.js";
+import { handleTrack }                 from "./routes/track.js";
+import { handleCron }                  from "./routes/cron.js";
+import { handleStripeWebhook }         from "./routes/stripe-webhook.js";
 
 export default {
   async fetch(request, env, ctx) {
@@ -30,6 +32,14 @@ export default {
 
       if (url.pathname === "/api/analyze-free" && request.method === "POST") {
         return await handleAnalyzeFree(request, env);
+      }
+
+      if (url.pathname === "/api/submit-auto" && request.method === "POST") {
+        return await handleSubmitAuto(request, env);
+      }
+
+      if (url.pathname === "/api/create-checkout" && request.method === "POST") {
+        return await handleCreateCheckout(request, env);
       }
 
       if (url.pathname === "/api/track" && request.method === "POST") {
