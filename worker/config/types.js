@@ -1,6 +1,6 @@
 // worker/config/types.js — mussichzahlen (DE)
 
-const ALLOWED = new Set(["mahnung", "parkstrafe", "rechnung", "vertrag"]);
+const ALLOWED = new Set(["mahnung", "parkstrafe", "rechnung", "vertrag", "angebot"]);
 
 export const ALLOWED_TYPES = [...ALLOWED];
 
@@ -10,29 +10,36 @@ export const TYPE_CONFIG = {
     letter:   "Widerspruch",
     filename: "Widerspruch.rtf",
     price:    49,
-    currency: "EUR"
+    currency: "EUR",
   },
   parkstrafe: {
     label:    "Bußgeldbescheid",
     letter:   "Einspruchsschreiben",
     filename: "Einspruch.rtf",
     price:    19,
-    currency: "EUR"
+    currency: "EUR",
   },
   rechnung: {
     label:    "Rechnung",
     letter:   "Widerspruchsschreiben",
     filename: "Widerspruch.rtf",
     price:    29,
-    currency: "EUR"
+    currency: "EUR",
   },
   vertrag: {
     label:    "Vertrag / Kündigung",
     letter:   "Kündigungsschreiben",
     filename: "Kuendigungsschreiben.rtf",
     price:    29,
-    currency: "EUR"
-  }
+    currency: "EUR",
+  },
+  angebot: {
+    label:    "Angebot / Kostenvoranschlag",
+    letter:   "Verhandlungsnachricht",
+    filename: "Verhandlungsnachricht.rtf",
+    price:    19,
+    currency: "EUR",
+  },
 };
 
 export function requireType(type) {
