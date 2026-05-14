@@ -96,7 +96,8 @@
     .modal__body{padding:24px 28px;}
     .modal__feature{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;font-size:.92rem;color:var(--ink-2);}
     .modal__feature .check{color:var(--green);font-weight:700;flex-shrink:0;}
-    .modal__disclaimer{background:var(--surface);border-radius:8px;padding:10px 14px;font-size:.8rem;color:var(--muted);margin:16px 0;line-height:1.55;}
+    .modal__disclaimer{background:var(--surface);border-radius:8px;padding:10px 14px;font-size:.8rem;color:var(--muted);margin:16px 0 10px;line-height:1.55;}
+    .modal__formfehler{background:#f0f4ff;border-radius:8px;padding:10px 14px;font-size:.8rem;color:#1a3a6b;margin-bottom:16px;line-height:1.55;}
     .modal__cta{display:block;background:var(--accent);color:var(--white);text-decoration:none;text-align:center;padding:16px;border-radius:10px;font-size:1rem;font-weight:700;margin-bottom:10px;}
     .modal__security{text-align:center;font-size:.78rem;color:var(--muted);}
     .modal__close{display:block;text-align:center;margin-top:14px;font-size:.84rem;color:var(--muted);cursor:pointer;}
@@ -160,6 +161,7 @@
       <a href="https://buy.stripe.com/REPLACE_WITH_PARKSTRAFE_LINK" class="offer-cta">Jetzt pr&uuml;fen lassen &rarr;</a>
       <div class="offer-security">&#128274; Sichere Zahlung &uuml;ber Stripe</div>
       <div class="offer-refund">Bei inhaltlich unvollst&auml;ndiger Analyse: Geld zur&uuml;ck.</div>
+      <div style="text-align:center;font-size:.76rem;color:var(--muted);margin-top:8px;">Bei Fahrverbot empfehlen wir einen Anwalt.</div>
     </div>
   </div>
 </section>
@@ -258,7 +260,8 @@
       <div class="modal__feature"><span class="check">&#10003;</span><span>Pr&uuml;fung von Fristen, Beschilderung und Beweisen</span></div>
       <div class="modal__feature"><span class="check">&#10003;</span><span>Fertiges Einspruchsschreiben</span></div>
       <div class="modal__feature"><span class="check">&#10003;</span><span>Konkrete n&auml;chste Schritte bei Ablehnung</span></div>
-      <div class="modal__disclaimer">&#8505;&#65039; Informative Analyse &mdash; keine Rechtsberatung.</div>
+      <div class="modal__disclaimer">&#8505;&#65039; Informative Analyse &mdash; keine Rechtsberatung. Bei Fahrverbot empfehlen wir einen Anwalt.</div>
+      <div class="modal__formfehler"><strong>Typische Formfehler:</strong> falsches Tatdatum, fehlende Rechtsmittelbelehrung, unklare Beschilderung, Tatort nicht eindeutig bezeichnet, Fahreridentifikation nicht m&ouml;glich.</div>
       <a href="https://buy.stripe.com/REPLACE_WITH_PARKSTRAFE_LINK" class="modal__cta">&euro;19 zahlen und Bescheid pr&uuml;fen lassen &rarr;</a>
       <div class="modal__security">&#128274; Sichere Zahlung &uuml;ber Stripe &middot; Bei unvollst&auml;ndiger Analyse: Geld zur&uuml;ck</div>
       <div class="modal__close" onclick="closeModal()">Abbrechen</div>
