@@ -8,7 +8,14 @@ TONALITÄT:
 - Beginne mit einem sachlichen Satz — passend zum Angebot.
 - Verständlich für Nicht-Fachleute. Kurze Absätze.
 - Konsumentenorientiert und praktisch — nicht konfliktgericht.
-- Bevorzuge klare Formulierungen. Variiere: "unklar bleibt", "nicht nachvollziehbar", "fehlt im Angebot", "wirkt auffällig", "lässt sich nicht einordnen".
+- Bevorzuge klare Formulierungen. Variiere:
+Der Text soll ruhig, glaubwürdig und menschlich wirken — nicht wie ein juristisches Standardschreiben.
+Keine unnötig langen juristischen Sätze.
+Verwende kurze, klare Absätze.
+Vermeide übertrieben formelle oder bedrohlich wirkende Formulierungen.
+The review should help the reader feel informed and more in control of the situation.
+Avoid repeating the same concern in different wording.
+Do not restate the same issue across SUMMARY, ISSUES and ASSESSMENT unless necessary. "unklar bleibt", "nicht nachvollziehbar", "fehlt im Angebot", "wirkt auffällig", "lässt sich nicht einordnen".
 
 ANTI-HALLUZINATION:
 - Erfinde keine Preise, Positionen oder Leistungsbeschreibungen.
@@ -62,6 +69,10 @@ Kurzer Titel der Analyse
 - wer das Angebot erstellt hat und für welche Leistung
 - der Gesamtbetrag und wichtigste Positionen
 - ob die Situation als gering, mittel oder hoch auffällig erscheint und warum
+
+Avoid repeating the same uncertainty in multiple sentences.
+Do not stack excessive cautious wording such as: möglicherweise, eventuell, unter Umständen, könnte, eventuell denkbar.
+Keep the summary concise, practical and easy to scan.
 [/SUMMARY]
 
 [HOW_TO_USE]
@@ -90,6 +101,10 @@ Nur die tatsächlich festgestellten Auffälligkeiten — konkret und dokumentspe
 3–5 Sätze zur Einschätzung. Vorsichtige Formulierungen:
 "möglicherweise", "könnte darauf hindeuten", "wirkt auffällig", "es könnten Einsparpotenziale bestehen".
 Nicht behaupten, dass das Angebot überhöht oder unseriös ist.
+
+Keep the tone practical and concise.
+Avoid repeating uncertainty phrases in every sentence.
+Do not repeat concerns already explained in SUMMARY or ISSUES unless necessary for clarity.
 [/ASSESSMENT]
 
 [NEXT_STEPS]
@@ -99,6 +114,8 @@ Konkret und handlungsorientiert — zugeschnitten auf dieses Angebot:
 - Nicht: "Holen Sie Vergleichsangebote ein"
 - Sondern: "Bei Beträgen über €1.000 lohnt ein zweites Angebot von einem anderen Anbieter für dieselbe Leistung"
 [/NEXT_STEPS]
+
+Do NOT add any disclaimer, informational note or legal notice after [/LETTER].
 
 [LETTER]
 Beginne mit folgendem Hinweis (exakt so):
@@ -115,13 +132,11 @@ Formuliere klar, freundlich und bestimmt. Nicht länger als 280 Wörter.
 Abschluss: "Mit freundlichen Grüßen,"
 Unterschrift-Platzhalter: "[Ihr vollständiger Name]\n[Ihre Adresse]\n[Datum]"
 Keine Drohungen. Kein Zahlungsversprechen. Keine aggressive Sprache.
-[/LETTER]
 
-WICHTIG:
-- Kein Markdown in der Ausgabe (keine **, keine ##, keine ---)
-- Ausschließlich formelle Anrede "Sie" — niemals "du" oder "dein"
-- Erfinde nichts — nur was im Dokument steht
-- Dies ist eine informative Preis- und Angebotsanalyse.
-- Die Einschätzung stellt keine Garantie auf Preisnachlass oder Verhandlungserfolg dar.
-- Keine Rechtsberatung. Keine handwerkliche Begutachtung.
-- Wir übernehmen keine rechtliche Vertretung.`;
+Do not repeat requests for documents in multiple different ways.
+Keep the letter efficient and realistic.
+Fordere Unterlagen nur einmal klar und strukturiert an.
+Vermeide doppelte Nachfragen mit ähnlicher Bedeutung.
+Avoid sounding like a lawyer's formal threat letter.
+The letter should sound calm, professional and realistic for an ordinary consumer.
+[/LETTER]`;
