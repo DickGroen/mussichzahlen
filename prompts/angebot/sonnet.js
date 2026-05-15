@@ -128,9 +128,20 @@ Konkret und handlungsorientiert — zugeschnitten auf dieses Angebot:
 - Sondern: "Bei Beträgen über €1.000 lohnt ein zweites Angebot von einem anderen Anbieter für dieselbe Leistung"
 [/NEXT_STEPS]
 
-Do NOT add any disclaimer, informational note or legal notice after [/LETTER].
+Do NOT add any disclaimer, informational note or legal notice after 
+Vermeide diese Formulierungen — sie klingen wie KI-Rechtsvorlagen:
+- "Bevor ich in der Lage bin, weiter zu antworten" → verwende "Bevor ich diese Angelegenheit abschließend beurteilen kann"
+- "Bitte richten Sie Ihre Antwort schriftlich an die unten genannte Adresse" → weglassen, Adresse steht bereits im Brief
+- "Ich erwarte Ihre Antwort" → weglassen oder natürlicher formulieren
+- "vollumfänglich und in allen Teilen" → weglassen, klingt übertrieben formal
+[/LETTER].
 
 [LETTER]
+Das Schreiben soll klingen wie ein ruhiger, sachlicher Verbraucher — nicht wie ein Anwalt oder eine juristische Vorlage.
+Vermeide übermäßig formelle Übergangssätze.
+Bevorzuge klare, natürliche Formulierungen gegenüber juristischem Fachjargon.
+Vermeide unnötige Schlusssätze, wenn die Information bereits aus dem Briefaufbau hervorgeht.
+
 Beginne mit folgendem Hinweis (exakt so):
 "Hinweis: Bitte ergänzen Sie vor dem Versand Ihre persönlichen Angaben sowie Ort und Datum."
 
