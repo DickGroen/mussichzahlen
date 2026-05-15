@@ -114,7 +114,7 @@ function riskAssessment(risk) {
   return {
     high:   "Nach erster Einschätzung bestehen mehrere prüfenswerte Auffälligkeiten. Eine genauere Prüfung vor einer Zahlung kann empfehlenswert sein.",
     medium: "Nach erster Einschätzung bestehen mögliche Unklarheiten. Eine genauere Prüfung vor einer Zahlung kann sinnvoll sein.",
-    low:    "Nach erster Einschätzung wirkt die Forderung grundsätzlich nachvollziehbar. Eine kurze Prüfung kann dennoch sinnvoll sein.",
+    low:    "Nach erster Einschätzung wirkt das Schreiben grundsätzlich professionell. Es kann dennoch sinnvoll sein, einzelne Punkte vor einer Zahlung zu prüfen.",
   }[risk] || "Nach erster Einschätzung bestehen mögliche Unklarheiten. Eine genauere Prüfung vor einer Zahlung kann sinnvoll sein.";
 }
 
@@ -134,6 +134,21 @@ function teaserList(triage) {
     .filter(Boolean);
 
   return parts.length >= 2 ? parts.slice(0, 4) : [raw];
+}
+
+function tier3Teaser(triage = {}, type = "mahnung") {
+  // Concrete, type-specific fallback teaser for tier-3 — avoids generic vague language
+  if (triage?.teaser) return escapeHtml(String(triage.teaser).trim());
+
+  const teasers = {
+    mahnung:    "Es kann sinnvoll sein zu prüfen, ob der geforderte Betrag vollständig nachvollziehbar aufgeschlüsselt ist und ob alle erforderlichen Nachweise beigefügt wurden.",
+    parkstrafe: "Es kann sinnvoll sein zu prüfen, ob der Bescheid alle erforderlichen Pflichtangaben enthält und ob Fristen und Zustellung korrekt dokumentiert sind.",
+    rechnung:   "Es kann sinnvoll sein zu prüfen, ob alle berechneten Positionen mit der vereinbarten Leistung übereinstimmen und ob die Rechnung die gesetzlichen Pflichtangaben erfüllt.",
+    vertrag:    "Es kann sinnvoll sein zu prüfen, ob Kündigungsfristen, automatische Verlängerungsklauseln oder Preiserhöhungen im Vertrag klar und wirksam geregelt sind.",
+    angebot:    "Es kann sinnvoll sein zu prüfen, ob alle Positionen des Angebots klar aufgeschlüsselt sind und ob mögliche Zusatzkosten oder unklare Formulierungen enthalten sind.",
+  };
+
+  return teasers[type] || "Es kann sinnvoll sein, einzelne Details des Schreibens vor einer Zahlung oder Reaktion sorgfältig zu prüfen.";
 }
 
 // ── Exports ───────────────────────────────────────────────────────────────────
@@ -234,31 +249,33 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
   const tier        = triage?.tier || "";
   const safeName    = escapeHtml(capitalizeFirst(name || "Kunde"));
 
-  // ── Stage 1 tier3 — zachte versie zonder harde CTA ───────────────────────
+  // ── Stage 1 tier3 — ruhig, konkret, subtile Spannung, CTA immer vorhanden ─
   if (stageNumber === 1 && tier === "tier3") {
+    const teaser = tier3Teaser(triage, type);
+
     await sendEmail(env, {
       to:      email,
-      subject: `Erste Einschätzung zu Ihrem Schreiben — ${labels.title}`,
+      subject: `Einschätzung zu Ihrem ${escapeHtml(labels.title)} — einige Punkte, die sich lohnen zu prüfen`,
       html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
   <p>Guten Tag ${safeName},</p>
   <p>wir haben Ihr Schreiben geprüft und eine erste Einschätzung erstellt.</p>
-  <p>Das Schreiben wirkt nach erster Einschätzung derzeit eher nachvollziehbar. Es bestehen keine deutlichen Hinweise auf größere Unstimmigkeiten oder ungewöhnliche Zusatzkosten.</p>
+  <p>Das Schreiben wirkt grundsätzlich professionell aufgebaut — es gibt jedoch einige Punkte, die sich vor einer Zahlung oder Reaktion lohnen zu prüfen.</p>
+  <p>${teaser}</p>
   <div style="background:#f9fafb;padding:16px;border-radius:8px;margin:22px 0;">
     <table style="width:100%;border-collapse:collapse;font-size:14px;">
       <tr><td style="padding:8px 0;font-weight:bold;width:140px;">Dokument</td><td style="padding:8px 0;">${escapeHtml(labels.title)}</td></tr>
       <tr><td style="padding:8px 0;font-weight:bold;">Absender</td><td style="padding:8px 0;">${escapeHtml(triage?.sender || "unbekannt")}</td></tr>
       <tr><td style="padding:8px 0;font-weight:bold;">Betrag</td><td style="padding:8px 0;">${escapeHtml(amount)}</td></tr>
-      <tr><td style="padding:8px 0;font-weight:bold;">Einschätzung</td><td style="padding:8px 0;">Eher unauffällig</td></tr>
+      <tr><td style="padding:8px 0;font-weight:bold;">Einschätzung</td><td style="padding:8px 0;">Begrenzte sichtbare Hinweise</td></tr>
     </table>
   </div>
-  <p>Eine kostenpflichtige vollständige Analyse scheint auf Basis der ersten Prüfung nicht zwingend notwendig.</p>
-  ${stripeLink ? `
+  <p>Eine vollständige Analyse klärt, ob alle Details korrekt und vollständig sind — und enthält ein fertiges ${escapeHtml(labels.letter)}, falls Sie schriftlich reagieren möchten.</p>
   <div style="margin:22px 0;">
-    <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#eef2ff;color:#1d3a6e;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;border:1px solid #c7d2fe;">
-      Optionale vollständige Analyse — €${escapeHtml(labels.price)}
+    <a href="${stripeLink ? escapeHtml(stripeLink) : "#"}" style="display:inline-block;background:#1d3a6e;color:#fff;padding:14px 24px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:15px;">
+      Details prüfen — €${escapeHtml(labels.price)} →
     </a>
   </div>
-  <p style="font-size:0.82rem;color:#6b7280;">Nur falls Sie eine zusätzliche Prüfung wünschen.</p>` : ""}
+  <p style="font-size:0.82rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
   <hr style="border:none;border-top:1px solid #e5e7eb;margin:28px 0;">
   <p>Falls Sie Fragen haben, können Sie einfach auf diese E-Mail antworten.</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
