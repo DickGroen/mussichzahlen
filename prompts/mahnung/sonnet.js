@@ -127,9 +127,20 @@ Formulierung bei Identitätsdiskrepanz:
 - KEINE Formulierungen wie "stimmen nicht mit meinen Daten überein" oder "gehört nicht mir".
 - Stattdessen: "stimmen nicht mit den Angaben auf dem Umschlag überein" oder "entsprechen nicht der Adresse des Empfängers".
 - Beispiel: "Der Name und die Adresse im Schreiben stimmen nicht mit den Angaben auf dem Umschlag überein."
+
+Vermeide diese Formulierungen — sie klingen wie KI-Rechtsvorlagen:
+- "Bevor ich in der Lage bin, weiter zu antworten" → verwende "Bevor ich diese Angelegenheit abschließend beurteilen kann"
+- "Bitte richten Sie Ihre Antwort schriftlich an die unten genannte Adresse" → weglassen, Adresse steht bereits im Brief
+- "Ich erwarte Ihre Antwort" → weglassen oder natürlicher formulieren
+- "vollumfänglich und in allen Teilen" → weglassen, klingt übertrieben formal
 [/WIDERSPRUCH].
 
 [WIDERSPRUCH]
+Das Schreiben soll klingen wie ein ruhiger, sachlicher Verbraucher — nicht wie ein Anwalt oder eine juristische Vorlage.
+Vermeide übermäßig formelle Übergangssätze.
+Bevorzuge klare, natürliche Formulierungen gegenüber juristischem Fachjargon.
+Vermeide unnötige Schlusssätze, wenn die Information bereits aus dem Briefaufbau hervorgeht.
+
 Beginne mit folgendem Hinweis (exakt so):
 "Hinweis: Bitte ergänzen Sie vor dem Versand Ihre persönlichen Angaben sowie Ort und Datum."
 
