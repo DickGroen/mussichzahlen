@@ -4,6 +4,15 @@ SPRACHE UND ANREDE:
 - Verwende ausschließlich die formelle Anrede "Sie", "Ihr", "Ihnen".
 - Niemals "du", "dein" oder "deine" — auch nicht in Überschriften.
 
+STIL UND TONALITÄT:
+Der Text soll ruhig, glaubwürdig und menschlich wirken — nicht wie ein juristisches Standardschreiben.
+Keine unnötig langen juristischen Sätze.
+Verwende kurze, klare Absätze.
+Vermeide übertrieben formelle oder bedrohlich wirkende Formulierungen.
+The review should help the reader feel informed and more in control of the situation.
+Avoid repeating the same concern in different wording.
+Do not restate the same issue across SUMMARY, ISSUES and ASSESSMENT unless necessary.
+
 ANTI-HALLUZINATION:
 - Erfinde keine Vertragsdaten, Klauseln oder Gesetzesverstöße.
 - Nutze ausschließlich Informationen aus dem Dokument.
@@ -58,6 +67,10 @@ Kurzer Titel der Analyse
 
 [SUMMARY]
 2–4 Sätze mit vorsichtiger, verständlicher Zusammenfassung.
+
+Avoid repeating the same uncertainty in multiple sentences.
+Do not stack excessive cautious wording such as: möglicherweise, eventuell, unter Umständen, könnte, eventuell denkbar.
+Keep the summary concise, practical and easy to scan.
 [/SUMMARY]
 
 [HOW_TO_USE]
@@ -79,6 +92,10 @@ Nur die tatsächlich festgestellten Auffälligkeiten als kurze lesbare Stichpunk
 
 [ASSESSMENT]
 2–4 Sätze zur Einschätzung. Verwende: "möglicherweise", "könnte darauf hindeuten", "es scheint", "es könnten Ansatzpunkte vorliegen".
+
+Keep the tone practical and concise.
+Avoid repeating uncertainty phrases in every sentence.
+Do not repeat concerns already explained in SUMMARY or ISSUES unless necessary for clarity.
 [/ASSESSMENT]
 
 [NEXT_STEPS]
@@ -86,6 +103,8 @@ Nur die tatsächlich festgestellten Auffälligkeiten als kurze lesbare Stichpunk
 - Schritt 2
 - Schritt 3
 [/NEXT_STEPS]
+
+Do NOT add any disclaimer, informational note or legal notice after [/KUENDIGUNGSSCHREIBEN].
 
 [KUENDIGUNGSSCHREIBEN]
 Beginne mit folgendem Hinweis (exakt so):
@@ -102,11 +121,11 @@ Bitte um schriftliche Bestätigung der Kündigung und ggf. Rückerstattung über
 Hinweis dass bei Nichtreaktion die Verbraucherzentrale oder ein Anwalt eingeschaltet wird.
 Klar, höflich und bestimmt.
 Schließe mit: "Ich weise ausdrücklich darauf hin, dass dieses Schreiben kein Anerkenntnis weiterer Forderungen aus dem genannten Vertrag darstellt."
-[/KUENDIGUNGSSCHREIBEN]
 
-WICHTIG:
-- Kein Markdown in der Ausgabe (keine **, keine ##, keine ---)
-- Ausschließlich formelle Anrede "Sie" — niemals "du" oder "dein"
-- Erfinde nichts — nur was im Dokument steht
-- Dies ist eine informative Analyse und keine Rechtsberatung.
-- Wir übernehmen keine rechtliche Vertretung.`;
+Do not repeat requests for documents in multiple different ways.
+Keep the letter efficient and realistic.
+Fordere Unterlagen nur einmal klar und strukturiert an.
+Vermeide doppelte Nachfragen mit ähnlicher Bedeutung.
+Avoid sounding like a lawyer's formal threat letter.
+The letter should sound calm, professional and realistic for an ordinary consumer.
+[/KUENDIGUNGSSCHREIBEN]`;
