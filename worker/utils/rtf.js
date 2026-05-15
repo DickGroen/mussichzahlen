@@ -88,7 +88,6 @@ function sanitizeLegalTone(text = "") {
 function removeDuplicateAddressBlocks(text = "") {
   let t = String(text || "").trim();
 
-  // Verwijder dubbele standaard klant-adresblokken als Claude die in de brief zet.
   t = t.replace(
     /Hinweis:\s*Bitte ergänzen Sie vor dem Versand[\s\S]*?\[Ihre E-Mail-Adresse, optional\]\s*/i,
     ""
@@ -104,10 +103,22 @@ function removeDuplicateAddressBlocks(text = "") {
     ""
   );
 
-  // Verwijder losse plaats/datum placeholders zoals ", ".
   t = t.replace(/^\s*,\s*$/gm, "");
 
   return t.trim();
+}
+
+function stripTrailingDisclaimer(text = "") {
+  return String(text)
+    // Trailing German disclaimers Claude may append
+    .replace(/\n*(Dies ist eine informative Analyse[^\n]*\n?)+$/i, "")
+    .replace(/\n*(Diese Einschätzung stellt keine Rechtsberatung[^\n]*\n?)+$/i, "")
+    .replace(/\n*(Dieses Schreiben wurde automatisch[^\n]*\n?)+$/i, "")
+    .replace(/\n*(MussIchZahlen[^\n]*keine Rechtsberatung[^\n]*\n?)+$/i, "")
+    // Redirect address line — unnecessary, address is already in signature
+    .replace(/\n*Bitte richten Sie (alle |zukünftige |weitere )?Korrespondenz[^\n]*\n?/gi, "")
+    .replace(/\n*Bitte senden Sie (alle |weitere )?Schreiben[^\n]*\n?/gi, "")
+    .trim();
 }
 
 function getSection(analysis, tag) {
@@ -139,11 +150,13 @@ function getLetterSection(analysis, type) {
 }
 
 function cleanLetter(text = "") {
-  return sanitizeLegalTone(
-    removeDuplicateAddressBlocks(
-      stripMarkdown(text)
-        .replace(/\[\/?\w+\]/g, "")
-        .trim()
+  return stripTrailingDisclaimer(
+    sanitizeLegalTone(
+      removeDuplicateAddressBlocks(
+        stripMarkdown(text)
+          .replace(/\[\/?\w+\]/g, "")
+          .trim()
+      )
     )
   );
 }
