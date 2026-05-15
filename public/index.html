@@ -15,7 +15,7 @@ export default {
     if (request.method === "OPTIONS") {
       return corsResponse();
     }
-
+ 
     if (url.pathname === "/api/health") {
       return jsonResponse({
         ok:        true,
