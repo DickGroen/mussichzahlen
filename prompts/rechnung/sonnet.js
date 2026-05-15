@@ -80,6 +80,11 @@ Vorsichtige Formulierungen — variiert.
 Avoid repeating the same uncertainty in multiple sentences.
 Do not stack excessive cautious wording such as: möglicherweise, eventuell, unter Umständen, könnte, eventuell denkbar.
 Keep the summary concise, practical and easy to scan.
+
+Keep the summary concise, practical and easy to scan.
+Avoid repeating uncertainty wording in multiple sentences.
+Do not overuse: möglicherweise, eventuell, unter Umständen, könnte, denkbar.
+Avoid stacking multiple cautious phrases in the same paragraph.
 [/SUMMARY]
 
 [HOW_TO_USE]
@@ -109,6 +114,14 @@ Keine Garantien. Variierte vorsichtige Formulierungen.
 Keep the tone practical and concise.
 Avoid repeating uncertainty phrases in every sentence.
 Do not repeat concerns already explained in SUMMARY or ISSUES unless necessary for clarity.
+
+Keep the tone practical and concise.
+Avoid repeating uncertainty phrases in every sentence.
+Do not restate the same concern already explained in SUMMARY or ISSUES unless necessary.
+Focus on:
+- what appears reasonably clear;
+- what may still require clarification;
+- realistic practical implications.
 [/ASSESSMENT]
 
 [NEXT_STEPS]
