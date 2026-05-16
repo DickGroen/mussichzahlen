@@ -120,6 +120,7 @@ Kurzer, verständlicher Titel — spezifisch für dieses Dokument, nicht generis
 - erklären, dass das Dokument geprüft wurde;
 - darauf hinweisen, dass einige Punkte vor einer Zahlung genauer betrachtet werden sollten.
 Ruhig und menschlich — kein Alarm, keine Dramatik.
+Vermeide standardisierte Serviceformulierungen wie "wir haben Ihr Dokument sorgfältig geprüft". Die Einleitung soll natürlich und individuell wirken — nicht wie ein automatisierter Servicebaustein.
 [/INTRO]
 
 [FALLBEWERTUNG]
@@ -144,13 +145,15 @@ Nicht wiederholen, was bereits in FALLBEWERTUNG oder ISSUES steht.
 [/SUMMARY]
 
 [HOW_TO_USE]
-1. Lesen Sie die Einschätzung sorgfältig durch und gleichen Sie die genannten Punkte mit Ihren eigenen Unterlagen ab.
-2. Nutzen Sie das beigefügte Schreiben als Grundlage für Ihre Rückfrage.
-3. Versenden Sie das Schreiben per Einschreiben mit Rückschein, damit Sie einen Versandnachweis haben.
+Die Hinweise sollen sich am konkreten Dokument orientieren. Nicht immer identische Formulierungen verwenden.
+Typische Struktur (variieren):
+1. Einschätzung mit eigenen Unterlagen abgleichen — konkret auf das Dokument bezogen.
+2. Beigefügtes Schreiben als Grundlage für die Rückfrage verwenden.
+3. Wenn möglich, das Schreiben mit nachvollziehbarem Versandnachweis versenden.
 [/HOW_TO_USE]
 
 [ISSUES]
-Maximal 5 Punkte. Jeder Punkt:
+Maximal 5 Punkte. Die wichtigsten und konkretsten Auffälligkeiten zuerst nennen. Jeder Punkt:
 - beginnt mit einer klaren Überschrift (z.B. "Fehlende Kostenaufschlüsselung", "Mögliche Verjährung")
 - behandelt NUR EINE konkrete Auffälligkeit — nicht in anderen Worten wiederholen
 - bezieht sich auf konkrete Details aus dem Dokument — Beträge, Daten, fehlende Angaben
