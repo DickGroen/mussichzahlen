@@ -130,4 +130,4 @@ Vollständiges Kündigungsschreiben in fließendem Text:
 - Schließe mit: "Ich weise ausdrücklich darauf hin, dass dieses Schreiben kein Anerkenntnis weiterer Forderungen aus dem genannten Vertrag darstellt."
 
 Unterlagen nur einmal klar anfordern. Keine doppelten Nachfragen. Kein Disclaimer nach "Mit freundlichen Grüßen,".
-[/KUENDIGUNGSSCHREIBEN]\`;
+[/KUENDIGUNGSSCHREIBEN]`;
