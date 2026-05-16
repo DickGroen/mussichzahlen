@@ -42,6 +42,7 @@ Kurzer, verständlicher Titel — spezifisch für dieses Dokument.
 
 [INTRO]
 2–3 ruhige Einstiegssätze. Stress reduzieren, erklären dass das Dokument geprüft wurde, darauf hinweisen dass einige Punkte vor einer Zahlung betrachtet werden sollten. Kein Alarm.
+Vermeide standardisierte Serviceformulierungen wie "wir haben Ihr Dokument sorgfältig geprüft". Die Einleitung soll natürlich und individuell wirken.
 [/INTRO]
 
 [SUMMARY]
@@ -49,13 +50,15 @@ Maximal 2 kurze Sätze zur Gesamtsituation. Absender und Betrag nennen wenn erke
 [/SUMMARY]
 
 [HOW_TO_USE]
-1. Lesen Sie die Einschätzung sorgfältig durch und gleichen Sie die genannten Punkte mit Ihren Unterlagen ab.
-2. Nutzen Sie das beigefügte Schreiben als Grundlage für Ihre Rückfrage.
-3. Versenden Sie das Schreiben per Einschreiben mit Rückschein.
+Die Hinweise sollen sich am konkreten Dokument orientieren. Nicht immer identische Formulierungen verwenden.
+Typische Struktur (variieren):
+1. Einschätzung mit eigenen Unterlagen abgleichen — konkret auf das Dokument bezogen.
+2. Beigefügtes Schreiben als Grundlage für die Rückfrage verwenden.
+3. Wenn möglich, das Schreiben mit nachvollziehbarem Versandnachweis versenden.
 [/HOW_TO_USE]
 
 [ISSUES]
-Maximal 5 Punkte. Jeder Punkt maximal 2 Sätze. Keine Wiederholungen.
+Maximal 5 Punkte. Die wichtigsten und konkretsten Auffälligkeiten zuerst nennen. Jeder Punkt maximal 2 Sätze. Keine Wiederholungen.
 Jeden Punkt mit konkretem Dokumentbezug — Beträge, Daten, fehlende Angaben.
 - Punkt 1
 - Punkt 2
