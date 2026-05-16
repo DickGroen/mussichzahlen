@@ -136,4 +136,4 @@ Vollständiges Widerspruchsschreiben in fließendem Text:
 - Schließe mit: "Ich weise ausdrücklich darauf hin, dass dieses Schreiben kein Anerkenntnis weiterer Forderungen darstellt."
 
 Unterlagen nur einmal klar anfordern. Keine doppelten Nachfragen. Kein Disclaimer nach "Mit freundlichen Grüßen,".
-[/WIDERSPRUCHSSCHREIBEN]\`;
+[/WIDERSPRUCHSSCHREIBEN]`;
