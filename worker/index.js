@@ -51,8 +51,7 @@ export default {
         );
       }
 
-      // Alle niet-API requests doorgeven aan Pages (static files)
-      return await env.ASSETS.fetch(request);
+      return new Response("Not found", { status: 404 });
 
     } catch (err) {
       console.error("UNHANDLED WORKER ERROR:", err?.message, err?.stack);
