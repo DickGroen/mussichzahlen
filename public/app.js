@@ -59,7 +59,7 @@ export function validateFile(file) {
   return null;
 }
 
-export function formatFileSize(bytes) {
+export export function formatFileSize(bytes) {   if (!Number.isFinite(bytes)) return "0 B";    const units = ["B", "KB", "MB"];   let size = bytes;   let unitIndex = 0;    while (size >= 1024 && unitIndex < units.length - 1) {     size /= 1024;     unitIndex++;   }    return `${size.toFixed(unitIndex === 0 ? 0 : 1)} ${units[unitIndex]}`; }
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
