@@ -1,4 +1,6 @@
 // Gedeelde frontend helpers voor MussIchZahlen
+// Werkt als normale browser-JS via: <script src="/app.js"></script>
+// Geen ES modules. Geen export. Geen import.
 
 const WORKER_URL = "/api";
 const MAX_FILE_SIZE = 8 * 1024 * 1024; // 8 MB
@@ -59,58 +61,93 @@ function validateFile(file) {
 
 function formatFileSize(bytes) {
   if (!Number.isFinite(bytes)) return "0 B";
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+
+  if (bytes < 1024) {
+    return `${bytes} B`;
+  }
+
+  if (bytes < 1024 * 1024) {
+    return `${(bytes / 1024).toFixed(1)} KB`;
+  }
+
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-// Datei eerst lezen: voorkomt stale File issues op iOS/Android
+// File reader helper
 function readFileAsArrayBuffer(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 
     reader.onload = () => resolve(reader.result);
-    reader.onerror = () =>
-      reject(new Error("Datei konnte nicht gelesen werden. Bitte erneut versuchen."));
+
+    reader.onerror = () => {
+      reject(
+        new Error(
+          "Datei konnte nicht gelesen werden. Bitte erneut versuchen."
+        )
+      );
+    };
 
     reader.readAsArrayBuffer(file);
   });
 }
 
-// Fetch met timeout
+// Fetch helper met timeout
 async function fetchWithTimeout(url, options = {}, timeoutMs = 60000) {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
+
+  const timer = setTimeout(() => {
+    controller.abort();
+  }, timeoutMs);
 
   try {
-    const res = await fetch(url, {
+    const response = await fetch(url, {
       ...options,
       signal: controller.signal,
     });
 
     clearTimeout(timer);
-    return res;
-  } catch (err) {
+
+    return response;
+  } catch (error) {
     clearTimeout(timer);
 
-    if (err.name === "AbortError") {
-      throw new Error("Zeitüberschreitung — bitte Verbindung prüfen und erneut versuchen.");
+    if (error.name === "AbortError") {
+      throw new Error(
+        "Zeitüberschreitung — bitte Verbindung prüfen und erneut versuchen."
+      );
     }
 
-    throw new Error("Netzwerkfehler — bitte Verbindung prüfen und erneut versuchen.");
+    throw new Error(
+      "Netzwerkfehler — bitte Verbindung prüfen und erneut versuchen."
+    );
   }
 }
 
-// Kostenlose Triage
-async function submitFree({ file, name, email, type, onStatus }) {
+// Gratis analyse
+async function submitFree({
+  file,
+  name,
+  email,
+  type,
+  onStatus,
+}) {
   onStatus?.("info", "Schreiben wird geprüft…");
+
+  const validationError = validateFile(file);
+
+  if (validationError) {
+    throw new Error(validationError);
+  }
 
   let buffer;
 
   try {
     buffer = await readFileAsArrayBuffer(file);
   } catch (_) {
-    throw new Error("Datei konnte nicht gelesen werden. Bitte erneut versuchen.");
+    throw new Error(
+      "Datei konnte nicht gelesen werden. Bitte erneut versuchen."
+    );
   }
 
   const blob = new Blob([buffer], {
@@ -118,25 +155,31 @@ async function submitFree({ file, name, email, type, onStatus }) {
   });
 
   const formData = new FormData();
-  formData.append("file", blob, file.name);
-  formData.append("name", name);
-  formData.append("email", email);
-  formData.append("type", type);
 
-  const res = await fetchWithTimeout(`${WORKER_URL}/analyze-free`, {
-    method: "POST",
-    body: formData,
-  });
+  formData.append("file", blob, file.name);
+  formData.append("name", name || "");
+  formData.append("email", email || "");
+  formData.append("type", type || "mahnung");
+
+  const response = await fetchWithTimeout(
+    `${WORKER_URL}/analyze-free`,
+    {
+      method: "POST",
+      body: formData,
+    }
+  );
 
   let data;
 
   try {
-    data = await res.json();
+    data = await response.json();
   } catch (_) {
-    throw new Error("Serverantwort konnte nicht gelesen werden.");
+    throw new Error(
+      "Serverantwort konnte nicht gelesen werden."
+    );
   }
 
-  if (!res.ok || !data.ok) {
+  if (!response.ok || !data.ok) {
     throw new Error(data?.error || "Prüfung fehlgeschlagen");
   }
 
@@ -151,45 +194,76 @@ async function submitFree({ file, name, email, type, onStatus }) {
   return data;
 }
 
-// Automatische Paid Analyse zonder tweede upload
-async function submitAutoPaid({ type, sessionId, onStatus }) {
+// Paid analyse zonder tweede upload
+async function submitAutoPaid({
+  type,
+  sessionId,
+  onStatus,
+}) {
   onStatus?.("info", "Zahlung wird geprüft…");
 
-  const res = await fetchWithTimeout(`${WORKER_URL}/submit-auto`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      type,
-      session_id: sessionId,
-    }),
-  });
+  const response = await fetchWithTimeout(
+    `${WORKER_URL}/submit-auto`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        type,
+        session_id: sessionId,
+      }),
+    }
+  );
 
-  const data = await res.json().catch(() => ({}));
+  const data = await response.json().catch(() => ({}));
 
-  if (!res.ok || !data.ok) {
-    const err = new Error(data?.error || `Fehler ${res.status}`);
+  if (!response.ok || !data.ok) {
+    const error = new Error(
+      data?.error || `Fehler ${response.status}`
+    );
 
-    if (data?.need_upload || data?.needUpload || res.status === 404) {
-      err.needUpload = true;
+    if (
+      data?.need_upload ||
+      data?.needUpload ||
+      response.status === 404
+    ) {
+      error.needUpload = true;
     }
 
-    throw err;
+    throw error;
   }
 
   onStatus?.("success", "Analyse gestartet.");
+
   return data;
 }
 
-// Bezahlter Upload fallback
-async function submitPaid({ file, name, email, type, sessionId, onStatus }) {
+// Fallback paid upload
+async function submitPaid({
+  file,
+  name,
+  email,
+  type,
+  sessionId,
+  onStatus,
+}) {
   onStatus?.("info", "Dokument wird sicher hochgeladen…");
+
+  const validationError = validateFile(file);
+
+  if (validationError) {
+    throw new Error(validationError);
+  }
 
   let buffer;
 
   try {
     buffer = await readFileAsArrayBuffer(file);
   } catch (_) {
-    throw new Error("Datei konnte nicht gelesen werden. Bitte erneut versuchen.");
+    throw new Error(
+      "Datei konnte nicht gelesen werden. Bitte erneut versuchen."
+    );
   }
 
   const blob = new Blob([buffer], {
@@ -197,112 +271,156 @@ async function submitPaid({ file, name, email, type, sessionId, onStatus }) {
   });
 
   const formData = new FormData();
+
   formData.append("file", blob, file.name);
-  formData.append("name", name);
-  formData.append("email", email);
-  formData.append("type", type);
+  formData.append("name", name || "");
+  formData.append("email", email || "");
+  formData.append("type", type || "mahnung");
 
   if (sessionId) {
     formData.append("session_id", sessionId);
   }
 
-  const res = await fetchWithTimeout(`${WORKER_URL}/submit`, {
-    method: "POST",
-    body: formData,
-  });
+  const response = await fetchWithTimeout(
+    `${WORKER_URL}/submit`,
+    {
+      method: "POST",
+      body: formData,
+    }
+  );
 
   let data;
 
   try {
-    data = await res.json();
+    data = await response.json();
   } catch (_) {
-    throw new Error("Serverantwort konnte nicht gelesen werden.");
+    throw new Error(
+      "Serverantwort konnte nicht gelesen werden."
+    );
   }
 
-  if (!res.ok || !data.ok) {
-    throw new Error(data?.error || "Upload fehlgeschlagen");
+  if (!response.ok || !data.ok) {
+    throw new Error(
+      data?.error || "Upload fehlgeschlagen"
+    );
   }
 
   return data;
 }
 
-// FAQ Accordion
+// FAQ accordion
 function initFaq() {
-  document.querySelectorAll(".faq-q").forEach((q) => {
-    q.addEventListener("click", () => {
-      const item = q.closest(".faq-item");
+  document.querySelectorAll(".faq-q").forEach((question) => {
+    question.addEventListener("click", () => {
+      const item = question.closest(".faq-item");
+
       if (!item) return;
 
       const answer = item.querySelector(".faq-a");
       const chevron = item.querySelector(".faq-chevron");
-      const isOpen = item.classList.contains("faq-item--open");
 
-      document.querySelectorAll(".faq-item--open").forEach((open) => {
-        open.classList.remove("faq-item--open");
+      const isOpen = item.classList.contains(
+        "faq-item--open"
+      );
 
-        const a = open.querySelector(".faq-a");
-        const c = open.querySelector(".faq-chevron");
+      document
+        .querySelectorAll(".faq-item--open")
+        .forEach((openItem) => {
+          openItem.classList.remove("faq-item--open");
 
-        if (a) a.style.maxHeight = null;
-        if (c) c.style.transform = "";
-      });
+          const openAnswer =
+            openItem.querySelector(".faq-a");
+
+          const openChevron =
+            openItem.querySelector(".faq-chevron");
+
+          if (openAnswer) {
+            openAnswer.style.maxHeight = null;
+          }
+
+          if (openChevron) {
+            openChevron.style.transform = "";
+          }
+        });
 
       if (!isOpen) {
         item.classList.add("faq-item--open");
 
-        if (answer) answer.style.maxHeight = answer.scrollHeight + "px";
-        if (chevron) chevron.style.transform = "rotate(180deg)";
+        if (answer) {
+          answer.style.maxHeight =
+            answer.scrollHeight + "px";
+        }
+
+        if (chevron) {
+          chevron.style.transform = "rotate(180deg)";
+        }
       }
     });
   });
 }
 
-// Modal
+// Modal helpers
 function initModal() {
-  document.querySelectorAll("[data-open-modal]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      openModal(btn.dataset.openModal || "modal");
+  document
+    .querySelectorAll("[data-open-modal]")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        openModal(button.dataset.openModal || "modal");
+      });
     });
-  });
 
-  document.querySelectorAll("[data-close-modal]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      closeModal(btn.dataset.closeModal || "modal");
+  document
+    .querySelectorAll("[data-close-modal]")
+    .forEach((button) => {
+      button.addEventListener("click", () => {
+        closeModal(button.dataset.closeModal || "modal");
+      });
     });
-  });
 
-  document.querySelectorAll(".modal-overlay").forEach((modal) => {
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) closeModal(modal.id || "modal");
+  document
+    .querySelectorAll(".modal-overlay")
+    .forEach((modal) => {
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) {
+          closeModal(modal.id || "modal");
+        }
+      });
     });
-  });
 
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") closeModal();
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeModal();
+    }
   });
 }
 
 function openModal(id = "modal") {
   const modal = document.getElementById(id);
+
   if (!modal) return;
 
   modal.classList.add("modal--open");
   modal.classList.add("open");
+
   document.body.style.overflow = "hidden";
 }
 
 function closeModal(id = "modal") {
   const modal = document.getElementById(id);
+
   if (!modal) return;
 
   modal.classList.remove("modal--open");
   modal.classList.remove("open");
+
   document.body.style.overflow = "";
 }
 
-// Sticky Footer
+// Sticky footer
 function initStickyFooter() {
-  const footer = document.getElementById("sticky-footer");
+  const footer =
+    document.getElementById("sticky-footer");
+
   if (!footer) return;
 
   let ticking = false;
@@ -316,14 +434,23 @@ function initStickyFooter() {
 
       requestAnimationFrame(() => {
         const scrollY = window.scrollY;
+
         const nearBottom =
           scrollY + window.innerHeight >
           document.documentElement.scrollHeight - 200;
 
-        const visible = scrollY > 400 && !nearBottom;
+        const visible =
+          scrollY > 400 && !nearBottom;
 
-        footer.classList.toggle("sticky-footer--visible", visible);
-        footer.classList.toggle("visible", visible);
+        footer.classList.toggle(
+          "sticky-footer--visible",
+          visible
+        );
+
+        footer.classList.toggle(
+          "visible",
+          visible
+        );
 
         ticking = false;
       });
@@ -332,7 +459,7 @@ function initStickyFooter() {
   );
 }
 
-// Maak functies expliciet beschikbaar voor inline scripts
+// Globale browser functies
 window.track = track;
 window.trackEvent = trackEvent;
 window.validateFile = validateFile;
