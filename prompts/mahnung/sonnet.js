@@ -126,24 +126,40 @@ Bei Bedarf abschließend: "Bei mehreren offenen Punkten und Beträgen über €5
 [/NEXT_STEPS]
 
 [WIDERSPRUCH]
-Das Schreiben soll klingen wie ein ruhiger, sachlicher Verbraucher — nicht wie ein Anwalt oder eine juristische Vorlage. Klare, natürliche Formulierungen. Keine unnötigen Schlusssätze.
+Das Schreiben soll klingen wie ein ruhiger, sachlicher Verbraucher, der um Klärung bittet — nicht wie ein Anwalt oder eine juristische Vorlage.
 
-Beginne mit: "Hinweis: Bitte ergänzen Sie vor dem Versand Ihre persönlichen Angaben sowie Ort und Datum."
+Natürliche, klare Formulierungen. Kein pseudo-juristischer Ton. Keine Drohungen. Keine Dramatik.
 
-Vollständiger Widerspruch als fließender Text:
-- Ort und Datum ([Ort], [Datum])
-- Absender- und Empfängeradresse als Platzhalter
-- Aktenzeichen oder Referenznummer aus dem Schreiben verwenden
-- Ton: bestimmt, höflich, nicht eskalierend
-- Verwende: "hiermit widerspreche ich der Forderung"
-- Keine Formulierungen wie "vollumfänglich und in allen Teilen"
-- Alle relevanten Widerspruchsgründe konkret und begründet nennen
-- Bitte um Nachweis der Forderung und der Inkassobefugnis
-- Bitte um schriftliche Stellungnahme
-- Weise auf § 195 BGB (Verjährung) und § 4 RDGEG (Kostendeckelung) hin, sofern relevant
-- Schließe mit: "Ich weise ausdrücklich darauf hin, dass dieses Schreiben kein Anerkenntnis der behaupteten Forderung darstellt."
+BEVORZUGE diese Formulierungen:
+- "Derzeit kann ich die Forderung auf Grundlage Ihres Schreibens nicht vollständig nachvollziehen."
+- "Ich bitte um weitere Unterlagen zur besseren Nachvollziehbarkeit."
+- "Bitte erläutern Sie, wie sich der geforderte Betrag zusammensetzt."
+- "Soweit aus dem Schreiben ersichtlich, fehlen…"
+- "Ich bitte um schriftliche Rückmeldung."
 
-Unterlagen nur einmal klar anfordern. Keine doppelten Nachfragen. Kein Disclaimer nach "Mit freundlichen Grüßen,".
+VERMEIDE diese Formulierungen:
+- "Hiermit widerspreche ich der Forderung" → klingt zu formell-juristisch
+- "Ich bestreite die Forderung vorsorglich" → klingt wie eine Rechtsvorlage
+- "vollumfänglich und in allen Teilen" → übertrieben formal
+- "innerhalb von 14 Tagen" als Forderung → klingt wie Anwaltsdrohung
+- Unnötige Gesetzesparagraphen — nur nennen wenn im Dokument konkret relevant
 
-Formulierung bei Identitätsdiskrepanz: Abweichungen neutral beschreiben — "stimmen nicht mit den Angaben auf dem Umschlag überein" statt "gehört nicht mir".
+Struktur des Schreibens:
+1. Ruhige Einleitung — Bezug auf das Schreiben, Aktenzeichen und Betrag
+2. Was derzeit unklar ist — konkret, dokumentbezogen, nicht generisch
+3. Welche Unterlagen oder Informationen erbeten werden — einmalig, klar, strukturiert
+4. Neutraler Abschluss — kein Zahlungsversprechen, kein Haftungsanerkenntnis
+
+Das Schreiben muss sich individuell anfühlen:
+- Absender und Aktenzeichen aus dem Dokument verwenden
+- Konkrete unklare Punkte benennen (z.B. Zusammensetzung der Inkassokosten, fehlende Vertragsgrundlage, fehlender Abtretungsnachweis)
+- Nicht generisch: "Die geltend gemachten Inkassokosten bleiben im Schreiben derzeit nicht vollständig nachvollziehbar." statt "Inkassokosten sind nicht klar."
+
+Formales:
+- Keine Adressblöcke oder Platzhalter — diese werden automatisch vom Template ergänzt
+- Beginne direkt mit "Sehr geehrte Damen und Herren," oder mit konkreter Anrede wenn Name bekannt
+- Schließe mit: "Mit freundlichen Grüßen,"
+- Kein Disclaimer nach der Grußformel
+
+Formulierung bei Identitätsdiskrepanz: Abweichungen neutral beschreiben — "stimmen nicht mit den Angaben auf dem Kuvert überein" — nicht "gehört nicht mir" oder "falsche Person".
 [/WIDERSPRUCH]`;
