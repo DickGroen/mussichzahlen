@@ -3,379 +3,96 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MussIchZahlen — Prüfen Sie Ihr Schreiben</title>
+  <title>MussIchZahlen — Muss ich das wirklich zahlen?</title>
+  <meta name="description" content="Mahnung, Bußgeldbescheid, Rechnung oder Vertrag? Prüfen Sie Ihr Schreiben und erhalten Sie eine vollständige Analyse plus fertiges Antwortschreiben.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    body{font-family:'DM Sans',sans-serif;background:#f7f9fc;color:#0f1923;margin:0;-webkit-font-smoothing:antialiased;}
-    h1,h2{font-family:'Lora',Georgia,serif;line-height:1.2;}
-    .wrap{max-width:760px;margin:56px auto;padding:0 24px 120px;}
-    .card{background:#fff;border-radius:16px;padding:34px 28px;box-shadow:0 12px 40px rgba(26,58,107,.1);}
-    .hidden{display:none;}
-    h1{margin-top:0;color:#1d3a6e;}
-    p{line-height:1.7;}
-    .status-box{margin-top:14px;padding:13px 15px;border-radius:10px;background:#f3f4f6;font-size:.95rem;font-weight:600;line-height:1.6;}
-    .status-box.error{background:#fee2e2;color:#991b1b;border:1px solid #fecaca;}
-    .status-box.success{background:#dcfce7;color:#166534;border:1px solid #bbf7d0;}
-    .status-box.info{background:#eef4ff;color:#1d3a6e;border:1px solid #dbeafe;}
-    .badge{display:inline-flex;align-items:center;gap:8px;background:#dcfce7;color:#166534;border-radius:100px;padding:6px 14px;font-size:.78rem;font-weight:700;margin-bottom:18px;}
-    .dot{width:8px;height:8px;background:#166534;border-radius:50%;}
-    .progress-bar{display:flex;align-items:center;gap:8px;font-size:.8rem;color:#718096;margin-bottom:18px;}
-    .progress-bar__step--done{color:#166534;font-weight:700;}
-    .progress-bar__step--current{color:#1d3a6e;font-weight:700;}
-    .progress-bar__divider{width:24px;height:1px;background:#e2e8f0;}
-    .steps{display:grid;gap:14px;margin:22px 0 28px;background:#f7f9fc;border:1px solid #e2e8f0;border-radius:12px;padding:18px 18px 8px;}
-    .step{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;}
-    .step-num{width:28px;height:28px;flex-shrink:0;border-radius:50%;background:#eef4ff;color:#1d3a6e;display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:700;}
-    .step-title{font-weight:700;color:#0f1923;font-size:.95rem;margin-bottom:2px;}
-    .step-desc{color:#718096;font-size:.86rem;line-height:1.7;}
-    .input{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:8px;margin-bottom:10px;font-size:1rem;box-sizing:border-box;font-family:'DM Sans',sans-serif;}
-    .input:focus{outline:none;border-color:#1d3a6e;}
-    .upload-panel{border:2px dashed #d1d5db;border-radius:12px;padding:28px 22px;text-align:center;cursor:pointer;margin:18px 0 12px;background:#f9fafb;transition:.2s;}
-    .upload-panel:hover,.upload-panel.drag-over{border-color:#1d3a6e;background:#eef4ff;}
-    .upload-icon{width:52px;height:52px;margin:0 auto 14px;border-radius:10px;border:1.5px solid #e2e8f0;background:#fff;display:flex;align-items:center;justify-content:center;}
-    .selected-file{display:none;margin:10px 0 16px;padding:12px;background:#f3f4f6;border-radius:8px;font-size:.92rem;}
-    .selected-file.show{display:block;}
-    .selected-file a{color:#1d3a6e;font-size:.85rem;}
-    .offer-cta{display:block;width:100%;background:#1d3a6e;color:#fff;border:none;border-radius:10px;padding:15px;font-weight:700;font-size:1rem;cursor:pointer;margin-top:16px;font-family:'DM Sans',sans-serif;}
-    .offer-cta:hover{background:#2d5499;}
-    .offer-cta:disabled{opacity:.55;cursor:not-allowed;}
-    .note{font-size:.84rem;color:#6b7280;margin-top:12px;}
-    .security{text-align:center;font-size:.78rem;color:#718096;margin:12px 0 16px;}
-    .fallback-box{margin-top:24px;padding:18px;background:#f7f9fc;border:1px solid #e2e8f0;border-radius:12px;}
-    .fallback-box strong{display:block;margin-bottom:6px;color:#0f1923;font-size:.9rem;}
-    .fallback-box p{color:#718096;font-size:.83rem;line-height:1.7;margin:0;}
-    .fallback-email{font-weight:700;font-size:.98rem;color:#1d3a6e;margin-top:6px;display:inline-block;}
-    .success-icon{width:54px;height:54px;border-radius:999px;background:#dcfce7;color:#166534;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.6rem;margin-bottom:14px;}
-    @media(max-width:600px){.wrap{padding:32px 16px 100px;margin:0 auto}.card{padding:24px 18px;}}
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
 </head>
-
 <body>
 
-<div class="wrap">
-
-  <div class="card" id="auto-card">
-    <div class="badge"><span class="dot"></span>Zahlung erfolgreich</div>
-    <h1>Analyse wird erstellt…</h1>
-    <p>Wir überprüfen Ihre Zahlung und starten automatisch Ihre vollständige Analyse auf Basis Ihres hochgeladenen Dokuments.</p>
-    <div id="auto-status" class="status-box info">Zahlung wird überprüft…</div>
-    <p class="note">Sie können diese Seite geöffnet lassen. Ihr Ergebnis wird per E-Mail zugesendet — in der Regel innerhalb weniger Minuten.</p>
+<header class="site-header">
+  <div class="container--wide">
+    <div class="site-header__inner">
+      <div class="logo"><span class="logo-dot"></span>MussIchZahlen</div>
+    </div>
   </div>
+</header>
 
-  <div class="card hidden" id="thankyou-app">
-
-    <div class="badge"><span class="dot"></span>Zahlung erfolgreich</div>
-
-    <div class="progress-bar">
-      <span class="progress-bar__step progress-bar__step--done">✓ Bezahlt</span>
-      <span class="progress-bar__divider"></span>
-      <span class="progress-bar__step progress-bar__step--current">Noch ein letzter Schritt</span>
+<section class="hero" style="padding-bottom:20px;">
+  <div class="container" style="text-align:center;">
+    <div class="hero__eyebrow" style="display:inline-block;margin-bottom:20px;">
+      Basierend auf deutschem Verbraucherrecht &mdash; BGB, RDGEG und OWiG
     </div>
-
-    <h1>Fast fertig — bitte laden Sie Ihr Schreiben hoch</h1>
-
-    <p>
-      Wir konnten Ihre ursprüngliche Datei nicht automatisch abrufen. Bitte laden Sie Ihr Schreiben noch einmal hoch, damit wir die Analyse starten können.
+    <h1>Muss ich das zahlen &mdash; oder zahle ich gerade zu viel?</h1>
+    <p class="hero__sub" style="max-width:600px;margin:0 auto 8px;">
+      Viele zahlen ohne zu pr&uuml;fen &mdash; und zahlen mehr als n&ouml;tig. Mahnungen, Bu&szlig;geldbescheide, falsche Rechnungen und Vertr&auml;ge k&ouml;nnen h&auml;ufig angefochten oder gek&uuml;ndigt werden.
     </p>
+    <p style="font-size:.95rem;color:var(--muted);margin-bottom:4px;">Viele merken das erst, nachdem sie bereits gezahlt haben.</p>
+    <p style="font-size:.9rem;color:var(--muted);margin-bottom:4px;">W&auml;hlen Sie aus, was Sie erhalten haben:</p>
+  </div>
+</section>
 
-    <div class="steps">
+<section style="padding:0 0 72px;">
+  <div class="container">
+    <div class="category-grid">
 
-      <div class="step">
-        <div class="step-num">1</div>
-        <div>
-          <div class="step-title">Schreiben hochladen</div>
-          <div class="step-desc">
-            Mahnschreiben, Inkassoschreiben, Bußgeldbescheid, Rechnung oder Vertrag. PDF, JPG oder PNG.
-          </div>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-num">2</div>
-        <div>
-          <div class="step-title">Wir prüfen alles</div>
-          <div class="step-desc">
-            Forderungshöhe, Zusatzkosten, Nachweise, Inkassobefugnis und mögliche Auffälligkeiten.
-          </div>
-        </div>
-      </div>
-
-      <div class="step">
-        <div class="step-num">3</div>
-        <div>
-          <div class="step-title">Analyse per E-Mail</div>
-          <div class="step-desc">
-            Sie erhalten die vollständige Analyse und ein fertiges Antwortschreiben per E-Mail — spätestens am nächsten Werktag bis 16 Uhr.
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <input id="customer-name" class="input" placeholder="Ihr Name" autocomplete="name">
-    <input id="customer-email" class="input" placeholder="Ihre E-Mail-Adresse" type="email" autocomplete="email">
-
-    <div id="upload-panel" class="upload-panel">
-
-      <div class="upload-icon">
-        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#6B7A90" stroke-width="1.8">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-          <polyline points="17 8 12 3 7 8"/>
-          <line x1="12" y1="3" x2="12" y2="15"/>
-        </svg>
-      </div>
-
-      <strong>Datei auswählen oder hierher ziehen</strong><br>
-      <span>PDF, JPG oder PNG · max. 8 MB</span>
-
-      <input id="real-file-input" type="file" accept=".pdf,.jpg,.jpeg,.png" style="display:none;">
-    </div>
-
-    <div class="security">
-      🔒 Sichere Verbindung · Dokument wird nur zur Analyse verwendet · Keine Weitergabe an Dritte
-    </div>
-
-    <div id="selected-file" class="selected-file">
-      <strong id="selected-file-name"></strong><br>
-      <span id="selected-file-meta"></span><br>
-      <a href="#" id="remove-file">Datei entfernen</a>
-    </div>
-
-    <button id="submit-btn" class="offer-cta" disabled>
-      Bitte zuerst eine Datei auswählen
-    </button>
-
-    <div id="status-box" class="status-box hidden"></div>
-
-    <p class="note">
-      Dieser Upload ist nur erforderlich, wenn die automatische Verknüpfung nicht gefunden werden konnte.
-    </p>
-
-    <div class="fallback-box">
-      <strong>Upload funktioniert nicht?</strong>
-      <p>
-        Senden Sie Ihr Schreiben direkt per E-Mail an uns. Bitte geben Sie Ihren Namen und die bei der Zahlung verwendete E-Mail-Adresse an.
-      </p>
-      <a href="mailto:support@mussichzahlen.de" class="fallback-email">
-        support@mussichzahlen.de
+      <a href="/mahnung/" class="category-card category-card--featured" style="position:relative;">
+        <div style="position:absolute;top:-10px;left:20px;background:#1a3a6b;color:#fff;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;padding:3px 10px;border-radius:100px;">Am h&auml;ufigsten gepr&uuml;ft</div>
+        <div class="category-card__icon">📄</div>
+        <div class="category-card__title">Mahnung / Inkasso</div>
+        <div class="category-card__desc">Inkassoschreiben, Mahnbescheid oder Zahlungsaufforderung. Pr&uuml;fen Sie, ob Sie wirklich zahlen m&uuml;ssen.</div>
+        <div class="category-card__price">Analyse + Widerspruch &mdash; &euro;49</div>
       </a>
+
+      <a href="/parkstrafe/" class="category-card">
+        <div class="category-card__icon">🚗</div>
+        <div class="category-card__title">Bu&szlig;geldbescheid / Parkstrafe</div>
+        <div class="category-card__desc">Bu&szlig;geldbescheid, Kn&ouml;llchen oder Strafzettel. Viele enthalten formale Fehler, die einen Einspruch erm&ouml;glichen.</div>
+        <div class="category-card__price">Analyse + Einspruchsschreiben &mdash; &euro;19</div>
+      </a>
+
+      <a href="/rechnung/" class="category-card">
+        <div class="category-card__icon">⚡</div>
+        <div class="category-card__title">Rechnung / &Uuml;berzahlung</div>
+        <div class="category-card__desc">Energie-, Telefon-, Handwerker- oder Dienstleistungsrechnung, die nicht stimmt. Pr&uuml;fen Sie vor der Zahlung.</div>
+        <div class="category-card__price">Analyse + Widerspruchsschreiben &mdash; &euro;29</div>
+      </a>
+
+      <a href="/vertrag/" class="category-card">
+        <div class="category-card__icon">🔄</div>
+        <div class="category-card__title">Vertrag / K&uuml;ndigung</div>
+        <div class="category-card__desc">Abo, Mitgliedschaft oder Vertrag, den Sie k&uuml;ndigen m&ouml;chten. Pr&uuml;fen Sie, ob die Bedingungen wirksam sind.</div>
+        <div class="category-card__price">Analyse + K&uuml;ndigungsschreiben &mdash; &euro;29</div>
+      </a>
+
+      <a href="/angebot/" class="category-card">
+        <div class="category-card__icon">🔨</div>
+        <div class="category-card__title">Angebot / Kostenvoranschlag</div>
+        <div class="category-card__desc">Handwerkerangebot, Kostenvoranschlag oder Dienstleistungsangebot. Pr&uuml;fen Sie, bevor Sie zustimmen.</div>
+        <div class="category-card__price">Analyse + R&uuml;ckfrageschreiben &mdash; &euro;29</div>
+      </a>
+
     </div>
 
+    <p style="text-align:center;font-size:.82rem;color:var(--muted);margin-top:8px;">
+      MussIchZahlen ist ein Dokumentenpr&uuml;fdienst &mdash; keine Rechtsberatung. &nbsp;&middot;&nbsp;
+      <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a>
+    </p>
   </div>
+</section>
 
-  <div class="card hidden" id="locked-screen">
-    <h1>Zahlung nicht gefunden</h1>
-    <p>Bitte starten Sie den Vorgang erneut über die Prüfseite.</p>
-    <div class="status-box error">Keine gültige Zahlungssitzung gefunden.</div>
+<footer style="border-top:1px solid var(--border,#e5e7eb);padding:24px 0;text-align:center;">
+  <div class="container">
+    <p style="font-size:.82rem;color:var(--muted,#6b7280);margin:0;">
+      MussIchZahlen ist ein Dokumentenpr&uuml;fdienst &mdash; keine Rechtsberatung. &nbsp;&middot;&nbsp;
+      <a href="/impressum.html" style="color:inherit;margin:0 10px;">Impressum</a>
+      <a href="/datenschutz.html" style="color:inherit;margin:0 10px;">Datenschutz</a>
+      <a href="/agb.html" style="color:inherit;margin:0 10px;">AGB</a>
+    </p>
   </div>
-
-  <div class="card hidden" id="success-screen">
-    <div class="success-icon">✓</div>
-    <h1>Alles erledigt</h1>
-    <p>Ihre Analyse wird gerade vorbereitet.</p>
-    <p>Prüfen Sie Ihr Postfach — Ihre vollständige Analyse und das fertige Antwortschreiben werden per E-Mail zugesendet.</p>
-    <p class="note">Bitte prüfen Sie auch Ihren Spam-Ordner, falls Sie innerhalb weniger Minuten keine E-Mail erhalten.</p>
-  </div>
-
-</div>
-
-<script type="module">
-  import {
-    submitAutoPaid,
-    submitPaid,
-    validateFile,
-    formatFileSize,
-    track
-  } from "/app.js";
-
-  const params = new URLSearchParams(window.location.search);
-
-  const sessionId = params.get("session_id");
-  const type = params.get("type") || "mahnung";
-
-  const autoCard = document.getElementById("auto-card");
-  const autoStatus = document.getElementById("auto-status");
-  const fallback = document.getElementById("thankyou-app");
-  const locked = document.getElementById("locked-screen");
-  const success = document.getElementById("success-screen");
-
-  const nameEl = document.getElementById("customer-name");
-  const emailEl = document.getElementById("customer-email");
-  const uploadPanel = document.getElementById("upload-panel");
-  const fileInput = document.getElementById("real-file-input");
-  const selectedFile = document.getElementById("selected-file");
-  const selectedFileName = document.getElementById("selected-file-name");
-  const selectedFileMeta = document.getElementById("selected-file-meta");
-  const removeFile = document.getElementById("remove-file");
-  const submitBtn = document.getElementById("submit-btn");
-  const statusBox = document.getElementById("status-box");
-
-  let chosenFile = null;
-
-  track("paid_thankyou_view", {
-    type,
-    has_session: Boolean(sessionId)
-  });
-
-  function showOnly(el) {
-    [autoCard, fallback, locked, success].forEach(node => {
-      if (node) node.classList.add("hidden");
-    });
-    if (el) el.classList.remove("hidden");
-  }
-
-  function setStatus(kind, message) {
-    statusBox.className = `status-box ${kind || ""}`;
-    statusBox.textContent = message;
-    statusBox.classList.remove("hidden");
-  }
-
-  function updateSubmitState() {
-    const hasFile = Boolean(chosenFile);
-    const hasName = Boolean(nameEl.value.trim());
-    const hasEmail = Boolean(emailEl.value.trim());
-
-    submitBtn.disabled = !(hasFile && hasName && hasEmail);
-    submitBtn.textContent = hasFile
-      ? "Analyse starten"
-      : "Bitte zuerst eine Datei auswählen";
-  }
-
-  function setFile(file) {
-    const error = validateFile(file);
-
-    if (error) {
-      chosenFile = null;
-      selectedFile.classList.remove("show");
-      setStatus("error", error);
-      updateSubmitState();
-      return;
-    }
-
-    chosenFile = file;
-    selectedFileName.textContent = file.name;
-    selectedFileMeta.textContent = formatFileSize(file.size);
-    selectedFile.classList.add("show");
-    statusBox.classList.add("hidden");
-    updateSubmitState();
-  }
-
-  uploadPanel.addEventListener("click", () => fileInput.click());
-
-  fileInput.addEventListener("change", () => {
-    const file = fileInput.files && fileInput.files[0];
-    if (file) setFile(file);
-  });
-
-  ["dragenter", "dragover"].forEach(eventName => {
-    uploadPanel.addEventListener(eventName, e => {
-      e.preventDefault();
-      uploadPanel.classList.add("drag-over");
-    });
-  });
-
-  ["dragleave", "drop"].forEach(eventName => {
-    uploadPanel.addEventListener(eventName, e => {
-      e.preventDefault();
-      uploadPanel.classList.remove("drag-over");
-    });
-  });
-
-  uploadPanel.addEventListener("drop", e => {
-    const file = e.dataTransfer.files && e.dataTransfer.files[0];
-    if (file) setFile(file);
-  });
-
-  removeFile.addEventListener("click", e => {
-    e.preventDefault();
-    chosenFile = null;
-    fileInput.value = "";
-    selectedFile.classList.remove("show");
-    updateSubmitState();
-  });
-
-  nameEl.addEventListener("input", updateSubmitState);
-  emailEl.addEventListener("input", updateSubmitState);
-
-  submitBtn.addEventListener("click", async () => {
-    try {
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Wird hochgeladen…";
-
-      await submitPaid({
-        file: chosenFile,
-        name: nameEl.value.trim(),
-        email: emailEl.value.trim(),
-        type,
-        sessionId,
-        onStatus: setStatus
-      });
-
-      track("paid_fallback_upload_completed", { type });
-      showOnly(success);
-
-    } catch (err) {
-      track("paid_fallback_upload_failed", {
-        type,
-        error: err.message
-      });
-
-      setStatus(
-        "error",
-        err.message || "Upload fehlgeschlagen. Bitte versuchen Sie es erneut."
-      );
-
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Analyse starten";
-    }
-  });
-
-  if (!sessionId || !sessionId.startsWith("cs_")) {
-    showOnly(locked);
-  } else {
-    try {
-      autoStatus.textContent = "Zahlung wird überprüft…";
-
-      await submitAutoPaid({
-        type,
-        sessionId,
-        onStatus: (_, msg) => {
-          autoStatus.textContent = msg;
-        }
-      });
-
-      track("auto_paid_analysis_started", { type });
-      showOnly(success);
-
-    } catch (err) {
-      if (err.needUpload) {
-        track("auto_paid_fallback_upload_needed", {
-          type,
-          reason: err.message
-        });
-
-        if (emailEl && params.get("email")) {
-          emailEl.value = params.get("email");
-        }
-        if (nameEl && params.get("name")) {
-          nameEl.value = params.get("name");
-        }
-
-        showOnly(fallback);
-        updateSubmitState();
-
-      } else {
-        autoStatus.className = "status-box error";
-        autoStatus.textContent =
-          err.message ||
-          "Automatische Analyse fehlgeschlagen. Bitte kontaktieren Sie support@mussichzahlen.de";
-      }
-    }
-  }
-</script>
+</footer>
 
 </body>
 </html>
