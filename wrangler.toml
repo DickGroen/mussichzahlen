@@ -13,7 +13,7 @@ ADMIN_EMAIL = "groenvantexel@gmail.com"
 SITE_URL = "https://mussichzahlen.de"
 
 # Stripe Payment Links (publiek — geen secrets)
-STRIPE_LINK_MAHNUNG    = "https://buy.stripe.com/REPLACE_WITH_MAHNUNG_LINK"
+STRIPE_LINK_MAHNUNG    = "https://buy.stripe.com/test_aFa5kE5Le9eT61MdS41440d"
 STRIPE_LINK_PARKSTRAFE = "https://buy.stripe.com/REPLACE_WITH_PARKSTRAFE_LINK"
 STRIPE_LINK_RECHNUNG   = "https://buy.stripe.com/REPLACE_WITH_RECHNUNG_LINK"
 STRIPE_LINK_VERTRAG    = "https://buy.stripe.com/REPLACE_WITH_VERTRAG_LINK"
