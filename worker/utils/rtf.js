@@ -88,21 +88,41 @@ function sanitizeLegalTone(text = "") {
 function removeDuplicateAddressBlocks(text = "") {
   let t = String(text || "").trim();
 
+  // Strip "Hinweis:" note block that Claude sometimes prepends
   t = t.replace(
     /Hinweis:\s*Bitte ergänzen Sie vor dem Versand[\s\S]*?\[Ihre E-Mail-Adresse, optional\]\s*/i,
     ""
   );
+  t = t.replace(
+    /Hinweis:\s*Bitte ergänzen Sie vor dem Versand[^\n]*\n?/gi,
+    ""
+  );
 
+  // Strip signature block variants
   t = t.replace(
     /\[Ihr vollständiger Name\]\s*\n\[Ihre Anschrift\]\s*\n\[Ihre E-Mail-Adresse, optional\]\s*/i,
     ""
   );
-
+  t = t.replace(
+    /\[Ihr vollständiger Name\]\s*\n\[Ihre Anschrift\]\s*/i,
+    ""
+  );
   t = t.replace(
     /\[Ihr Name\]\s*\n\[Ihre Adresse\]\s*\n\[PLZ Ort\]\s*/i,
     ""
   );
+  t = t.replace(
+    /\[Ihr Name\]\s*\n\[Ihre Adresse\]\s*/i,
+    ""
+  );
 
+  // Strip standalone placeholders
+  t = t.replace(/\[Ort\],?\s*\[Datum\]\s*\n?/gi, "");
+  t = t.replace(/\[Datum\]\s*\n?/gi, "");
+  t = t.replace(/\[PLZ Ort\]\s*\n?/gi, "");
+  t = t.replace(/\[Unterschrift\]\s*\n?/gi, "");
+
+  // Clean up orphaned commas from date lines
   t = t.replace(/^\s*,\s*$/gm, "");
 
   return t.trim();
@@ -115,9 +135,22 @@ function stripTrailingDisclaimer(text = "") {
     .replace(/\n*(Diese Einschätzung stellt keine Rechtsberatung[^\n]*\n?)+$/i, "")
     .replace(/\n*(Dieses Schreiben wurde automatisch[^\n]*\n?)+$/i, "")
     .replace(/\n*(MussIchZahlen[^\n]*keine Rechtsberatung[^\n]*\n?)+$/i, "")
-    // Redirect address line — unnecessary, address is already in signature
+    // Redirect address line — unnecessary, address is already in template
     .replace(/\n*Bitte richten Sie (alle |zukünftige |weitere )?Korrespondenz[^\n]*\n?/gi, "")
     .replace(/\n*Bitte senden Sie (alle |weitere )?Schreiben[^\n]*\n?/gi, "")
+    // Strip Sonnet-generated signature/address placeholders — RTF template handles these
+    .replace(/\n*\[Ihr vollständiger Name\][^\n]*\n?/gi, "")
+    .replace(/\n*\[Ihre Anschrift\][^\n]*\n?/gi, "")
+    .replace(/\n*\[Ihre E-Mail-Adresse[^\n]*\]\n?/gi, "")
+    .replace(/\n*\[Ihr Name\][^\n]*\n?/gi, "")
+    .replace(/\n*\[Ihre Adresse\][^\n]*\n?/gi, "")
+    .replace(/\n*\[PLZ Ort\]\n?/gi, "")
+    .replace(/\n*\[Ort\], \[Datum\]\n?/gi, "")
+    .replace(/\n*\[Datum\]\n?/gi, "")
+    .replace(/\n*\[Unterschrift\]\n?/gi, "")
+    // Strip template-like closing phrases
+    .replace(/\n*Ich freue mich auf Ihre (baldige )?Antwort\.?\n?/gi, "")
+    .replace(/\n*Ich erwarte Ihre (baldige )?Antwort\.?\n?/gi, "")
     .trim();
 }
 
@@ -391,9 +424,7 @@ ${rtfEscape(content)}
 \\par
 }`;
 
-  return out + rtfFooter(
-    "MussIchZahlen bietet informative Analysen — keine Rechtsberatung und keine anwaltliche Vertretung."
-  );
+  return out + "}";
 }
 
 function fallbackLetter(type, triage = {}) {
