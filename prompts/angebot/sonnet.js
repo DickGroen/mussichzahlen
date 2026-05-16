@@ -137,4 +137,4 @@ Vollständige Verhandlungsnachricht in fließendem Text:
 - Unterschrift-Platzhalter: "[Ihr vollständiger Name] / [Ihre Adresse] / [Datum]"
 
 Unterlagen nur einmal klar anfordern. Keine doppelten Nachfragen. Keine Drohungen. Kein Zahlungsversprechen. Kein Disclaimer nach "Mit freundlichen Grüßen,".
-[/LETTER]\`;
+[/LETTER]`;
