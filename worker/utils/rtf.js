@@ -179,6 +179,7 @@ function cleanLetter(text = "") {
     )
   );
 }
+
 function rtfHeader() {
   return `{\\rtf1\\ansi\\ansicpg1252\\deff0
 {\\fonttbl{\\f0\\froman\\fcharset0 Times New Roman;}{\\f1\\fswiss\\fcharset0 Arial;}}
@@ -200,19 +201,9 @@ function paragraph(text = "", spacing = 180) {
   return `{\\pard\\sb0\\sa${spacing}\\f1\\fs22 ${rtfEscape(text)}\\par}\n`;
 }
 
-function smallParagraph(text = "", spacing = 120) {
-  if (!text) return "";
-  return `{\\pard\\sb0\\sa${spacing}\\f1\\fs19\\cf0 ${rtfEscape(text)}\\par}\n`;
-}
-
 function heading(text = "") {
   if (!text) return "";
   return `{\\pard\\sb380\\sa140\\f1\\fs26\\b\\cf1 ${rtfEscape(text)}\\b0\\cf0\\par}\n`;
-}
-
-function subHeading(text = "") {
-  if (!text) return "";
-  return `{\\pard\\sb240\\sa100\\f1\\fs23\\b\\cf0 ${rtfEscape(text)}\\b0\\par}\n`;
 }
 
 function infoBox(title = "", text = "") {
@@ -323,31 +314,19 @@ function buildSpecificityParagraph(triage = {}) {
   const sender = triage?.sender || "dem Absender";
   const amount = formatAmount(triage);
 
-  const parts = [];
-
   if (sender !== "unbekannt" && amount !== "unbekannt") {
-    parts.push(
-      `Im vorliegenden Schreiben von ${sender} über ${amount} sollten insbesondere die Zusammensetzung der Forderung, mögliche Zusatzkosten und die vorhandenen Nachweise nachvollziehbar geprüft werden.`
-    );
-  } else if (sender !== "unbekannt") {
-    parts.push(
-      `Im vorliegenden Schreiben von ${sender} sollten insbesondere die Zusammensetzung der Forderung, mögliche Zusatzkosten und die vorhandenen Nachweise nachvollziehbar geprüft werden.`
-    );
-  } else if (amount !== "unbekannt") {
-    parts.push(
-      `Bei der geltend gemachten Forderung über ${amount} sollten insbesondere die Zusammensetzung der Forderung, mögliche Zusatzkosten und die vorhandenen Nachweise nachvollziehbar geprüft werden.`
-    );
-  } else {
-    parts.push(
-      "Bei diesem Schreiben sollten insbesondere die Zusammensetzung der Forderung, mögliche Zusatzkosten und die vorhandenen Nachweise nachvollziehbar geprüft werden."
-    );
+    return `Im vorliegenden Schreiben von ${sender} über ${amount} sollten insbesondere die Zusammensetzung der Forderung, mögliche Zusatzkosten und die vorhandenen Nachweise nachvollziehbar geprüft werden. Gerade bei Inkasso- oder Mahnschreiben ist wichtig, ob die Hauptforderung, Nebenkosten, Mahnkosten und Inkassokosten ausreichend erklärt und belegt sind.`;
   }
 
-  parts.push(
-    "Gerade bei Inkasso- oder Mahnschreiben ist wichtig, ob die Hauptforderung, Nebenkosten, Mahnkosten und Inkassokosten ausreichend erklärt und belegt sind."
-  );
+  if (sender !== "unbekannt") {
+    return `Im vorliegenden Schreiben von ${sender} sollten insbesondere die Zusammensetzung der Forderung, mögliche Zusatzkosten und die vorhandenen Nachweise nachvollziehbar geprüft werden. Gerade bei Inkasso- oder Mahnschreiben ist wichtig, ob die Hauptforderung, Nebenkosten, Mahnkosten und Inkassokosten ausreichend erklärt und belegt sind.`;
+  }
 
-  return parts.join(" ");
+  if (amount !== "unbekannt") {
+    return `Bei der geltend gemachten Forderung über ${amount} sollten insbesondere die Zusammensetzung der Forderung, mögliche Zusatzkosten und die vorhandenen Nachweise nachvollziehbar geprüft werden. Gerade bei Inkasso- oder Mahnschreiben ist wichtig, ob die Hauptforderung, Nebenkosten, Mahnkosten und Inkassokosten ausreichend erklärt und belegt sind.`;
+  }
+
+  return "Bei diesem Schreiben sollten insbesondere die Zusammensetzung der Forderung, mögliche Zusatzkosten und die vorhandenen Nachweise nachvollziehbar geprüft werden. Gerade bei Inkasso- oder Mahnschreiben ist wichtig, ob die Hauptforderung, Nebenkosten, Mahnkosten und Inkassokosten ausreichend erklärt und belegt sind.";
 }
 
 function buildDefaultNarrative(triage = {}) {
@@ -355,21 +334,23 @@ function buildDefaultNarrative(triage = {}) {
   const amount = formatAmount(triage);
 
   if (sender !== "unbekannt" && amount !== "unbekannt") {
-    return `Nach erster Prüfung wirkt das Schreiben von ${sender} über ${amount} nicht in allen Punkten selbsterklärend. Vor einer Zahlung kann es sinnvoll sein, zunächst die Forderungsgrundlage, die Berechnung einzelner Kostenpositionen und vorhandene Nachweise zu prüfen.`;
+    return `Nach erster Prüfung wirkt das Schreiben von ${sender} über ${amount} nicht in allen Punkten vollständig nachvollziehbar. Vor einer Zahlung kann es sinnvoll sein, insbesondere die Forderungsgrundlage, mögliche Zusatzkosten sowie vorhandene Nachweise genauer zu prüfen.`;
   }
 
   if (amount !== "unbekannt") {
-    return `Nach erster Prüfung wirkt die Forderung über ${amount} nicht in allen Punkten selbsterklärend. Vor einer Zahlung kann es sinnvoll sein, zunächst die Forderungsgrundlage, die Berechnung einzelner Kostenpositionen und vorhandene Nachweise zu prüfen.`;
+    return `Nach erster Prüfung wirkt die Forderung über ${amount} nicht in allen Punkten vollständig nachvollziehbar. Vor einer Zahlung kann es sinnvoll sein, insbesondere die Forderungsgrundlage, mögliche Zusatzkosten sowie vorhandene Nachweise genauer zu prüfen.`;
   }
 
-  return "Nach erster Prüfung wirkt das Schreiben nicht in allen Punkten selbsterklärend. Vor einer Zahlung kann es sinnvoll sein, zunächst die Forderungsgrundlage, die Berechnung einzelner Kostenpositionen und vorhandene Nachweise zu prüfen.";
+  return "Nach erster Prüfung wirkt das Schreiben nicht in allen Punkten vollständig nachvollziehbar. Vor einer Zahlung kann es sinnvoll sein, insbesondere die Forderungsgrundlage, mögliche Zusatzkosten sowie vorhandene Nachweise genauer zu prüfen.";
 }
 
 function defaultIssuesForType(type = "mahnung") {
   if (type === "mahnung") {
     return [
       "ob die ursprüngliche Forderung ausreichend belegt ist",
-      "ob zusätzliche Mahn- oder Inkassokosten nachvollziehbar berechnet wurden",
+      "ob zusätzliche Inkassokosten nachvollziehbar berechnet wurden",
+      "ob einzelne Zusatzkosten ausreichend erläutert werden",
+      "ob Vertragsgrundlagen oder Nachweise vollständig vorliegen",
       "ob der Absender seine Berechtigung zur Geltendmachung der Forderung ausreichend darlegt",
       "ob Zahlungsfristen, Aktenzeichen und Forderungsbestandteile klar zugeordnet werden können",
     ].join("\n");
@@ -431,6 +412,7 @@ export function makeConfirmationRtf(name = "") {
     rtfFooter()
   );
 }
+
 export function makeAnalysisRtf(
   analysis,
   customerName = "",
@@ -440,10 +422,12 @@ export function makeAnalysisRtf(
 ) {
   const title = getSection(analysis, "TITLE") || "MussIchZahlen Analyse";
   const intro = getSection(analysis, "INTRO");
+
   const narrative =
     getSection(analysis, "NARRATIVE") ||
     getSection(analysis, "FALLBEWERTUNG") ||
     buildDefaultNarrative(triage);
+
   const howToUse = getSection(analysis, "HOW_TO_USE");
   const summary = getSection(analysis, "SUMMARY");
   const issues = getSection(analysis, "ISSUES") || defaultIssuesForType(type);
@@ -686,6 +670,7 @@ Mit freundlichen Grüßen
 
 [Unterschrift]`;
 }
+
 function fallbackVertragLetter() {
   return `Betreff: Bitte um Klärung / Kündigung des Vertragsverhältnisses
 
