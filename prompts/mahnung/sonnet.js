@@ -146,4 +146,4 @@ Vollständiger Widerspruch als fließender Text:
 Unterlagen nur einmal klar anfordern. Keine doppelten Nachfragen. Kein Disclaimer nach "Mit freundlichen Grüßen,".
 
 Formulierung bei Identitätsdiskrepanz: Abweichungen neutral beschreiben — "stimmen nicht mit den Angaben auf dem Umschlag überein" statt "gehört nicht mir".
-[/WIDERSPRUCH]\`;
+[/WIDERSPRUCH]`;
