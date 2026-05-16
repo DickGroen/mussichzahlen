@@ -1,12 +1,11 @@
-// ── Gedeelde frontend helpers voor MussIchZahlen ─────────────────────────────
+// Gedeelde frontend helpers voor MussIchZahlen
 
 const WORKER_URL = "/api";
 const MAX_FILE_SIZE = 8 * 1024 * 1024; // 8 MB
 const ALLOWED_EXT = [".pdf", ".jpg", ".jpeg", ".png"];
 
-// ── Analytics ────────────────────────────────────────────────────────────────
-
-export function track(eventName, payload = {}) {
+// Analytics
+function track(eventName, payload = {}) {
   const event = {
     event: eventName,
     path: window.location.pathname,
@@ -39,15 +38,14 @@ export function track(eventName, payload = {}) {
   } catch (_) {}
 }
 
-export const trackEvent = track;
+const trackEvent = track;
 
-// ── Bestandvalidatie ─────────────────────────────────────────────────────────
-
-export function validateFile(file) {
+// Bestandvalidatie
+function validateFile(file) {
   if (!file) return "Keine Datei ausgewählt";
 
   if (file.size > MAX_FILE_SIZE) {
-    return `Datei zu groß (max. 8 MB, deine Datei: ${(file.size / 1024 / 1024).toFixed(1)} MB)`;
+    return `Datei zu groß (max. 8 MB, Ihre Datei: ${(file.size / 1024 / 1024).toFixed(1)} MB)`;
   }
 
   const ext = "." + file.name.split(".").pop().toLowerCase();
@@ -59,14 +57,14 @@ export function validateFile(file) {
   return null;
 }
 
-export export function formatFileSize(bytes) {   if (!Number.isFinite(bytes)) return "0 B";    const units = ["B", "KB", "MB"];   let size = bytes;   let unitIndex = 0;    while (size >= 1024 && unitIndex < units.length - 1) {     size /= 1024;     unitIndex++;   }    return `${size.toFixed(unitIndex === 0 ? 0 : 1)} ${units[unitIndex]}`; }
+function formatFileSize(bytes) {
+  if (!Number.isFinite(bytes)) return "0 B";
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-// ── Datei eerst lezen: voorkomt stale File issues op iOS/Android ─────────────
-
+// Datei eerst lezen: voorkomt stale File issues op iOS/Android
 function readFileAsArrayBuffer(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -79,8 +77,7 @@ function readFileAsArrayBuffer(file) {
   });
 }
 
-// ── Fetch met timeout ────────────────────────────────────────────────────────
-
+// Fetch met timeout
 async function fetchWithTimeout(url, options = {}, timeoutMs = 60000) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
@@ -104,9 +101,8 @@ async function fetchWithTimeout(url, options = {}, timeoutMs = 60000) {
   }
 }
 
-// ── Kostenlose Triage ────────────────────────────────────────────────────────
-
-export async function submitFree({ file, name, email, type, onStatus }) {
+// Kostenlose Triage
+async function submitFree({ file, name, email, type, onStatus }) {
   onStatus?.("info", "Schreiben wird geprüft…");
 
   let buffer;
@@ -155,9 +151,8 @@ export async function submitFree({ file, name, email, type, onStatus }) {
   return data;
 }
 
-// ── Automatische Paid Analyse zonder tweede upload ───────────────────────────
-
-export async function submitAutoPaid({ type, sessionId, onStatus }) {
+// Automatische Paid Analyse zonder tweede upload
+async function submitAutoPaid({ type, sessionId, onStatus }) {
   onStatus?.("info", "Zahlung wird geprüft…");
 
   const res = await fetchWithTimeout(`${WORKER_URL}/submit-auto`, {
@@ -185,9 +180,8 @@ export async function submitAutoPaid({ type, sessionId, onStatus }) {
   return data;
 }
 
-// ── Bezahlter Upload fallback ────────────────────────────────────────────────
-
-export async function submitPaid({ file, name, email, type, sessionId, onStatus }) {
+// Bezahlter Upload fallback
+async function submitPaid({ file, name, email, type, sessionId, onStatus }) {
   onStatus?.("info", "Dokument wird sicher hochgeladen…");
 
   let buffer;
@@ -232,9 +226,8 @@ export async function submitPaid({ file, name, email, type, sessionId, onStatus 
   return data;
 }
 
-// ── FAQ Accordion ────────────────────────────────────────────────────────────
-
-export function initFaq() {
+// FAQ Accordion
+function initFaq() {
   document.querySelectorAll(".faq-q").forEach((q) => {
     q.addEventListener("click", () => {
       const item = q.closest(".faq-item");
@@ -264,9 +257,8 @@ export function initFaq() {
   });
 }
 
-// ── Modal ────────────────────────────────────────────────────────────────────
-
-export function initModal() {
+// Modal
+function initModal() {
   document.querySelectorAll("[data-open-modal]").forEach((btn) => {
     btn.addEventListener("click", () => {
       openModal(btn.dataset.openModal || "modal");
@@ -290,7 +282,7 @@ export function initModal() {
   });
 }
 
-export function openModal(id = "modal") {
+function openModal(id = "modal") {
   const modal = document.getElementById(id);
   if (!modal) return;
 
@@ -299,7 +291,7 @@ export function openModal(id = "modal") {
   document.body.style.overflow = "hidden";
 }
 
-export function closeModal(id = "modal") {
+function closeModal(id = "modal") {
   const modal = document.getElementById(id);
   if (!modal) return;
 
@@ -308,9 +300,8 @@ export function closeModal(id = "modal") {
   document.body.style.overflow = "";
 }
 
-// ── Sticky Footer ────────────────────────────────────────────────────────────
-
-export function initStickyFooter() {
+// Sticky Footer
+function initStickyFooter() {
   const footer = document.getElementById("sticky-footer");
   if (!footer) return;
 
@@ -340,3 +331,17 @@ export function initStickyFooter() {
     { passive: true }
   );
 }
+
+// Maak functies expliciet beschikbaar voor inline scripts
+window.track = track;
+window.trackEvent = trackEvent;
+window.validateFile = validateFile;
+window.formatFileSize = formatFileSize;
+window.submitFree = submitFree;
+window.submitPaid = submitPaid;
+window.submitAutoPaid = submitAutoPaid;
+window.initFaq = initFaq;
+window.initModal = initModal;
+window.openModal = openModal;
+window.closeModal = closeModal;
+window.initStickyFooter = initStickyFooter;
