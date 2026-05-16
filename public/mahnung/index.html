@@ -508,20 +508,14 @@ function renderTeaser(data) {
 
   if (stripeLink && tier !== 'tier3') {
     teaserCta.innerHTML = `
-      <h3>Vollständige Prüfung der Forderung</h3>
-      <ul>
-        <li>Prüfung aller relevanten Punkte aus Ihrem Schreiben</li>
-        <li>Bewertung der Kosten und Nachweise</li>
-        <li>Fertiger Widerspruch zum direkten Versand</li>
-      </ul>
       <a href="${escapeHtmlAttribute(payUrl)}" class="offer-cta" style="margin-top:8px;">
         Vollständige Prüfung starten — €49 →
       </a>
-      <p style="font-size:.78rem;color:var(--muted);margin-top:8px;text-align:center;">
-        Einmalig €49 · kein Abo · sichere Zahlung
+      <p style="font-size:.84rem;color:#713f12;margin-top:12px;font-weight:600;">
+        📬 Sie erhalten die Analyse per E-Mail — spätestens am nächsten Werktag bis 16:00 Uhr.
       </p>
-      <p style="font-size:.78rem;color:var(--ink-3);margin-top:6px;text-align:center;">
-        Nach Zahlung erhalten Sie die Analyse per E-Mail — spätestens am nächsten Werktag bis 16:00 Uhr.
+      <p style="font-size:.78rem;color:var(--muted);margin-top:4px;text-align:center;">
+        Einmalig €49 · kein Abo · sichere Zahlung über Stripe
       </p>
     `;
 
