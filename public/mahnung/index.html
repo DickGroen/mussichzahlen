@@ -501,6 +501,11 @@ function renderTeaser(data) {
     teaserCopy.style.display = 'none';
   }
 
+  const userEmail  = emailEl ? emailEl.value.trim() : '';
+  const payUrl     = stripeLink && userEmail
+    ? stripeLink + '?prefilled_email=' + encodeURIComponent(userEmail)
+    : stripeLink;
+
   if (stripeLink && tier !== 'tier3') {
     teaserCta.innerHTML = `
       <h3>Vollständige Prüfung der Forderung</h3>
@@ -509,16 +514,19 @@ function renderTeaser(data) {
         <li>Bewertung der Kosten und Nachweise</li>
         <li>Fertiger Widerspruch zum direkten Versand</li>
       </ul>
-      <a href="${escapeHtmlAttribute(stripeLink)}" class="offer-cta" style="margin-top:8px;">
+      <a href="${escapeHtmlAttribute(payUrl)}" class="offer-cta" style="margin-top:8px;">
         Vollständige Prüfung starten — €49 →
       </a>
       <p style="font-size:.78rem;color:var(--muted);margin-top:8px;text-align:center;">
         Einmalig €49 · kein Abo · sichere Zahlung
       </p>
+      <p style="font-size:.78rem;color:var(--ink-3);margin-top:6px;text-align:center;">
+        Nach Zahlung erhalten Sie die Analyse per E-Mail — spätestens am nächsten Werktag bis 16:00 Uhr.
+      </p>
     `;
 
     if (modalCta) {
-      modalCta.href = stripeLink;
+      modalCta.href = payUrl;
     }
 
     updateModalFeatures(triage);
@@ -530,8 +538,8 @@ function renderTeaser(data) {
         Eine zusätzliche Prüfung bleibt optional.
       </p>
       ${
-        stripeLink
-          ? `<a href="${escapeHtmlAttribute(stripeLink)}" class="offer-cta" style="margin-top:12px;background:var(--ink-3);">Optionale vollständige Prüfung — €49</a>`
+        payUrl
+          ? `<a href="${escapeHtmlAttribute(payUrl)}" class="offer-cta" style="margin-top:12px;background:var(--ink-3);">Optionale vollständige Prüfung — €49</a>`
           : ''
       }
     `;
