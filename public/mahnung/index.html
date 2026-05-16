@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="de">
-<head> 
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bevor du zahlst — Mahnung pr&uuml;fen | MussIchZahlen.de</title>
-  <meta name="description" content="Viele Mahnungen enthalten Fehler, &uuml;berh&ouml;hte Kosten oder verj&auml;hrte Forderungen. Kostenlose Ersteinsch&auml;tzung, danach vollst&auml;ndige Analyse + fertiger Widerspruch.">
+  <title>Mahnung pr&uuml;fen — MussIchZahlen.de</title>
+  <meta name="description" content="Mahnung, Inkassoschreiben oder Zahlungsaufforderung erhalten? Kostenlose Ersteinsch&auml;tzung, danach vollst&auml;ndige Analyse + fertiger Widerspruch.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -46,7 +46,7 @@
     .offer-desc{color:var(--ink-3);font-size:.93rem;margin-bottom:20px;line-height:1.65;}
     .offer-list{list-style:none;margin-bottom:24px;display:grid;gap:8px;}
     .offer-list li{display:flex;align-items:flex-start;gap:10px;font-size:.93rem;color:var(--ink-2);line-height:1.55;}
-    .offer-list li::before{content:"&#10003;";color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px;}
+    .offer-list li::before{content:"✓";color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px;}
     hr.offer-divider{border:none;border-top:1px solid var(--line);margin:20px 0;}
     .offer-price{font-size:2rem;font-weight:700;color:var(--accent);font-family:'Lora',serif;}
     .offer-price span{font-size:.95rem;color:var(--muted);font-weight:400;font-family:'DM Sans',sans-serif;}
@@ -70,11 +70,11 @@
     .teaser-heading{font-weight:800;font-size:1.2rem;color:var(--ink);}
     .teaser-sub{margin-top:6px;color:var(--muted);font-size:.92rem;}
     .teaser-ai{margin:16px 0;background:var(--warn-soft);border-left:4px solid var(--warn);padding:14px;border-radius:8px;font-weight:500;color:#713f12;}
-    .teaser-financial{margin:16px 0;background:#fff7ed;border:1px solid #fed7aa;padding:14px;border-radius:10px;color:#7c2d12;}
     .teaser-cta{margin-top:16px;}
-    .teaser-cta h3{font-size:1.2rem;margin-bottom:10px;}
+    .teaser-cta h3{font-size:1.1rem;margin-bottom:10px;font-family:'Lora',serif;}
     .teaser-cta ul{list-style:none;margin:10px 0 16px;display:grid;gap:7px;}
     .teaser-cta li{font-size:.92rem;color:var(--ink-2);}
+    .teaser-cta li::before{content:"✓ ";color:var(--green);font-weight:700;}
     .teaser-trust{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;font-size:.8rem;color:var(--muted);}
     .teaser-trust span{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 10px;}
     .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
@@ -131,7 +131,7 @@
 </head>
 <body>
 
-<div class="hinweis-banner">&#9200; Nicht vorschnell zahlen &mdash; viele Mahnungen sind angreifbar</div>
+<div class="hinweis-banner">&#9200; Nicht vorschnell zahlen &mdash; viele Mahnungen enthalten Punkte, die vor einer Zahlung gepr&uuml;ft werden sollten</div>
 
 <header class="header">
   <div class="container">
@@ -144,8 +144,8 @@
 
 <section class="hero">
   <div class="container">
-    <h1>Bevor du zahlst &mdash; pr&uuml;fe, ob die Forderung wirklich berechtigt ist</h1>
-    <p class="hero__sub">Lade dein Schreiben hoch und erhalte zuerst eine kostenlose Ersteinsch&auml;tzung. Wenn Ansatzpunkte erkennbar sind, kannst du danach die vollst&auml;ndige Analyse + fertigen Widerspruch kaufen.</p>
+    <h1>Bevor Sie zahlen &mdash; pr&uuml;fen Sie, ob die Forderung wirklich berechtigt ist</h1>
+    <p class="hero__sub">Laden Sie Ihr Schreiben hoch und erhalten Sie zuerst eine kostenlose Ersteinsch&auml;tzung. Wenn Ansatzpunkte erkennbar sind, k&ouml;nnen Sie danach die vollst&auml;ndige Analyse + fertigen Widerspruch kaufen.</p>
     <p style="font-size:.95rem;color:var(--muted);margin-bottom:16px;">Viele merken erst nach der Zahlung, dass die Forderung angreifbar gewesen w&auml;re.</p>
     <a href="#free-check" class="hero-cta">Kostenlose Ersteinsch&auml;tzung starten &rarr;</a>
     <div class="hero-sub-note">PDF, JPG oder PNG &middot; kein Abo &middot; vollst&auml;ndige Analyse optional</div>
@@ -161,29 +161,29 @@
     <div class="offer-card" id="free-card">
       <div class="offer-badge">Kostenlos starten</div>
       <div class="offer-title">Kostenlose Ersteinsch&auml;tzung</div>
-      <p class="offer-desc">Lade deine Mahnung oder dein Inkassoschreiben hoch. Du erh&auml;ltst eine erste Einsch&auml;tzung, ob eine genauere Pr&uuml;fung sinnvoll sein k&ouml;nnte.</p>
-      <div id="gratis-upload-zone" class="upload-zone" onclick="this.querySelector('input').click()">
+      <p class="offer-desc">Laden Sie Ihre Mahnung oder Ihr Inkassoschreiben hoch. Sie erhalten eine erste Einsch&auml;tzung, ob eine genauere Pr&uuml;fung sinnvoll sein k&ouml;nnte.</p>
+      <div id="gratis-upload-zone" class="upload-zone">
         <div class="upload-label">Datei ausw&auml;hlen</div>
         <div class="upload-hint">PDF, JPG oder PNG &middot; max. 8 MB</div>
-        <input type="file" accept=".pdf,.jpg,.jpeg,.png" style="display:none;" onchange="handleGratisFileSelect(this)">
+        <input id="gratis-file-input" type="file" accept=".pdf,.jpg,.jpeg,.png" style="display:none;">
       </div>
       <div id="gratis-contact-fields" class="contact-fields">
-        <input id="gratis-name" class="input" placeholder="Dein Name">
-        <input id="gratis-email" class="input" placeholder="Deine E-Mail">
-        <button id="gratis-btn" onclick="startGratisUpload()" disabled class="offer-cta">Kostenlose Einsch&auml;tzung starten</button>
+        <input id="gratis-name" class="input" placeholder="Ihr Name" autocomplete="name">
+        <input id="gratis-email" class="input" placeholder="Ihre E-Mail-Adresse" type="email" autocomplete="email">
+        <button id="gratis-btn" disabled class="offer-cta">Kostenlose Einsch&auml;tzung starten</button>
       </div>
       <div id="gratis-status" class="optie-status"></div>
-      <div class="offer-security">&#128274; Deine Datei wird nur zur Analyse verarbeitet.</div>
+      <div class="offer-security">&#128274; Ihre Datei wird nur zur Analyse verarbeitet.</div>
     </div>
+
     <div id="teaser" class="teaser">
       <div class="offer-card teaser-card">
         <div id="teaser-company" class="teaser-heading"></div>
         <div id="teaser-sub" class="teaser-sub"></div>
         <div id="modal-dynamic-copy" class="teaser-ai"></div>
-        <div id="teaser-financial" class="teaser-financial"></div>
         <div id="teaser-cta" class="teaser-cta"></div>
         <div class="teaser-trust">
-          <span>Keine Abo-Falle</span><span>Sichere Zahlung via Stripe</span><span>Ergebnis per E-Mail</span>
+          <span>Kein Abo</span><span>Sichere Zahlung via Stripe</span><span>Ergebnis per E-Mail</span>
         </div>
       </div>
     </div>
@@ -202,13 +202,13 @@
     <div class="offer-card">
       <div class="offer-badge">Nach Ersteinsch&auml;tzung</div>
       <div class="offer-title">Vollst&auml;ndige Analyse + Widerspruch</div>
-      <p class="offer-desc">Wir pr&uuml;fen dein Schreiben auf m&ouml;gliche Ansatzpunkte und erstellen einen fertigen Widerspruch.</p>
+      <p class="offer-desc">Wir pr&uuml;fen Ihr Schreiben auf m&ouml;gliche Ansatzpunkte und erstellen einen fertigen Widerspruch.</p>
       <ul class="offer-list">
         <li>Pr&uuml;fung auf Verj&auml;hrung (&sect; 195 BGB)</li>
         <li>Pr&uuml;fung der Inkassokosten (&sect; 4 RDGEG)</li>
         <li>Pr&uuml;fung der Abtretung und Nachweispflicht</li>
         <li>Pr&uuml;fung formaler Auff&auml;lligkeiten</li>
-        <li>Fertiger Widerspruch auf deinen Namen</li>
+        <li>Fertiger Widerspruch auf Ihren Namen</li>
         <li>Klare n&auml;chste Schritte</li>
         <li>Ergebnis per E-Mail</li>
       </ul>
@@ -226,9 +226,9 @@
     <div class="section-label">So funktioniert es</div>
     <h2>In 3 Schritten zur Entscheidung</h2>
     <div class="steps">
-      <div class="step"><div class="step__num">01</div><div class="step__title">Schreiben hochladen</div><div class="step__desc">Du l&auml;dst deine Mahnung hoch. PDF, JPG oder PNG.</div></div>
-      <div class="step"><div class="step__num">02</div><div class="step__title">Kostenlose Ersteinsch&auml;tzung</div><div class="step__desc">Du siehst, ob m&ouml;gliche Ansatzpunkte erkennbar sind.</div></div>
-      <div class="step"><div class="step__num">03</div><div class="step__title">Optional vollst&auml;ndige Analyse</div><div class="step__desc">Wenn du willst, erh&auml;ltst du Analyse + fertigen Widerspruch per E-Mail.</div></div>
+      <div class="step"><div class="step__num">01</div><div class="step__title">Schreiben hochladen</div><div class="step__desc">Sie laden Ihre Mahnung hoch. PDF, JPG oder PNG.</div></div>
+      <div class="step"><div class="step__num">02</div><div class="step__title">Kostenlose Ersteinsch&auml;tzung</div><div class="step__desc">Sie sehen, ob m&ouml;gliche Ansatzpunkte erkennbar sind.</div></div>
+      <div class="step"><div class="step__num">03</div><div class="step__title">Optional vollst&auml;ndige Analyse</div><div class="step__desc">Wenn Sie m&ouml;chten, erhalten Sie Analyse + fertigen Widerspruch per E-Mail.</div></div>
     </div>
   </div>
 </section>
@@ -247,12 +247,12 @@
 
 <section class="section">
   <div class="container">
-    <div class="section-label">Passend f&uuml;r dich?</div>
+    <div class="section-label">Passend f&uuml;r Sie?</div>
     <h2>F&uuml;r wen ist das geeignet?</h2>
     <div class="fit-rows">
-      <div class="fit-row"><span>&#10003;</span><span>Du hast eine Mahnung, ein Inkassoschreiben oder einen Anwaltsbrief erhalten</span></div>
-      <div class="fit-row"><span>&#10003;</span><span>Du bist unsicher, ob die Forderung berechtigt ist</span></div>
-      <div class="fit-row"><span>&#10003;</span><span>Du m&ouml;chtest wissen, ob sich ein Widerspruch lohnen k&ouml;nnte</span></div>
+      <div class="fit-row"><span>&#10003;</span><span>Sie haben eine Mahnung, ein Inkassoschreiben oder einen Anwaltsbrief erhalten</span></div>
+      <div class="fit-row"><span>&#10003;</span><span>Sie sind unsicher, ob die Forderung berechtigt ist</span></div>
+      <div class="fit-row"><span>&#10003;</span><span>Sie m&ouml;chten wissen, ob sich ein Widerspruch lohnen k&ouml;nnte</span></div>
     </div>
   </div>
 </section>
@@ -260,12 +260,12 @@
 <section class="section section--alt">
   <div class="container">
     <div class="section-label">H&auml;ufige Fragen</div>
-    <h2>Alles, was du wissen m&ouml;chtest</h2>
+    <h2>Alles, was Sie wissen m&ouml;chten</h2>
     <div class="faq-list">
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Wann ist eine Forderung verj&auml;hrt? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Die regelm&auml;&szlig;ige Verj&auml;hrungsfrist betr&auml;gt 3 Jahre ab Ende des Jahres der Kenntnis (&sect; 195, 199 BGB).</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">D&uuml;rfen Inkassounternehmen beliebig hohe Kosten berechnen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nein. Inkassokosten sind nach &sect; 4 RDGEG begrenzt und d&uuml;rfen die entsprechenden Anwaltskosten nicht &uuml;bersteigen.</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Muss ich nach der kostenlosen Einsch&auml;tzung kaufen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nein. Die vollst&auml;ndige Analyse ist optional.</div></div>
-      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Ist das Rechtsberatung? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nein. Es handelt sich um eine informative Analyse und einen Widerspruchsentwurf. Keine rechtliche Vertretung.</div></div>
+      <div class="faq-item"><div class="faq-q">Wann ist eine Forderung verj&auml;hrt? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Die regelm&auml;&szlig;ige Verj&auml;hrungsfrist betr&auml;gt 3 Jahre ab Ende des Jahres der Kenntnis (&sect; 195, 199 BGB).</div></div>
+      <div class="faq-item"><div class="faq-q">D&uuml;rfen Inkassounternehmen beliebig hohe Kosten berechnen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nein. Inkassokosten sind nach &sect; 4 RDGEG begrenzt und d&uuml;rfen die entsprechenden Anwaltskosten nicht &uuml;bersteigen.</div></div>
+      <div class="faq-item"><div class="faq-q">Muss ich nach der kostenlosen Einsch&auml;tzung kaufen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nein. Die vollst&auml;ndige Analyse ist optional.</div></div>
+      <div class="faq-item"><div class="faq-q">Ist das Rechtsberatung? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nein. Es handelt sich um eine informative Analyse und einen Widerspruchsentwurf. Keine rechtliche Vertretung.</div></div>
     </div>
   </div>
 </section>
@@ -273,7 +273,7 @@
 <section class="final-cta">
   <div class="container">
     <h2>Erst pr&uuml;fen &mdash; dann zahlen</h2>
-    <p>Mahnung erhalten? Starte mit der kostenlosen Ersteinsch&auml;tzung.</p>
+    <p>Mahnung erhalten? Starten Sie mit der kostenlosen Ersteinsch&auml;tzung.</p>
     <a href="#free-check" class="final-cta-btn">Kostenlos pr&uuml;fen &rarr;</a>
     <div class="final-cta-note">PDF, JPG oder PNG &middot; kein Abo &middot; vollst&auml;ndige Analyse optional</div>
   </div>
@@ -302,34 +302,239 @@
   <a href="#free-check" class="sticky-cta">Kostenlos pr&uuml;fen &rarr;</a>
 </div>
 
+<!-- Modal — dynamisch befüllt nach Triage -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
     <div class="modal__header">
-      <div class="modal__eyebrow">Vollst&auml;ndige Analyse</div>
-      <div class="modal__title">Analyse + fertiger Widerspruch</div>
+      <div class="modal__eyebrow">Vollst&auml;ndige Pr&uuml;fung der Forderung</div>
+      <div class="modal__title" id="modal-title">Analyse + fertiger Widerspruch</div>
       <div class="modal__price">&euro;49 <span>einmalig</span></div>
     </div>
     <div class="modal__body">
-      <div class="modal__feature"><span class="check">&#10003;</span><span>Konkrete Bewertung deiner Situation</span></div>
-      <div class="modal__feature"><span class="check">&#10003;</span><span>Klare Handlungsempfehlung</span></div>
-      <div class="modal__feature"><span class="check">&#10003;</span><span>Fertiger Widerspruch zum direkten Versand</span></div>
+      <div id="modal-features">
+        <div class="modal__feature"><span class="check">&#10003;</span><span>Konkrete Bewertung Ihrer Forderung</span></div>
+        <div class="modal__feature"><span class="check">&#10003;</span><span>Pr&uuml;fung der Kosten und Nachweise</span></div>
+        <div class="modal__feature"><span class="check">&#10003;</span><span>Fertiger Widerspruch zum direkten Versand</span></div>
+      </div>
       <div class="modal__disclaimer">Informative Analyse und Widerspruchsentwurf. Keine rechtliche Vertretung.</div>
-      <a href="https://buy.stripe.com/test_5kQ14oehKezd0Hs9BO14402" class="modal__cta js-stripe-link" data-type="mahnung" data-price="49">Jetzt vollst&auml;ndige Analyse erhalten &rarr;</a>
+      <a id="modal-cta" href="#" class="modal__cta">Jetzt vollst&auml;ndige Pr&uuml;fung starten &rarr;</a>
       <div class="modal__security">&#128274; Sichere Zahlung via Stripe &middot; kein Abo</div>
-      <div class="modal__close" onclick="closeModal('modal')">Zur&uuml;ck</div>
+      <div class="modal__close" id="modal-close-btn">Zur&uuml;ck</div>
     </div>
   </div>
 </div>
 
-<script>
-  function toggleFaq(el){
-    const item = el.closest('.faq-item');
-    const isOpen = item.classList.contains('faq-item--open');
-    document.querySelectorAll('.faq-item--open').forEach(i => i.classList.remove('faq-item--open'));
-    if(!isOpen) item.classList.add('faq-item--open');
+<script type="module">
+import { submitFree, validateFile, formatFileSize, track, initFaq, initStickyFooter } from './app.js';
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+initFaq();
+initStickyFooter();
+
+// ── State ─────────────────────────────────────────────────────────────────────
+let selectedFile = null;
+let currentStripeLink = null;
+
+// ── DOM refs ──────────────────────────────────────────────────────────────────
+const uploadZone      = document.getElementById('gratis-upload-zone');
+const fileInput       = document.getElementById('gratis-file-input');
+const contactFields   = document.getElementById('gratis-contact-fields');
+const nameEl          = document.getElementById('gratis-name');
+const emailEl         = document.getElementById('gratis-email');
+const btn             = document.getElementById('gratis-btn');
+const statusEl        = document.getElementById('gratis-status');
+const teaserEl        = document.getElementById('teaser');
+const teaserCompany   = document.getElementById('teaser-company');
+const teaserSub       = document.getElementById('teaser-sub');
+const teaserCopy      = document.getElementById('modal-dynamic-copy');
+const teaserCta       = document.getElementById('teaser-cta');
+const modalEl         = document.getElementById('modal');
+const modalCta        = document.getElementById('modal-cta');
+const modalFeatures   = document.getElementById('modal-features');
+const modalCloseBtn   = document.getElementById('modal-close-btn');
+
+// ── File selection ────────────────────────────────────────────────────────────
+uploadZone.addEventListener('click', () => fileInput.click());
+
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.style.borderColor = 'var(--accent)'; });
+uploadZone.addEventListener('dragleave', () => { uploadZone.style.borderColor = ''; });
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault();
+  uploadZone.style.borderColor = '';
+  const file = e.dataTransfer?.files?.[0];
+  if (file) handleFile(file);
+});
+
+fileInput.addEventListener('change', () => {
+  if (fileInput.files?.[0]) handleFile(fileInput.files[0]);
+});
+
+function handleFile(file) {
+  const err = validateFile(file);
+  if (err) { setStatus('error', err); return; }
+
+  selectedFile = file;
+  uploadZone.querySelector('.upload-label').textContent = file.name;
+  uploadZone.querySelector('.upload-hint').textContent = formatFileSize(file.size);
+  contactFields.style.display = 'flex';
+  setStatus('', '');
+  updateBtn();
+
+  track('file_selected', { type: 'mahnung', fileType: file.type, fileSize: file.size });
+}
+
+function updateBtn() {
+  const ready = selectedFile && nameEl.value.trim() && emailEl.value.trim();
+  btn.disabled = !ready;
+}
+
+nameEl.addEventListener('input', updateBtn);
+emailEl.addEventListener('input', updateBtn);
+
+// ── Upload + Triage ───────────────────────────────────────────────────────────
+btn.addEventListener('click', async () => {
+  const name  = nameEl.value.trim();
+  const email = emailEl.value.trim();
+  if (!selectedFile || !name || !email) return;
+
+  btn.disabled = true;
+  btn.textContent = 'Wird gepr\u00fcft\u2026';
+  setStatus('info', 'Ihr Schreiben wird gepr\u00fcft\u2026');
+
+  try {
+    const data = await submitFree({
+      file: selectedFile,
+      name,
+      email,
+      type: 'mahnung',
+      onStatus: (kind, msg) => setStatus(kind, msg),
+    });
+
+    currentStripeLink = data.stripeLink || null;
+    renderTeaser(data, name);
+    setStatus('', '');
+
+  } catch (err) {
+    setStatus('error', err.message || 'Pr\u00fcfung fehlgeschlagen. Bitte erneut versuchen.');
+    btn.disabled = false;
+    btn.textContent = 'Kostenlose Einsch\u00e4tzung starten';
   }
+});
+
+// ── Teaser rendering ──────────────────────────────────────────────────────────
+function renderTeaser(data, name) {
+  const triage     = data.triage || {};
+  const tier       = data.tier || triage.tier || 'tier2';
+  const sender     = triage.sender || null;
+  const amount     = triage.amount_claimed ? `\u20AC${triage.amount_claimed}` : null;
+  const teaser     = triage.teaser || data.teaser?.text || '';
+  const stripeLink = data.stripeLink || null;
+
+  // Heading
+  if (sender) {
+    teaserCompany.textContent = `Schreiben von ${sender}`;
+  } else {
+    teaserCompany.textContent = 'Ihre Mahnung wurde gepr\u00fcft';
+  }
+
+  // Subline
+  teaserSub.textContent = amount
+    ? `Geforderte Summe: ${amount}`
+    : 'Erste Einsch\u00e4tzung liegt vor';
+
+  // AI teaser — documentspecific text from triage
+  if (teaser) {
+    teaserCopy.textContent = teaser;
+    teaserCopy.style.display = '';
+  } else {
+    teaserCopy.style.display = 'none';
+  }
+
+  // CTA — only show if stripeLink available and tier is not tier3
+  if (stripeLink && tier !== 'tier3') {
+    teaserCta.innerHTML = `
+      <h3>Vollst\u00e4ndige Pr\u00fcfung der Forderung</h3>
+      <ul>
+        <li>Pr\u00fcfung aller relevanten Punkte aus Ihrem Schreiben</li>
+        <li>Bewertung der Kosten und Nachweise</li>
+        <li>Fertiger Widerspruch zum direkten Versand</li>
+      </ul>
+      <a href="${stripeLink}" class="offer-cta" style="margin-top:8px;">
+        Vollst\u00e4ndige Pr\u00fcfung starten &mdash; &euro;49 &rarr;
+      </a>
+      <p style="font-size:.78rem;color:var(--muted);margin-top:8px;text-align:center;">Einmalig &euro;49 &middot; kein Abo &middot; sichere Zahlung</p>`;
+
+    // Update modal CTA link dynamically
+    if (modalCta) modalCta.href = stripeLink;
+
+    // Update modal features based on triage flags
+    updateModalFeatures(triage);
+
+  } else if (tier === 'tier3') {
+    teaserCta.innerHTML = `
+      <p style="font-size:.9rem;color:var(--ink-3);margin-top:8px;">
+        Auf Basis der sichtbaren Informationen wirkt das Schreiben derzeit eher standardm\u00e4\u00dfig.
+        Eine zus\u00e4tzliche Pr\u00fcfung bleibt optional.
+      </p>
+      ${stripeLink ? `<a href="${stripeLink}" class="offer-cta" style="margin-top:12px;background:var(--ink-3);">Optionale vollst\u00e4ndige Pr\u00fcfung &mdash; &euro;49</a>` : ''}`;
+  } else {
+    teaserCta.innerHTML = '';
+  }
+
+  // Show teaser card
+  teaserEl.style.display = 'block';
+  requestAnimationFrame(() => teaserEl.classList.add('teaser--visible'));
+  teaserEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  track('teaser_shown', { type: 'mahnung', tier, hasStripeLink: Boolean(stripeLink) });
+}
+
+function updateModalFeatures(triage) {
+  const features = [];
+
+  if (triage.possible_verjährt) {
+    features.push('Pr\u00fcfung der m\u00f6glichen Verj\u00e4hrung Ihrer Forderung');
+  }
+  if (triage.possible_überhöhte_kosten || triage.possible_kein_nachweis) {
+    features.push('Pr\u00fcfung der Kostenaufstellung und vorhandener Nachweise');
+  }
+  if (triage.possible_kein_abtretungsnachweis) {
+    features.push('Pr\u00fcfung der Inkassoberechtigung und Abtretungsanzeige');
+  }
+  if (triage.possible_falscher_empfänger) {
+    features.push('Pr\u00fcfung der korrekten Adressierung und Schuldneridentit\u00e4t');
+  }
+
+  // Always add these
+  features.push('Fertiger Widerspruch zum direkten Versand');
+  features.push('Klare n\u00e4chste Schritte');
+
+  if (modalFeatures && features.length > 0) {
+    modalFeatures.innerHTML = features.slice(0, 4).map(f =>
+      `<div class="modal__feature"><span class="check">&#10003;</span><span>${f}</span></div>`
+    ).join('');
+  }
+}
+
+// ── Modal ─────────────────────────────────────────────────────────────────────
+modalCloseBtn?.addEventListener('click', () => {
+  modalEl.classList.remove('modal--open', 'open');
+  document.body.style.overflow = '';
+});
+
+modalEl?.addEventListener('click', e => {
+  if (e.target === modalEl) {
+    modalEl.classList.remove('modal--open', 'open');
+    document.body.style.overflow = '';
+  }
+});
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function setStatus(kind, msg) {
+  statusEl.textContent = msg;
+  statusEl.className = 'optie-status' + (kind ? ` optie-status--${kind}` : '');
+}
 </script>
 
-<script type="module" src="./app.js"></script>
 </body>
 </html>
