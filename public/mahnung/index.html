@@ -324,9 +324,9 @@
   </div>
 </div>
 
-<script src="/app.js"></script>
+<script type="module">
+import { submitFree, validateFile, formatFileSize, track, initFaq, initStickyFooter } from './app.js';
 
-<script>
 // ── Init ──────────────────────────────────────────────────────────────────────
 initFaq();
 initStickyFooter();
@@ -353,82 +353,38 @@ const modalCta        = document.getElementById('modal-cta');
 const modalFeatures   = document.getElementById('modal-features');
 const modalCloseBtn   = document.getElementById('modal-close-btn');
 
-// ── Safety check ──────────────────────────────────────────────────────────────
-if (
-  !window.submitFree ||
-  !window.validateFile ||
-  !window.formatFileSize ||
-  !window.track ||
-  !window.initFaq ||
-  !window.initStickyFooter
-) {
-  console.error('app.js wurde nicht korrekt geladen. Prüfen Sie /app.js und entfernen Sie alle export/import Statements.');
-  if (statusEl) {
-    statusEl.textContent = 'Technischer Fehler: Upload-Modul konnte nicht geladen werden.';
-    statusEl.className = 'optie-status optie-status--error';
-  }
-}
-
 // ── File selection ────────────────────────────────────────────────────────────
 uploadZone.addEventListener('click', () => fileInput.click());
 
-uploadZone.addEventListener('dragover', (event) => {
-  event.preventDefault();
-  uploadZone.style.borderColor = 'var(--accent)';
-});
-
-uploadZone.addEventListener('dragleave', () => {
+uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.style.borderColor = 'var(--accent)'; });
+uploadZone.addEventListener('dragleave', () => { uploadZone.style.borderColor = ''; });
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault();
   uploadZone.style.borderColor = '';
-});
-
-uploadZone.addEventListener('drop', (event) => {
-  event.preventDefault();
-  uploadZone.style.borderColor = '';
-
-  const file = event.dataTransfer?.files?.[0];
-
-  if (file) {
-    handleFile(file);
-  }
+  const file = e.dataTransfer?.files?.[0];
+  if (file) handleFile(file);
 });
 
 fileInput.addEventListener('change', () => {
-  if (fileInput.files?.[0]) {
-    handleFile(fileInput.files[0]);
-  }
+  if (fileInput.files?.[0]) handleFile(fileInput.files[0]);
 });
 
 function handleFile(file) {
   const err = validateFile(file);
-
-  if (err) {
-    setStatus('error', err);
-    return;
-  }
+  if (err) { setStatus('error', err); return; }
 
   selectedFile = file;
-
   uploadZone.querySelector('.upload-label').textContent = file.name;
   uploadZone.querySelector('.upload-hint').textContent = formatFileSize(file.size);
-
   contactFields.style.display = 'flex';
-
   setStatus('', '');
   updateBtn();
 
-  track('file_selected', {
-    type: 'mahnung',
-    fileType: file.type,
-    fileSize: file.size,
-  });
+  track('file_selected', { type: 'mahnung', fileType: file.type, fileSize: file.size });
 }
 
 function updateBtn() {
-  const ready =
-    selectedFile &&
-    nameEl.value.trim() &&
-    emailEl.value.trim();
-
+  const ready = selectedFile && nameEl.value.trim() && emailEl.value.trim();
   btn.disabled = !ready;
 }
 
@@ -439,15 +395,11 @@ emailEl.addEventListener('input', updateBtn);
 btn.addEventListener('click', async () => {
   const name  = nameEl.value.trim();
   const email = emailEl.value.trim();
-
-  if (!selectedFile || !name || !email) {
-    return;
-  }
+  if (!selectedFile || !name || !email) return;
 
   btn.disabled = true;
-  btn.textContent = 'Wird geprüft…';
-
-  setStatus('info', 'Ihr Schreiben wird geprüft…');
+  btn.textContent = 'Wird gepr\u00fcft\u2026';
+  setStatus('info', 'Ihr Schreiben wird gepr\u00fcft\u2026');
 
   try {
     const data = await submitFree({
@@ -459,41 +411,38 @@ btn.addEventListener('click', async () => {
     });
 
     currentStripeLink = data.stripeLink || null;
-
-    renderTeaser(data);
-
+    renderTeaser(data, name);
     setStatus('', '');
 
   } catch (err) {
-    setStatus(
-      'error',
-      err.message || 'Prüfung fehlgeschlagen. Bitte erneut versuchen.'
-    );
-
+    setStatus('error', err.message || 'Pr\u00fcfung fehlgeschlagen. Bitte erneut versuchen.');
     btn.disabled = false;
-    btn.textContent = 'Kostenlose Einschätzung starten';
+    btn.textContent = 'Kostenlose Einsch\u00e4tzung starten';
   }
 });
 
 // ── Teaser rendering ──────────────────────────────────────────────────────────
-function renderTeaser(data) {
+function renderTeaser(data, name) {
   const triage     = data.triage || {};
   const tier       = data.tier || triage.tier || 'tier2';
   const sender     = triage.sender || null;
-  const amount     = triage.amount_claimed ? `€${triage.amount_claimed}` : null;
+  const amount     = triage.amount_claimed ? `\u20AC${triage.amount_claimed}` : null;
   const teaser     = triage.teaser || data.teaser?.text || '';
-  const stripeLink = data.stripeLink || currentStripeLink || null;
+  const stripeLink = data.stripeLink || null;
 
+  // Heading
   if (sender) {
     teaserCompany.textContent = `Schreiben von ${sender}`;
   } else {
-    teaserCompany.textContent = 'Ihre Mahnung wurde geprüft';
+    teaserCompany.textContent = 'Ihre Mahnung wurde gepr\u00fcft';
   }
 
+  // Subline
   teaserSub.textContent = amount
     ? `Geforderte Summe: ${amount}`
-    : 'Erste Einschätzung liegt vor';
+    : 'Erste Einsch\u00e4tzung liegt vor';
 
+  // AI teaser — documentspecific text from triage
   if (teaser) {
     teaserCopy.textContent = teaser;
     teaserCopy.style.display = '';
@@ -501,96 +450,69 @@ function renderTeaser(data) {
     teaserCopy.style.display = 'none';
   }
 
-  const userEmail  = emailEl ? emailEl.value.trim() : '';
-  const payUrl     = stripeLink && userEmail
-    ? stripeLink + '?prefilled_email=' + encodeURIComponent(userEmail)
-    : stripeLink;
-
+  // CTA — only show if stripeLink available and tier is not tier3
   if (stripeLink && tier !== 'tier3') {
     teaserCta.innerHTML = `
-      <a href="${escapeHtmlAttribute(payUrl)}" class="offer-cta" style="margin-top:8px;">
-        Vollständige Prüfung starten — €49 →
+      <h3>Vollst\u00e4ndige Pr\u00fcfung der Forderung</h3>
+      <ul>
+        <li>Pr\u00fcfung aller relevanten Punkte aus Ihrem Schreiben</li>
+        <li>Bewertung der Kosten und Nachweise</li>
+        <li>Fertiger Widerspruch zum direkten Versand</li>
+      </ul>
+      <a href="${stripeLink}" class="offer-cta" style="margin-top:8px;">
+        Vollst\u00e4ndige Pr\u00fcfung starten &mdash; &euro;49 &rarr;
       </a>
-      <p style="font-size:.84rem;color:#713f12;margin-top:12px;font-weight:600;">
-        📬 Sie erhalten die Analyse per E-Mail — spätestens am nächsten Werktag bis 16:00 Uhr.
-      </p>
-      <p style="font-size:.78rem;color:var(--muted);margin-top:4px;text-align:center;">
-        Einmalig €49 · kein Abo · sichere Zahlung über Stripe
-      </p>
-    `;
+      <p style="font-size:.78rem;color:var(--muted);margin-top:8px;text-align:center;">Einmalig &euro;49 &middot; kein Abo &middot; sichere Zahlung</p>`;
 
-    if (modalCta) {
-      modalCta.href = payUrl;
-    }
+    // Update modal CTA link dynamically
+    if (modalCta) modalCta.href = stripeLink;
 
+    // Update modal features based on triage flags
     updateModalFeatures(triage);
 
   } else if (tier === 'tier3') {
     teaserCta.innerHTML = `
       <p style="font-size:.9rem;color:var(--ink-3);margin-top:8px;">
-        Auf Basis der sichtbaren Informationen wirkt das Schreiben derzeit eher standardmäßig.
-        Eine zusätzliche Prüfung bleibt optional.
+        Auf Basis der sichtbaren Informationen wirkt das Schreiben derzeit eher standardm\u00e4\u00dfig.
+        Eine zus\u00e4tzliche Pr\u00fcfung bleibt optional.
       </p>
-      ${
-        payUrl
-          ? `<a href="${escapeHtmlAttribute(payUrl)}" class="offer-cta" style="margin-top:12px;background:var(--ink-3);">Optionale vollständige Prüfung — €49</a>`
-          : ''
-      }
-    `;
+      ${stripeLink ? `<a href="${stripeLink}" class="offer-cta" style="margin-top:12px;background:var(--ink-3);">Optionale vollst\u00e4ndige Pr\u00fcfung &mdash; &euro;49</a>` : ''}`;
   } else {
     teaserCta.innerHTML = '';
   }
 
+  // Show teaser card
   teaserEl.style.display = 'block';
+  requestAnimationFrame(() => teaserEl.classList.add('teaser--visible'));
+  teaserEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-  requestAnimationFrame(() => {
-    teaserEl.classList.add('teaser--visible');
-  });
-
-  teaserEl.scrollIntoView({
-    behavior: 'smooth',
-    block: 'nearest',
-  });
-
-  track('teaser_shown', {
-    type: 'mahnung',
-    tier,
-    hasStripeLink: Boolean(stripeLink),
-  });
+  track('teaser_shown', { type: 'mahnung', tier, hasStripeLink: Boolean(stripeLink) });
 }
 
 function updateModalFeatures(triage) {
   const features = [];
 
   if (triage.possible_verjährt) {
-    features.push('Prüfung der möglichen Verjährung Ihrer Forderung');
+    features.push('Pr\u00fcfung der m\u00f6glichen Verj\u00e4hrung Ihrer Forderung');
   }
-
   if (triage.possible_überhöhte_kosten || triage.possible_kein_nachweis) {
-    features.push('Prüfung der Kostenaufstellung und vorhandener Nachweise');
+    features.push('Pr\u00fcfung der Kostenaufstellung und vorhandener Nachweise');
   }
-
   if (triage.possible_kein_abtretungsnachweis) {
-    features.push('Prüfung der Inkassoberechtigung und Abtretungsanzeige');
+    features.push('Pr\u00fcfung der Inkassoberechtigung und Abtretungsanzeige');
   }
-
   if (triage.possible_falscher_empfänger) {
-    features.push('Prüfung der korrekten Adressierung und Schuldneridentität');
+    features.push('Pr\u00fcfung der korrekten Adressierung und Schuldneridentit\u00e4t');
   }
 
+  // Always add these
   features.push('Fertiger Widerspruch zum direkten Versand');
-  features.push('Klare nächste Schritte');
+  features.push('Klare n\u00e4chste Schritte');
 
   if (modalFeatures && features.length > 0) {
-    modalFeatures.innerHTML = features
-      .slice(0, 4)
-      .map((feature) => `
-        <div class="modal__feature">
-          <span class="check">✓</span>
-          <span>${escapeHtml(feature)}</span>
-        </div>
-      `)
-      .join('');
+    modalFeatures.innerHTML = features.slice(0, 4).map(f =>
+      `<div class="modal__feature"><span class="check">&#10003;</span><span>${f}</span></div>`
+    ).join('');
   }
 }
 
@@ -600,8 +522,8 @@ modalCloseBtn?.addEventListener('click', () => {
   document.body.style.overflow = '';
 });
 
-modalEl?.addEventListener('click', (event) => {
-  if (event.target === modalEl) {
+modalEl?.addEventListener('click', e => {
+  if (e.target === modalEl) {
     modalEl.classList.remove('modal--open', 'open');
     document.body.style.overflow = '';
   }
@@ -610,22 +532,7 @@ modalEl?.addEventListener('click', (event) => {
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function setStatus(kind, msg) {
   statusEl.textContent = msg;
-  statusEl.className =
-    'optie-status' +
-    (kind ? ` optie-status--${kind}` : '');
-}
-
-function escapeHtml(value = '') {
-  return String(value)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
-
-function escapeHtmlAttribute(value = '') {
-  return escapeHtml(value);
+  statusEl.className = 'optie-status' + (kind ? ` optie-status--${kind}` : '');
 }
 </script>
 
