@@ -251,37 +251,35 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
   const tier        = triage?.tier || "";
   const safeName    = escapeHtml(capitalizeFirst(name || "Kunde"));
 
-  // ── Stage 1 tier3 — ruhig, konkret, subtile Spannung, CTA immer vorhanden ─
+  // ── Stage 1 tier3 — ruhig, ehrlich, optional ─────────────────────────────
   if (stageNumber === 1 && tier === "tier3") {
     const teaser = tier3Teaser(triage, type);
 
     await sendEmail(env, {
       to:      email,
-      subject: `Einschätzung zu Ihrem ${escapeHtml(labels.title)} — einige Punkte, die sich lohnen zu prüfen`,
-      html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
+      subject: `Erste Einschätzung zu Ihrem ${escapeHtml(labels.title)} — MussIchZahlen`,
+      html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
   <p>Guten Tag ${safeName},</p>
-  <p>wir haben Ihr Schreiben geprüft und eine erste Einschätzung erstellt.</p>
-  <p>Das Schreiben wirkt grundsätzlich professionell aufgebaut — es gibt jedoch einige Punkte, die sich vor einer Zahlung oder Reaktion lohnen zu prüfen.</p>
-  <p>${teaser}</p>
-  <div style="background:#f9fafb;padding:16px;border-radius:8px;margin:22px 0;">
-    <table style="width:100%;border-collapse:collapse;font-size:14px;">
-      <tr><td style="padding:8px 0;font-weight:bold;width:140px;">Dokument</td><td style="padding:8px 0;">${escapeHtml(labels.title)}</td></tr>
-      <tr><td style="padding:8px 0;font-weight:bold;">Absender</td><td style="padding:8px 0;">${escapeHtml(triage?.sender || "unbekannt")}</td></tr>
-      <tr><td style="padding:8px 0;font-weight:bold;">Betrag</td><td style="padding:8px 0;">${escapeHtml(amount)}</td></tr>
-      <tr><td style="padding:8px 0;font-weight:bold;">Einschätzung</td><td style="padding:8px 0;">Begrenzte sichtbare Hinweise</td></tr>
-    </table>
-  </div>
-  <p>Eine vollständige Analyse klärt, ob alle Details korrekt und vollständig sind — und enthält ein fertiges ${escapeHtml(labels.letter)}, falls Sie schriftlich reagieren möchten.</p>
-  <div style="margin:22px 0;">
-    <a href="${stripeLink ? escapeHtml(stripeLink) : "#"}" style="display:inline-block;background:#1d3a6e;color:#fff;padding:14px 24px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:15px;">
-      Details prüfen — €${escapeHtml(labels.price)} →
+  <p>wir haben uns Ihr Schreiben angesehen und möchten Ihnen eine erste Einschätzung mitteilen.</p>
+  <p>Auf Grundlage des vorliegenden Schreibens wirkt die Forderung derzeit grundsätzlich nachvollziehbar. ${teaser}</p>
+  <table style="width:100%;border-collapse:collapse;margin:22px 0;font-size:.9rem;border:1px solid #e5e7eb;">
+    <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;width:38%;">Dokument</td><td style="padding:9px 12px;">${escapeHtml(labels.title)}</td></tr>
+    <tr><td style="padding:9px 12px;font-weight:600;">Absender</td><td style="padding:9px 12px;">${escapeHtml(triage?.sender || "nicht eindeutig erkennbar")}</td></tr>
+    <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">Geforderter Betrag</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
+    <tr><td style="padding:9px 12px;font-weight:600;">Erste Einschätzung</td><td style="padding:9px 12px;">Begrenzte sichtbare Auffälligkeiten</td></tr>
+  </table>
+  <p>Manche Verbraucher entscheiden sich dennoch für eine vollständige Prüfung — etwa um sicherzugehen, dass alle Kostenbestandteile nachvollziehbar sind und keine Unterlagen fehlen. Das bleibt selbstverständlich optional.</p>
+  ${stripeLink ? `
+  <div style="margin:24px 0;">
+    <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#374151;color:#fff;padding:13px 22px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;">
+      Forderung genauer prüfen — €${escapeHtml(labels.price)} →
     </a>
   </div>
-  <p style="font-size:0.82rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
+  <p style="font-size:.82rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>` : ""}
   <hr style="border:none;border-top:1px solid #e5e7eb;margin:28px 0;">
-  <p>Falls Sie Fragen haben, können Sie einfach auf diese E-Mail antworten.</p>
+  <p>Bei Fragen können Sie einfach auf diese E-Mail antworten.</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
-  <p style="color:#6b7280;font-size:0.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
+  <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
 </div>`,
     });
 
