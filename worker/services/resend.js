@@ -384,25 +384,24 @@ export async function sendPaidEmail(env, { name, email, type, triage, analysis }
   const labels      = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
   const analysisRtf = makeAnalysisRtf(analysis, name, email, triage, type);
   const letterRtf   = makeLetterRtf(analysis, name, triage, type);
+  const safeName    = escapeHtml(capitalizeFirst(name || "Kunde"));
 
   await sendEmail(env, {
     to:      email,
-    subject: `Ihre Analyse ist fertig — ${labels.title} | MussIchZahlen`,
-    html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;">
-  <p>Guten Tag ${escapeHtml(capitalizeFirst(name || "Kunde"))},</p>
-  <p>Ihre Analyse ist fertig. Im Anhang finden Sie zwei Dateien:</p>
-  <ul style="line-height:1.9;">
-    <li><strong>MussIchZahlen-Analyse.rtf</strong> — vollständige Analyse mit Befunden und nächsten Schritten</li>
-    <li><strong>${escapeHtml(labels.filename)}</strong> — fertiges ${escapeHtml(labels.letter)}, direkt verwendbar</li>
+    subject: `Ihre Einschätzung liegt vor — ${escapeHtml(labels.title)} | MussIchZahlen`,
+    html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
+  <p>Guten Tag ${safeName},</p>
+  <p>wir haben Ihr Schreiben sorgfältig geprüft und die wichtigsten Punkte für Sie zusammengefasst. Im Anhang finden Sie zwei Dokumente:</p>
+  <ul style="line-height:2;padding-left:20px;">
+    <li><strong>MussIchZahlen-Analyse.rtf</strong> — unsere Einschätzung mit konkreten Hinweisen und empfehlenswerten nächsten Schritten</li>
+    <li><strong>${escapeHtml(labels.filename)}</strong> — ein fertiges Antwortschreiben, das Sie bei Bedarf direkt verwenden können</li>
   </ul>
-  <p style="font-size:0.9rem;color:#6b7280;">Die Dateien können mit Microsoft Word, LibreOffice oder einem kompatiblen Textprogramm geöffnet werden.</p>
-  <p style="background:#fef9c3;border-left:4px solid #ca8a04;padding:12px;border-radius:4px;font-size:0.9rem;color:#713f12;">
-    <strong>Wichtig:</strong> Lesen Sie zuerst die Analyse, bevor Sie das Schreiben versenden. Die Analyse enthält wichtige Hinweise zu Ihrem weiteren Vorgehen.
-  </p>
-  <p style="background:#f0fdf4;border-left:4px solid #22c55e;padding:12px;border-radius:4px;font-size:0.9rem;">
-    💡 Tipp: Senden Sie das Schreiben möglichst per Einschreiben oder per E-Mail mit Versandnachweis. Bewahren Sie den Nachweis auf.
-  </p>
-  <p style="color:#6b7280;font-size:0.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
+  <p>Bitte lesen Sie die Einschätzung zunächst in Ruhe durch, bevor Sie das Antwortschreiben verwenden — sie enthält wichtige Hinweise zu Ihrem weiteren Vorgehen.</p>
+  <p style="font-size:.9rem;color:#374151;">Die Dateien lassen sich mit Microsoft Word, LibreOffice oder einem vergleichbaren Textprogramm öffnen.</p>
+  <p style="font-size:.9rem;color:#374151;">Falls Sie das Antwortschreiben versenden möchten, empfehlen wir einen nachweisbaren Versandweg — zum Beispiel per Einschreiben. Den Nachweis sollten Sie aufbewahren.</p>
+  <p>Bei Fragen können Sie jederzeit einfach auf diese E-Mail antworten.</p>
+  <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
+  <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
 </div>`,
     attachments: [
       { filename: "MussIchZahlen-Analyse.rtf", content: rtfToBase64(analysisRtf) },
