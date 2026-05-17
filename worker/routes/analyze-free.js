@@ -13,7 +13,7 @@ import {
 import { loadPrompts } from "../config/prompts.js";
 import { getStripeLink } from "../services/stripe.js";
 
-export async function handleAnalyzeFree(request, env) {
+export async function handleAnalyzeFree(request, env, ctx) {
   try {
     const formData = await request.formData();
 
@@ -79,28 +79,8 @@ export async function handleAnalyzeFree(request, env) {
 
     console.log("enqueueFree: OK");
 
-    try {
-      await sendConfirmationEmail(env, { name, email, type });
-      console.log("sendConfirmationEmail: OK");
-    } catch (err) {
-      console.error("sendConfirmationEmail FAILED:", err.message);
-    }
-
-    try {
-      await notifyAdminFree(env, { name, email, type, triage, stripeLink });
-      console.log("notifyAdminFree: OK");
-    } catch (err) {
-      console.error("notifyAdminFree FAILED:", err.message);
-    }
-
-    try {
-      await sendFreeEmail(env, { name, email, type, triage, stripeLink, stage: 1 });
-      console.log("sendFreeEmail stage 1: OK");
-    } catch (err) {
-      console.error("sendFreeEmail stage 1 FAILED:", err.message);
-    }
-
-    return jsonResponse({
+    // Response direct sturen — emails daarna via ctx.waitUntil
+    const response = jsonResponse({
       ok: true,
       type,
       tier:      triage.tier,
@@ -114,6 +94,35 @@ export async function handleAnalyzeFree(request, env) {
       },
       message: "Ihre erste Einschätzung ist fertig.",
     });
+
+    const emailWork = (async () => {
+      try {
+        await sendConfirmationEmail(env, { name, email, type });
+        console.log("sendConfirmationEmail: OK");
+      } catch (err) {
+        console.error("sendConfirmationEmail FAILED:", err.message);
+      }
+
+      try {
+        await notifyAdminFree(env, { name, email, type, triage, stripeLink });
+        console.log("notifyAdminFree: OK");
+      } catch (err) {
+        console.error("notifyAdminFree FAILED:", err.message);
+      }
+
+      try {
+        await sendFreeEmail(env, { name, email, type, triage, stripeLink, stage: 1 });
+        console.log("sendFreeEmail stage 1: OK");
+      } catch (err) {
+        console.error("sendFreeEmail stage 1 FAILED:", err.message);
+      }
+    })();
+
+    if (ctx?.waitUntil) {
+      ctx.waitUntil(emailWork);
+    }
+
+    return response;
   } catch (err) {
     console.error("handleAnalyzeFree FAILED:", err?.message, err?.stack);
     return jsonResponse(
@@ -323,16 +332,13 @@ function normalizeFlagCount(triage) {
 }
 
 function normalizeTeaser(risk, teaser) {
-  // Behoud AI-gegenereerde documentspecifieke teaser als die substantieel is
-  const cleaned = String(teaser || "").trim();
-  if (cleaned.length > 20) return cleaned;
-
-  // Fallback naar risk-gebaseerde generieke teaser
   const map = {
     high:   "Es gibt mehrere Punkte, die vor einer Zahlung sorgfältig geprüft werden sollten — insbesondere wenn Kosten, Nachweise oder die Grundlage der Forderung nicht vollständig nachvollziehbar sind.",
     medium: "Einzelne Angaben in diesem Schreiben könnten vor einer Zahlung noch geklärt werden, besonders wenn Betrag, Absender oder Nachweise nicht vollständig eindeutig sind.",
     low:    "Auf Basis der sichtbaren Informationen wirkt das Schreiben eher standardmäßig, einzelne Details können vor einer endgültigen Entscheidung dennoch geprüft werden.",
   };
+  const allowed = new Set(Object.values(map));
+  if (allowed.has(teaser)) return teaser;
   return map[risk] || map.medium;
 }
 
