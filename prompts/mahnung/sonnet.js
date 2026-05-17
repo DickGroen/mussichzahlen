@@ -244,42 +244,43 @@ Das Schreiben ist eine sachliche Rückfrage — kein Widerspruch, keine Ablehnun
 Der Ton ist: freundlich, offen, nachfragend.
 Der Leser soll denken: "Das klingt wie jemand, der einfach verstehen möchte, worum es geht."
 
-BEVORZUGE diese zurückhaltenden Formulierungen:
-- "Ich wäre Ihnen dankbar, wenn Sie mir kurz erläutern könnten, wie sich der genannte Betrag zusammensetzt."
-- "Für mich ist derzeit nicht vollständig nachvollziehbar, worauf sich die Forderung genau stützt."
-- "Ich bitte Sie daher um eine kurze schriftliche Erläuterung."
-- "Bevor ich eine Zahlung veranlasse, würde ich gerne einige Punkte klären."
+BEVORZUGE diese zurückhaltenden, natürlichen Formulierungen:
+- "Derzeit kann ich die Forderung auf Grundlage Ihres Schreibens nicht vollständig nachvollziehen."
+- "Ich möchte die Angelegenheit zunächst klären."
+- "Ich bitte daher um eine Vertragskopie sowie um eine nachvollziehbare Übersicht der geforderten Beträge."
+- "Sobald mir die Unterlagen vorliegen, kann ich die Forderung genauer prüfen."
+- "Vor einer Klärung der offenen Punkte werde ich zunächst keine Zahlung vornehmen."
+- "Ebenfalls unklar ist für mich, wie sich der geforderte Betrag genau zusammensetzt."
 - "Ich bitte um schriftliche Rückmeldung."
 
 VERMEIDE diese Formulierungen:
 - "Hiermit widerspreche ich der Forderung" → zu formell-juristisch
 - "Ich bestreite die Forderung vorsorglich" → Rechtsvorlagen-Gefühl
+- "Dies stellt kein Schuldanerkenntnis dar" → Internet-Vorlage
+- "Ich sehe mich derzeit nicht in der Lage" → zu formell
+- "Sobald mir diese Unterlagen vorliegen, werde ich die Angelegenheit prüfen" → zu poliert
+- "Bis dahin werde ich eine Zahlung erst nach vollständiger Klärung prüfen" → zu formal
 - "vollumfänglich und in allen Teilen" → übertrieben formal
-- "Soweit aus Ihrem Schreiben ersichtlich" → zu AI-artig
-- "innerhalb von 14 Tagen" als Forderung → klingt wie Anwaltsdrohung
-- "Dies ist ausdrücklich kein Schuldanerkenntnis" → Internet-Vorlage
-- "sehe ich mich nicht in der Lage" → zu formell
-- "Sachverhalt" → zu juristisch
-- "abschließend zu prüfen" → Kanzleijargon
-- "Vor einer Klärung werde ich keine Zahlung leisten" → für Tier 2 zu konfrontativ
-- Gesetzesparagraphen — nur nennen wenn im konkreten Dokument direkt relevant
+- "Sachverhalt" / "abschließend zu prüfen" → Kanzleijargon
+- Lange, strukturierte Dokumentenlisten → klingt zu professionell, nicht verbraucher-typisch
+- Gesetzesparagraphen — nur wenn im Dokument konkret relevant
 
 BETREFF:
-Freundlich und offen. Bevorzuge:
+Freundlich und offen:
 - "Rückfrage zu Ihrer Forderung vom [Datum]"
 - "Bitte um kurze Erläuterung"
 - "Nachfrage zu Ihrem Schreiben"
-Nicht: "Widerspruch" als Titel.
 
-STRUKTUR — locker, nicht schematisch:
+STRUKTUR — kurz und locker:
 1. Freundliche Einleitung mit Bezug auf das Schreiben
-2. Was unklar ist — kurz und sachlich, ohne Konfrontation
-3. Welche kurze Erläuterung oder Unterlage erbeten wird
+2. Was unklar ist — kurz, in eigenen Worten, ohne Report-Struktur
+3. Ein konkreter, kurzer Dokumentenwunsch — nicht als Liste, sondern als Satz
 4. Freundlicher Abschluss
 
-SEHR WICHTIG — Individualität:
+SEHR WICHTIG:
 - Absender, Aktenzeichen und Betrag aus dem Dokument verwenden
-- Die konkreten unklaren Punkte kurz und sachlich nennen
+- Kurz und direkt — echte Verbraucher schreiben keine langen Briefe
+- Nicht jede mögliche Unklarheit aufzählen — nur die wichtigste oder zwei
 
 FORMALES:
 - Keine Adressblöcke oder Platzhalter einfügen — Template ergänzt diese automatisch
