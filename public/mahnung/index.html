@@ -482,6 +482,10 @@ btn.addEventListener('click', async () => {
       confirmCard.style.display = 'block';
     }
 
+    // Verberg uploadkaart
+    const freeCard = document.getElementById('free-card');
+    if (freeCard) freeCard.style.display = 'none';
+
     // Teaser verbergen — betaalknop zit in de email
     const teaserEl2 = document.getElementById('teaser');
     if (teaserEl2) teaserEl2.style.display = 'none';
