@@ -161,9 +161,9 @@ export async function sendConfirmationEmail(env, { name, email, type }) {
     subject: `Ihr Schreiben wird geprüft — MussIchZahlen`,
     html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
   <p>Guten Tag ${safeName},</p>
-  <p>vielen Dank — wir haben Ihr Schreiben erhalten und werden es sorgfältig prüfen.</p>
-  <p>Gerade bei Mahnungen oder Inkassoschreiben lohnt eine genaue Betrachtung. Nicht immer sind Forderungsbetrag, Kostenstruktur und Nachweise auf den ersten Blick vollständig nachvollziehbar.</p>
-  <p>Sie erhalten eine erste Einschätzung dazu, ob einzelne Punkte genauer geprüft werden sollten — in der Regel bis zum nächsten Werktag per E-Mail.</p>
+  <p>vielen Dank — wir haben Ihr Schreiben erhalten und sehen uns die Unterlagen nun genauer an.</p>
+  <p>Solche Schreiben werfen häufig Fragen auf. Nicht immer ist auf den ersten Blick erkennbar, ob Forderungsbetrag, enthaltene Kosten und beigefügte Nachweise vollständig nachvollziehbar sind. Dabei prüfen wir insbesondere, ob die Forderung und die angegebenen Kosten nachvollziehbar belegt sind.</p>
+  <p>Unsere erste Einschätzung erhalten Sie in der Regel bis zum nächsten Werktag per E-Mail.</p>
   <p style="font-size:.9rem;color:#6b7280;">→ Bitte prüfen Sie auch Ihren Spam-Ordner, falls Sie keine E-Mail erhalten sollten.</p>
   <p>Bei Fragen können Sie einfach auf diese E-Mail antworten.</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
@@ -287,16 +287,15 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     return;
   }
 
-  // ── Stage 1 tier1/tier2 — volledige CTA ──────────────────────────────────
-  if (stageNumber === 1) {
+  // ── Stage 1 tier1 — urgent, concrete concerns ─────────────────────────────
+  if (stageNumber === 1 && tier === "tier1") {
     const senderText = triage?.sender ? `von <strong>${escapeHtml(triage.sender)}</strong> ` : "";
     const amountText = amount !== "unbekannt" ? `über <strong>${escapeHtml(amount)}</strong> ` : "";
     const teaserText = triage?.teaser ? escapeHtml(String(triage.teaser).trim()) : null;
 
-    // Varieer de opening — niet altijd dezelfde cadans
     const openings = [
       `wir haben uns die Unterlagen ${senderText}${amountText}angesehen und möchten Ihnen eine erste Einschätzung mitteilen.`,
-      `nach erster Durchsicht Ihres Schreibens ${senderText}${amountText}ergeben sich einzelne Punkte, die vor einer Zahlung geprüft werden sollten.`,
+      `nach erster Durchsicht Ihres Schreibens ${senderText}${amountText}ergeben sich mehrere Punkte, die vor einer Zahlung genauer geprüft werden sollten.`,
       `wir haben Ihr Schreiben ${senderText}${amountText}geprüft und möchten Ihnen kurz mitteilen, was uns dabei aufgefallen ist.`,
     ];
     const opening = openings[Math.floor(Math.random() * openings.length)];
@@ -337,7 +336,53 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
 </div>`,
     });
 
-    await trackEvent(env, "email_sent", { type, stage: 1, kind: "free", tier: tier || "tier1_or_tier2" });
+    await trackEvent(env, "email_sent", { type, stage: 1, kind: "free", tier: "tier1" });
+    return;
+  }
+
+  // ── Stage 1 tier2 — moderate caution, concrete but restrained ────────────
+  if (stageNumber === 1 && tier === "tier2") {
+    const senderText = triage?.sender ? `von <strong>${escapeHtml(triage.sender)}</strong> ` : "";
+    const amountText = amount !== "unbekannt" ? `über <strong>${escapeHtml(amount)}</strong> ` : "";
+    const teaserText = triage?.teaser ? escapeHtml(String(triage.teaser).trim()) : null;
+
+    await sendEmail(env, {
+      to:      email,
+      subject: `Erste Einschätzung zu Ihrer ${escapeHtml(labels.title)} — MussIchZahlen`,
+      html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
+  <p>Guten Tag ${safeName},</p>
+  <p>nach erster Durchsicht Ihres Schreibens ${senderText}${amountText}möchten wir Ihnen kurz mitteilen, was wir festgestellt haben.</p>
+  ${teaserText ? `
+  <div style="background:#fffbeb;border-left:3px solid #d97706;padding:14px 16px;border-radius:4px;margin:22px 0;color:#78350f;font-size:.94rem;line-height:1.75;">
+    ${teaserText}
+  </div>` : `
+  <p>Einzelne Angaben in diesem Schreiben sollten vor einer Zahlung noch genauer geprüft werden — insbesondere hinsichtlich der Kosten und der zugrunde liegenden Unterlagen bleiben einzelne Punkte derzeit offen.</p>`}
+  <table style="width:100%;border-collapse:collapse;margin:22px 0;font-size:.9rem;border:1px solid #e5e7eb;">
+    <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;width:38%;">Dokument</td><td style="padding:9px 12px;">${escapeHtml(labels.title)}</td></tr>
+    <tr><td style="padding:9px 12px;font-weight:600;">Absender</td><td style="padding:9px 12px;">${escapeHtml(triage?.sender || "nicht eindeutig erkennbar")}</td></tr>
+    <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">Geforderter Betrag</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
+  </table>
+  <p>Nicht immer sind Kostenbestandteile und Nachweise vollständig nachvollziehbar. Vor einer Zahlung kann es sinnvoll sein, die zugrunde liegenden Unterlagen genauer zu prüfen.</p>
+  <p>Im Rahmen der vollständigen Prüfung erhalten Sie eine klare Bewertung Ihrer Situation sowie ein fertiges Antwortschreiben, das Sie bei Bedarf direkt verwenden können. Das bleibt selbstverständlich optional.</p>
+  ${stripeLink ? `
+  <div style="margin:28px 0;">
+    <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 26px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
+      Forderung vollständig prüfen — €${escapeHtml(labels.price)} →
+    </a>
+  </div>
+  <p style="font-size:.84rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
+  <p style="font-size:.84rem;color:#6b7280;margin-top:16px;">
+    Funktioniert der Button nicht? Kopieren Sie diesen Link in Ihren Browser:<br>
+    <a href="${escapeHtml(stripeLink)}" style="color:#1d4ed8;word-break:break-all;">${escapeHtml(stripeLink)}</a>
+  </p>` : ""}
+  <hr style="border:none;border-top:1px solid #e5e7eb;margin:28px 0;">
+  <p>Bei Fragen antworten Sie einfach auf diese E-Mail.</p>
+  <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
+  <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
+</div>`,
+    });
+
+    await trackEvent(env, "email_sent", { type, stage: 1, kind: "free", tier: "tier2" });
     return;
   }
 
