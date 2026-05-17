@@ -293,12 +293,20 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     const amountText = amount !== "unbekannt" ? `über <strong>${escapeHtml(amount)}</strong> ` : "";
     const teaserText = triage?.teaser ? escapeHtml(String(triage.teaser).trim()) : null;
 
+    // Varieer de opening — niet altijd dezelfde cadans
+    const openings = [
+      `wir haben uns die Unterlagen ${senderText}${amountText}angesehen und möchten Ihnen eine erste Einschätzung mitteilen.`,
+      `nach erster Durchsicht Ihres Schreibens ${senderText}${amountText}ergeben sich einzelne Punkte, die vor einer Zahlung geprüft werden sollten.`,
+      `wir haben Ihr Schreiben ${senderText}${amountText}geprüft und möchten Ihnen kurz mitteilen, was uns dabei aufgefallen ist.`,
+    ];
+    const opening = openings[Math.floor(Math.random() * openings.length)];
+
     await sendEmail(env, {
       to:      email,
       subject: `Erste Einschätzung zu Ihrer ${escapeHtml(labels.title)} — MussIchZahlen`,
       html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
   <p>Guten Tag ${safeName},</p>
-  <p>wir haben uns Ihr Schreiben ${senderText}${amountText}angesehen und möchten Ihnen eine erste Einschätzung mitteilen.</p>
+  <p>${opening}</p>
   ${teaserText ? `
   <div style="background:#fffbeb;border-left:3px solid #d97706;padding:14px 16px;border-radius:4px;margin:22px 0;color:#78350f;font-size:.94rem;line-height:1.75;">
     ${teaserText}
