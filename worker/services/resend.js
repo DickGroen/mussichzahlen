@@ -337,41 +337,41 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
   if (!stripeLink || tier === "tier3") return;
 
   const subjects = {
-    2: `Noch nicht geprüft? Ihre Einschätzung wartet — ${labels.title}`,
-    3: `Letzte Erinnerung zu Ihrer Einschätzung — ${labels.title}`,
+    2: `Ihre Einschätzung liegt noch vor — ${labels.title}`,
+    3: `Kurze Erinnerung zu Ihrer Forderung — ${labels.title}`,
   };
 
   const intros = {
-    2: `<p>Ihre kostenlose Ersteinschätzung liegt noch vor. Es kann sinnvoll sein, die Forderung vor einer Zahlung noch einmal prüfen zu lassen.</p>`,
-    3: `<p>Dies ist unsere letzte Erinnerung zu Ihrer Ersteinschätzung. Falls Sie die Forderung noch nicht geprüft haben, könnte eine kurze Prüfung sinnvoll sein — bevor Sie zahlen.</p>`,
+    2: `<p>Ihre erste Einschätzung liegt noch vor. Falls Sie die Forderung noch nicht abschließend geprüft haben — vor einer Zahlung kann eine genauere Betrachtung sinnvoll sein.</p>`,
+    3: `<p>Wir melden uns ein letztes Mal zu Ihrer Einschätzung. Falls Sie die Unterlagen noch nicht geprüft haben, kann ein kurzer Blick vor einer Zahlung sinnvoll sein.</p>`,
   };
 
   const teaserHint = triage?.teaser ? `
-  <div style="background:#fff7ed;border:1px solid #fdba74;padding:12px;border-radius:8px;margin:18px 0;color:#9a3412;">
-    <strong>Hinweis aus der ersten Prüfung:</strong><br>
+  <div style="background:#fffbeb;border-left:3px solid #d97706;padding:12px 14px;border-radius:4px;margin:18px 0;color:#78350f;font-size:.9rem;line-height:1.7;">
     ${escapeHtml(teaserList(triage)[0])}
   </div>` : "";
 
   await sendEmail(env, {
     to:      email,
     subject: subjects[stageNumber] || subjects[2],
-    html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
+    html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
   <p>Guten Tag ${safeName},</p>
   ${intros[stageNumber] || intros[2]}
   ${teaserHint}
-  <table style="width:100%;border-collapse:collapse;margin:20px 0;border:1px solid #e5e7eb;">
-    <tr style="background:#f3f4f6;"><td style="padding:10px;font-weight:bold;">Dokument</td><td style="padding:10px;">${escapeHtml(labels.title)}</td></tr>
-    <tr><td style="padding:10px;font-weight:bold;">Absender</td><td style="padding:10px;">${escapeHtml(triage?.sender || "unbekannt")}</td></tr>
-    <tr style="background:#f3f4f6;"><td style="padding:10px;font-weight:bold;">Betrag</td><td style="padding:10px;font-weight:bold;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
-    <tr><td style="padding:10px;font-weight:bold;">Einschätzung</td><td style="padding:10px;">${escapeHtml(riskLabel(triage?.risk))}</td></tr>
+  <table style="width:100%;border-collapse:collapse;margin:20px 0;font-size:.9rem;border:1px solid #e5e7eb;">
+    <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;width:38%;">Dokument</td><td style="padding:9px 12px;">${escapeHtml(labels.title)}</td></tr>
+    <tr><td style="padding:9px 12px;font-weight:600;">Absender</td><td style="padding:9px 12px;">${escapeHtml(triage?.sender || "nicht eindeutig erkennbar")}</td></tr>
+    <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">Geforderter Betrag</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
   </table>
-  <div style="margin:24px 0;">
-    <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 24px;border-radius:8px;text-decoration:none;font-weight:bold;">
-      Vollständige Analyse + Antwortschreiben — €${escapeHtml(labels.price)} →
+  <div style="margin:22px 0;">
+    <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 24px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
+      Forderung vollständig prüfen — €${escapeHtml(labels.price)} →
     </a>
   </div>
-  <p style="font-size:0.85rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
-  <p style="color:#6b7280;font-size:0.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
+  <p style="font-size:.84rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
+  <p>Bei Fragen antworten Sie einfach auf diese E-Mail.</p>
+  <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
+  <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
 </div>`,
   });
 
@@ -419,32 +419,33 @@ export async function sendAbandonedEmail(env, { name, email, type, amount, strip
   const safeName    = escapeHtml(capitalizeFirst(name || "Kunde"));
 
   const subjects = {
-    1: `Ihr Schreiben wartet noch — ${labels.title}`,
-    2: `Noch nicht geprüft? — ${labels.title}`,
-    3: `Letzte Erinnerung — ${labels.title}`,
+    1: `Kurze Rückfrage zu Ihrem Schreiben — ${labels.title}`,
+    2: `Ihre Unterlagen liegen noch vor — ${labels.title}`,
+    3: `Letzte Nachricht zu Ihrer Forderung — ${labels.title}`,
   };
 
   const intros = {
-    1: `<p>Sie haben Ihr Schreiben hochgeladen, aber die Prüfung noch nicht abgeschlossen${amountStr}. Es kann sinnvoll sein, die Forderung vor einer Zahlung genauer prüfen zu lassen.</p>`,
-    2: `<p>Ihre Einschätzung liegt noch vor. Viele entscheiden sich dafür, die Forderung erst prüfen zu lassen — bevor sie zahlen.</p>`,
-    3: `<p>Dies ist unsere letzte Erinnerung. Falls Sie die Forderung noch nicht geprüft haben, kann ein kurzer Blick lohnenswert sein.</p>`,
+    1: `<p>Sie haben Ihr Schreiben${amountStr ? ` über ${amountStr}` : ""} bei uns hochgeladen, aber die Prüfung noch nicht abgeschlossen. Falls Sie die Unterlagen vor einer Zahlung noch genauer prüfen möchten — das ist jederzeit möglich.</p>`,
+    2: `<p>Ihre Unterlagen liegen noch vor. Falls Sie noch unsicher sind, ob die Forderung vollständig nachvollziehbar ist — eine genauere Prüfung vor einer Zahlung kann sinnvoll sein.</p>`,
+    3: `<p>Wir melden uns ein letztes Mal. Falls Sie die Forderung noch nicht geprüft haben und das noch möchten, ist das weiterhin möglich.</p>`,
   };
 
   await sendEmail(env, {
     to:      email,
     subject: subjects[stageNumber] || subjects[1],
-    html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
+    html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
   <p>Guten Tag ${safeName},</p>
   ${intros[stageNumber] || intros[1]}
-  <div style="margin:28px 0;text-align:center;">
-    <p style="font-size:0.9rem;color:#374151;margin-bottom:16px;">Viele Nutzer lassen Forderungen erst prüfen, bevor sie zahlen.</p>
+  <div style="margin:24px 0;">
     <a href="${escapeHtml(stripeLink)}" target="_blank" rel="noopener noreferrer"
-      style="background:#1d3a6e;color:#ffffff;text-decoration:none;padding:14px 24px;border-radius:8px;display:inline-block;font-weight:bold;font-size:16px;">
-      Jetzt vollständig prüfen lassen — €${escapeHtml(labels.price)} →
+      style="background:#1d3a6e;color:#ffffff;text-decoration:none;padding:14px 24px;border-radius:8px;display:inline-block;font-weight:700;font-size:15px;">
+      Unterlagen genauer prüfen — €${escapeHtml(labels.price)} →
     </a>
   </div>
-  <p style="font-size:0.85rem;color:#6b7280;text-align:center;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
-  <p style="color:#6b7280;font-size:0.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
+  <p style="font-size:.84rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
+  <p>Bei Fragen antworten Sie einfach auf diese E-Mail.</p>
+  <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
+  <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
 </div>`,
   });
 
