@@ -1,11 +1,11 @@
 // worker/index.js
 import { corsResponse, jsonResponse } from "./utils/response.js";
-import { handleAnalyzeFree } from "./routes/analyze-free.js";
-import { handleSubmitPaid } from "./routes/submit-paid.js";
-import { handleSubmitAuto } from "./routes/submit-auto.js";
-import { handleTrack } from "./routes/track.js";
-import { handleCron } from "./routes/cron.js";
-import { handleStripeWebhook } from "./routes/stripe-webhook.js";
+import { handleAnalyzeFree }           from "./routes/analyze-free.js";
+import { handleSubmitPaid }            from "./routes/submit-paid.js";
+import { handleSubmitAuto }            from "./routes/submit-auto.js";
+import { handleTrack }                 from "./routes/track.js";
+import { handleCron }                  from "./routes/cron.js";
+import { handleStripeWebhook }         from "./routes/stripe-webhook.js";
 
 export default {
   async fetch(request, env, ctx) {
@@ -17,8 +17,8 @@ export default {
 
     if (url.pathname === "/api/health") {
       return jsonResponse({
-        ok: true,
-        worker: "mussichzahlen",
+        ok:        true,
+        worker:    "mussichzahlen",
         timestamp: new Date().toISOString(),
       });
     }
@@ -29,7 +29,7 @@ export default {
       }
 
       if (url.pathname === "/api/analyze-free" && request.method === "POST") {
-        return await handleAnalyzeFree(request, env);
+        return await handleAnalyzeFree(request, env, ctx);
       }
 
       if (url.pathname === "/api/submit-auto" && request.method === "POST") {
@@ -52,7 +52,6 @@ export default {
       }
 
       return new Response("Not found", { status: 404 });
-
     } catch (err) {
       console.error("UNHANDLED WORKER ERROR:", err?.message, err?.stack);
       return jsonResponse(
