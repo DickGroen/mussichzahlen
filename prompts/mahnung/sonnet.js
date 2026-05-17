@@ -128,6 +128,8 @@ SEHR WICHTIGER ABSCHNITT. Herzstück der Analyse.
 
 Fließender, natürlicher Text — wie von einem sorgfältigen menschlichen Sachbearbeiter geschrieben.
 Keine Aufzählung. Keine juristische Gliederung. Keine perfekte Symmetrie.
+Die Analyse soll nicht wie ein juristischer Ratgeberartikel, Verbraucherblog oder Kommentar wirken.
+Der Ton soll eher an einen ruhigen Sachbearbeiter oder Mitarbeiter einer Verbraucherhilfe erinnern, der den konkreten Fall praktisch einordnet.
 
 Vermeide editoriale Formulierungen wie:
 - "Was bei diesem Schreiben besonders ins Auge fällt"
