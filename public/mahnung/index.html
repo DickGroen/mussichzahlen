@@ -478,7 +478,10 @@ btn.addEventListener('click', async () => {
 
     // Toon bevestigingskaart, verberg teaser
     const confirmCard = document.getElementById('confirmation-card');
-    if (confirmCard) confirmCard.style.display = 'block';
+    if (confirmCard) {
+      confirmCard.style.display = 'block';
+      confirmCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 
     // Teaser verbergen — bevestigingskaart is voldoende
     const teaserEl = document.getElementById('teaser');
