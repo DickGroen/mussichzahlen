@@ -154,7 +154,6 @@ function tier3Teaser(triage = {}, type = "mahnung") {
 // ── Exports ───────────────────────────────────────────────────────────────────
 
 export async function sendConfirmationEmail(env, { name, email, type }) {
-  const labels   = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
   const safeName = escapeHtml(capitalizeFirst(name || "Kunde"));
 
   await sendEmail(env, {
@@ -162,9 +161,9 @@ export async function sendConfirmationEmail(env, { name, email, type }) {
     subject: `Ihr Schreiben wird geprüft — MussIchZahlen`,
     html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
   <p>Guten Tag ${safeName},</p>
-  <p>vielen Dank — wir haben Ihr Schreiben erhalten und sehen es uns sorgfältig an.</p>
-  <p>Gerade bei ${escapeHtml(labels.title.toLowerCase())}en lohnt eine genaue Betrachtung. Nicht immer ist auf den ersten Blick erkennbar, ob Forderungsbetrag, Kostenstruktur und Nachweise vollständig nachvollziehbar sind.</p>
-  <p>Unsere erste Einschätzung erhalten Sie in der Regel bis zum nächsten Werktag per E-Mail.</p>
+  <p>vielen Dank — wir haben Ihr Schreiben erhalten und werden es sorgfältig prüfen.</p>
+  <p>Gerade bei Mahnungen oder Inkassoschreiben lohnt eine genaue Betrachtung. Nicht immer sind Forderungsbetrag, Kostenstruktur und Nachweise auf den ersten Blick vollständig nachvollziehbar.</p>
+  <p>Sie erhalten eine erste Einschätzung dazu, ob einzelne Punkte genauer geprüft werden sollten — in der Regel bis zum nächsten Werktag per E-Mail.</p>
   <p style="font-size:.9rem;color:#6b7280;">→ Bitte prüfen Sie auch Ihren Spam-Ordner, falls Sie keine E-Mail erhalten sollten.</p>
   <p>Bei Fragen können Sie einfach auf diese E-Mail antworten.</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
@@ -306,14 +305,14 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
   <div style="background:#fffbeb;border-left:3px solid #d97706;padding:14px 16px;border-radius:4px;margin:22px 0;color:#78350f;font-size:.94rem;line-height:1.75;">
     ${teaserText}
   </div>` : `
-  <p>Nach erster Einschätzung bestehen einzelne Punkte, die vor einer Zahlung genauer geprüft werden sollten — insbesondere was die Zusammensetzung des geforderten Betrags und die vorhandenen Unterlagen betrifft.</p>`}
+  <p>Gerade bei Forderungen dieser Art kann eine genauere Prüfung sinnvoll sein — insbesondere wenn einzelne Angaben im Schreiben nicht vollständig nachvollziehbar sind.</p>`}
   <table style="width:100%;border-collapse:collapse;margin:22px 0;font-size:.9rem;border:1px solid #e5e7eb;">
     <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;width:38%;">Dokument</td><td style="padding:9px 12px;">${escapeHtml(labels.title)}</td></tr>
     <tr><td style="padding:9px 12px;font-weight:600;">Absender</td><td style="padding:9px 12px;">${escapeHtml(triage?.sender || "nicht eindeutig erkennbar")}</td></tr>
     <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">Geforderter Betrag</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
   </table>
-  <p>Eine genauere Prüfung vor einer Zahlung kann helfen, die Forderung besser einzuordnen — und zu verstehen, ob alle Angaben im Schreiben vollständig nachvollziehbar sind.</p>
-  <p>Im Rahmen der vollständigen Prüfung erhalten Sie eine klare Bewertung Ihrer Situation sowie ein fertiges ${escapeHtml(labels.letter)}, das Sie bei Bedarf direkt verwenden können.</p>
+  <p>Eine genauere Prüfung vor einer Zahlung kann helfen, die Forderung besser einzuordnen — und zu verstehen, ob alle Angaben vollständig nachvollziehbar sind.</p>
+  <p>Im Rahmen der vollständigen Prüfung erhalten Sie eine klare Bewertung Ihrer Situation sowie ein fertiges Antwortschreiben, das Sie bei Bedarf direkt verwenden können.</p>
   ${stripeLink ? `
   <div style="margin:28px 0;">
     <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 26px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
