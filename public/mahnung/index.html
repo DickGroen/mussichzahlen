@@ -476,13 +476,15 @@ btn.addEventListener('click', async () => {
 
     currentStripeLink = data.stripeLink || null;
 
-    // Toon bevestigingskaart
+    // Toon bevestigingskaart, verberg teaser
     const confirmCard = document.getElementById('confirmation-card');
     if (confirmCard) confirmCard.style.display = 'block';
 
-    setStatus('', '');
+    // Teaser verbergen — bevestigingskaart is voldoende
+    const teaserEl = document.getElementById('teaser');
+    if (teaserEl) teaserEl.style.display = 'none';
 
-    renderTeaser(data);
+    setStatus('', '');
 
   } catch (err) {
     setStatus(
