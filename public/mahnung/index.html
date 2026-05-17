@@ -177,14 +177,19 @@
     </div>
 
     <!-- Bevestigingskaart na upload -->
-    <div id="confirmation-card" style="display:none;margin-top:24px;background:#f0fdf4;border:2px solid #86efac;border-radius:16px;padding:22px 28px 20px;max-width:580px;margin-left:auto;margin-right:auto;">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-        <span style="font-size:1rem;font-weight:700;color:#14532d;">&#10003; Einsch&auml;tzung liegt vor</span>
-      </div>
-      <p style="font-size:.9rem;color:#166534;margin-bottom:6px;line-height:1.6;">
-        Mehrere Punkte in Ihrem Schreiben k&ouml;nnten vor einer Zahlung genauer gepr&uuml;ft werden. Die Hinweise finden Sie direkt unten.
+    <div id="confirmation-card" style="display:none;margin-top:24px;background:#f0fdf4;border:2px solid #86efac;border-radius:16px;padding:28px 28px 24px;max-width:580px;margin-left:auto;margin-right:auto;">
+      <div style="font-size:1.1rem;font-weight:700;color:#14532d;margin-bottom:10px;">&#10003; Wir haben Ihr Schreiben erhalten.</div>
+      <p style="font-size:.95rem;color:#166534;margin-bottom:16px;line-height:1.7;">
+        Sie erhalten Ihre Ersteinsch&auml;tzung in K&uuml;rze per E-Mail &mdash; sp&auml;testens am n&auml;chsten Werktag bis 16:00 Uhr.
       </p>
-      <p style="font-size:.8rem;color:#166534;margin:0;opacity:.8;">&#8594; Bitte pr&uuml;fen Sie auch Ihren Spam-Ordner f&uuml;r die Bestätigungs-E-Mail.</p>
+      <div style="background:#fff;border:1px solid #bbf7d0;border-radius:10px;padding:14px 16px;margin-bottom:16px;">
+        <div style="font-weight:700;font-size:.9rem;color:#14532d;margin-bottom:6px;">Was passiert als n&auml;chstes?</div>
+        <p style="font-size:.88rem;color:#166534;line-height:1.65;margin:0;">
+          Wir pr&uuml;fen Ihr Schreiben und senden Ihnen eine erste Einsch&auml;tzung per E-Mail. Falls Punkte erkennbar sind, die genauer gepr&uuml;ft werden sollten, erfahren Sie das dort.
+        </p>
+      </div>
+      <p style="font-size:.84rem;color:#166534;margin-bottom:6px;">&#8594; Bitte pr&uuml;fen Sie auch Ihren Spam-Ordner, falls Sie keine E-Mail erhalten.</p>
+      <p style="font-size:.84rem;color:#166534;margin:0;">Vielen Dank f&uuml;r Ihr Vertrauen.</p>
     </div>
 
     <div id="teaser" class="teaser">
@@ -477,10 +482,11 @@ btn.addEventListener('click', async () => {
       confirmCard.style.display = 'block';
     }
 
-    setStatus('', '');
+    // Teaser verbergen — betaalknop zit in de email
+    const teaserEl2 = document.getElementById('teaser');
+    if (teaserEl2) teaserEl2.style.display = 'none';
 
-    // Teaser tonen met betaalknop
-    renderTeaser(data);
+    setStatus('', '');
 
     // Scroll naar bevestigingskaart
     if (confirmCard) {
