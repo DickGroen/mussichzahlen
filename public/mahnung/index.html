@@ -176,6 +176,22 @@
       <div class="offer-security">&#128274; Ihre Datei wird nur zur Analyse verarbeitet.</div>
     </div>
 
+    <!-- Bevestigingskaart na upload -->
+    <div id="confirmation-card" style="display:none;margin-top:24px;background:#f0fdf4;border:2px solid #86efac;border-radius:16px;padding:28px 28px 24px;max-width:580px;margin-left:auto;margin-right:auto;">
+      <div style="font-size:1.1rem;font-weight:700;color:#14532d;margin-bottom:10px;">&#10003; Wir haben Ihr Schreiben erhalten.</div>
+      <p style="font-size:.95rem;color:#166534;margin-bottom:16px;line-height:1.7;">
+        Wir pr&uuml;fen es sorgf&auml;ltig und senden Ihnen die Ersteinsch&auml;tzung per E-Mail &mdash; sp&auml;testens am n&auml;chsten Werktag bis 16:00 Uhr.
+      </p>
+      <div style="background:#fff;border:1px solid #bbf7d0;border-radius:10px;padding:14px 16px;margin-bottom:16px;">
+        <div style="font-weight:700;font-size:.9rem;color:#14532d;margin-bottom:6px;">Warum das wichtig ist:</div>
+        <p style="font-size:.88rem;color:#166534;line-height:1.65;margin:0;">
+          Viele Menschen zahlen Forderungen, ohne zu wissen, dass einzelne Punkte h&auml;tten gepr&uuml;ft werden k&ouml;nnen. Unsere Einsch&auml;tzung hilft Ihnen, die Forderung vor einer Zahlung besser einzuordnen.
+        </p>
+      </div>
+      <p style="font-size:.84rem;color:#166534;margin-bottom:6px;">&#8594; Bitte pr&uuml;fen Sie auch Ihren Spam-Ordner, falls Sie keine E-Mail erhalten.</p>
+      <p style="font-size:.84rem;color:#166534;margin:0;">Vielen Dank f&uuml;r Ihr Vertrauen.</p>
+    </div>
+
     <div id="teaser" class="teaser">
       <div class="offer-card teaser-card">
         <div id="teaser-company" class="teaser-heading"></div>
@@ -324,9 +340,9 @@
   </div>
 </div>
 
-<script type="module">
-import { submitFree, validateFile, formatFileSize, track, initFaq, initStickyFooter } from './app.js';
+<script src="/app.js"></script>
 
+<script>
 // ── Init ──────────────────────────────────────────────────────────────────────
 initFaq();
 initStickyFooter();
@@ -353,38 +369,82 @@ const modalCta        = document.getElementById('modal-cta');
 const modalFeatures   = document.getElementById('modal-features');
 const modalCloseBtn   = document.getElementById('modal-close-btn');
 
+// ── Safety check ──────────────────────────────────────────────────────────────
+if (
+  !window.submitFree ||
+  !window.validateFile ||
+  !window.formatFileSize ||
+  !window.track ||
+  !window.initFaq ||
+  !window.initStickyFooter
+) {
+  console.error('app.js wurde nicht korrekt geladen. Prüfen Sie /app.js und entfernen Sie alle export/import Statements.');
+  if (statusEl) {
+    statusEl.textContent = 'Technischer Fehler: Upload-Modul konnte nicht geladen werden.';
+    statusEl.className = 'optie-status optie-status--error';
+  }
+}
+
 // ── File selection ────────────────────────────────────────────────────────────
 uploadZone.addEventListener('click', () => fileInput.click());
 
-uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.style.borderColor = 'var(--accent)'; });
-uploadZone.addEventListener('dragleave', () => { uploadZone.style.borderColor = ''; });
-uploadZone.addEventListener('drop', e => {
-  e.preventDefault();
+uploadZone.addEventListener('dragover', (event) => {
+  event.preventDefault();
+  uploadZone.style.borderColor = 'var(--accent)';
+});
+
+uploadZone.addEventListener('dragleave', () => {
   uploadZone.style.borderColor = '';
-  const file = e.dataTransfer?.files?.[0];
-  if (file) handleFile(file);
+});
+
+uploadZone.addEventListener('drop', (event) => {
+  event.preventDefault();
+  uploadZone.style.borderColor = '';
+
+  const file = event.dataTransfer?.files?.[0];
+
+  if (file) {
+    handleFile(file);
+  }
 });
 
 fileInput.addEventListener('change', () => {
-  if (fileInput.files?.[0]) handleFile(fileInput.files[0]);
+  if (fileInput.files?.[0]) {
+    handleFile(fileInput.files[0]);
+  }
 });
 
 function handleFile(file) {
   const err = validateFile(file);
-  if (err) { setStatus('error', err); return; }
+
+  if (err) {
+    setStatus('error', err);
+    return;
+  }
 
   selectedFile = file;
+
   uploadZone.querySelector('.upload-label').textContent = file.name;
   uploadZone.querySelector('.upload-hint').textContent = formatFileSize(file.size);
+
   contactFields.style.display = 'flex';
+
   setStatus('', '');
   updateBtn();
 
-  track('file_selected', { type: 'mahnung', fileType: file.type, fileSize: file.size });
+  track('file_selected', {
+    type: 'mahnung',
+    fileType: file.type,
+    fileSize: file.size,
+  });
 }
 
 function updateBtn() {
-  const ready = selectedFile && nameEl.value.trim() && emailEl.value.trim();
+  const ready =
+    selectedFile &&
+    nameEl.value.trim() &&
+    emailEl.value.trim();
+
   btn.disabled = !ready;
 }
 
@@ -395,11 +455,15 @@ emailEl.addEventListener('input', updateBtn);
 btn.addEventListener('click', async () => {
   const name  = nameEl.value.trim();
   const email = emailEl.value.trim();
-  if (!selectedFile || !name || !email) return;
+
+  if (!selectedFile || !name || !email) {
+    return;
+  }
 
   btn.disabled = true;
-  btn.textContent = 'Wird gepr\u00fcft\u2026';
-  setStatus('info', 'Ihr Schreiben wird gepr\u00fcft\u2026');
+  btn.textContent = 'Wird geprüft…';
+
+  setStatus('info', 'Ihr Schreiben wird geprüft…');
 
   try {
     const data = await submitFree({
@@ -411,38 +475,45 @@ btn.addEventListener('click', async () => {
     });
 
     currentStripeLink = data.stripeLink || null;
-    renderTeaser(data, name);
+
+    // Toon bevestigingskaart
+    const confirmCard = document.getElementById('confirmation-card');
+    if (confirmCard) confirmCard.style.display = 'block';
+
     setStatus('', '');
 
+    renderTeaser(data);
+
   } catch (err) {
-    setStatus('error', err.message || 'Pr\u00fcfung fehlgeschlagen. Bitte erneut versuchen.');
+    setStatus(
+      'error',
+      err.message || 'Prüfung fehlgeschlagen. Bitte erneut versuchen.'
+    );
+
     btn.disabled = false;
-    btn.textContent = 'Kostenlose Einsch\u00e4tzung starten';
+    btn.textContent = 'Kostenlose Einschätzung starten';
   }
 });
 
 // ── Teaser rendering ──────────────────────────────────────────────────────────
-function renderTeaser(data, name) {
+function renderTeaser(data) {
   const triage     = data.triage || {};
   const tier       = data.tier || triage.tier || 'tier2';
   const sender     = triage.sender || null;
-  const amount     = triage.amount_claimed ? `\u20AC${triage.amount_claimed}` : null;
+  const amount     = triage.amount_claimed ? `€${triage.amount_claimed}` : null;
   const teaser     = triage.teaser || data.teaser?.text || '';
-  const stripeLink = data.stripeLink || null;
+  const stripeLink = data.stripeLink || currentStripeLink || null;
 
-  // Heading
   if (sender) {
     teaserCompany.textContent = `Schreiben von ${sender}`;
   } else {
-    teaserCompany.textContent = 'Ihre Mahnung wurde gepr\u00fcft';
+    teaserCompany.textContent = 'Ihre Mahnung wurde geprüft';
   }
 
-  // Subline
   teaserSub.textContent = amount
     ? `Geforderte Summe: ${amount}`
-    : 'Erste Einsch\u00e4tzung liegt vor';
+    : 'Erste Einschätzung liegt vor';
 
-  // AI teaser — documentspecific text from triage
   if (teaser) {
     teaserCopy.textContent = teaser;
     teaserCopy.style.display = '';
@@ -450,69 +521,98 @@ function renderTeaser(data, name) {
     teaserCopy.style.display = 'none';
   }
 
-  // CTA — only show if stripeLink available and tier is not tier3
+  const userEmail  = emailEl ? emailEl.value.trim() : '';
+  const payUrl     = stripeLink && userEmail
+    ? stripeLink + '?prefilled_email=' + encodeURIComponent(userEmail)
+    : stripeLink;
+
   if (stripeLink && tier !== 'tier3') {
     teaserCta.innerHTML = `
-      <h3>Vollst\u00e4ndige Pr\u00fcfung der Forderung</h3>
-      <ul>
-        <li>Pr\u00fcfung aller relevanten Punkte aus Ihrem Schreiben</li>
-        <li>Bewertung der Kosten und Nachweise</li>
-        <li>Fertiger Widerspruch zum direkten Versand</li>
-      </ul>
-      <a href="${stripeLink}" class="offer-cta" style="margin-top:8px;">
-        Vollst\u00e4ndige Pr\u00fcfung starten &mdash; &euro;49 &rarr;
+      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 16px;margin:16px 0 14px;font-size:.93rem;color:#14532d;line-height:1.6;">
+        <strong>📬 Was passiert nach der Zahlung?</strong><br>
+        Sie erhalten die vollständige Analyse und ein fertiges Antwortschreiben per E-Mail —
+        spätestens am nächsten Werktag bis 16:00 Uhr.
+      </div>
+      <a href="${escapeHtmlAttribute(payUrl)}" class="offer-cta">
+        Vollständige Prüfung starten — €49 →
       </a>
-      <p style="font-size:.78rem;color:var(--muted);margin-top:8px;text-align:center;">Einmalig &euro;49 &middot; kein Abo &middot; sichere Zahlung</p>`;
+      <p style="font-size:.78rem;color:var(--muted);margin-top:8px;text-align:center;">
+        Einmalig €49 · kein Abo · sichere Zahlung über Stripe
+      </p>
+    `;
 
-    // Update modal CTA link dynamically
-    if (modalCta) modalCta.href = stripeLink;
+    if (modalCta) {
+      modalCta.href = payUrl;
+    }
 
-    // Update modal features based on triage flags
     updateModalFeatures(triage);
 
   } else if (tier === 'tier3') {
     teaserCta.innerHTML = `
       <p style="font-size:.9rem;color:var(--ink-3);margin-top:8px;">
-        Auf Basis der sichtbaren Informationen wirkt das Schreiben derzeit eher standardm\u00e4\u00dfig.
-        Eine zus\u00e4tzliche Pr\u00fcfung bleibt optional.
+        Auf Basis der sichtbaren Informationen wirkt das Schreiben derzeit eher standardmäßig.
+        Eine zusätzliche Prüfung bleibt optional.
       </p>
-      ${stripeLink ? `<a href="${stripeLink}" class="offer-cta" style="margin-top:12px;background:var(--ink-3);">Optionale vollst\u00e4ndige Pr\u00fcfung &mdash; &euro;49</a>` : ''}`;
+      ${
+        payUrl
+          ? `<a href="${escapeHtmlAttribute(payUrl)}" class="offer-cta" style="margin-top:12px;background:var(--ink-3);">Optionale vollständige Prüfung — €49</a>`
+          : ''
+      }
+    `;
   } else {
     teaserCta.innerHTML = '';
   }
 
-  // Show teaser card
   teaserEl.style.display = 'block';
-  requestAnimationFrame(() => teaserEl.classList.add('teaser--visible'));
-  teaserEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-  track('teaser_shown', { type: 'mahnung', tier, hasStripeLink: Boolean(stripeLink) });
+  requestAnimationFrame(() => {
+    teaserEl.classList.add('teaser--visible');
+  });
+
+  teaserEl.scrollIntoView({
+    behavior: 'smooth',
+    block: 'nearest',
+  });
+
+  track('teaser_shown', {
+    type: 'mahnung',
+    tier,
+    hasStripeLink: Boolean(stripeLink),
+  });
 }
 
 function updateModalFeatures(triage) {
   const features = [];
 
   if (triage.possible_verjährt) {
-    features.push('Pr\u00fcfung der m\u00f6glichen Verj\u00e4hrung Ihrer Forderung');
-  }
-  if (triage.possible_überhöhte_kosten || triage.possible_kein_nachweis) {
-    features.push('Pr\u00fcfung der Kostenaufstellung und vorhandener Nachweise');
-  }
-  if (triage.possible_kein_abtretungsnachweis) {
-    features.push('Pr\u00fcfung der Inkassoberechtigung und Abtretungsanzeige');
-  }
-  if (triage.possible_falscher_empfänger) {
-    features.push('Pr\u00fcfung der korrekten Adressierung und Schuldneridentit\u00e4t');
+    features.push('Prüfung der möglichen Verjährung Ihrer Forderung');
   }
 
-  // Always add these
+  if (triage.possible_überhöhte_kosten || triage.possible_kein_nachweis) {
+    features.push('Prüfung der Kostenaufstellung und vorhandener Nachweise');
+  }
+
+  if (triage.possible_kein_abtretungsnachweis) {
+    features.push('Prüfung der Inkassoberechtigung und Abtretungsanzeige');
+  }
+
+  if (triage.possible_falscher_empfänger) {
+    features.push('Prüfung der korrekten Adressierung und Schuldneridentität');
+  }
+
   features.push('Fertiger Widerspruch zum direkten Versand');
-  features.push('Klare n\u00e4chste Schritte');
+  features.push('Klare nächste Schritte');
 
   if (modalFeatures && features.length > 0) {
-    modalFeatures.innerHTML = features.slice(0, 4).map(f =>
-      `<div class="modal__feature"><span class="check">&#10003;</span><span>${f}</span></div>`
-    ).join('');
+    modalFeatures.innerHTML = features
+      .slice(0, 4)
+      .map((feature) => `
+        <div class="modal__feature">
+          <span class="check">✓</span>
+          <span>${escapeHtml(feature)}</span>
+        </div>
+      `)
+      .join('');
   }
 }
 
@@ -522,8 +622,8 @@ modalCloseBtn?.addEventListener('click', () => {
   document.body.style.overflow = '';
 });
 
-modalEl?.addEventListener('click', e => {
-  if (e.target === modalEl) {
+modalEl?.addEventListener('click', (event) => {
+  if (event.target === modalEl) {
     modalEl.classList.remove('modal--open', 'open');
     document.body.style.overflow = '';
   }
@@ -532,7 +632,22 @@ modalEl?.addEventListener('click', e => {
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function setStatus(kind, msg) {
   statusEl.textContent = msg;
-  statusEl.className = 'optie-status' + (kind ? ` optie-status--${kind}` : '');
+  statusEl.className =
+    'optie-status' +
+    (kind ? ` optie-status--${kind}` : '');
+}
+
+function escapeHtml(value = '') {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function escapeHtmlAttribute(value = '') {
+  return escapeHtml(value);
 }
 </script>
 
