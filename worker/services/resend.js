@@ -153,19 +153,22 @@ function tier3Teaser(triage = {}, type = "mahnung") {
 
 // ── Exports ───────────────────────────────────────────────────────────────────
 
-export async function sendConfirmationEmail(env, { name, email }) {
+export async function sendConfirmationEmail(env, { name, email, type }) {
+  const labels   = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
+  const safeName = escapeHtml(capitalizeFirst(name || "Kunde"));
+
   await sendEmail(env, {
     to:      email,
-    subject: "Ihr Schreiben ist eingegangen — MussIchZahlen",
-    html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
-  <p style="font-size:1.1rem;font-weight:700;color:#14532d;">✓ Ihr Schreiben ist eingegangen.</p>
-  <p>Guten Tag ${escapeHtml(capitalizeFirst(name || "Kunde"))},</p>
-  <p>wir haben Ihr Dokument erhalten und werden es sorgfältig prüfen.</p>
-  <p>Sie erhalten spätestens am nächsten Werktag bis 16:00 Uhr eine erste Einschätzung per E-Mail — mit möglichen Auffälligkeiten und Hinweisen zu Ihrem Schreiben.</p>
-  <p style="font-size:.9rem;color:#6b7280;">→ Bitte prüfen Sie auch Ihren Spam-Ordner, falls Sie keine E-Mail erhalten.</p>
-  <p>Falls Sie Fragen haben, können Sie einfach auf diese E-Mail antworten.</p>
+    subject: `Ihr ${escapeHtml(labels.title)} wird geprüft — MussIchZahlen`,
+    html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.75;">
+  <p>Guten Tag ${safeName},</p>
+  <p>wir haben Ihr Schreiben erhalten und sehen es uns sorgfältig an.</p>
+  <p>Gerade bei ${escapeHtml(labels.title.toLowerCase())}en lohnt sich eine genaue Betrachtung — Forderungsgrundlage, Kostenstruktur und Nachweise sind nicht immer so eindeutig, wie das Schreiben vermuten lässt.</p>
+  <p>Sie erhalten unsere erste Einschätzung <strong>spätestens am nächsten Werktag bis 16:00 Uhr</strong> per E-Mail.</p>
+  <p style="font-size:.9rem;color:#6b7280;">→ Bitte prüfen Sie auch Ihren Spam-Ordner, falls Sie nichts erhalten.</p>
+  <p style="font-size:.9rem;color:#6b7280;">Bei Fragen antworten Sie einfach auf diese E-Mail.</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
-  <p style="color:#6b7280;font-size:0.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
+  <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
 </div>`,
   });
 }
@@ -289,57 +292,44 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
 
   // ── Stage 1 tier1/tier2 — volledige CTA ──────────────────────────────────
   if (stageNumber === 1) {
-    const senderText  = triage?.sender ? ` von <strong>${escapeHtml(triage.sender)}</strong>` : "";
-    const riskText    = riskAssessment(triage?.risk);
-    const hints       = teaserList(triage);
+    const senderText = triage?.sender ? `von <strong>${escapeHtml(triage.sender)}</strong> ` : "";
+    const amountText = amount !== "unbekannt" ? ` über <strong>${escapeHtml(amount)}</strong>` : "";
+    const teaserText = triage?.teaser ? escapeHtml(String(triage.teaser).trim()) : null;
 
     await sendEmail(env, {
       to:      email,
-      subject: `Erste Einschätzung zu Ihrem Schreiben — ${labels.title}`,
-      html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.7;">
+      subject: `Ihre erste Einschätzung — ${escapeHtml(labels.title)} | MussIchZahlen`,
+      html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.75;">
   <p>Guten Tag ${safeName},</p>
-  <p>wir haben Ihr Schreiben geprüft und eine erste Einschätzung erstellt.</p>
-  <p>Bei einer Forderung${amount !== "unbekannt" ? ` über <strong>${escapeHtml(amount)}</strong>` : ""}${senderText} könnten einzelne Punkte relevant sein, die vor einer Zahlung geprüft werden sollten.</p>
-  <p><strong>Hinweise aus der ersten Prüfung:</strong></p>
-  <ul style="padding-left:20px;line-height:1.9;margin-top:10px;">
-    ${hints.map(line => `<li>${escapeHtml(line)}</li>`).join("")}
-  </ul>
-  <table style="width:100%;border-collapse:collapse;margin:22px 0;border:1px solid #e5e7eb;font-size:14px;">
-    <tr style="background:#f3f4f6;"><td style="padding:10px;font-weight:bold;">Dokument</td><td style="padding:10px;">${escapeHtml(labels.title)}</td></tr>
-    <tr><td style="padding:10px;font-weight:bold;">Absender</td><td style="padding:10px;">${escapeHtml(triage?.sender || "unbekannt")}</td></tr>
-    <tr style="background:#f3f4f6;"><td style="padding:10px;font-weight:bold;">Betrag</td><td style="padding:10px;font-weight:bold;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
-    <tr><td style="padding:10px;font-weight:bold;">Einschätzung</td><td style="padding:10px;">${escapeHtml(riskText)}</td></tr>
+  <p>wir haben uns Ihr Schreiben ${senderText}${amountText ? `über ${amountText} ` : ""}angesehen und möchten Ihnen eine erste Einschätzung mitteilen.</p>
+  ${teaserText ? `
+  <div style="background:#fffbeb;border-left:3px solid #d97706;padding:14px 16px;border-radius:4px;margin:20px 0;color:#78350f;font-size:.94rem;line-height:1.7;">
+    ${teaserText}
+  </div>` : `
+  <p>Bei diesem Schreiben gibt es einzelne Punkte, die sich vor einer Zahlung genauer anzusehen lohnt — insbesondere was die Zusammensetzung des geforderten Betrags und die vorhandenen Nachweise betrifft.</p>`}
+  <table style="width:100%;border-collapse:collapse;margin:22px 0;font-size:.9rem;">
+    <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;width:38%;">Dokument</td><td style="padding:9px 12px;">${escapeHtml(labels.title)}</td></tr>
+    <tr><td style="padding:9px 12px;font-weight:600;">Absender</td><td style="padding:9px 12px;">${escapeHtml(triage?.sender || "nicht eindeutig erkennbar")}</td></tr>
+    <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">Geforderter Betrag</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
+    <tr><td style="padding:9px 12px;font-weight:600;">Erste Einschätzung</td><td style="padding:9px 12px;">${escapeHtml(riskAssessment(triage?.risk))}</td></tr>
   </table>
-  <div style="background:#fff7ed;border:1px solid #fdba74;padding:14px;border-radius:8px;margin:22px 0;color:#9a3412;">
-    <strong>Warum viele Verbraucher zuerst prüfen lassen:</strong>
-    <ul style="padding-left:18px;margin-top:10px;line-height:1.8;">
-      <li>Inkassokosten sind nicht immer vollständig nachvollziehbar</li>
-      <li>Forderungen enthalten teilweise unklare Zusatzkosten</li>
-      <li>Nachweise oder Vertragsgrundlagen fehlen manchmal vollständig</li>
-    </ul>
-  </div>
-  <p><strong>Die vollständige Analyse beinhaltet:</strong></p>
-  <ul style="padding-left:20px;line-height:1.9;">
-    <li>klare Bewertung Ihrer Situation</li>
-    <li>konkrete prüfenswerte Punkte</li>
-    <li>fertiges Antwortschreiben, das Sie direkt versenden können</li>
-  </ul>
+  <p>Viele Menschen zahlen solche Forderungen, ohne zu wissen, ob die Grundlage vollständig nachvollziehbar ist. Eine kurze Prüfung vorab kann helfen, das besser einzuordnen — und unnötige Zahlungen zu vermeiden.</p>
+  <p>Die vollständige Prüfung enthält eine klare Bewertung Ihrer Situation sowie ein fertiges ${escapeHtml(labels.letter)}, das Sie direkt verwenden können.</p>
   ${stripeLink ? `
   <div style="margin:28px 0;">
-    <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 24px;border-radius:8px;text-decoration:none;font-weight:bold;font-size:15px;">
-      Vollständige Analyse + Antwortschreiben — €${escapeHtml(labels.price)} →
+    <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 26px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
+      Forderung vollständig prüfen — €${escapeHtml(labels.price)} →
     </a>
   </div>
-  <p style="font-size:0.86rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
-  <p style="font-size:0.86rem;color:#6b7280;margin-top:18px;">
-    Funktioniert der Button nicht?<br><br>
-    Kopieren Sie diesen Zahlungslink in Ihren Browser:<br>
+  <p style="font-size:.84rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung über Stripe</p>
+  <p style="font-size:.84rem;color:#6b7280;margin-top:16px;">
+    Funktioniert der Button nicht? Kopieren Sie diesen Link in Ihren Browser:<br>
     <a href="${escapeHtml(stripeLink)}" style="color:#1d4ed8;word-break:break-all;">${escapeHtml(stripeLink)}</a>
   </p>` : ""}
   <hr style="border:none;border-top:1px solid #e5e7eb;margin:28px 0;">
-  <p>Falls Sie Fragen haben, können Sie einfach auf diese E-Mail antworten.</p>
+  <p>Bei Fragen antworten Sie einfach auf diese E-Mail.</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
-  <p style="color:#6b7280;font-size:0.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
+  <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
 </div>`,
     });
 
