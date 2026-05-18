@@ -3,105 +3,108 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rechnung oder Nachforderung erhalten? Erst pr&uuml;fen, bevor Sie zahlen. &mdash; MussIchZahlen.de</title>
+  <title>Rechnung erhalten? Erst pr&uuml;fen &mdash; MussIchZahlen.de</title>
+  <meta name="description" content="Rechnung oder Nachforderung erhalten? Kostenlose Ersteinsch&auml;tzung &mdash; vollst&auml;ndige Pr&uuml;fung optional.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{{--ink:#0f1923;--ink-2:#2d3748;--ink-3:#4a5568;--muted:#718096;--line:#e2e8f0;--surface:#f7f9fc;--white:#ffffff;--accent:#1a3a6b;--accent-2:#2d5499;--green:#166534;--green-soft:#dcfce7;}}
-    *,*::before,*::after{{box-sizing:border-box;margin:0;padding:0;}}
-    html{{scroll-behavior:smooth;}}
-    body{{font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.65;color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased;}}
-    h1,h2,h3{{font-family:'Lora',Georgia,serif;line-height:1.2;}}
-    a{{color:var(--accent);}}
-    .container{{max-width:860px;margin:0 auto;padding:0 24px;}}
-    .hinweis-banner{{background:#fff7ed;border-bottom:2px solid #fdba74;padding:10px 0;text-align:center;font-size:.84rem;font-weight:600;color:#92400e;}}
-    .header{{background:var(--white);border-bottom:1px solid var(--line);padding:16px 0;position:sticky;top:0;z-index:100;}}
-    .header__inner{{display:flex;align-items:center;justify-content:space-between;}}
-    .logo{{font-family:'Lora',serif;font-size:1.15rem;font-weight:700;color:var(--accent);}}
-    .logo-dot{{display:inline-block;width:8px;height:8px;background:var(--accent-2);border-radius:50%;margin-right:6px;vertical-align:middle;}}
-    .header-cta{{background:var(--accent);color:var(--white);border:none;border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;text-decoration:none;}}
-    .header-cta:hover{{background:var(--accent-2);}}
-    .hero{{padding:64px 0 48px;text-align:center;}}
-    .hero h1{{font-size:clamp(1.9rem,5vw,2.9rem);margin-bottom:20px;max-width:700px;margin-left:auto;margin-right:auto;}}
-    .hero__sub{{font-size:1.05rem;color:var(--ink-3);max-width:560px;margin:0 auto 30px;line-height:1.7;}}
-    .hero-cta{{display:inline-block;background:var(--accent);color:var(--white);text-decoration:none;padding:17px 34px;border-radius:10px;font-size:1.05rem;font-weight:700;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;}}
-    .hero-cta:hover{{background:var(--accent-2);}}
-    .hero-sub-note{{font-size:.82rem;color:var(--muted);margin-top:10px;}}
-    .trust-triggers{{background:var(--green-soft);border:1px solid #bbf7d0;border-radius:12px;padding:20px 24px;margin:40px auto 0;display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:620px;}}
-    @media(max-width:600px){{.trust-triggers{{grid-template-columns:1fr;}}}}
-    .trust-trigger{{display:flex;align-items:flex-start;gap:10px;font-size:.87rem;color:var(--green);line-height:1.55;}}
-    .trust-trigger strong{{display:block;font-weight:700;color:#14532d;margin-bottom:2px;}}
-    .section{{padding:72px 0;}}
-    .section--alt{{background:var(--surface);}}
-    .section-label{{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-2);margin-bottom:10px;}}
-    .section h2{{font-size:clamp(1.5rem,3vw,2rem);margin-bottom:32px;}}
-    .value-strip{{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 36px;justify-content:center;}}
-    .value-item{{display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--line);border-radius:100px;padding:8px 16px;font-size:.86rem;color:var(--ink-2);font-weight:500;}}
-    .vi-check{{color:var(--green);font-weight:700;}}
-    .offer-card{{background:var(--white);border:2px solid var(--accent);border-radius:16px;padding:36px 32px;max-width:580px;margin:0 auto;box-shadow:0 12px 40px rgba(26,58,107,.1);}}
-    @media(max-width:600px){{.offer-card{{padding:24px 20px;}}}}
-    .offer-badge{{display:inline-block;background:var(--accent);color:var(--white);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 12px;border-radius:100px;margin-bottom:16px;}}
-    .offer-title{{font-family:'Lora',serif;font-size:1.45rem;margin-bottom:8px;}}
-    .offer-desc{{color:var(--ink-3);font-size:.93rem;margin-bottom:20px;line-height:1.65;}}
-    .offer-list{{list-style:none;margin-bottom:24px;display:grid;gap:8px;}}
-    .offer-list li{{display:flex;align-items:flex-start;gap:10px;font-size:.93rem;color:var(--ink-2);line-height:1.55;}}
-    .offer-list li::before{{content:"\2713";color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px;}}
-    hr.offer-divider{{border:none;border-top:1px solid var(--line);margin:20px 0;}}
-    .offer-price{{font-size:2rem;font-weight:700;color:var(--accent);font-family:'Lora',serif;}}
-    .offer-price span{{font-size:.95rem;color:var(--muted);font-weight:400;font-family:'DM Sans',sans-serif;}}
-    .offer-cta{{display:block;background:var(--accent);color:var(--white);text-decoration:none;text-align:center;padding:17px;border-radius:10px;font-size:1.05rem;font-weight:700;margin-top:20px;border:none;width:100%;cursor:pointer;font-family:'DM Sans',sans-serif;}}
-    .offer-cta:hover{{background:var(--accent-2);}}
-    .offer-security{{text-align:center;font-size:.78rem;color:var(--muted);margin-top:10px;}}
-    .offer-refund{{text-align:center;font-size:.76rem;color:var(--muted);margin-top:6px;}}
-    .upload-zone{{border:2px dashed var(--line);border-radius:14px;padding:28px;text-align:center;cursor:pointer;background:var(--surface);transition:.2s;}}
-    .upload-zone:hover{{border-color:var(--accent);background:#eef4ff;}}
-    .upload-label{{font-weight:700;color:var(--accent);}}
-    .upload-hint{{font-size:.84rem;color:var(--muted);margin-top:6px;}}
-    .contact-fields{{display:none;flex-direction:column;gap:10px;margin-top:18px;}}
-    .input{{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:1rem;}}
-    .input:focus{{outline:none;border-color:var(--accent);}}
-    .optie-status{{font-size:.9rem;margin-top:12px;}}
-    .optie-status--error{{color:#b91c1c;}}
-    .optie-status--info{{color:var(--accent);}}
-    .steps{{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}}
-    @media(max-width:640px){{.steps{{grid-template-columns:1fr;}}}}
-    .step__num{{font-family:'Lora',serif;font-size:2.2rem;font-weight:700;color:var(--line);margin-bottom:10px;line-height:1;}}
-    .step__title{{font-weight:700;margin-bottom:6px;font-size:.98rem;}}
-    .step__desc{{font-size:.87rem;color:var(--ink-3);line-height:1.65;}}
-    .trust-grid{{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}}
-    @media(max-width:680px){{.trust-grid{{grid-template-columns:1fr;}}}}
-    .trust-item{{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:20px;}}
-    .trust-item__label{{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:8px;}}
-    .trust-item__text{{font-size:.87rem;color:var(--ink-3);line-height:1.65;}}
-    .fit-rows{{display:grid;gap:10px;max-width:560px;}}
-    .fit-row{{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;background:var(--green-soft);border:1px solid #bbf7d0;border-radius:10px;font-size:.93rem;color:#14532d;}}
-    .fit-row span:first-child{{font-weight:700;flex-shrink:0;}}
-    .faq-list{{display:grid;gap:4px;}}
-    .faq-item{{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--white);}}
-    .faq-q{{display:flex;align-items:center;justify-content:space-between;padding:17px 20px;cursor:pointer;font-weight:600;font-size:.93rem;user-select:none;gap:12px;}}
-    .faq-q:hover{{background:var(--surface);}}
-    .faq-chevron{{flex-shrink:0;color:var(--muted);transition:transform .25s;}}
-    .faq-a{{max-height:0;overflow:hidden;transition:max-height .3s ease;font-size:.9rem;color:var(--ink-3);line-height:1.7;padding:0 20px;}}
-    .faq-item--open .faq-a{{max-height:300px;padding:0 20px 17px;}}
-    .faq-item--open .faq-chevron{{transform:rotate(180deg);}}
-    .final-cta{{background:var(--accent);color:var(--white);padding:72px 0;text-align:center;}}
-    .final-cta h2{{color:var(--white);font-size:clamp(1.6rem,3.5vw,2.1rem);margin-bottom:12px;}}
-    .final-cta p{{color:rgba(255,255,255,.75);margin-bottom:32px;}}
-    .final-cta-btn{{display:inline-block;background:var(--white);color:var(--accent);text-decoration:none;padding:17px 40px;border-radius:10px;font-size:1.05rem;font-weight:700;}}
-    .final-cta-note{{color:rgba(255,255,255,.6);font-size:.8rem;margin-top:12px;}}
-    .sticky-footer{{position:fixed;bottom:0;left:0;right:0;background:var(--ink);color:var(--white);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;transform:translateY(100%);transition:transform .3s ease;z-index:200;}}
-    .sticky-footer.visible,.sticky-footer--visible{{transform:translateY(0);}}
-    .sticky-footer__text{{font-size:.9rem;font-weight:600;}}
-    .sticky-footer__sub{{font-size:.76rem;color:rgba(255,255,255,.6);margin-top:2px;}}
-    .sticky-cta{{background:var(--white);color:var(--accent);border:none;border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;text-decoration:none;}}
-    @media(max-width:500px){{.sticky-footer{{flex-direction:column;text-align:center;}}.sticky-cta{{width:100%;}}}}
-    .footer-trust{{padding:32px 0 16px;font-size:.85rem;color:var(--ink-3);line-height:1.75;border-top:1px solid var(--line);}}
-    .disclaimer{{padding:16px 0 20px;font-size:.78rem;color:var(--muted);line-height:1.7;}}
+    :root { --ink:#0f1923; --ink-2:#2d3748; --ink-3:#4a5568; --muted:#718096; --line:#e2e8f0; --surface:#f7f9fc; --white:#ffffff; --accent:#1a3a6b; --accent-2:#2d5499; --green:#166534; --green-soft:#dcfce7; }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'DM Sans',sans-serif; font-size:16px; line-height:1.65; color:var(--ink); background:var(--white); -webkit-font-smoothing:antialiased; }
+    h1, h2, h3 { font-family:'Lora',Georgia,serif; line-height:1.2; }
+    a { color:var(--accent); }
+    .container { max-width:860px; margin:0 auto; padding:0 24px; }
+    .hinweis-banner { background:#fff7ed; border-bottom:2px solid #fdba74; padding:10px 0; text-align:center; font-size:.84rem; font-weight:600; color:#92400e; }
+    .header { background:var(--white); border-bottom:1px solid var(--line); padding:16px 0; position:sticky; top:0; z-index:100; }
+    .header__inner { display:flex; align-items:center; justify-content:space-between; }
+    .logo { font-family:'Lora',serif; font-size:1.15rem; font-weight:700; color:var(--accent); }
+    .logo-dot { display:inline-block; width:8px; height:8px; background:var(--accent-2); border-radius:50%; margin-right:6px; vertical-align:middle; }
+    .header-cta { background:var(--accent); color:var(--white); border:none; border-radius:8px; padding:10px 20px; font-family:'DM Sans',sans-serif; font-size:.88rem; font-weight:700; cursor:pointer; text-decoration:none; }
+    .header-cta:hover { background:var(--accent-2); }
+    .hero { padding:64px 0 48px; text-align:center; }
+    .hero h1 { font-size:clamp(1.9rem,5vw,2.9rem); margin-bottom:20px; max-width:700px; margin-left:auto; margin-right:auto; }
+    .hero__sub { font-size:1.05rem; color:var(--ink-3); max-width:560px; margin:0 auto 30px; line-height:1.7; }
+    .hero-cta { display:inline-block; background:var(--accent); color:var(--white); text-decoration:none; padding:17px 34px; border-radius:10px; font-size:1.05rem; font-weight:700; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; }
+    .hero-cta:hover { background:var(--accent-2); }
+    .hero-sub-note { font-size:.82rem; color:var(--muted); margin-top:10px; }
+    .trust-triggers { background:var(--green-soft); border:1px solid #bbf7d0; border-radius:12px; padding:20px 24px; margin:40px auto 0; display:grid; grid-template-columns:repeat(2,1fr); gap:16px; max-width:620px; }
+    @media (max-width:600px) { .trust-triggers { grid-template-columns:1fr; } }
+    .trust-trigger { display:flex; align-items:flex-start; gap:10px; font-size:.87rem; color:var(--green); line-height:1.55; }
+    .trust-trigger strong { display:block; font-weight:700; color:#14532d; margin-bottom:2px; }
+    .section { padding:72px 0; }
+    .section--alt { background:var(--surface); }
+    .section-label { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--accent-2); margin-bottom:10px; }
+    .section h2 { font-size:clamp(1.5rem,3vw,2rem); margin-bottom:32px; }
+    .value-strip { display:flex; flex-wrap:wrap; gap:10px; margin:0 0 36px; justify-content:center; }
+    .value-item { display:flex; align-items:center; gap:7px; background:var(--surface); border:1px solid var(--line); border-radius:100px; padding:8px 16px; font-size:.86rem; color:var(--ink-2); font-weight:500; }
+    .vi-check { color:var(--green); font-weight:700; }
+    .offer-card { background:var(--white); border:2px solid var(--accent); border-radius:16px; padding:36px 32px; max-width:580px; margin:0 auto; box-shadow:0 12px 40px rgba(26,58,107,.1); }
+    @media (max-width:600px) { .offer-card { padding:24px 20px; } }
+    .offer-badge { display:inline-block; background:var(--accent); color:var(--white); font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; padding:4px 12px; border-radius:100px; margin-bottom:16px; }
+    .offer-title { font-family:'Lora',serif; font-size:1.45rem; margin-bottom:8px; }
+    .offer-desc { color:var(--ink-3); font-size:.93rem; margin-bottom:20px; line-height:1.65; }
+    .offer-list { list-style:none; margin-bottom:24px; display:grid; gap:8px; }
+    .offer-list li { display:flex; align-items:flex-start; gap:10px; font-size:.93rem; color:var(--ink-2); line-height:1.55; }
+    .offer-list li::before { content:"✓"; color:var(--green); font-weight:700; flex-shrink:0; margin-top:1px; }
+    hr.offer-divider { border:none; border-top:1px solid var(--line); margin:20px 0; }
+    .offer-price { font-size:2rem; font-weight:700; color:var(--accent); font-family:'Lora',serif; }
+    .offer-price span { font-size:.95rem; color:var(--muted); font-weight:400; font-family:'DM Sans',sans-serif; }
+    .offer-cta { display:block; background:var(--accent); color:var(--white); text-decoration:none; text-align:center; padding:17px; border-radius:10px; font-size:1.05rem; font-weight:700; margin-top:20px; border:none; width:100%; cursor:pointer; font-family:'DM Sans',sans-serif; }
+    .offer-cta:hover { background:var(--accent-2); }
+    .offer-security { text-align:center; font-size:.78rem; color:var(--muted); margin-top:10px; }
+    .offer-refund { text-align:center; font-size:.76rem; color:var(--muted); margin-top:6px; }
+    .upload-zone { border:2px dashed var(--line); border-radius:14px; padding:28px; text-align:center; cursor:pointer; background:var(--surface); transition:.2s; }
+    .upload-zone:hover { border-color:var(--accent); background:#eef4ff; }
+    .upload-label { font-weight:700; color:var(--accent); }
+    .upload-hint { font-size:.84rem; color:var(--muted); margin-top:6px; }
+    .contact-fields { display:none; flex-direction:column; gap:10px; margin-top:18px; }
+    .input { width:100%; padding:13px 14px; border:1px solid var(--line); border-radius:10px; font-family:'DM Sans',sans-serif; font-size:1rem; }
+    .input:focus { outline:none; border-color:var(--accent); }
+    .optie-status { font-size:.9rem; margin-top:12px; }
+    .optie-status--error { color:#b91c1c; }
+    .optie-status--info { color:var(--accent); }
+    .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+    @media (max-width:640px) { .steps { grid-template-columns:1fr; } }
+    .step__num { font-family:'Lora',serif; font-size:2.2rem; font-weight:700; color:var(--line); margin-bottom:10px; line-height:1; }
+    .step__title { font-weight:700; margin-bottom:6px; font-size:.98rem; }
+    .step__desc { font-size:.87rem; color:var(--ink-3); line-height:1.65; }
+    .trust-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    @media (max-width:680px) { .trust-grid { grid-template-columns:1fr; } }
+    .trust-item { background:var(--white); border:1px solid var(--line); border-radius:12px; padding:20px; }
+    .trust-item__label { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--accent); margin-bottom:8px; }
+    .trust-item__text { font-size:.87rem; color:var(--ink-3); line-height:1.65; }
+    .fit-rows { display:grid; gap:10px; max-width:560px; }
+    .fit-row { display:flex; align-items:flex-start; gap:12px; padding:14px 18px; background:var(--green-soft); border:1px solid #bbf7d0; border-radius:10px; font-size:.93rem; color:#14532d; }
+    .fit-row span:first-child { font-weight:700; flex-shrink:0; }
+    .faq-list { display:grid; gap:4px; }
+    .faq-item { border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--white); }
+    .faq-q { display:flex; align-items:center; justify-content:space-between; padding:17px 20px; cursor:pointer; font-weight:600; font-size:.93rem; user-select:none; gap:12px; }
+    .faq-q:hover { background:var(--surface); }
+    .faq-chevron { flex-shrink:0; color:var(--muted); transition:transform .25s; }
+    .faq-a { max-height:0; overflow:hidden; transition:max-height .3s ease; font-size:.9rem; color:var(--ink-3); line-height:1.7; padding:0 20px; }
+    .faq-item--open .faq-a { max-height:300px; padding:0 20px 17px; }
+    .faq-item--open .faq-chevron { transform:rotate(180deg); }
+    .final-cta { background:var(--accent); color:var(--white); padding:72px 0; text-align:center; }
+    .final-cta h2 { color:var(--white); font-size:clamp(1.6rem,3.5vw,2.1rem); margin-bottom:12px; }
+    .final-cta p { color:rgba(255,255,255,.75); margin-bottom:32px; }
+    .final-cta-btn { display:inline-block; background:var(--white); color:var(--accent); text-decoration:none; padding:17px 40px; border-radius:10px; font-size:1.05rem; font-weight:700; }
+    .final-cta-note { color:rgba(255,255,255,.6); font-size:.8rem; margin-top:12px; }
+    .sticky-footer { position:fixed; bottom:0; left:0; right:0; background:var(--ink); color:var(--white); padding:14px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; transform:translateY(100%); transition:transform .3s ease; z-index:200; }
+    .sticky-footer.visible, .sticky-footer--visible { transform:translateY(0); }
+    .sticky-footer__text { font-size:.9rem; font-weight:600; }
+    .sticky-footer__sub { font-size:.76rem; color:rgba(255,255,255,.6); margin-top:2px; }
+    .sticky-cta { background:var(--white); color:var(--accent); border:none; border-radius:8px; padding:10px 20px; font-family:'DM Sans',sans-serif; font-size:.88rem; font-weight:700; cursor:pointer; white-space:nowrap; flex-shrink:0; text-decoration:none; }
+    @media (max-width:500px) { .sticky-footer { flex-direction:column; text-align:center; } .sticky-cta { width:100%; } }
+    .footer-trust { padding:32px 0 16px; font-size:.85rem; color:var(--ink-3); line-height:1.75; border-top:1px solid var(--line); }
+    .disclaimer { padding:16px 0 20px; font-size:.78rem; color:var(--muted); line-height:1.7; }
   </style>
 </head>
 <body>
+
 <div class="hinweis-banner">&#9200; Rechnung erhalten? Vor einer Zahlung k&ouml;nnen einzelne Positionen gepr&uuml;ft werden.</div>
+
 <header class="header">
   <div class="container">
     <div class="header__inner">
@@ -110,6 +113,7 @@
     </div>
   </div>
 </header>
+
 <section class="hero">
   <div class="container">
     <h1>Rechnung oder Nachforderung erhalten?<br>Erst pr&uuml;fen, bevor Sie zahlen.</h1>
@@ -123,6 +127,7 @@
     </div>
   </div>
 </section>
+
 <section class="section" id="free-check">
   <div class="container" style="max-width:620px;">
     <div class="offer-card" id="free-card">
@@ -142,7 +147,7 @@
       <div id="gratis-status" class="optie-status"></div>
       <div class="offer-security">&#128274; Ihre Datei wird nur zur Analyse verarbeitet.</div>
     </div>
-    <div id="confirmation-card" style="display:none;margin-top:24px;background:#f0fdf4;border:2px solid #86efac;border-radius:16px;padding:28px 28px 24px;max-width:580px;margin-left:auto;margin-right:auto;">
+    <div id="confirmation-card" style="display:none;margin-top:24px;background:#f0fdf4;border:2px solid #86efac;border-radius:16px;padding:28px 28px 24px;">
       <div style="font-size:1.1rem;font-weight:700;color:#14532d;margin-bottom:10px;">&#10003; Wir haben Ihre Rechnung erhalten.</div>
       <p style="font-size:.95rem;color:#166534;margin-bottom:16px;line-height:1.75;">Wir sehen uns die Unterlagen nun genauer an. Sie erhalten Ihre erste Einsch&auml;tzung in der Regel bis zum n&auml;chsten Werktag per E-Mail.</p>
       <div style="background:#fff;border:1px solid #bbf7d0;border-radius:10px;padding:14px 16px;margin-bottom:16px;">
@@ -154,6 +159,7 @@
     </div>
   </div>
 </section>
+
 <section class="section section--alt">
   <div class="container">
     <div class="section-label">So funktioniert es</div>
@@ -165,6 +171,7 @@
     </div>
   </div>
 </section>
+
 <section class="section">
   <div class="container">
     <div class="section-label">Worauf wir achten</div>
@@ -172,18 +179,32 @@
     <div class="trust-grid">
       <div class="trust-item"><div class="trust-item__label">Einzelpositionen</div><div class="trust-item__text">Sind alle berechneten Positionen klar beschrieben und mit der erbrachten Leistung nachvollziehbar?</div></div>
       <div class="trust-item"><div class="trust-item__label">Pflichtangaben</div><div class="trust-item__text">Enth&auml;lt die Rechnung alle gesetzlichen Mindestangaben gem&auml;&szlig; &sect;&nbsp;14 UStG?</div></div>
-      <div class="trust-item"><div class="trust-item__label">Keine Rechtsberatung</div><div class="trust-item__text">Informative Analyse und Schreibenentwurf. Keine rechtliche Vertretung.</div></div>
+      <div class="trust-item"><div class="trust-item__label">Keine Rechtsberatung</div><div class="trust-item__text">Informative Analyse und Widerspruchsentwurf. Keine rechtliche Vertretung.</div></div>
     </div>
   </div>
 </section>
+
 <section class="section section--alt">
   <div class="container">
-    <div class="value-strip"><span class="value-item"><span class="vi-check">&#10003;</span> Einzelpositionen</span><span class="value-item"><span class="vi-check">&#10003;</span> Pflichtangaben (&sect;&nbsp;14 UStG)</span><span class="value-item"><span class="vi-check">&#10003;</span> Nachforderungen</span><span class="value-item"><span class="vi-check">&#10003;</span> Fertiges Widerspruchsschreiben</span><span class="value-item"><span class="vi-check">&#10003;</span> Einmalig &euro;29 &mdash; kein Abo</span></div>
+    <div class="value-strip">
+      <span class="value-item"><span class="vi-check">&#10003;</span> Einzelpositionen</span>
+      <span class="value-item"><span class="vi-check">&#10003;</span> Pflichtangaben (&sect;&nbsp;14 UStG)</span>
+      <span class="value-item"><span class="vi-check">&#10003;</span> Nachforderungen</span>
+      <span class="value-item"><span class="vi-check">&#10003;</span> Fertiges Widerspruchsschreiben</span>
+      <span class="value-item"><span class="vi-check">&#10003;</span> Einmalig &euro;29 &mdash; kein Abo</span>
+    </div>
     <div class="offer-card">
       <div class="offer-badge">Nach Ersteinsch&auml;tzung</div>
       <div class="offer-title">Vollst&auml;ndige Pr&uuml;fung + Widerspruchsschreiben</div>
       <p class="offer-desc">Wir pr&uuml;fen Ihre Rechnung auf alle relevanten Punkte und erstellen ein fertiges Widerspruchsschreiben.</p>
-      <ul class="offer-list"><li>Pr&uuml;fung aller Einzelpositionen auf Nachvollziehbarkeit</li><li>Pr&uuml;fung auf doppelt berechnete oder unklare Leistungen</li><li>Pr&uuml;fung auf nicht erbrachte Leistungen</li><li>Pr&uuml;fung gesetzlicher Pflichtangaben</li><li>Fertiges Widerspruchsschreiben</li><li>Klare n&auml;chste Schritte</li><li>Ergebnis per E-Mail</li></ul>
+      <ul class="offer-list">
+        <li>Pr&uuml;fung aller Einzelpositionen auf Nachvollziehbarkeit</li>
+        <li>Pr&uuml;fung auf doppelt berechnete oder unklare Leistungen</li>
+        <li>Pr&uuml;fung gesetzlicher Pflichtangaben</li>
+        <li>Fertiges Widerspruchsschreiben</li>
+        <li>Klare n&auml;chste Schritte</li>
+        <li>Ergebnis per E-Mail</li>
+      </ul>
       <hr class="offer-divider">
       <div class="offer-price">&euro;29 <span>einmalig &middot; kein Abo</span></div>
       <a href="#free-check" class="offer-cta">Erst kostenlos pr&uuml;fen &rarr;</a>
@@ -192,6 +213,7 @@
     </div>
   </div>
 </section>
+
 <section class="section">
   <div class="container">
     <div class="section-label">Passend f&uuml;r Sie?</div>
@@ -203,18 +225,19 @@
     </div>
   </div>
 </section>
+
 <section class="section section--alt">
   <div class="container">
     <div class="section-label">H&auml;ufige Fragen</div>
     <h2>Alles, was Sie wissen m&ouml;chten</h2>
     <div class="faq-list">
-      <div class="faq-item"><div class="faq-q">Wann darf ich eine Rechnung beanstanden? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Das l&auml;sst sich nicht pauschal sagen. Wenn Positionen nicht klar beschrieben sind, nicht mit der vereinbarten Leistung &uuml;bereinstimmen oder Pflichtangaben fehlen, kann eine Pr&uuml;fung helfen, das einzuordnen.</div></div>
-      <div class="faq-item"><div class="faq-q">Was passiert, wenn ich einen Widerspruch einlege? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Der Rechnungssteller muss die beanstandeten Positionen kl&auml;ren oder belegen. Bis zur Kl&auml;rung ist eine Zahlung der strittigen Betr&auml;ge nicht zwingend f&auml;llig.</div></div>
+      <div class="faq-item"><div class="faq-q">Wann darf ich eine Rechnung beanstanden? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Das l&auml;sst sich nicht pauschal sagen. Wenn Positionen nicht klar beschrieben sind oder nicht mit der vereinbarten Leistung &uuml;bereinstimmen, kann eine Pr&uuml;fung helfen, das einzuordnen.</div></div>
       <div class="faq-item"><div class="faq-q">Muss ich nach der kostenlosen Einsch&auml;tzung zahlen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nein. Die vollst&auml;ndige Pr&uuml;fung ist optional. Sie entscheiden nach Erhalt der Ersteinsch&auml;tzung.</div></div>
       <div class="faq-item"><div class="faq-q">Ist das Rechtsberatung? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nein. MussIchZahlen.de erstellt informative Analysen und Schreibenentw&uuml;rfe. Keine rechtliche Vertretung.</div></div>
     </div>
   </div>
 </section>
+
 <section class="final-cta">
   <div class="container">
     <h2>Erst pr&uuml;fen &mdash; dann zahlen</h2>
@@ -223,10 +246,12 @@
     <div class="final-cta-note">PDF, JPG oder PNG &middot; kein Abo &middot; vollst&auml;ndige Pr&uuml;fung optional</div>
   </div>
 </section>
+
 <div class="container">
   <div class="footer-trust"><strong>MussIchZahlen.de</strong> hilft Verbrauchern, Rechnungen und Nachforderungen vor einer Zahlung besser einzuordnen.<br>Fragen? <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a></div>
-  <div class="disclaimer">MussIchZahlen.de bietet informative Analysen und Schreibenentw&uuml;rfe. Keine Rechtsberatung, keine rechtliche Vertretung. Dokumente werden nach Verarbeitung gel&ouml;scht. &copy; 2026 MussIchZahlen.de</div>
+  <div class="disclaimer">MussIchZahlen.de bietet informative Analysen und Schreibenentw&uuml;rfe. Keine Rechtsberatung. Dokumente werden nach Verarbeitung gel&ouml;scht. &copy; 2026 MussIchZahlen.de</div>
 </div>
+
 <footer style="border-top:1px solid var(--line);padding:20px 0;text-align:center;background:var(--white);">
   <div class="container">
     <p style="font-size:.78rem;color:var(--muted);margin:0;">
@@ -236,6 +261,7 @@
     </p>
   </div>
 </footer>
+
 <div class="sticky-footer" id="sticky-footer">
   <div>
     <div class="sticky-footer__text">Rechnung erhalten? Erst pr&uuml;fen, dann zahlen.</div>
@@ -243,21 +269,63 @@
   </div>
   <a href="#free-check" class="sticky-cta">Kostenlos pr&uuml;fen &rarr;</a>
 </div>
+
 <script src="/app.js"></script>
 <script>
-initFaq();initStickyFooter();
-let selectedFile=null;
-const uploadZone=document.getElementById('gratis-upload-zone'),fileInput=document.getElementById('gratis-file-input'),contactFields=document.getElementById('gratis-contact-fields'),nameEl=document.getElementById('gratis-name'),emailEl=document.getElementById('gratis-email'),btn=document.getElementById('gratis-btn'),statusEl=document.getElementById('gratis-status');
-uploadZone.addEventListener('click',()=>fileInput.click());
-uploadZone.addEventListener('dragover',(e)=>{{e.preventDefault();uploadZone.style.borderColor='var(--accent)';}});
-uploadZone.addEventListener('dragleave',()=>{{uploadZone.style.borderColor='';}});
-uploadZone.addEventListener('drop',(e)=>{{e.preventDefault();uploadZone.style.borderColor='';const f=e.dataTransfer?.files?.[0];if(f)handleFile(f);}});
-fileInput.addEventListener('change',()=>{{if(fileInput.files?.[0])handleFile(fileInput.files[0]);}});
-function handleFile(file){{const err=validateFile(file);if(err){{setStatus('error',err);return;}}selectedFile=file;uploadZone.querySelector('.upload-label').textContent=file.name;uploadZone.querySelector('.upload-hint').textContent=formatFileSize(file.size);contactFields.style.display='flex';setStatus('','');updateBtn();track('file_selected',{{type:'rechnung',fileType:file.type,fileSize:file.size}});}}
-function updateBtn(){{btn.disabled=!(selectedFile&&nameEl.value.trim()&&emailEl.value.trim());}}
-nameEl.addEventListener('input',updateBtn);emailEl.addEventListener('input',updateBtn);
-btn.addEventListener('click',async()=>{{const name=nameEl.value.trim(),email=emailEl.value.trim();if(!selectedFile||!name||!email)return;btn.disabled=true;btn.textContent='Wird geprüft…';setStatus('info','Ihre Rechnung wird geprüft…');try{{await submitFree({{file:selectedFile,name,email,type:'rechnung',onStatus:(k,m)=>setStatus(k,m)}});const c=document.getElementById('confirmation-card');if(c){{c.style.display='block';c.scrollIntoView({{behavior:'smooth',block:'center'}});}}const f=document.getElementById('free-card');if(f)f.style.display='none';setStatus('','');}}catch(err){{setStatus('error',err.message||'Prüfung fehlgeschlagen. Bitte erneut versuchen.');btn.disabled=false;btn.textContent='Kostenlose Einschätzung starten';}}}});
-function setStatus(kind,msg){{statusEl.textContent=msg;statusEl.className='optie-status'+(kind?` optie-status-${{kind}}`:'');}}
+function initFaq(){document.querySelectorAll('.faq-q').forEach(q=>{q.addEventListener('click',()=>{const i=q.closest('.faq-item');const o=i.classList.contains('faq-item--open');document.querySelectorAll('.faq-item--open').forEach(x=>x.classList.remove('faq-item--open'));if(!o)i.classList.add('faq-item--open');});});}
+function initStickyFooter(){const sf=document.getElementById('sticky-footer');if(!sf)return;let t=false;window.addEventListener('scroll',()=>{if(!t){requestAnimationFrame(()=>{const y=window.scrollY;const nb=y+window.innerHeight>document.documentElement.scrollHeight-200;sf.classList.toggle('visible',y>400&&!nb);t=false;});t=true;}},{passive:true});}
+</script>
+
+<script>
+initFaq();
+initStickyFooter();
+let selectedFile = null;
+const uploadZone = document.getElementById('gratis-upload-zone');
+const fileInput = document.getElementById('gratis-file-input');
+const contactFields = document.getElementById('gratis-contact-fields');
+const nameEl = document.getElementById('gratis-name');
+const emailEl = document.getElementById('gratis-email');
+const btn = document.getElementById('gratis-btn');
+const statusEl = document.getElementById('gratis-status');
+uploadZone.addEventListener('click', () => fileInput.click());
+uploadZone.addEventListener('dragover', (e) => { e.preventDefault(); uploadZone.style.borderColor = 'var(--accent)'; });
+uploadZone.addEventListener('dragleave', () => { uploadZone.style.borderColor = ''; });
+uploadZone.addEventListener('drop', (e) => { e.preventDefault(); uploadZone.style.borderColor = ''; const f = e.dataTransfer?.files?.[0]; if (f) handleFile(f); });
+fileInput.addEventListener('change', () => { if (fileInput.files?.[0]) handleFile(fileInput.files[0]); });
+function handleFile(file) {
+  const err = validateFile(file);
+  if (err) { setStatus('error', err); return; }
+  selectedFile = file;
+  uploadZone.querySelector('.upload-label').textContent = file.name;
+  uploadZone.querySelector('.upload-hint').textContent = formatFileSize(file.size);
+  contactFields.style.display = 'flex';
+  setStatus('', '');
+  updateBtn();
+  track('file_selected', { type: 'rechnung', fileType: file.type, fileSize: file.size });
+}
+function updateBtn() { btn.disabled = !(selectedFile && nameEl.value.trim() && emailEl.value.trim()); }
+nameEl.addEventListener('input', updateBtn);
+emailEl.addEventListener('input', updateBtn);
+btn.addEventListener('click', async () => {
+  const name = nameEl.value.trim(), email = emailEl.value.trim();
+  if (!selectedFile || !name || !email) return;
+  btn.disabled = true;
+  btn.textContent = 'Wird gepr\u00fcft\u2026';
+  setStatus('info', 'Ihre Rechnung wird gepr\u00fcft\u2026');
+  try {
+    await submitFree({ file: selectedFile, name, email, type: 'rechnung', onStatus: (k, m) => setStatus(k, m) });
+    const c = document.getElementById('confirmation-card');
+    if (c) { c.style.display = 'block'; c.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+    const fc = document.getElementById('free-card');
+    if (fc) fc.style.display = 'none';
+    setStatus('', '');
+  } catch (err) {
+    setStatus('error', err.message || 'Pr\u00fcfung fehlgeschlagen. Bitte erneut versuchen.');
+    btn.disabled = false;
+    btn.textContent = 'Kostenlose Einsch\u00e4tzung starten';
+  }
+});
+function setStatus(kind, msg) { statusEl.textContent = msg; statusEl.className = 'optie-status' + (kind ? ' optie-status--' + kind : ''); }
 </script>
 </body>
 </html>
