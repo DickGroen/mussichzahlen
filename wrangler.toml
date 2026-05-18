@@ -25,6 +25,10 @@ STRIPE_LINK_ANGEBOT    = "https://buy.stripe.com/test_bJe28sflO76Ldue6pC1440c"
 # STRIPE_WEBHOOK_SECRET
 # RESEND_API_KEY
 
+# Test route (nooit publiek linken)
+TEST_SECRET = "REPLACE_WITH_RANDOM_SECRET"
+TEST_EMAIL  = "groenvantexel@gmail.com"
+
 [[kv_namespaces]]
 binding = "SESSIONS_KV"
 id = "394807db041c4b83907c9f6818a4184b"
