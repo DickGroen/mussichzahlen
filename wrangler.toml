@@ -26,7 +26,7 @@ STRIPE_LINK_ANGEBOT    = "https://buy.stripe.com/test_bJe28sflO76Ldue6pC1440c"
 # RESEND_API_KEY
 
 # Test route (nooit publiek linken)
-TEST_SECRET = "REPLACE_WITH_RANDOM_SECRET"
+TEST_SECRET = "TEST_SECRET = "miz-test-2026-xq7k"
 TEST_EMAIL  = "groenvantexel@gmail.com"
 
 [[kv_namespaces]]
