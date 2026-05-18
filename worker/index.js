@@ -6,6 +6,7 @@ import { handleSubmitAuto }            from "./routes/submit-auto.js";
 import { handleTrack }                 from "./routes/track.js";
 import { handleCron }                  from "./routes/cron.js";
 import { handleStripeWebhook }         from "./routes/stripe-webhook.js";
+import { handleTestAnalysis }          from "./routes/test-analysis.js";
 
 export default {
   async fetch(request, env, ctx) {
@@ -26,6 +27,10 @@ export default {
     try {
       if (url.pathname === "/api/stripe-webhook" && request.method === "POST") {
         return await handleStripeWebhook(request, env, ctx);
+      }
+
+      if (url.pathname === "/api/test-analysis" && request.method === "GET") {
+        return await handleTestAnalysis(request, env);
       }
 
       if (url.pathname === "/api/analyze-free" && request.method === "POST") {
