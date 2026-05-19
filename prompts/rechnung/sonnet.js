@@ -217,7 +217,7 @@ KEINE Wiederholung von NEXT_STEPS. Wenn NEXT_STEPS bereits ausführlich ist, hie
 [/HOW_TO_USE]
 
 [ISSUES]
-Maximal 5 Punkte. Jeder Punkt:
+Maximal 4 Punkte. Jeder Punkt:
 - beginnt mit einer klaren Überschrift
 - behandelt NUR EINE konkrete Auffälligkeit
 - bezieht sich auf konkrete Details aus dem Dokument
@@ -225,6 +225,12 @@ Maximal 5 Punkte. Jeder Punkt:
 
 Gut: "Position 'Anfahrt 45,00 EUR' erscheint zweimal auf der Rechnung ohne erkennbaren Grund."
 Schlecht: "Mögliche doppelte Berechnung", "fehlende Leistungsbeschreibung"
+
+WICHTIG — Vermeide symmetrischen "Audit Report" Stil:
+Nicht jeder Punkt gleich lang. Nicht jedes Punkt dieselbe Struktur.
+Ein Mensch würde manche Punkte kurz erwähnen, andere ausführlicher erklären.
+Variiere Länge und Ton — das wirkt menschlicher als ein gleichmäßiger Prüfbericht.
+Bei tier3: maximal 1 Punkt oder leer lassen.
 [/ISSUES]
 
 [FLAG_DETAILS]
@@ -285,6 +291,15 @@ VERMEIDE:
 - "abschließend zu prüfen" → Kanzleijargon
 - Adressplatzhalter — Template ergänzt diese automatisch
 - Gesetzesparagraphen — nur nennen wenn im Dokument konkret relevant
+
+
+LETTER voor tier3 (risk: low):
+Bij tier3 GEEN volledige Widerspruch schrijven.
+Schrijf een rustige, neutrale Rückfrage:
+- Toon: coöperatief, informatief, geen conflict
+- Geen "Bis dahin werde ich keine Zahlung vornehmen" bij tier3
+- Openingszin: "Zu Ihrem Schreiben hätte ich noch eine kurze Rückfrage."
+- Slotzin: "Vielen Dank für Ihre Rückmeldung."
 
 BETREFF:
 - "Rückfrage zu Ihrer Rechnung vom [Datum]"
