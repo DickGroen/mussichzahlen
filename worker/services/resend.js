@@ -317,7 +317,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">Geforderter Betrag</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
   </table>
   <p>Eine genauere Prüfung vor einer Zahlung kann helfen, die Forderung besser einzuordnen — und zu verstehen, ob alle Angaben vollständig nachvollziehbar sind.</p>
-  <p>Im Rahmen der vollständigen Prüfung erhalten Sie eine ausführlichere Einschätzung Ihres Falls sowie ein fertiges Antwortschreiben, das Sie bei Bedarf direkt verwenden können.</p>
+  <p>Im Rahmen der vollständigen Prüfung erhalten Sie eine ausführlichere Einschätzung der offenen Punkte sowie ein fertiges Antwortschreiben, das Sie bei Bedarf direkt verwenden können.</p>
   ${stripeLink ? `
   <div style="margin:28px 0;">
     <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 26px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
@@ -351,7 +351,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
       subject: `Erste Einschätzung zu Ihrer ${escapeHtml(labels.title)} — MussIchZahlen`,
       html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
   <p>Guten Tag ${safeName},</p>
-  <p>wir haben uns Ihr Schreiben ${senderText}angesehen. Einige Punkte sollten vor einer Zahlung noch geklärt werden.</p>
+  <p>Ihr Schreiben ${senderText}liegt uns vor. Wir haben kurz durchgesehen, was darin steht — einige Punkte sollten vor einer Zahlung noch geklärt werden.</p>
   ${teaserText ? `
   <div style="background:#fffbeb;border-left:3px solid #d97706;padding:14px 16px;border-radius:4px;margin:22px 0;color:#78350f;font-size:.94rem;line-height:1.75;">
     ${teaserText}
@@ -363,7 +363,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">Geforderter Betrag</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
   </table>
   <p>Nicht immer sind Kostenbestandteile und Nachweise vollständig nachvollziehbar. Vor einer Zahlung kann es sinnvoll sein, die zugrunde liegenden Unterlagen genauer zu prüfen.</p>
-  <p>Im Rahmen der vollständigen Prüfung erhalten Sie eine ausführlichere Einschätzung Ihres Falls sowie ein fertiges Antwortschreiben, das Sie bei Bedarf direkt verwenden können. Das bleibt selbstverständlich optional.</p>
+  <p>Im Rahmen der vollständigen Prüfung erhalten Sie eine ausführlichere Einschätzung der offenen Punkte sowie ein fertiges Antwortschreiben, das Sie bei Bedarf direkt verwenden können. Das bleibt selbstverständlich optional.</p>
   ${stripeLink ? `
   <div style="margin:28px 0;">
     <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 26px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
