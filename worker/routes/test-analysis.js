@@ -101,9 +101,15 @@ ${testCase.textContent}
 
     let triage;
     try {
-      triage = JSON.parse(rawTriage);
+      // Strip markdown code fences if Claude wraps the JSON
+      const cleaned = (rawTriage || "")
+        .replace(/^```json\s*/i, "")
+        .replace(/^```\s*/i, "")
+        .replace(/```\s*$/i, "")
+        .trim();
+      triage = JSON.parse(cleaned);
     } catch {
-      triage = { risk: "medium", tier: "tier1", teaser: rawTriage?.slice(0, 200) };
+      triage = { risk: "medium", tier: "tier1", teaser: rawTriage?.slice(0, 300) };
     }
 
     console.log(`[TEST] Triage result:`, JSON.stringify(triage));
