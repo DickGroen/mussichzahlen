@@ -102,8 +102,9 @@ function formatAmount(triage = {}) {
     triage?.amount_currency ||
     "€";
 
-  if (String(currency).toUpperCase() === "GBP" || String(currency).includes("£")) return `£${amount}`;
-  return `€${amount}`;
+  const formatted = Number(amount).toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  if (String(currency).toUpperCase() === "GBP" || String(currency).includes("£")) return `£${formatted}`;
+  return `€${formatted}`;
 }
 
 function riskLabel(risk) {
@@ -172,7 +173,7 @@ export async function sendConfirmationEmail(env, { name, email, type }) {
 }
 
 export async function notifyAdminFree(env, { name, email, type, triage, stripeLink }) {
-  const labels    = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
+  const labels    = TYPE_LABELS[triage?.forderungstyp && TYPE_LABELS[triage.forderungstyp] ? triage.forderungstyp : type] || TYPE_LABELS.mahnung;
   const amount    = formatAmount(triage);
   const riskLbl   = { low: "Niedrig", medium: "Mittel", high: "Hoch" }[triage?.risk] || triage?.risk || "unbekannt";
   const tier      = triage?.tier ? triage.tier.charAt(0).toUpperCase() + triage.tier.slice(1) : "unbekannt";
