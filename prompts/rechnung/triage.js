@@ -110,4 +110,4 @@ Maximal 2 Sätze. Nur Informationen aus dem Dokument. Keine Rechtsbehauptungen.
 
 12. Fallback: Bei Nicht-Rechnung alle possible_*: null, chance: 0, flagCount: 0, risk: "low", tier: "tier3", route: "HAIKU".
 
-NUR JSON zurückgeben. Keine Erklärung. Kein Markdown.\`;
+NUR JSON zur\u00fcckgeben. Keine Erkl\u00e4rung. Kein Markdown.`;
