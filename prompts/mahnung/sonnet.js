@@ -138,6 +138,12 @@ NEXT_STEPS voor tier3:
 • Praktisch en neutraal — "Gleichen Sie ab" niet "Prüfen Sie kritisch"
 • Geen alarmerende taal
 • Maximaal 2–3 stappen
+• Geen "sollten vor einer Zahlung geprüft werden" bij low-risk
+
+ISSUES sectie voor tier3:
+• Bij tier3 (risk: low, flagCount: 0): ISSUES sectie leeg laten of maximaal 1 neutraal punt
+• NIET: meerdere twijfelpunten opsommen bij een nachvollziehbare Forderung
+• Als het schreiben weitgehend vollständig is: geen issues schrijven
 
 ────────────────────
 ANTI-WIEDERHOLUNG ZWISCHEN SEKTIONEN
