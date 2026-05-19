@@ -462,6 +462,122 @@ Kreisverwaltungsreferat
 
 };
 
+
+  // ── Rechnung (DE) ─────────────────────────────────────────────────────────
+
+  "rechnung:tier1-inflated-invoice": {
+    type:        "rechnung",
+    name:        "Test User",
+    email:       null,
+    description: "Tier-1 Rechnung — überhöhte Positionen, fehlende Leistungsnachweise",
+    textContent: `
+HANDWERKER PROFI GMBH
+Werkstraße 14 · 12345 Berlin
+
+Test User
+Musterstraße 1
+10115 Berlin
+
+Berlin, 5. März 2025
+
+Rechnung Nr. 2025-0441
+
+Sehr geehrte Damen und Herren,
+
+wir berechnen Ihnen für die erbrachten Leistungen an Ihrem Objekt folgende Positionen:
+
+1. Sanitärarbeiten Badezimmer (pauschal)         €1.850,00
+2. Materialkosten (pauschal)                       €920,00
+3. Anfahrtspauschale (3x)                          €180,00
+4. Verwaltungsgebühr                               €150,00
+5. Dokumentationspauschale                         €95,00
+
+Gesamtbetrag: €3.195,00
+
+Zahlungsziel: 14 Tage nach Rechnungseingang
+
+Bitte überweisen Sie den Betrag auf unser Konto.
+
+Einzelnachweise über die erbrachten Leistungen sowie Materialbelege werden auf Anfrage zur Verfügung gestellt.
+
+Mit freundlichen Grüßen
+Handwerker Profi GmbH
+    `.trim(),
+  },
+
+  "rechnung:tier2-unclear-fee": {
+    type:        "rechnung",
+    name:        "Test User",
+    email:       null,
+    description: "Tier-2 Rechnung — unklare Positionen, keine Einzelaufstellung",
+    textContent: `
+DIGITAL SERVICES GMBH
+Hauptstraße 88 · 80331 München
+
+Test User
+Musterstraße 1
+10115 Berlin
+
+München, 12. März 2025
+
+Rechnung Nr. DS-2025-0192
+
+Leistungszeitraum: Januar–Februar 2025
+
+Pos. 1: IT-Beratungsleistungen (pauschal)        €780,00
+Pos. 2: Softwarelizenz Q1 2025                    €240,00
+Pos. 3: Support-Pauschale                         €120,00
+
+Nettobetrag:   €1.140,00
+MwSt. 19%:       €216,60
+Gesamtbetrag:  €1.356,60
+
+Zahlungsziel: 30 Tage
+
+Hinweis: Eine detaillierte Leistungsbeschreibung ist auf Anfrage erhältlich.
+
+Mit freundlichen Grüßen
+Digital Services GmbH
+    `.trim(),
+  },
+
+  "rechnung:tier3-valid-invoice": {
+    type:        "rechnung",
+    name:        "Test User",
+    email:       null,
+    description: "Tier-3 Rechnung — nachvollziehbare Positionen, geringe Auffälligkeiten",
+    textContent: `
+STADTWERKE KÖLN GMBH
+Parkgürtel 24 · 50823 Köln
+
+Test User
+Musterstraße 1
+10115 Berlin
+
+Köln, 1. März 2025
+
+Jahresrechnung Strom 2024
+Kundennummer: 7741-2209
+Zählernummer: 1100-4482
+
+Abrechnungszeitraum: 1.1.2024 – 31.12.2024
+
+Verbrauch laut Ablesung vom 15.1.2025: 3.240 kWh
+Geleistete Abschlagszahlungen 2024: €960,00
+Berechneter Verbrauchspreis: €1.101,60 (€0,34/kWh)
+Grundgebühr 2024: €108,00
+
+Gesamtbetrag: €1.209,60
+Abzüglich geleisteter Abschläge: -€960,00
+Nachzahlungsbetrag: €249,60
+
+Zahlungsfrist: 28 Tage nach Rechnungseingang
+
+Mit freundlichen Grüßen
+Stadtwerke Köln GmbH
+    `.trim(),
+  },
+
 export function getTestCase(type, caseName) {
   const key = `${type}:${caseName}`;
   return TEST_CASES[key] || null;
