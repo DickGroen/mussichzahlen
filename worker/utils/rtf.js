@@ -370,11 +370,6 @@ export function makeAnalysisRtf(
     out += numberedLines(nextSteps) || bulletLines(nextSteps) || paragraph(nextSteps);
   }
 
-  if (howToUse) {
-    out += heading("So verwenden Sie dieses Ergebnis");
-    out += numberedLines(howToUse) || paragraph(howToUse);
-  }
-
   out += paragraph(
     "Bitte senden Sie das beigefügte Schreiben separat. Die Analyse ist für Ihre eigene Orientierung bestimmt."
   );
