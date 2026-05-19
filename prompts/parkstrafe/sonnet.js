@@ -141,6 +141,17 @@ NIET: twijfel als opening gebruiken
 RICHTIG: eerst de neutraliteit benoemen, dan pas optioneel de controle noemen
 Voorbeeld: "Der Bescheid wirkt nach den sichtbaren Angaben weitgehend standardmäßig. Bei eigenen Zweifeln an den Tatumständen kann ein Abgleich sinnvoll sein."
 
+ISSUES sectie voor tier3:
+Bij tier3 (risk: low, flagCount: 0) de ISSUES sectie LEEG laten of maximaal 1 neutraal punt noemen.
+NIET: 4–5 twijfelpunten opsommen bij een nachvollziehbare Behördenbescheid.
+NIET: "fehlende Beweismittel", "Kein Hinweis auf Fahrereigenschaft" als issues bij tier3 — dit is te juridisch voor een normale consument.
+Als de bescheid weitgehend vollständig is: schrijf geen issues.
+
+NEXT_STEPS voor tier3:
+NIET: "Vor einer Zahlung wäre ein Einspruch prüfenswert" — te sterk voor low-risk.
+RICHTIG maximaal 1–2 zinnen: "Wer sich an die Situation anders erinnert, kann die Angaben noch einmal kurz abgleichen."
+Geen Einspruch-advies bij tier3 tenzij er een concreet sterke reden is.
+
 NEXT_STEPS voor tier3:
 • Praktisch en neutraal — "Gleichen Sie ab" niet "Prüfen Sie kritisch"
 • Geen alarmerende taal
