@@ -316,4 +316,10 @@ FORMALES:
 - Beginne direkt mit "Sehr geehrte Damen und Herren,"
 - Schließe mit: "Mit freundlichen Grüßen,"
 - Kein Disclaimer nach der Grußformel
+
+VERMEIDE wiederholende Muster in der Brief:
+- Nicht jeder Absatz mit demselben Verb beginnen: "Ich bitte um...", "Ich bitte um..." — wissel af
+- Verwende Variationen: "Außerdem ist für mich nicht nachvollziehbar...", "Mir ist unklar...", "...kann ich derzeit nicht einordnen"
+- Variiere bewüsst Länge und Aufbau der Absätze
+- Eine menschliche Rückfrage klingt nicht wie eine nummerierte Checkliste
 [/WIDERSPRUCHSSCHREIBEN]`;
