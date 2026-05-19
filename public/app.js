@@ -44,10 +44,10 @@ const trackEvent = track;
 
 // Bestandvalidatie
 function validateFile(file) {
-  if (!file) return "Keine Datei ausgewählt";
+  if (!file) return "Keine Datei ausgew\u00e4hlt";
 
   if (file.size > MAX_FILE_SIZE) {
-    return `Datei zu groß (max. 8 MB, Ihre Datei: ${(file.size / 1024 / 1024).toFixed(1)} MB)`;
+    return `Datei zu gro\u00df (max. 8 MB, Ihre Datei: ${(file.size / 1024 / 1024).toFixed(1)} MB)`;
   }
 
   const ext = "." + file.name.split(".").pop().toLowerCase();
@@ -114,12 +114,12 @@ async function fetchWithTimeout(url, options = {}, timeoutMs = 60000) {
 
     if (error.name === "AbortError") {
       throw new Error(
-        "Zeitüberschreitung — bitte Verbindung prüfen und erneut versuchen."
+        "Zeit\u00fcberschreitung \u2014 bitte Verbindung pr\u00fcfen und erneut versuchen."
       );
     }
 
     throw new Error(
-      "Netzwerkfehler — bitte Verbindung prüfen und erneut versuchen."
+      "Netzwerkfehler \u2014 bitte Verbindung pr\u00fcfen und erneut versuchen."
     );
   }
 }
@@ -132,7 +132,7 @@ async function submitFree({
   type,
   onStatus,
 }) {
-  onStatus?.("info", "Schreiben wird geprüft…");
+  onStatus?.("info", "Schreiben wird gepr\u00fcft\u2026");
 
   const validationError = validateFile(file);
 
@@ -180,7 +180,7 @@ async function submitFree({
   }
 
   if (!response.ok || !data.ok) {
-    throw new Error(data?.error || "Prüfung fehlgeschlagen");
+    throw new Error(data?.error || "Pr\u00fcfung fehlgeschlagen");
   }
 
   track("upload_completed", {
@@ -200,7 +200,7 @@ async function submitAutoPaid({
   sessionId,
   onStatus,
 }) {
-  onStatus?.("info", "Zahlung wird geprüft…");
+  onStatus?.("info", "Zahlung wird gepr\u00fcft\u2026");
 
   const response = await fetchWithTimeout(
     `${WORKER_URL}/submit-auto`,
@@ -248,7 +248,7 @@ async function submitPaid({
   sessionId,
   onStatus,
 }) {
-  onStatus?.("info", "Dokument wird sicher hochgeladen…");
+  onStatus?.("info", "Dokument wird sicher hochgeladen\u2026");
 
   const validationError = validateFile(file);
 
