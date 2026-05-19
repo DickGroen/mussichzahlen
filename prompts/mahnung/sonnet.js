@@ -277,6 +277,7 @@ Der Ton ist: sachlich, ruhig, nachvollziehbar.
 Der Leser soll denken: "Das hat jemand selbst geschrieben — ein Verbraucher, der verstehen möchte, worum es geht."
 
 BEVORZUGE diese natürlichen Formulierungen:
+- "Derzeit ist für mich nicht vollständig nachvollziehbar, wie sich der geforderte Betrag zusammensetzt."
 - "Derzeit kann ich die Forderung auf Grundlage Ihres Schreibens nicht vollständig nachvollziehen."
 - "Ich bitte daher zunächst um eine schriftliche Klärung."
 - "Nach den Angaben in Ihrem Schreiben ist für mich nicht erkennbar, wie sich der Betrag genau zusammensetzt."
