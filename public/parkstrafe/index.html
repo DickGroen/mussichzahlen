@@ -158,7 +158,7 @@
       <div style="background:#fff;border:1px solid #bbf7d0;border-radius:10px;padding:14px 16px;margin-bottom:16px;">
         <div style="font-weight:700;font-size:.9rem;color:#14532d;margin-bottom:6px;">Was passiert als n&auml;chstes?</div>
         <p style="font-size:.88rem;color:#166534;line-height:1.65;margin:0;">
-          Wir sehen uns Ihr Schreiben an und pr&uuml;fen, ob einzelne Punkte &mdash; etwa Fristen, Zustellung, Angaben zum Vorwurf oder Kostenbestandteile &mdash; genauer betrachtet werden sollten. Das Ergebnis erhalten Sie per E-Mail.
+          Wir sehen uns Ihr Schreiben an und ordnen die wichtigsten Punkte f&uuml;r Sie ein &mdash; etwa Fristen, Zustellung, Angaben zum Vorwurf oder Kostenbestandteile. Das Ergebnis erhalten Sie per E-Mail.
         </p>
       </div>
       <p style="font-size:.84rem;color:#166534;margin-bottom:6px;">&#8594; Bitte pr&uuml;fen Sie auch Ihren Spam-Ordner, falls Sie keine E-Mail erhalten.</p>
@@ -184,7 +184,7 @@
         <li>Pr&uuml;fung auf formale M&auml;ngel und fehlende Pflichtangaben</li>
         <li>Pr&uuml;fung von Fristen und Zustellung</li>
         <li>Pr&uuml;fung der Kostenbestandteile und Nachweise</li>
-        <li>Pr&uuml;fung auf m&ouml;gliche Verj&auml;hrung</li>
+        <li>Pr&uuml;fung von Fristen und Zustellung</li>
         <li>Fertiges Antwort- oder Einspruchsschreiben</li>
         <li>Klare n&auml;chste Schritte</li>
         <li>Ergebnis per E-Mail</li>
@@ -281,6 +281,11 @@
 </div>
 
 <script src="/app.js"></script>
+<script>
+function initFaq(){document.querySelectorAll('.faq-q').forEach(q=>{q.addEventListener('click',()=>{const i=q.closest('.faq-item');const o=i.classList.contains('faq-item--open');document.querySelectorAll('.faq-item--open').forEach(x=>x.classList.remove('faq-item--open'));if(!o)i.classList.add('faq-item--open');});});}
+function initStickyFooter(){const sf=document.getElementById('sticky-footer');if(!sf)return;let t=false;window.addEventListener('scroll',()=>{if(!t){requestAnimationFrame(()=>{const y=window.scrollY;const nb=y+window.innerHeight>document.documentElement.scrollHeight-200;sf.classList.toggle('visible',y>400&&!nb);t=false;});t=true;}},{passive:true});}
+</script>
+
 
 <script>
 // ── Init ──────────────────────────────────────────────────────────────────────
