@@ -342,9 +342,6 @@ No guarantee or aftercare information included.
     `.trim(),
   },
 
-};
-
-
   // ── Parkstrafe (DE) ───────────────────────────────────────────────────────
 
   "parkstrafe:tier1-unclear-signage": {
@@ -462,6 +459,8 @@ Landeshauptstadt München
 Kreisverwaltungsreferat
     `.trim(),
   },
+
+};
 
 export function getTestCase(type, caseName) {
   const key = `${type}:${caseName}`;
