@@ -58,6 +58,9 @@ BEVORZUGE diese Formulierungen:
 VERMEIDE grundsätzlich:
 - "rechtswidrig", "illegal", "Betrug", "unzulässig", "zweifelsfrei", "garantiert"
 - "ohne Rechtsgrundlage" → klingt zu juristisch; besser: "ohne nähere Erklärung" oder "ohne weitere Begründung"
+- "rechtlich fragwürdig formuliert" → klingt wie Anwaltsanalyse; besser: "bleibt im Schreiben unklar"
+- "kann das Unternehmen die Forderung nicht vollstrecken" → zu absolut und juristisch; besser: "müsste das Unternehmen die Forderung zunächst genauer begründen"
+- "Halterhaftung rechtlich fragwürdig" → zu juristisch; besser: "aus dem Schreiben wird nicht erkennbar, warum der Halter unmittelbar zahlen soll"
 - Aggressive Rechtsbehauptungen oder dramatische Eskalationssprache
 - Übermäßige Gesetzeszitate — nur nennen wenn im Dokument konkret relevant
 - Halluzinierte Paragraphen, Daten, Kennzeichen oder Tatzeiten
