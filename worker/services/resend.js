@@ -444,7 +444,6 @@ export async function sendPaidEmail(env, { name, email, type, triage, analysis }
   <p>Ihr Schreiben${senderText} liegt uns vor. Wir haben die Unterlagen für Sie zusammengefasst und übersichtlich eingeordnet.</p>
   <p>Im Anhang finden Sie die Einschätzung zu Ihrem Fall sowie eine Vorlage, die Sie bei Bedarf verwenden können.</p>
   <p>Lesen Sie die Einschätzung bitte zunächst in Ruhe durch — sie fasst die wichtigsten Informationen zu Ihrem Schreiben verständlich zusammen.</p>
-  <p style="font-size:.9rem;color:#374151;">Die Dateien lassen sich mit Microsoft Word, LibreOffice oder einem vergleichbaren Textprogramm öffnen.</p>
   <p>Bei Fragen antworten Sie einfach auf diese E-Mail.</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
   <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
@@ -454,8 +453,8 @@ export async function sendPaidEmail(env, { name, email, type, triage, analysis }
   <p>Guten Tag ${safeName},</p>
   <p>Ihr Schreiben${senderText} liegt uns vor. Wir haben es durchgesehen und die wichtigsten Punkte für Sie kurz eingeordnet.</p>
   <p>Im Anhang finden Sie die Einschätzung zu Ihrem Fall sowie ein fertiges Antwortschreiben.</p>
-  <p>Lesen Sie die Einschätzung bitte zunächst in Ruhe durch — sie erklärt, welche Punkte vor einer Entscheidung noch geklärt werden sollten. Das Antwortschreiben können Sie anschließend bei Bedarf direkt verwenden.</p>
-  <p style="font-size:.9rem;color:#374151;">Die Dateien lassen sich mit Microsoft Word, LibreOffice oder einem vergleichbaren Textprogramm öffnen. Falls Sie das Antwortschreiben versenden möchten, empfehlen wir einen nachweisbaren Versandweg.</p>
+  <p>Lesen Sie die Einschätzung bitte zunächst in Ruhe durch — sie erklärt, welche Punkte vor einer Zahlung noch geklärt werden sollten. Das Antwortschreiben können Sie anschließend bei Bedarf direkt verwenden.</p>
+  <p style="font-size:.9rem;color:#374151;">Falls Sie das Antwortschreiben versenden möchten, empfehlen wir einen Versand mit Nachweis.</p>
   <p>Bei Fragen antworten Sie einfach auf diese E-Mail.</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
   <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
