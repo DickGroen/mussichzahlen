@@ -295,6 +295,8 @@ VERMEIDE diese Formulierungen:
 - "Hiermit widerspreche ich der Forderung" → klingt zu formell-juristisch
 - "Ich bestreite die Forderung vorsorglich" → Rechtsvorlagen-Gefühl
 - "behaupteten Forderung" → klingt konfliktgerichtet; besser: "genannten Forderung" oder "geltend gemachten Forderung"
+- "angeblichen Forderung" → klingt streitlustig; besser: "geltend gemachten Forderung" oder "genannten Forderung"
+- "beunruhigend wirken" / "kann beunruhigend sein" → erzeugt unnötige Emotion; ersatzlos streichen oder ersetzen durch sachliche Einordnung
 - "vollständig nachvollziehen" → besser: "ausreichend nachvollziehen"
 - "vollumfänglich und in allen Teilen" → übertrieben formal
 - "Soweit aus Ihrem Schreiben ersichtlich" → zu AI-artig
