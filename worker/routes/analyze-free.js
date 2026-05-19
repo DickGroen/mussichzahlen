@@ -337,13 +337,16 @@ function normalizeFlagCount(triage) {
 }
 
 function normalizeTeaser(risk, teaser) {
+  // If Claude generated a non-empty, non-generic teaser, keep it
+  if (teaser && typeof teaser === "string" && teaser.trim().length > 30) {
+    return teaser.trim();
+  }
+  // Fallback map for when teaser is missing or too short
   const map = {
-    high:   "Es gibt mehrere Punkte, die vor einer Zahlung sorgfältig geprüft werden sollten — insbesondere wenn Kosten, Nachweise oder die Grundlage der Forderung nicht vollständig nachvollziehbar sind.",
+    high:   "Es gibt mehrere Punkte, die vor einer Zahlung genauer geprüft werden sollten — insbesondere wenn Nachweise oder die Grundlage der Forderung nicht vollständig nachvollziehbar sind.",
     medium: "Einzelne Angaben in diesem Schreiben könnten vor einer Zahlung noch geklärt werden, besonders wenn Betrag, Absender oder Nachweise nicht vollständig eindeutig sind.",
     low:    "Auf Basis der sichtbaren Informationen wirkt das Schreiben eher standardmäßig, einzelne Details können vor einer endgültigen Entscheidung dennoch geprüft werden.",
   };
-  const allowed = new Set(Object.values(map));
-  if (allowed.has(teaser)) return teaser;
   return map[risk] || map.medium;
 }
 
