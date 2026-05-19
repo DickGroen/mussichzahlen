@@ -148,7 +148,7 @@ function tier3Teaser(triage = {}, type = "mahnung") {
     angebot:    "Es kann sinnvoll sein zu prüfen, ob alle Positionen des Angebots klar aufgeschlüsselt sind und ob mögliche Zusatzkosten oder unklare Formulierungen enthalten sind.",
   };
 
-  return teasers[type] || "Es kann sinnvoll sein, einzelne Details des Schreibens vor einer Zahlung oder Reaktion sorgfältig zu prüfen.";
+  return teasers[type] || "Es kann sinnvoll sein, einzelne Details des Schreibens vor einer Zahlung oder Reaktion genauer zu prüfen.";
 }
 
 // ── Exports ───────────────────────────────────────────────────────────────────
@@ -158,12 +158,11 @@ export async function sendConfirmationEmail(env, { name, email, type }) {
 
   await sendEmail(env, {
     to:      email,
-    subject: `Ihr Schreiben wird geprüft — MussIchZahlen`,
+    subject: `Wir sehen uns Ihr Schreiben an — MussIchZahlen`,
     html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
   <p>Guten Tag ${safeName},</p>
-  <p>vielen Dank — wir haben Ihr Schreiben erhalten und sehen uns die Unterlagen nun genauer an.</p>
-  <p>Solche Schreiben werfen häufig Fragen auf. Nicht immer ist auf den ersten Blick erkennbar, ob Forderungsbetrag, enthaltene Kosten und beigefügte Nachweise vollständig nachvollziehbar sind. Dabei prüfen wir insbesondere, ob die Forderung und die angegebenen Kosten nachvollziehbar belegt sind.</p>
-  <p>Unsere erste Einschätzung erhalten Sie in der Regel bis zum nächsten Werktag per E-Mail.</p>
+  <p>Vielen Dank für Ihre Zahlung. Wir sehen uns Ihr Schreiben nun genauer an.</p>
+  <p>Sie erhalten Ihre Einschätzung sowie ein fertiges Antwortschreiben in der Regel bis zum nächsten Werktag per E-Mail.</p>
   <p style="font-size:.9rem;color:#6b7280;">→ Bitte prüfen Sie auch Ihren Spam-Ordner, falls Sie keine E-Mail erhalten sollten.</p>
   <p>Bei Fragen können Sie einfach auf diese E-Mail antworten.</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
@@ -294,9 +293,9 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     const teaserText = triage?.teaser ? escapeHtml(String(triage.teaser).trim()) : null;
 
     const openings = [
-      `wir haben uns die Unterlagen ${senderText}${amountText}angesehen und möchten Ihnen eine erste Einschätzung mitteilen.`,
-      `nach erster Durchsicht Ihres Schreibens ${senderText}${amountText}ergeben sich mehrere Punkte, die vor einer Zahlung genauer geprüft werden sollten.`,
-      `wir haben Ihr Schreiben ${senderText}${amountText}geprüft und möchten Ihnen kurz mitteilen, was uns dabei aufgefallen ist.`,
+      `wir haben uns Ihr Schreiben ${senderText}angesehen. Einige Punkte sollten vor einer Zahlung noch geklärt werden.`,
+      `Ihr Schreiben ${senderText}liegt uns vor — dabei sind einige Punkte aufgefallen, die vor einer Zahlung noch geklärt werden sollten.`,
+      `wir haben uns die Unterlagen ${senderText}kurz angesehen. Einiges daran sollte vor einer Zahlung noch überprüft werden.`,
     ];
     const opening = openings[Math.floor(Math.random() * openings.length)];
 
@@ -317,7 +316,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">Geforderter Betrag</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
   </table>
   <p>Eine genauere Prüfung vor einer Zahlung kann helfen, die Forderung besser einzuordnen — und zu verstehen, ob alle Angaben vollständig nachvollziehbar sind.</p>
-  <p>Im Rahmen der vollständigen Prüfung erhalten Sie eine klare Bewertung Ihrer Situation sowie ein fertiges Antwortschreiben, das Sie bei Bedarf direkt verwenden können.</p>
+  <p>Im Rahmen der vollständigen Prüfung erhalten Sie eine ausführlichere Einschätzung Ihres Falls sowie ein fertiges Antwortschreiben, das Sie bei Bedarf direkt verwenden können.</p>
   ${stripeLink ? `
   <div style="margin:28px 0;">
     <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 26px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
@@ -351,7 +350,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
       subject: `Erste Einschätzung zu Ihrer ${escapeHtml(labels.title)} — MussIchZahlen`,
       html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
   <p>Guten Tag ${safeName},</p>
-  <p>nach erster Durchsicht Ihres Schreibens ${senderText}${amountText}möchten wir Ihnen kurz mitteilen, was wir festgestellt haben.</p>
+  <p>wir haben uns Ihr Schreiben ${senderText}angesehen. Einige Punkte sollten vor einer Zahlung noch geklärt werden.</p>
   ${teaserText ? `
   <div style="background:#fffbeb;border-left:3px solid #d97706;padding:14px 16px;border-radius:4px;margin:22px 0;color:#78350f;font-size:.94rem;line-height:1.75;">
     ${teaserText}
@@ -363,7 +362,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">Geforderter Betrag</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
   </table>
   <p>Nicht immer sind Kostenbestandteile und Nachweise vollständig nachvollziehbar. Vor einer Zahlung kann es sinnvoll sein, die zugrunde liegenden Unterlagen genauer zu prüfen.</p>
-  <p>Im Rahmen der vollständigen Prüfung erhalten Sie eine klare Bewertung Ihrer Situation sowie ein fertiges Antwortschreiben, das Sie bei Bedarf direkt verwenden können. Das bleibt selbstverständlich optional.</p>
+  <p>Im Rahmen der vollständigen Prüfung erhalten Sie eine ausführlichere Einschätzung Ihres Falls sowie ein fertiges Antwortschreiben, das Sie bei Bedarf direkt verwenden können. Das bleibt selbstverständlich optional.</p>
   ${stripeLink ? `
   <div style="margin:28px 0;">
     <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 26px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
@@ -439,18 +438,14 @@ export async function sendPaidEmail(env, { name, email, type, triage, analysis }
 
   await sendEmail(env, {
     to:      email,
-    subject: `Ihre Einschätzung liegt vor — ${escapeHtml(labels.title)} | MussIchZahlen`,
+    subject: `Ihre Einschätzung — ${triage?.sender ? escapeHtml(triage.sender) : escapeHtml(labels.title)}`,
     html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
   <p>Guten Tag ${safeName},</p>
-  <p>wir haben Ihr Schreiben sorgfältig geprüft und die wichtigsten Punkte für Sie zusammengefasst. Im Anhang finden Sie zwei Dokumente:</p>
-  <ul style="line-height:2;padding-left:20px;">
-    <li><strong>MussIchZahlen-Analyse.rtf</strong> — unsere Einschätzung mit konkreten Hinweisen und empfehlenswerten nächsten Schritten</li>
-    <li><strong>${escapeHtml(labels.filename)}</strong> — ein fertiges Antwortschreiben, das Sie bei Bedarf direkt verwenden können</li>
-  </ul>
-  <p>Bitte lesen Sie die Einschätzung zunächst in Ruhe durch, bevor Sie das Antwortschreiben verwenden — sie enthält wichtige Hinweise zu Ihrem weiteren Vorgehen.</p>
-  <p style="font-size:.9rem;color:#374151;">Die Dateien lassen sich mit Microsoft Word, LibreOffice oder einem vergleichbaren Textprogramm öffnen.</p>
-  <p style="font-size:.9rem;color:#374151;">Falls Sie das Antwortschreiben versenden möchten, empfehlen wir einen nachweisbaren Versandweg — zum Beispiel per Einschreiben. Den Nachweis sollten Sie aufbewahren.</p>
-  <p>Bei Fragen können Sie jederzeit einfach auf diese E-Mail antworten.</p>
+  <p>Ihr Schreiben${triage?.sender ? ` von ${escapeHtml(triage.sender)}` : ""} liegt uns vor. Wir haben es durchgesehen und die wichtigsten Punkte für Sie kurz eingeordnet.</p>
+  <p>Im Anhang finden Sie die Einschätzung zu Ihrem Fall sowie ein fertiges Antwortschreiben.</p>
+  <p>Lesen Sie die Einschätzung bitte zunächst in Ruhe durch — sie erklärt, welche Punkte vor einer Zahlung noch geklärt werden sollten. Das Antwortschreiben können Sie anschließend bei Bedarf direkt verwenden.</p>
+  <p style="font-size:.9rem;color:#374151;">Die Dateien lassen sich mit Microsoft Word, LibreOffice oder einem vergleichbaren Textprogramm öffnen. Falls Sie das Antwortschreiben versenden möchten, empfehlen wir einen nachweisbaren Versandweg.</p>
+  <p>Bei Fragen antworten Sie einfach auf diese E-Mail.</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
   <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
 </div>`,
