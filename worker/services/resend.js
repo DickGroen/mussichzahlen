@@ -451,7 +451,11 @@ export async function sendPaidEmail(env, { name, email, type, triage, analysis }
   const letterRtf   = makeLetterRtf(analysis, name, triage, type);
   const safeName    = escapeHtml(capitalizeFirst(name || "Kunde"));
   const isTier3     = triage?.tier === "tier3";
-  const senderText  = triage?.sender ? ` von ${escapeHtml(triage.sender)}` : "";
+  const rawSender   = triage?.sender || "";
+  const shortSender = rawSender.length > 40
+    ? rawSender.split(",")[0].split("—")[0].split("–")[0].trim()
+    : rawSender;
+  const senderText  = shortSender ? ` von ${escapeHtml(shortSender)}` : "";
 
   const htmlTier3 = `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
   <p>Guten Tag ${safeName},</p>
