@@ -135,6 +135,12 @@ De FALLBEWERTUNG voor tier3:
 • Noem ontbrekende details pas daarna — als praktische aanbevelingen, niet als problemen
 • Sluit af met een rustige neutrale constatering, niet met "sollten vor einer Zahlung geprüft werden"
 
+INTRO voor tier3:
+NIET: "aber auch bei formal korrekt aussehenden Schreiben lohnt sich ein zweiter Blick" — dat is verborgen verkoopdruk
+NIET: twijfel als opening gebruiken
+RICHTIG: eerst de neutraliteit benoemen, dan pas optioneel de controle noemen
+Voorbeeld: "Der Bescheid wirkt nach den sichtbaren Angaben weitgehend standardmäßig. Bei eigenen Zweifeln an den Tatumständen kann ein Abgleich sinnvoll sein."
+
 NEXT_STEPS voor tier3:
 • Praktisch en neutraal — "Gleichen Sie ab" niet "Prüfen Sie kritisch"
 • Geen alarmerende taal
