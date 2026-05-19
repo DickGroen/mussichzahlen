@@ -43,7 +43,12 @@ export async function handleAnalyzeFree(request, env, ctx) {
       triagePrompt: prompts.triage,
     });
 
-    const triage = normalizeTriage(safeJsonParse(raw) || fallbackTriage(type));
+    const cleanedRaw = (raw || "")
+      .replace(/^```json\s*/i, "")
+      .replace(/^```\s*/i, "")
+      .replace(/```\s*$/i, "")
+      .trim();
+    const triage = normalizeTriage(safeJsonParse(cleanedRaw) || fallbackTriage(type));
 
     console.log("FREE TRIAGE:", JSON.stringify(triage));
 
