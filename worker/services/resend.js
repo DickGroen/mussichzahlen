@@ -329,7 +329,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
   ${stripeLink ? `
   <div style="margin:28px 0;">
     <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 26px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
-      Forderung vollständig prüfen — €${escapeHtml(labels.price)} →
+      ${type === "rechnung" || type === "angebot" || type === "vertrag" ? "Rechnung genauer einordnen" : type === "parkstrafe" ? "Bescheid genauer prüfen" : "Forderung vollständig prüfen"} — €${escapeHtml(labels.price)} →
     </a>
   </div>
   <p style="font-size:.84rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
@@ -371,11 +371,11 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">Geforderter Betrag</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
   </table>
   <p>Nicht immer sind Kostenbestandteile und Nachweise vollständig nachvollziehbar. Vor einer Zahlung kann es sinnvoll sein, die zugrunde liegenden Unterlagen genauer zu prüfen.</p>
-  <p>Im Rahmen der vollständigen Prüfung erhalten Sie eine ausführlichere Einschätzung der offenen Punkte sowie ein fertiges Antwortschreiben, das Sie bei Bedarf direkt verwenden können. Das bleibt selbstverständlich optional.</p>
+  <p>${type === "rechnung" || type === "angebot" || type === "vertrag" ? "Mit der ausführlicheren Einschätzung erhalten Sie eine klare Einordnung der offenen Punkte sowie eine Vorlage für eine schriftliche Rückfrage. Das bleibt selbstverständlich optional." : "Im Rahmen der vollständigen Prüfung erhalten Sie eine ausführlichere Einschätzung der offenen Punkte sowie ein fertiges Antwortschreiben, das Sie bei Bedarf direkt verwenden können. Das bleibt selbstverständlich optional."}</p>
   ${stripeLink ? `
   <div style="margin:28px 0;">
     <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 26px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
-      Forderung vollständig prüfen — €${escapeHtml(labels.price)} →
+      ${type === "rechnung" || type === "angebot" || type === "vertrag" ? "Rechnung genauer einordnen" : type === "parkstrafe" ? "Bescheid genauer prüfen" : "Forderung vollständig prüfen"} — €${escapeHtml(labels.price)} →
     </a>
   </div>
   <p style="font-size:.84rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
@@ -426,7 +426,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
   </table>
   <div style="margin:22px 0;">
     <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 24px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
-      Forderung vollständig prüfen — €${escapeHtml(labels.price)} →
+      ${type === "rechnung" || type === "angebot" || type === "vertrag" ? "Rechnung genauer einordnen" : type === "parkstrafe" ? "Bescheid genauer prüfen" : "Forderung vollständig prüfen"} — €${escapeHtml(labels.price)} →
     </a>
   </div>
   <p style="font-size:.84rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
@@ -469,7 +469,7 @@ export async function sendPaidEmail(env, { name, email, type, triage, analysis }
 
   const htmlTier1Tier2 = `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
   <p>Guten Tag ${safeName},</p>
-  <p>Ihr Schreiben${senderText} liegt uns vor. Wir haben es durchgesehen und die wichtigsten Punkte für Sie kurz eingeordnet.</p>
+  <p>Ihr Schreiben${senderText} liegt uns vor. Wir haben die Unterlagen für Sie eingeordnet und die wichtigsten Punkte übersichtlich zusammengefasst.</p>
   <p>Im Anhang finden Sie die Einschätzung zu Ihrem Fall sowie ein fertiges Antwortschreiben.</p>
   <p>Lesen Sie die Einschätzung bitte zunächst in Ruhe durch — sie erklärt, welche Punkte vor einer Zahlung noch geklärt werden sollten. Das Antwortschreiben können Sie anschließend bei Bedarf direkt verwenden.</p>
   <p style="font-size:.9rem;color:#374151;">Falls Sie das Antwortschreiben versenden möchten, empfehlen wir einen Versand mit Nachweis.</p>
