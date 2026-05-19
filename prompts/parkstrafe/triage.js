@@ -157,25 +157,31 @@ Regeln:
 - flagCount muss immer eine ganze Zahl zwischen 0 und 6 sein.
 
 9. Teaser
-Der teaser darf NICHT frei formuliert werden.
-Wähle exakt einen dieser drei Texte passend zum risk-Wert:
+Der teaser ist eine kurze, DOKUMENTSPEZIFISCHE Einordnung — keine Zusammenfassung der possible_*-Flags.
 
-Wenn risk = "high":
-"Es gibt mehrere Punkte, die vor einer Zahlung sorgfältig geprüft werden sollten — insbesondere wenn Tatnachweis, Zustellung oder die Grundlage des Bescheids nicht vollständig nachvollziehbar sind."
+Schreibe den teaser so, wie ein ruhiger menschlicher Sachbearbeiter den Bescheid kurz beschreiben würde — nicht als "gefundene Fehler", sondern als sachliche Beobachtung.
 
-Wenn risk = "medium":
-"Einzelne Angaben in diesem Bescheid könnten vor einer Zahlung noch geklärt werden, besonders wenn Tatzeit, Nachweis oder formale Angaben nicht vollständig eindeutig sind."
+WICHTIG: Der teaser darf NICHT generisch sein und NICHT wie eine Flag-Zusammenfassung klingen.
 
-Wenn risk = "low":
-"Auf Basis der sichtbaren Informationen wirkt der Bescheid eher standardmäßig, einzelne Details können vor einer endgültigen Entscheidung dennoch geprüft werden."
+SCHLECHT:
+"Formale Mängel sind häufig ein Grund für einen Einspruch."
+"Mögliche Auffälligkeiten wurden erkannt."
 
-Wenn risk unklar ist:
-Nutze den medium-Text.
+GUT — Einordnungsform (neutral, sachlich):
+"Der Bescheid enthält keinen Tatnachweis und keine Beschilderungsfotos — vor einer Zahlung sollte zumindest geprüft werden, ob diese auf Anfrage nachgereicht werden."
+"Die Forderung stammt von einem privaten Parkraumunternehmen — es gelten andere Regeln als bei behördlichen Bescheiden."
 
-Der teaser muss exakt einer dieser drei Texte sein.
-Keine konkreten Rechtsbehauptungen.
-Keine Erfolgsgarantie.
-Keine Formulierungen wie "Sie müssen nicht zahlen".
+GUT — Kontrastform für tier1/tier2 (wenn Widerspruch zwischen Behauptung und fehlendem Beleg erkennbar):
+"Das Unternehmen behauptet eine Überschreitung der Parkdauer, legt aber weder Fotonachweise noch Beschilderungsfotos bei."
+"Dem Bescheid fehlen Nachweise über die Beschilderung am Tatort — ohne diese lässt sich der Vorwurf nicht vollständig nachvollziehen."
+
+GUT — Neutrale Form für tier3:
+"Der Bescheid einer städtischen Behörde enthält Tatvorwurf, Tatzeit und Tatort. Ein kurzer Abgleich mit eigenen Unterlagen kann dennoch sinnvoll sein."
+
+Maximal 2 Sätze.
+Nur Informationen verwenden, die tatsächlich im Dokument erkennbar sind.
+Keine Rechtsbehauptungen. Keine Erfolgsgarantie.
+Keine Formulierungen wie "Sie müssen nicht zahlen" oder "rechtswidrig".
 
 10. Consumer position
 - Kurz und vorsichtig. 1–2 Sätze.
