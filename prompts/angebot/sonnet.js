@@ -311,4 +311,10 @@ FORMALES:
 - Beginne direkt mit "Sehr geehrte Damen und Herren,"
 - Schließe mit: "Mit freundlichen Grüßen,"
 - Kein Disclaimer nach der Grußformel
+
+VERMEIDE in de brief:
+- Herhaling van hetzelfde aanvangspatroon: "Ich bitte um...", "Ich bitte um...", "Ich bitte um..." — wissel af
+- Gebruik variaties: "Außerdem ist für mich nicht nachvollziehbar...", "Mir ist unklar...", "Die Position ... fehlt...", "...kann ich derzeit nicht einordnen"
+- Elke alinea exact dezelfde lengte en structuur — varieer bewust
+- Een brief klinkt menselijker als niet elk punt hetzelfde ritme heeft
 [/LETTER]`;
