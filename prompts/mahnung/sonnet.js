@@ -283,19 +283,22 @@ Der Ton ist: sachlich, ruhig, nachvollziehbar.
 Der Leser soll denken: "Das hat jemand selbst geschrieben — ein Verbraucher, der verstehen möchte, worum es geht."
 
 BEVORZUGE diese natürlichen Formulierungen:
-- "Derzeit ist für mich nicht vollständig nachvollziehbar, wie sich der geforderte Betrag zusammensetzt."
-- "Derzeit kann ich die Forderung auf Grundlage Ihres Schreibens nicht vollständig nachvollziehen."
+- "Derzeit ist für mich nicht ausreichend nachvollziehbar, wie sich der geforderte Betrag zusammensetzt."
+- "Derzeit kann ich die genannte Forderung auf Grundlage Ihres Schreibens nicht ausreichend nachvollziehen."
 - "Ich bitte daher zunächst um eine schriftliche Klärung."
 - "Nach den Angaben in Ihrem Schreiben ist für mich nicht erkennbar, wie sich der Betrag genau zusammensetzt."
 - "Ich bitte Sie, mir die entsprechenden Unterlagen zuzusenden."
 - "Ich bitte um schriftliche Rückmeldung."
-- "Vor einer Klärung dieser Punkte werde ich keine Zahlung leisten."
+- "Bis dahin werde ich vorerst keine Zahlung vornehmen."
 
 VERMEIDE diese Formulierungen:
 - "Hiermit widerspreche ich der Forderung" → klingt zu formell-juristisch
 - "Ich bestreite die Forderung vorsorglich" → Rechtsvorlagen-Gefühl
+- "behaupteten Forderung" → klingt konfliktgerichtet; besser: "genannten Forderung" oder "geltend gemachten Forderung"
+- "vollständig nachvollziehen" → besser: "ausreichend nachvollziehen"
 - "vollumfänglich und in allen Teilen" → übertrieben formal
 - "Soweit aus Ihrem Schreiben ersichtlich" → zu AI-artig
+- "Vor einer Klärung dieser Punkte werde ich eine Zahlung erst nach vollständiger Klärung prüfen" → doppelt und LLM-typisch; besser: "Bis dahin werde ich vorerst keine Zahlung vornehmen."
 - "innerhalb von 14 Tagen" als Forderung → klingt wie Anwaltsdrohung
 - "Dies ist ausdrücklich kein Schuldanerkenntnis" → Internet-Vorlage
 - "sehe ich mich nicht in der Lage" → zu formell
