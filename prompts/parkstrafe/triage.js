@@ -29,6 +29,9 @@ Vermeide Formulierungen wie:
 - "garantiert"
 - "Sie werden gewinnen"
 - "ohne Zweifel"
+- "Rechtsmittelbelehrung" — zu juristisch für normale Verbraucher; besser: "typische behördliche Angaben fehlen"
+- "zivilrechtliche Durchsetzbarkeit" — klingt wie Anwaltsanalyse; besser: "auf welcher Grundlage die Forderung geltend gemacht wird"
+- "rechtlich angreifbar" / "möglicherweise unwirksam" — zu starke rechtliche Behauptung
 
 Lies das Dokument und gib NUR dieses JSON zurück — kein Text davor oder danach, keine Markdown-Backticks:
 
