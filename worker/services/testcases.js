@@ -460,9 +460,6 @@ Kreisverwaltungsreferat
     `.trim(),
   },
 
-};
-
-
   // ── Rechnung (DE) ─────────────────────────────────────────────────────────
 
   "rechnung:tier1-inflated-invoice": {
@@ -577,6 +574,8 @@ Mit freundlichen Grüßen
 Stadtwerke Köln GmbH
     `.trim(),
   },
+
+};
 
 export function getTestCase(type, caseName) {
   const key = `${type}:${caseName}`;
