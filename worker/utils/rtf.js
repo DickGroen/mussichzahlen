@@ -171,9 +171,12 @@ function rtfHeader() {
 }
 
 function rtfFooter(note = DISCLAIMER_RTF) {
+  const noteLine = note
+    ? `{\\pard\\sb100\\sa0\\f1\\fs16\\cf0\\i ${rtfEscape(note)}\\i0\\par}`
+    : "";
   return `
 {\\pard\\sb500\\sa0\\brdrb\\brdrs\\brdrw5\\brsp60\\f1\\fs18\\cf0\\par}
-{\\pard\\sb100\\sa0\\f1\\fs16\\cf0\\i ${rtfEscape(note)}\\i0\\par}
+${noteLine}
 }`;
 }
 
@@ -418,9 +421,7 @@ ${rtfEscape(content)}
 \\par
 }`;
 
-  return out + rtfFooter(
-    "MussIchZahlen bietet informative Analysen — keine Rechtsberatung und keine anwaltliche Vertretung."
-  );
+  return out + rtfFooter("");
 }
 
 function fallbackLetter(type, triage = {}) {
