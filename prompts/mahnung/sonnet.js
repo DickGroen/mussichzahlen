@@ -109,6 +109,31 @@ PRÜFPUNKTE
 6. FORMALE MÄNGEL — Pflichtangaben vorhanden? Registrierung des Inkassobüros nachweisbar?
 
 ────────────────────
+TIER3-SPECIFIEKE INSTRUCTIES
+────────────────────
+
+Als de triage tier3 is (risk: low, weinig of geen auffälligkeiten):
+
+De analyse MAG NIET aanvoelen als "we hebben toch nog problemen gevonden".
+De analyse MOET aanvoelen als "het lijkt grotendeels logisch, maar een rustige controle blijft verstandig".
+
+Verander:
+• "Was derzeit auffällt" → "Was Sie noch kurz abgleichen können"
+• "Trotzdem gibt es einige Punkte, die vor einer Zahlung geprüft werden sollten" → "Für einen vollständigen Überblick könnte es sinnvoll sein, folgende Punkte kurz abzugleichen"
+• "machen eine eigenständige Prüfung nicht möglich" → "wären für einen vollständigen Abgleich hilfreich"
+• Vermeid zinnen die suggereren dat er belangrijke ontbrekende informatie is
+
+De FALLBEWERTUNG voor tier3:
+• Begin met wat nachvollziehbar en logisch is
+• Noem ontbrekende details pas daarna — als praktische aanbevelingen, niet als problemen
+• Sluit af met een rustige neutrale constatering, niet met "sollten vor einer Zahlung geprüft werden"
+
+NEXT_STEPS voor tier3:
+• Praktisch en neutraal — "Gleichen Sie ab" niet "Prüfen Sie kritisch"
+• Geen alarmerende taal
+• Maximaal 2–3 stappen
+
+────────────────────
 ANTI-WIEDERHOLUNG ZWISCHEN SEKTIONEN
 ────────────────────
 
