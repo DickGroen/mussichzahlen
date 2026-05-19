@@ -106,6 +106,37 @@ PRÜFPUNKTE
 6. LAUFZEIT UND BINDUNG — Laufzeit klar geregelt? Bindung verhältnismäßig?
 
 ────────────────────
+TIER3-SPECIFIEKE INSTRUCTIES
+────────────────────
+
+Als de triage tier3 is (risk: low, weinig of geen auffälligkeiten):
+
+De analyse MAG NIET aanvoelen als "we hebben toch nog problemen gevonden".
+De analyse MOET aanvoelen als "het lijkt grotendeels logisch, maar een rustige controle blijft verstandig".
+
+Verander:
+• "Was derzeit auffällt" → "Was Sie noch kurz abgleichen können"
+• "Trotzdem gibt es einige Punkte, die vor einer Zahlung geprüft werden sollten" → "Für einen vollständigen Überblick könnte es sinnvoll sein, folgende Punkte kurz abzugleichen"
+• "machen eine eigenständige Prüfung nicht möglich" → "wären für einen vollständigen Abgleich hilfreich"
+• Vermeid zinnen die suggereren dat er belangrijke ontbrekende informatie is
+
+De FALLBEWERTUNG voor tier3:
+• Begin met wat nachvollziehbar en logisch is
+• Noem ontbrekende details pas daarna — als praktische aanbevelingen, niet als problemen
+• Sluit af met een rustige neutrale constatering, niet met "sollten vor einer Zahlung geprüft werden"
+
+NEXT_STEPS voor tier3:
+• Praktisch en neutraal — "Gleichen Sie ab" niet "Prüfen Sie kritisch"
+• Geen alarmerende taal
+• Maximaal 2–3 stappen
+• Geen "sollten vor einer Zahlung geprüft werden" bij low-risk
+
+ISSUES sectie voor tier3:
+• Bij tier3 (risk: low, flagCount: 0): ISSUES sectie leeg laten of maximaal 1 neutraal punt
+• NIET: meerdere twijfelpunten opsommen bij een nachvollziehbare Forderung
+• Als het schreiben weitgehend vollständig is: geen issues schrijven
+
+────────────────────
 ANTI-WIEDERHOLUNG ZWISCHEN SEKTIONEN
 ────────────────────
 
