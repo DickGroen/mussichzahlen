@@ -359,7 +359,7 @@ export function makeAnalysisRtf(
   }
 
   if (issues) {
-    out += heading("Geprüfte Punkte");
+    out += heading("Was im Schreiben derzeit unklar bleibt");
     out += issueBlocks(issues) || paragraph(issues);
   }
 
