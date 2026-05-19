@@ -344,6 +344,125 @@ No guarantee or aftercare information included.
 
 };
 
+
+  // ── Parkstrafe (DE) ───────────────────────────────────────────────────────
+
+  "parkstrafe:tier1-unclear-signage": {
+    type:        "parkstrafe",
+    name:        "Test User",
+    email:       null,
+    description: "Tier-1 private Parkforderung — unklare Beschilderung, kein Beweis beigefügt",
+    textContent: `
+EURO PARKING MANAGEMENT GMBH
+Postfach 1230 · 80001 München
+
+Herrn Klaus Müller
+Hauptstraße 14
+80333 München
+
+München, 14. März 2025
+
+Zahlungsaufforderung — Ref. EPM/2025/441829
+
+Fahrzeug: M-AB 1234
+Datum des Vorfalls: 6. März 2025
+Ort: Parkplatz Schillerstraße 12, München
+Forderungsbetrag: 65,00 EUR (reduziert auf 39,00 EUR bei Zahlung innerhalb von 14 Tagen)
+
+Sehr geehrter Herr Müller,
+
+Ihr Fahrzeug wurde am oben genannten Datum auf unserem bewirtschafteten Parkplatz festgestellt.
+Es wurde ein Verstoß gegen die am Standort ausgeschilderten Nutzungsbedingungen festgestellt.
+
+Behaupteter Verstoß: Überschreitung der zulässigen Parkdauer (max. 2 Stunden)
+Festgestellte Parkdauer: 3 Stunden 14 Minuten (ANPR-Einfahrt 10:12 Uhr, Ausfahrt 13:26 Uhr)
+
+Diesem Schreiben liegen keine Fotonachweise bei.
+Keine Beschilderungsfotos beigefügt.
+Bewirtschaftungsbefugnis durch den Eigentümer: nicht angegeben.
+
+Bitte zahlen Sie den Betrag innerhalb von 28 Tagen.
+
+Mit freundlichen Grüßen
+Euro Parking Management GmbH
+    `.trim(),
+  },
+
+  "parkstrafe:tier2-anpr-mismatch": {
+    type:        "parkstrafe",
+    name:        "Test User",
+    email:       null,
+    description: "Tier-2 private Parkforderung — ANPR-Timing, mögliche Kulanzzeit",
+    textContent: `
+SMART PARKING DEUTSCHLAND GMBH
+Zentralstraße 8 · 40210 Düsseldorf
+
+Halterbenachrichtigung
+
+Fahrzeug: D-RK 5678
+Datum des Vorfalls: 22. Februar 2025
+Ort: Kundenparkplatz Hauptbahnhof, Düsseldorf
+Ref.: SPD/2025/0882
+
+Offener Betrag: 49,00 EUR
+
+Sehr geehrte Damen und Herren,
+
+wir wenden uns an Sie als Halter des oben genannten Fahrzeugs.
+
+Unsere Aufzeichnungen zeigen, dass Ihr Fahrzeug am 22. Februar 2025 auf dem oben genannten Parkplatz stand.
+Einfahrt erfasst: 14:03 Uhr
+Ausfahrt erfasst: 16:31 Uhr
+Zulässige Parkdauer: 2 Stunden 30 Minuten
+Angebliche Überschreitung: 28 Minuten
+
+Hinweis: Unser ANPR-System erfasst die Ein- und Ausfahrtzeiten an der Schranke.
+Kulanzzeiten von 10 Minuten gelten laut unseren Nutzungsbedingungen bei Ein- und Ausfahrt.
+
+Dieses Schreiben erfolgt auf Basis des deutschen Zivilrechts.
+Eine Halterhaftung besteht ab dem Datum dieses Schreibens.
+
+Einspruchsmöglichkeiten finden Sie auf der Rückseite.
+    `.trim(),
+  },
+
+  "parkstrafe:tier3-valid-pcn": {
+    type:        "parkstrafe",
+    name:        "Test User",
+    email:       null,
+    description: "Tier-3 behördlicher Bußgeldbescheid — nachvollziehbar, geringe Auffälligkeiten",
+    textContent: `
+LANDESHAUPTSTADT MÜNCHEN
+Kreisverwaltungsreferat — Bußgeldstelle
+Ruppertstraße 19 · 80466 München
+
+Herrn Thomas Bauer
+Fichtenweg 14 · 10715 Berlin
+
+München, 5. März 2025
+
+Bußgeldbescheid
+Aktenzeichen: KVR/2025/BU-441122
+
+Sehr geehrter Herr Bauer,
+
+gegen Sie wird wegen einer Ordnungswidrigkeit nach § 24 StVG ein Bußgeld festgesetzt.
+
+Tatvorwurf: Parken im Halteverbot
+Tatdatum: 18. Februar 2025
+Tatzeit: 14:32 Uhr
+Tatort: Maximilianstraße 22, 80539 München
+Bußgeld: 55,00 EUR
+Rechtsgrundlage: § 24 Abs. 1 StVG i.V.m. § 13 Abs. 2 BKatV
+
+Gegen diesen Bescheid können Sie innerhalb von zwei Wochen nach Zustellung Einspruch einlegen.
+
+Mit freundlichen Grüßen
+Landeshauptstadt München
+Kreisverwaltungsreferat
+    `.trim(),
+  },
+
 export function getTestCase(type, caseName) {
   const key = `${type}:${caseName}`;
   return TEST_CASES[key] || null;
