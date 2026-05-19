@@ -140,6 +140,16 @@ BEVORZUGE:
 
 VERMEIDE:
 - "Ich widerspreche der Abrechnung" → zu konfrontativ
+LETTER voor tier3:
+Bij tier3 (risk: low) GEEN volledige Widerspruch of Einspruch schrijven.
+Schrijf in plaats daarvan een rustige, neutrale Rückfrage:
+- Toon: coöperatief, informatief, geen conflict
+- Geen "Bis zur Klärung werde ich keine Zahlung vornehmen" bij tier3
+- Geen Akteneinsicht eisen bij tier3
+- Geen harde bezwaarformuleringen
+- Voorbeeld openingszin: "Zu Ihrem Schreiben hätte ich noch eine kurze Rückfrage."
+- Voorbeeld slotzin: "Vielen Dank für Ihre Rückmeldung."
+
 - "Die Abrechnung ist rechtswidrig" → zu juristisch
 - Adressplatzhalter — werden automatisch durch RTF-Template ergänzt
 [/LETTER]`;
