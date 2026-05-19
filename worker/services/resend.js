@@ -245,7 +245,15 @@ export async function notifyAdminPaid(env, { name, email, type, triage, analysis
 }
 
 export async function sendFreeEmail(env, { name, email, type, triage, stripeLink, stage = 1 }) {
-  const labels      = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
+  const baseLabels  = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
+  const labels      = {
+    ...baseLabels,
+    title: (type === "parkstrafe" && triage?.is_privat)
+      ? "Private Parkforderung"
+      : (type === "parkstrafe" && triage?.bescheid_typ === "privat")
+        ? "Private Parkforderung"
+        : baseLabels.title,
+  };
   const amount      = formatAmount(triage);
   const stageNumber = Number(stage) || 1;
   const tier        = triage?.tier || "";
@@ -432,7 +440,13 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
 }
 
 export async function sendPaidEmail(env, { name, email, type, triage, analysis }) {
-  const labels      = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
+  const baseLabels  = TYPE_LABELS[type] || TYPE_LABELS.mahnung;
+  const labels      = {
+    ...baseLabels,
+    title: (type === "parkstrafe" && (triage?.is_privat || triage?.bescheid_typ === "privat"))
+      ? "Private Parkforderung"
+      : baseLabels.title,
+  };
   const analysisRtf = makeAnalysisRtf(analysis, name, email, triage, type);
   const letterRtf   = makeLetterRtf(analysis, name, triage, type);
   const safeName    = escapeHtml(capitalizeFirst(name || "Kunde"));
