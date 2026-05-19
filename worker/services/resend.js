@@ -436,20 +436,35 @@ export async function sendPaidEmail(env, { name, email, type, triage, analysis }
   const analysisRtf = makeAnalysisRtf(analysis, name, email, triage, type);
   const letterRtf   = makeLetterRtf(analysis, name, triage, type);
   const safeName    = escapeHtml(capitalizeFirst(name || "Kunde"));
+  const isTier3     = triage?.tier === "tier3";
+  const senderText  = triage?.sender ? ` von ${escapeHtml(triage.sender)}` : "";
 
-  await sendEmail(env, {
-    to:      email,
-    subject: `Ihre Einschätzung — ${triage?.sender ? escapeHtml(triage.sender) : escapeHtml(labels.title)}`,
-    html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
+  const htmlTier3 = `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
   <p>Guten Tag ${safeName},</p>
-  <p>Ihr Schreiben${triage?.sender ? ` von ${escapeHtml(triage.sender)}` : ""} liegt uns vor. Wir haben es durchgesehen und die wichtigsten Punkte für Sie kurz eingeordnet.</p>
+  <p>Ihr Schreiben${senderText} liegt uns vor. Wir haben die Unterlagen für Sie zusammengefasst und übersichtlich eingeordnet.</p>
+  <p>Im Anhang finden Sie die Einschätzung zu Ihrem Fall sowie eine Vorlage, die Sie bei Bedarf verwenden können.</p>
+  <p>Lesen Sie die Einschätzung bitte zunächst in Ruhe durch — sie fasst die wichtigsten Informationen zu Ihrem Schreiben verständlich zusammen.</p>
+  <p style="font-size:.9rem;color:#374151;">Die Dateien lassen sich mit Microsoft Word, LibreOffice oder einem vergleichbaren Textprogramm öffnen.</p>
+  <p>Bei Fragen antworten Sie einfach auf diese E-Mail.</p>
+  <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
+  <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
+</div>`;
+
+  const htmlTier1Tier2 = `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
+  <p>Guten Tag ${safeName},</p>
+  <p>Ihr Schreiben${senderText} liegt uns vor. Wir haben es durchgesehen und die wichtigsten Punkte für Sie kurz eingeordnet.</p>
   <p>Im Anhang finden Sie die Einschätzung zu Ihrem Fall sowie ein fertiges Antwortschreiben.</p>
-  <p>Lesen Sie die Einschätzung bitte zunächst in Ruhe durch — sie erklärt, welche Punkte vor einer Zahlung noch geklärt werden sollten. Das Antwortschreiben können Sie anschließend bei Bedarf direkt verwenden.</p>
+  <p>Lesen Sie die Einschätzung bitte zunächst in Ruhe durch — sie erklärt, welche Punkte vor einer Entscheidung noch geklärt werden sollten. Das Antwortschreiben können Sie anschließend bei Bedarf direkt verwenden.</p>
   <p style="font-size:.9rem;color:#374151;">Die Dateien lassen sich mit Microsoft Word, LibreOffice oder einem vergleichbaren Textprogramm öffnen. Falls Sie das Antwortschreiben versenden möchten, empfehlen wir einen nachweisbaren Versandweg.</p>
   <p>Bei Fragen antworten Sie einfach auf diese E-Mail.</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
   <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
-</div>`,
+</div>`;
+
+  await sendEmail(env, {
+    to:      email,
+    subject: `Ihre Einschätzung — ${triage?.sender ? escapeHtml(triage.sender) : escapeHtml(labels.title)}`,
+    html:    isTier3 ? htmlTier3 : htmlTier1Tier2,
     attachments: [
       { filename: "MussIchZahlen-Analyse.rtf", content: rtfToBase64(analysisRtf) },
       { filename: labels.filename,              content: rtfToBase64(letterRtf)   },
