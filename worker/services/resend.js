@@ -281,7 +281,9 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
         ? "Private Parkforderung"
         : baseLabels.title,
   };
-  const amount      = formatAmount(triage);
+  const amount      = (type === "vertrag" || type === "angebot" || type === "nebenkosten")
+    ? (triage?.monthly_cost ? `€${Number(triage.monthly_cost).toLocaleString("de-DE", { minimumFractionDigits: 2 })}/Monat` : triage?.annual_cost ? `€${Number(triage.annual_cost).toLocaleString("de-DE", { minimumFractionDigits: 2 })}/Jahr` : triage?.total_price ? `€${Number(triage.total_price).toLocaleString("de-DE", { minimumFractionDigits: 2 })}` : formatAmount(triage))
+    : formatAmount(triage);
   const stageNumber = Number(stage) || 1;
   const tier        = triage?.tier || "";
   const safeName    = escapeHtml(capitalizeFirst(name || "Kunde"));
@@ -300,7 +302,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
   <table style="width:100%;border-collapse:collapse;margin:22px 0;font-size:.9rem;border:1px solid #e5e7eb;">
     <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;width:38%;">Dokument</td><td style="padding:9px 12px;">${escapeHtml(labels.title)}</td></tr>
     <tr><td style="padding:9px 12px;font-weight:600;">Absender</td><td style="padding:9px 12px;">${escapeHtml(triage?.sender || "nicht eindeutig erkennbar")}</td></tr>
-    <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">Geforderter Betrag</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
+    <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">${type === "vertrag" ? "Monatliche Kosten" : type === "angebot" || type === "nebenkosten" ? "Gesamtbetrag" : "Geforderter Betrag"}</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
     <tr><td style="padding:9px 12px;font-weight:600;">Erste Einschätzung</td><td style="padding:9px 12px;">Begrenzte sichtbare Auffälligkeiten</td></tr>
   </table>
   <p>Manche Verbraucher möchten die Unterlagen dennoch noch einmal genauer einordnen lassen — besonders wenn der Betrag höher ist oder einzelne Positionen noch nicht vollständig nachvollziehbar sind. Das bleibt selbstverständlich optional.</p>
@@ -345,20 +347,22 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
   <div style="background:#fffbeb;border-left:3px solid #d97706;padding:14px 16px;border-radius:4px;margin:22px 0;color:#78350f;font-size:.94rem;line-height:1.75;">
     ${teaserText}
   </div>` : `
-  <p>Gerade bei Forderungen dieser Art kann eine genauere Prüfung sinnvoll sein — insbesondere wenn einzelne Angaben im Schreiben nicht vollständig nachvollziehbar sind.</p>`}
+  <p>${type === "vertrag" ? "Solche Mitteilungen lohnen sich in Ruhe anzusehen — vor allem wenn Verlängerungsklauseln oder Preisanpassungen betroffen sind." : type === "angebot" ? "Bei Angeboten dieser Größenordnung können einzelne Positionen einen näheren Blick lohnen." : "Gerade bei Forderungen dieser Art kann ein genauerer Blick sinnvoll sein — insbesondere wenn einzelne Angaben nicht vollständig nachvollziehbar sind."}</p>`}
   <table style="width:100%;border-collapse:collapse;margin:22px 0;font-size:.9rem;border:1px solid #e5e7eb;">
     <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;width:38%;">Dokument</td><td style="padding:9px 12px;">${escapeHtml(labels.title)}</td></tr>
     <tr><td style="padding:9px 12px;font-weight:600;">Absender</td><td style="padding:9px 12px;">${escapeHtml(triage?.sender || "nicht eindeutig erkennbar")}</td></tr>
-    <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">Geforderter Betrag</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
+    <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">${type === "vertrag" ? "Monatliche Kosten" : type === "angebot" || type === "nebenkosten" ? "Gesamtbetrag" : "Geforderter Betrag"}</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
   </table>
-  <p>${type === "rechnung" || type === "angebot" || type === "vertrag" || type === "nebenkosten"
-    ? "Ein genauerer Blick auf die Unterlagen kann helfen, die Positionen besser nachzuvollziehen und offene Punkte zu klären."
-    : "Ein genauerer Blick auf das Schreiben kann helfen, die Grundlage der Forderung besser einzuordnen — und zu verstehen, ob alle Angaben vollständig nachvollziehbar sind."}</p>
+  <p>${type === "vertrag"
+    ? "Ein genauerer Blick auf die Vertragsunterlagen kann helfen, Kündigungsfristen, Verlängerungsklauseln und Preisanpassungen besser zu verstehen."
+    : type === "angebot" || type === "nebenkosten" || type === "rechnung"
+      ? "Ein genauerer Blick auf die Unterlagen kann helfen, die Positionen besser nachzuvollziehen und offene Punkte zu klären."
+      : "Ein genauerer Blick auf das Schreiben kann helfen, die Grundlage der Forderung besser einzuordnen — und zu verstehen, ob alle Angaben vollständig nachvollziehbar sind."}</p>
   <p>Mit der ausführlicheren Einschätzung erhalten Sie eine klare Einordnung der offenen Punkte sowie eine Vorlage, die Sie bei Bedarf verwenden können.</p>
   ${stripeLink ? `
   <div style="margin:28px 0;">
     <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 26px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
-      ${type === "rechnung" || type === "angebot" || type === "vertrag" ? "Rechnung genauer einordnen" : type === "parkstrafe" ? "Bescheid genauer prüfen" : "Schreiben genauer einordnen"} — €${escapeHtml(labels.price)} →
+      ${type === "rechnung" ? "Rechnung genauer einordnen" : type === "angebot" ? "Angebot genauer einordnen" : type === "vertrag" ? "Vertrag genauer einordnen" : type === "parkstrafe" ? "Bescheid genauer einordnen" : type === "nebenkosten" ? "Abrechnung genauer einordnen" : "Schreiben genauer einordnen"} — €${escapeHtml(labels.price)} →
     </a>
   </div>
   <p style="font-size:.84rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
@@ -397,14 +401,14 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
   <table style="width:100%;border-collapse:collapse;margin:22px 0;font-size:.9rem;border:1px solid #e5e7eb;">
     <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;width:38%;">Dokument</td><td style="padding:9px 12px;">${escapeHtml(labels.title)}</td></tr>
     <tr><td style="padding:9px 12px;font-weight:600;">Absender</td><td style="padding:9px 12px;">${escapeHtml(triage?.sender || "nicht eindeutig erkennbar")}</td></tr>
-    <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">Geforderter Betrag</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
+    <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">${type === "vertrag" ? "Monatliche Kosten" : type === "angebot" || type === "nebenkosten" ? "Gesamtbetrag" : "Geforderter Betrag"}</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
   </table>
   <p>${tier2IntroPhrase(type)}</p>
   <p>${type === "rechnung" || type === "angebot" || type === "vertrag" ? "Mit der ausführlicheren Einschätzung erhalten Sie eine klare Einordnung der offenen Punkte sowie eine Vorlage für eine schriftliche Rückfrage. Das bleibt selbstverständlich optional." : "Mit der ausführlicheren Einschätzung erhalten Sie eine klare Einordnung der offenen Punkte sowie eine Vorlage, die Sie bei Bedarf verwenden können. Das bleibt selbstverständlich optional."}</p>
   ${stripeLink ? `
   <div style="margin:28px 0;">
     <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 26px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
-      ${type === "rechnung" || type === "angebot" || type === "vertrag" ? "Rechnung genauer einordnen" : type === "parkstrafe" ? "Bescheid genauer prüfen" : "Schreiben genauer einordnen"} — €${escapeHtml(labels.price)} →
+      ${type === "rechnung" ? "Rechnung genauer einordnen" : type === "angebot" ? "Angebot genauer einordnen" : type === "vertrag" ? "Vertrag genauer einordnen" : type === "parkstrafe" ? "Bescheid genauer einordnen" : type === "nebenkosten" ? "Abrechnung genauer einordnen" : "Schreiben genauer einordnen"} — €${escapeHtml(labels.price)} →
     </a>
   </div>
   <p style="font-size:.84rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
@@ -427,13 +431,17 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
   if (!stripeLink || tier === "tier3") return;
 
   const subjects = {
-    2: `Ihre Einschätzung liegt noch vor — ${labels.title}`,
-    3: `Kurze Erinnerung zu Ihrer Forderung — ${labels.title}`,
+    2: type === "vertrag" ? `Ihre Vertragsunterlagen liegen noch vor — ${labels.title}` : `Ihre Einschätzung liegt noch vor — ${labels.title}`,
+    3: type === "vertrag" ? `Kurze Rückmeldung zu Ihrer Vertragssituation — ${labels.title}` : `Kurze Erinnerung zu Ihrem Schreiben — ${labels.title}`,
   };
 
   const intros = {
-    2: `<p>Ihre erste Einschätzung liegt noch vor. Falls Sie die Forderung noch nicht abschließend geprüft haben — vor einer Zahlung kann eine genauere Betrachtung sinnvoll sein.</p>`,
-    3: `<p>Wir melden uns ein letztes Mal zu Ihrer Einschätzung. Falls Sie die Unterlagen noch nicht geprüft haben, kann ein kurzer Blick vor einer Zahlung sinnvoll sein.</p>`,
+    2: type === "vertrag"
+      ? `<p>Ihre Vertragsunterlagen liegen noch vor. Falls Sie die Konditionen noch nicht genauer angesehen haben — vor einer Verlängerung oder weiteren Zahlung kann ein kurzer Blick sinnvoll sein.</p>`
+      : `<p>Ihre erste Einschätzung liegt noch vor. Falls Sie die Unterlagen noch nicht genauer angesehen haben — ein kurzer Blick vor einer Zahlung kann sinnvoll sein.</p>`,
+    3: type === "vertrag"
+      ? `<p>Wir melden uns ein letztes Mal zu Ihren Vertragsunterlagen. Falls noch Fragen offen sind, steht die Einordnung weiter zur Verfügung.</p>`
+      : `<p>Wir melden uns ein letztes Mal. Falls die Unterlagen noch nicht durchgesehen wurden, kann ein kurzer Blick sinnvoll sein.</p>`,
   };
 
   const teaserHint = triage?.teaser ? `
@@ -451,11 +459,11 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
   <table style="width:100%;border-collapse:collapse;margin:20px 0;font-size:.9rem;border:1px solid #e5e7eb;">
     <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;width:38%;">Dokument</td><td style="padding:9px 12px;">${escapeHtml(labels.title)}</td></tr>
     <tr><td style="padding:9px 12px;font-weight:600;">Absender</td><td style="padding:9px 12px;">${escapeHtml(triage?.sender || "nicht eindeutig erkennbar")}</td></tr>
-    <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">Geforderter Betrag</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
+    <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">${type === "vertrag" ? "Monatliche Kosten" : type === "angebot" || type === "nebenkosten" ? "Gesamtbetrag" : "Geforderter Betrag"}</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
   </table>
   <div style="margin:22px 0;">
     <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 24px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
-      ${type === "rechnung" || type === "angebot" || type === "vertrag" ? "Rechnung genauer einordnen" : type === "parkstrafe" ? "Bescheid genauer prüfen" : "Schreiben genauer einordnen"} — €${escapeHtml(labels.price)} →
+      ${type === "rechnung" ? "Rechnung genauer einordnen" : type === "angebot" ? "Angebot genauer einordnen" : type === "vertrag" ? "Vertrag genauer einordnen" : type === "parkstrafe" ? "Bescheid genauer einordnen" : type === "nebenkosten" ? "Abrechnung genauer einordnen" : "Schreiben genauer einordnen"} — €${escapeHtml(labels.price)} →
     </a>
   </div>
   <p style="font-size:.84rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
