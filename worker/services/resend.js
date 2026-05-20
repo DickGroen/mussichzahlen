@@ -305,7 +305,15 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">${type === "vertrag" ? "Monatliche Kosten" : type === "angebot" || type === "nebenkosten" ? "Gesamtbetrag" : "Geforderter Betrag"}</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
     <tr><td style="padding:9px 12px;font-weight:600;">Erste Einschätzung</td><td style="padding:9px 12px;">Begrenzte sichtbare Auffälligkeiten</td></tr>
   </table>
-  <p>Manche Verbraucher möchten die Unterlagen dennoch noch einmal genauer einordnen lassen — besonders wenn der Betrag höher ist oder einzelne Positionen noch nicht vollständig nachvollziehbar sind. Das bleibt selbstverständlich optional.</p>
+  <p>${
+    type === "vertrag"
+      ? "Manche Verbraucher möchten die Unterlagen dennoch noch einmal genauer ansehen — etwa um Laufzeit oder Kündigungsfrist besser nachvollziehen zu können. Das bleibt selbstverständlich optional."
+      : type === "angebot"
+        ? "Manche Verbraucher möchten die Unterlagen dennoch noch einmal genauer einordnen lassen — vor allem wenn einzelne Positionen oder der Leistungsumfang noch nicht vollständig klar sind. Das bleibt selbstverständlich optional."
+        : type === "nebenkosten"
+          ? "Manche Verbraucher möchten die Abrechnung dennoch noch einmal genauer ansehen — etwa um die Kostenbestandteile mit den eigenen Unterlagen abzugleichen. Das bleibt selbstverständlich optional."
+          : "Manche Verbraucher möchten die Unterlagen dennoch noch einmal genauer einordnen lassen — etwa wenn einzelne Positionen noch nicht vollständig nachvollziehbar sind. Das bleibt selbstverständlich optional."
+  }</p>
   ${stripeLink ? `
   <div style="margin:24px 0;">
     <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#374151;color:#fff;padding:13px 22px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;">
