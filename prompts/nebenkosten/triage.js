@@ -109,4 +109,4 @@ SCHLECHT: "Mögliche Auffälligkeiten wurden erkannt."
 
 12. Fallback: Bei Nicht-Abrechnung alle possible_*: null, chance: 0, flagCount: 0, risk: "low", tier: "tier3", route: "HAIKU".
 
-NUR JSON zurückgeben. Keine Erklärung. Kein Markdown.\`;
+NUR JSON zurückgeben. Keine Erklärung. Kein Markdown.`;
