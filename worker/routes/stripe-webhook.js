@@ -3,7 +3,7 @@
 import { jsonResponse } from "../utils/response.js";
 import { getFreeCase, markPaid, enqueuePaid } from "../services/queue.js";
 
-const ALLOWED_TYPES = ["mahnung", "parkstrafe", "rechnung", "vertrag", "angebot"];
+const ALLOWED_TYPES = ["mahnung", "parkstrafe", "rechnung", "vertrag", "angebot", "nebenkosten"];
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -36,6 +36,7 @@ async function markAnalysisSent(env, sessionId) {
 
 // Zoek free case langs alle types — statische Payment Links sturen geen metadata.type mee.
 // preferredType (uit metadata) wordt als eerste geprobeerd.
+// Fallback: KV list search als exacte email-key niet matcht (bijv. andere Stripe-email dan formulier-email).
 async function findFreeCase(env, email, preferredType = null) {
   if (!email) return { saved: null, type: null };
 
@@ -47,12 +48,46 @@ async function findFreeCase(env, email, preferredType = null) {
     if (!orderedTypes.includes(type)) orderedTypes.push(type);
   }
 
+  // Stap 1: exacte lookup op email-key
   for (const type of orderedTypes) {
     const saved = await getFreeCase(env, { type, email });
     if (saved) {
-      console.log(`FREE CASE GEVONDEN: type=${type}, email=${email}`);
+      console.log(`FREE CASE GEVONDEN (exact): type=${type}, email=${email}`);
       return { saved, type };
     }
+  }
+
+  // Stap 2: fallback via KV list — zoek free_case:* entries waar opgeslagen email overeenkomt
+  // Nodig als Stripe-email afwijkt van formulier-email (static Payment Links)
+  console.warn(`Exacte lookup mislukt voor ${email} — fallback naar KV list scan`);
+  try {
+    const normalizedEmail = String(email || "").trim().toLowerCase();
+    let cursor;
+    do {
+      const list = await env.SESSIONS_KV.list(cursor
+        ? { prefix: "free_case:", cursor }
+        : { prefix: "free_case:" }
+      );
+      cursor = list.cursor;
+
+      for (const key of list.keys) {
+        try {
+          const raw = await env.SESSIONS_KV.get(key.name);
+          if (!raw) continue;
+          const entry = JSON.parse(raw);
+          if (!entry?.file_base64 || !entry?.triage) continue;
+          // Match op genormaliseerd email-adres
+          const storedEmail = String(entry.email || "").trim().toLowerCase();
+          if (storedEmail !== normalizedEmail) continue;
+          const type = entry.type || key.name.split(":")[1];
+          if (!ALLOWED_TYPES.includes(type)) continue;
+          console.log(`FREE CASE GEVONDEN (list scan): key=${key.name}, email=${storedEmail}`);
+          return { saved: entry, type };
+        } catch (_) {}
+      }
+    } while (cursor);
+  } catch (err) {
+    console.error("KV list scan mislukt:", err.message);
   }
 
   console.warn(`GEEN FREE CASE GEVONDEN voor email=${email}`);
