@@ -92,6 +92,8 @@ Regeln:
 - possible_verjährt: true, wenn der Bescheid älter als 3 Monate wirkt (§ 26 Abs. 3 StVG) oder das Tatdatum deutlich zurückliegt ohne erkennbare Unterbrechung.
 - possible_falsche_zustellung: true, wenn Zustelldatum fehlt, unklar ist oder die Zustellung nicht korrekt nachweisbar wirkt.
 - possible_kein_tatnachweis: true, wenn der Tatvorwurf nicht nachvollziehbar belegt wird oder angebotene Beweismittel vollständig fehlen, obwohl sie für die Einordnung wesentlich wären.
+  WICHTIG: Bei behördlichen Bescheiden (bescheid_typ = "behoerdlich") ist das Fehlen von Fotobeweisen allein KEIN Grund für true — Behörden versenden standardmäßig keine Fotos. Nur true setzen wenn ein konkreter inhaltlicher Widerspruch oder eine unplausible Tatzeit/-ort-Angabe erkennbar ist.
+  Bei privaten Parkraumunternehmen (bescheid_typ = "privat"): true wenn Fotonachweise oder Beschilderungsbelege fehlen und keine alternativen Beweise genannt werden.
 - possible_falscher_halter: true, wenn Kennzeichen, Name oder Fahreridentität fraglich wirken oder Halter ≠ Fahrer nicht ausgeschlossen werden kann.
 - possible_formfehler: true, wenn Pflichtangaben fehlen (Aktenzeichen, Tatzeit, Tatort, Rechtsgrundlage, Rechtsmittelbelehrung) oder Unterschrift/Dienstsiegel fehlt.
 - possible_privater_betreiber: true, wenn ein privates Parkraummanagement erkennbar ist und Vertragsgrundlage, Forderungsgrund oder Nachweise nicht klar nachvollziehbar sind.
