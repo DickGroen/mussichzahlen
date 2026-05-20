@@ -18,6 +18,7 @@ STRIPE_LINK_PARKSTRAFE = "https://buy.stripe.com/test_bJe28sflO76Ldue6pC1440c"
 STRIPE_LINK_RECHNUNG   = "https://buy.stripe.com/test_eVq4gA1uY3Uzai29BO1440a"
 STRIPE_LINK_VERTRAG    = "https://buy.stripe.com/test_00w7sMddGgHlbm6aFS1440b"
 STRIPE_LINK_ANGEBOT    = "https://buy.stripe.com/test_bJe28sflO76Ldue6pC1440c"
+STRIPE_LINK_NEBENKOSTEN = "https://buy.stripe.com/test_bJe28sflO76Ldue6pC1440c"
 
 # Secrets worden ingesteld via Cloudflare Dashboard:
 # ANTHROPIC_API_KEY
