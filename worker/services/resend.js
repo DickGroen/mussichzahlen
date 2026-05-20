@@ -137,6 +137,33 @@ function teaserList(triage) {
   return parts.length >= 2 ? parts.slice(0, 4) : [raw];
 }
 
+// Natural rotation for contact/closing phrases
+function contactPhrase(seed = 0) {
+  const phrases = [
+    "Bei Fragen antworten Sie einfach auf diese E-Mail.",
+    "Falls noch Fragen offen sind, können Sie uns jederzeit antworten.",
+    "Bei Rückfragen genügt eine kurze Antwort auf diese Nachricht.",
+    "Falls etwas unklar bleibt, können Sie sich jederzeit melden.",
+    "Wenn Sie möchten, können Sie uns direkt auf diese E-Mail antworten.",
+    "Bei Fragen können Sie einfach auf diese Nachricht antworten.",
+    "Wenn Sie noch Fragen haben, erreichen Sie uns per Antwort auf diese E-Mail.",
+  ];
+  return phrases[seed % phrases.length];
+}
+
+// Type-sensitive "Nicht immer..." intro for tier2
+function tier2IntroPhrase(type = "mahnung") {
+  const phrases = {
+    mahnung:    "Nicht immer sind Forderungsgrundlage und Nachweise vollständig nachvollziehbar. Vor einer Zahlung kann ein kurzer Abgleich sinnvoll sein.",
+    parkstrafe: "Nicht immer sind Tatnachweis und Zustellung lückenlos dokumentiert. Vor einer Zahlung kann ein genauerer Blick auf das Schreiben sinnvoll sein.",
+    rechnung:   "Nicht immer sind alle Positionen und Berechnungsgrundlagen vollständig aufgeschlüsselt. Vor einer Zahlung kann ein kurzer Abgleich sinnvoll sein.",
+    vertrag:    "Nicht immer sind Kündigungsfristen und Verlängerungsklauseln vollständig nachvollziehbar. Vor einer Entscheidung kann ein genauerer Blick sinnvoll sein.",
+    angebot:    "Nicht immer sind alle Positionen und Leistungsdetails klar aufgeschlüsselt. Vor einer Beauftragung kann ein genauerer Blick sinnvoll sein.",
+    nebenkosten: "Nicht immer sind alle Kostenpositionen und Abrechnungsgrundlagen vollständig nachvollziehbar. Vor einer Zahlung kann ein Abgleich mit den eigenen Unterlagen sinnvoll sein.",
+  };
+  return phrases[type] || phrases.mahnung;
+}
+
 function tier3Teaser(triage = {}, type = "mahnung") {
   // Concrete, type-specific fallback teaser for tier-3 — avoids generic vague language
   if (triage?.teaser) return escapeHtml(String(triage.teaser).trim());
@@ -285,7 +312,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
   </div>
   <p style="font-size:.82rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>` : ""}
   <hr style="border:none;border-top:1px solid #e5e7eb;margin:28px 0;">
-  <p>Bei Fragen können Sie einfach auf diese E-Mail antworten.</p>
+  <p>${contactPhrase(1)}</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
   <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
 </div>`,
@@ -324,8 +351,10 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     <tr><td style="padding:9px 12px;font-weight:600;">Absender</td><td style="padding:9px 12px;">${escapeHtml(triage?.sender || "nicht eindeutig erkennbar")}</td></tr>
     <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">Geforderter Betrag</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
   </table>
-  <p>Eine genauere Prüfung vor einer Zahlung kann helfen, die Forderung besser einzuordnen — und zu verstehen, ob alle Angaben vollständig nachvollziehbar sind.</p>
-  <p>Im Rahmen der ausführlicheren Einschätzung erhalten Sie eine klare Einordnung der offenen Punkte sowie eine Vorlage, die Sie bei Bedarf verwenden können.</p>
+  <p>${type === "rechnung" || type === "angebot" || type === "vertrag" || type === "nebenkosten"
+    ? "Ein genauerer Blick auf die Unterlagen kann helfen, die Positionen besser nachzuvollziehen und offene Punkte zu klären."
+    : "Ein genauerer Blick auf das Schreiben kann helfen, die Grundlage der Forderung besser einzuordnen — und zu verstehen, ob alle Angaben vollständig nachvollziehbar sind."}</p>
+  <p>Mit der ausführlicheren Einschätzung erhalten Sie eine klare Einordnung der offenen Punkte sowie eine Vorlage, die Sie bei Bedarf verwenden können.</p>
   ${stripeLink ? `
   <div style="margin:28px 0;">
     <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 26px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
@@ -338,7 +367,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     <a href="${escapeHtml(stripeLink)}" style="color:#1d4ed8;word-break:break-all;">${escapeHtml(stripeLink)}</a>
   </p>` : ""}
   <hr style="border:none;border-top:1px solid #e5e7eb;margin:28px 0;">
-  <p>Bei Fragen antworten Sie einfach auf diese E-Mail.</p>
+  <p>${contactPhrase(0)}</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
   <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
 </div>`,
@@ -370,7 +399,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     <tr><td style="padding:9px 12px;font-weight:600;">Absender</td><td style="padding:9px 12px;">${escapeHtml(triage?.sender || "nicht eindeutig erkennbar")}</td></tr>
     <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">Geforderter Betrag</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
   </table>
-  <p>Nicht immer sind Kostenbestandteile und Nachweise vollständig nachvollziehbar. Vor einer Zahlung kann es sinnvoll sein, die zugrunde liegenden Unterlagen genauer zu prüfen.</p>
+  <p>${tier2IntroPhrase(type)}</p>
   <p>${type === "rechnung" || type === "angebot" || type === "vertrag" ? "Mit der ausführlicheren Einschätzung erhalten Sie eine klare Einordnung der offenen Punkte sowie eine Vorlage für eine schriftliche Rückfrage. Das bleibt selbstverständlich optional." : "Mit der ausführlicheren Einschätzung erhalten Sie eine klare Einordnung der offenen Punkte sowie eine Vorlage, die Sie bei Bedarf verwenden können. Das bleibt selbstverständlich optional."}</p>
   ${stripeLink ? `
   <div style="margin:28px 0;">
@@ -384,7 +413,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     <a href="${escapeHtml(stripeLink)}" style="color:#1d4ed8;word-break:break-all;">${escapeHtml(stripeLink)}</a>
   </p>` : ""}
   <hr style="border:none;border-top:1px solid #e5e7eb;margin:28px 0;">
-  <p>Bei Fragen antworten Sie einfach auf diese E-Mail.</p>
+  <p>${contactPhrase(2)}</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
   <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
 </div>`,
@@ -430,7 +459,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     </a>
   </div>
   <p style="font-size:.84rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
-  <p>Bei Fragen antworten Sie einfach auf diese E-Mail.</p>
+  <p>${contactPhrase(stageNumber)}</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
   <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
 </div>`,
