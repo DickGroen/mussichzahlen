@@ -338,6 +338,7 @@ VERMEIDE diese Formulierungen:
 - "behaupteten Forderung" → klingt konfliktgerichtet; besser: "genannten Forderung" oder "geltend gemachten Forderung"
 - "angeblichen Forderung" → klingt streitlustig; besser: "geltend gemachten Forderung" oder "genannten Forderung"
 - "beunruhigend wirken" / "kann beunruhigend sein" → erzeugt unnötige Emotion; ersatzlos streichen oder ersetzen durch sachliche Einordnung
+- "einschüchternd wirken" / "im ersten Moment einschüchternd" → gleiche Regel; Emotionalisierung vermeiden
 - "vollständig nachvollziehen" → besser: "ausreichend nachvollziehen"
 - "vollumfänglich und in allen Teilen" → übertrieben formal
 - "Soweit aus Ihrem Schreiben ersichtlich" → zu AI-artig
