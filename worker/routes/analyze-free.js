@@ -275,10 +275,23 @@ function normalizeRoute(value, risk) {
 }
 
 function normalizeTier(value, risk, flagCount) {
-  if (["tier1", "tier2", "tier3"].includes(value)) return value;
   const f = Number(flagCount) || 0;
+
+  // If Claude returned a valid tier, validate against risk+flagCount
+  if (["tier1", "tier2", "tier3"].includes(value)) {
+    // Never tier1 when risk is low
+    if (risk === "low" && value === "tier1") return "tier2";
+    // Never tier3 when risk is high
+    if (risk === "high" && value === "tier3") return "tier1";
+    // flagCount 0 + risk low = tier3, not tier2
+    if (f === 0 && risk === "low" && value === "tier2") return "tier3";
+    return value;
+  }
+
+  // Derive from risk + flagCount as fallback
   if (risk === "high" || f >= 4) return "tier1";
-  if (risk === "medium" || f >= 1) return "tier2";
+  if (risk === "medium" || f >= 2) return "tier2";
+  if (f === 1) return "tier2";
   return "tier3";
 }
 
