@@ -3,41 +3,37 @@ const ALLOWED_TYPES = new Set([
   "image/jpeg",
   "image/png"
 ]);
-
 const ALLOWED_FUNNEL_TYPES = new Set([
   "debt",
   "parking",
   "bill",
   "subscription",
+  "quote",
   "mahnung",
   "parkstrafe",
   "rechnung",
   "vertrag",
-  "angebot"
+  "angebot",
+  "nebenkosten"
 ]);
-
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
-
 export function validateEmail(email) {
   const value = String(email || "").trim();
   if (!value) throw new Error("Missing email address");
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) throw new Error("Invalid email address");
   return value.toLowerCase();
 }
-
 export function validateName(name) {
   const value = String(name || "").trim();
   if (!value) throw new Error("Missing name");
   if (value.length > 120) throw new Error("Name is too long");
   return value;
 }
-
 export function validateFunnelType(type) {
   const value = String(type || "").trim().toLowerCase();
   if (!ALLOWED_FUNNEL_TYPES.has(value)) throw new Error("Invalid funnel type");
   return value;
 }
-
 export function validateSessionId(sessionId) {
   const value = String(sessionId || "").trim();
   if (!value) throw new Error("Missing session_id");
@@ -46,7 +42,6 @@ export function validateSessionId(sessionId) {
   }
   return value;
 }
-
 export function validateUploadFile(file) {
   if (!file || typeof file === "string") throw new Error("No file uploaded");
   if (!ALLOWED_TYPES.has(file.type)) throw new Error("Unsupported file type. Upload PDF, JPG or PNG.");
@@ -54,7 +49,6 @@ export function validateUploadFile(file) {
   if (file.size < 500) throw new Error("File appears to be empty or invalid.");
   return file;
 }
-
 export function validatePaidSubmitForm(formData) {
   const type      = validateFunnelType(formData.get("type"));
   const sessionId = validateSessionId(formData.get("session_id"));
@@ -63,7 +57,6 @@ export function validatePaidSubmitForm(formData) {
   const file      = validateUploadFile(formData.get("file"));
   return { type, sessionId, name, email, file };
 }
-
 export function validateFreeSubmitForm(formData) {
   const type  = validateFunnelType(formData.get("type"));
   const name  = validateName(formData.get("name"));
@@ -71,8 +64,6 @@ export function validateFreeSubmitForm(formData) {
   const file  = validateUploadFile(formData.get("file"));
   return { type, name, email, file };
 }
-
-// Gebruikt door analyze-free.js — geeft null terug bij succes, string bij fout
 export function validateUploadInput({ file, name, email, type }) {
   try { validateUploadFile(file); } catch (e) { return e.message; }
   try { validateName(name); } catch (e) { return e.message; }
