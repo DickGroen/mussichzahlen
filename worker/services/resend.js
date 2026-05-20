@@ -163,7 +163,7 @@ export async function sendConfirmationEmail(env, { name, email, type }) {
     html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
   <p>Guten Tag ${safeName},</p>
   <p>Vielen Dank für Ihre Zahlung. Wir sehen uns Ihr Schreiben nun genauer an.</p>
-  <p>Sie erhalten Ihre Einschätzung sowie ein fertiges Antwortschreiben in der Regel bis zum nächsten Werktag per E-Mail.</p>
+  <p>Sie erhalten die Einschätzung sowie eine Vorlage in der Regel bis zum nächsten Werktag per E-Mail.</p>
   <p style="font-size:.9rem;color:#6b7280;">→ Bitte prüfen Sie auch Ihren Spam-Ordner, falls Sie keine E-Mail erhalten sollten.</p>
   <p>Bei Fragen können Sie einfach auf diese E-Mail antworten.</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
@@ -325,7 +325,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">Geforderter Betrag</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
   </table>
   <p>Eine genauere Prüfung vor einer Zahlung kann helfen, die Forderung besser einzuordnen — und zu verstehen, ob alle Angaben vollständig nachvollziehbar sind.</p>
-  <p>Im Rahmen der vollständigen Prüfung erhalten Sie eine ausführlichere Einschätzung der offenen Punkte sowie ein fertiges Antwortschreiben, das Sie bei Bedarf direkt verwenden können.</p>
+  <p>Im Rahmen der ausführlicheren Einschätzung erhalten Sie eine klare Einordnung der offenen Punkte sowie eine Vorlage, die Sie bei Bedarf verwenden können.</p>
   ${stripeLink ? `
   <div style="margin:28px 0;">
     <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 26px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
@@ -371,7 +371,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">Geforderter Betrag</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
   </table>
   <p>Nicht immer sind Kostenbestandteile und Nachweise vollständig nachvollziehbar. Vor einer Zahlung kann es sinnvoll sein, die zugrunde liegenden Unterlagen genauer zu prüfen.</p>
-  <p>${type === "rechnung" || type === "angebot" || type === "vertrag" ? "Mit der ausführlicheren Einschätzung erhalten Sie eine klare Einordnung der offenen Punkte sowie eine Vorlage für eine schriftliche Rückfrage. Das bleibt selbstverständlich optional." : "Im Rahmen der vollständigen Prüfung erhalten Sie eine ausführlichere Einschätzung der offenen Punkte sowie ein fertiges Antwortschreiben, das Sie bei Bedarf direkt verwenden können. Das bleibt selbstverständlich optional."}</p>
+  <p>${type === "rechnung" || type === "angebot" || type === "vertrag" ? "Mit der ausführlicheren Einschätzung erhalten Sie eine klare Einordnung der offenen Punkte sowie eine Vorlage für eine schriftliche Rückfrage. Das bleibt selbstverständlich optional." : "Mit der ausführlicheren Einschätzung erhalten Sie eine klare Einordnung der offenen Punkte sowie eine Vorlage, die Sie bei Bedarf verwenden können. Das bleibt selbstverständlich optional."}</p>
   ${stripeLink ? `
   <div style="margin:28px 0;">
     <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 26px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
@@ -459,9 +459,9 @@ export async function sendPaidEmail(env, { name, email, type, triage, analysis }
 
   const htmlTier3 = `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
   <p>Guten Tag ${safeName},</p>
-  <p>Ihr Schreiben${senderText} liegt uns vor. Wir haben die Unterlagen für Sie zusammengefasst und übersichtlich eingeordnet.</p>
-  <p>Im Anhang finden Sie die Einschätzung zu Ihrem Fall sowie eine Vorlage, die Sie bei Bedarf verwenden können.</p>
-  <p>Lesen Sie die Einschätzung bitte zunächst in Ruhe durch — sie fasst die wichtigsten Informationen zu Ihrem Schreiben verständlich zusammen.</p>
+  <p>Ihr Schreiben${senderText} liegt uns vor. Wir haben die Unterlagen für Sie eingeordnet und übersichtlich zusammengefasst.</p>
+  <p>Im Anhang finden Sie die Einschätzung sowie eine Vorlage, die Sie bei Bedarf verwenden können.</p>
+  <p>Lesen Sie die Einschätzung bitte in Ruhe durch.</p>
   <p>Bei Fragen antworten Sie einfach auf diese E-Mail.</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
   <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
@@ -470,9 +470,9 @@ export async function sendPaidEmail(env, { name, email, type, triage, analysis }
   const htmlTier1Tier2 = `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
   <p>Guten Tag ${safeName},</p>
   <p>Ihr Schreiben${senderText} liegt uns vor. Wir haben die Unterlagen für Sie eingeordnet und die wichtigsten Punkte übersichtlich zusammengefasst.</p>
-  <p>Im Anhang finden Sie die Einschätzung zu Ihrem Fall sowie ein fertiges Antwortschreiben.</p>
-  <p>Lesen Sie die Einschätzung bitte zunächst in Ruhe durch — sie erklärt, welche Punkte vor einer Zahlung noch geklärt werden sollten. Das Antwortschreiben können Sie anschließend bei Bedarf direkt verwenden.</p>
-  <p style="font-size:.9rem;color:#374151;">Falls Sie das Antwortschreiben versenden möchten, empfehlen wir einen Versand mit Nachweis.</p>
+  <p>Im Anhang finden Sie die Einschätzung sowie eine Vorlage, die Sie bei Bedarf verwenden können.</p>
+  <p>Lesen Sie die Einschätzung bitte zunächst in Ruhe durch — sie erklärt, welche Punkte vor einer Entscheidung noch geklärt werden sollten.</p>
+  <p style="font-size:.9rem;color:#374151;">Falls Sie die Vorlage versenden möchten, empfehlen wir einen Versand mit Nachweis.</p>
   <p>Bei Fragen antworten Sie einfach auf diese E-Mail.</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
   <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
