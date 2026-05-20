@@ -37,7 +37,7 @@ Lies das Dokument und gib NUR dieses JSON zurück — kein Text davor oder danac
 
 {
   "documentType": "rechnung|nachforderung|abschlag|mahnung|kostennote|sonstige|null",
-  "sender": "string oder null",
+  "sender": "Nur der Name des Unternehmens oder der Person — KEINE Adresse, KEINE Straße, KEINE PLZ. Beispiel: \"Digital Services GmbH\" (nicht: \"Digital Services GmbH, Hauptstraße 88, 80331 München\"). String oder null.",
   "rechnungstyp": "energie|wasser|telekommunikation|handwerk|arzt|versicherung|miete|sonstige|unbekannt|null",
   "amount_claimed": Zahl oder null,
   "currency": "EUR|GBP|USD|null",
@@ -45,7 +45,7 @@ Lies das Dokument und gib NUR dieses JSON zurück — kein Text davor oder danac
   "possible_falsche_position": true oder false oder null,
   "possible_doppelte_berechnung": true oder false oder null,
   "possible_nicht_erbrachte_leistung": true oder false oder null,
-  "possible_ûerhöhter_preis": true oder false oder null,
+  "possible_überhöhter_preis": true oder false oder null,
   "possible_keine_leistungsbeschreibung": true oder false oder null,
   "possible_unplausible_nachforderung": true oder false oder null,
 
@@ -73,7 +73,7 @@ energie|wasser|telekommunikation|handwerk|arzt|versicherung|miete|sonstige|unbek
 - possible_falsche_position: Positionen nicht nachvollziehbar vereinbart oder begründet.
 - possible_doppelte_berechnung: dieselbe Leistung mehrfach berechnet.
 - possible_nicht_erbrachte_leistung: Leistung möglicherweise nicht erbracht oder nicht beschrieben.
-- possible_ûerhöhter_preis: Betrag auffällig hoch im Verhältnis zur Leistung.
+- possible_überhöhter_preis: Betrag auffällig hoch im Verhältnis zur Leistung.
 - possible_keine_leistungsbeschreibung: Zeitraum, Menge, Stunden, Material oder Beschreibung fehlt.
 - possible_unplausible_nachforderung: Nachzahlung ohne nachvollziehbare Berechnungsgrundlage.
 Nur true setzen wenn konkrete Hinweise im Dokument. Im Zweifel: null.
