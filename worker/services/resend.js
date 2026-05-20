@@ -47,6 +47,13 @@ const TYPE_LABELS = {
     price:        "29",
     stripe_label: "Analyse des Angebots — €29",
   },
+  nebenkosten: {
+    title:        "Nebenkostenabrechnung",
+    letter:       "Rückfrageschreiben",
+    filename:     "Nebenkosten-Einordnung.rtf",
+    price:        "29",
+    stripe_label: "Einordnung der Nebenkostenabrechnung — €29",
+  },
 };
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
