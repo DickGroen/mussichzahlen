@@ -56,6 +56,9 @@ BEVORZUGE diese Formulierungen:
 - "Vor einer Entscheidung sollte geprüft werden"
 
 VERMEIDE grundsätzlich:
+- "ein Punkt, der Ihre Aufmerksamkeit verdient" — klingt wie AI-Copywriter; besser: "Das lohnt sich noch einmal genauer anzusehen."
+- "möglicherweise unlawful" oder "möglicherweise unwirksam" — zu juristisch für Vertragsmails
+- "rechtliche Durchsetzung", "wirksame Kündigung" — zu konfrontativ
 - "rechtswidrig", "illegal", "Betrug", "unzulässig", "zweifelsfrei", "garantiert", "unwirksam"
 - Aggressive Rechtsbehauptungen oder dramatische Eskalationssprache
 - Übermäßige Gesetzeszitate — nur nennen wenn im Dokument konkret relevant
