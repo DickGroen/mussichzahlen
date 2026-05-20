@@ -575,6 +575,221 @@ Stadtwerke Köln GmbH
     `.trim(),
   },
 
+  // ── Vertrag (DE) ──────────────────────────────────────────────────────────
+
+  "vertrag:tier1-unfair-renewal": {
+    type:        "vertrag",
+    name:        "Test User",
+    email:       null,
+    description: "Tier-1 Vertrag — automatische Verlängerung, Preiserhöhung ohne Kündigungsrecht",
+    textContent: `
+FITNESS FIRST GMBH
+Sportweg 1 · 10115 Berlin
+
+Test User
+Musterstraße 1
+10115 Berlin
+
+Berlin, 3. März 2025
+
+Mitteilung zur Vertragsänderung — Mitgliedsnummer FF-2291-04
+
+Sehr geehrte Damen und Herren,
+
+wir informieren Sie über folgende Änderungen Ihres Vertrages:
+
+Ab dem 1. April 2025 erhöht sich Ihr monatlicher Beitrag von 39,90 EUR auf 49,90 EUR.
+
+Ihr Vertrag verlängert sich automatisch um 12 Monate, sofern keine Kündigung erfolgt.
+Kündigungsfrist: 6 Wochen vor Vertragsende.
+
+Ein Sonderkündigungsrecht aufgrund der Preiserhöhung besteht nach unseren Vertragsbedingungen nicht.
+
+Die aktualisierten AGB sind auf unserer Website abrufbar.
+
+Mit freundlichen Grüßen
+Fitness First GmbH
+    `.trim(),
+  },
+
+  "vertrag:tier2-unclear-cancellation": {
+    type:        "vertrag",
+    name:        "Test User",
+    email:       null,
+    description: "Tier-2 Vertrag — unklare Kündigungsfrist, automatische Verlängerung",
+    textContent: `
+STREAMPLUS GMBH
+Digitalstraße 44 · 80331 München
+
+Test User
+Musterstraße 1
+10115 Berlin
+
+München, 10. März 2025
+
+Ihre StreamPlus-Mitgliedschaft — Kundennummer SP-9921
+
+Sehr geehrte Damen und Herren,
+
+Ihre Mitgliedschaft wird am 15. April 2025 automatisch um ein weiteres Jahr verlängert.
+
+Monatlicher Beitrag ab Verlängerung: 14,99 EUR
+
+Zur Kündigung wenden Sie sich bitte an unseren Kundenservice. Die Kündigungsfrist entnehmen Sie bitte Ihren Vertragsunterlagen.
+
+Bei Fragen stehen wir Ihnen gerne zur Verfügung.
+
+Mit freundlichen Grüßen
+StreamPlus GmbH
+    `.trim(),
+  },
+
+  "vertrag:tier3-standard-contract": {
+    type:        "vertrag",
+    name:        "Test User",
+    email:       null,
+    description: "Tier-3 Vertrag — nachvollziehbare Vertragsbedingungen",
+    textContent: `
+TELEKOM DEUTSCHLAND GMBH
+Postfach 2000 · 53105 Bonn
+
+Test User
+Musterstraße 1
+10115 Berlin
+
+Bonn, 1. März 2025
+
+Ihre Vertragsbestätigung — Kundennummer TD-441882
+
+Sehr geehrte Damen und Herren,
+
+wir bestätigen Ihren Vertrag für den Tarif MagentaZuhause M.
+
+Monatlicher Grundpreis: 39,95 EUR
+Vertragslaufzeit: 24 Monate ab 1. März 2025
+Kündigungsfrist: 1 Monat zum Vertragsende
+Automatische Verlängerung: 1 Monat, monatlich kündbar
+
+Im Anhang finden Sie die vollständigen Vertragsunterlagen und AGB.
+
+Mit freundlichen Grüßen
+Telekom Deutschland GmbH
+    `.trim(),
+  },
+
+  // ── Angebot (DE) ──────────────────────────────────────────────────────────
+
+  "angebot:tier1-inflated-quote": {
+    type:        "angebot",
+    name:        "Test User",
+    email:       null,
+    description: "Tier-1 Angebot — überhöhte Pauschalpreise, unklarer Leistungsumfang",
+    textContent: `
+RENOVIERUNG PROFI GMBH
+Handwerkerweg 12 · 13355 Berlin
+
+Test User
+Musterstraße 1
+10115 Berlin
+
+Berlin, 7. März 2025
+
+Angebot Nr. 2025-0112 — Badezimmerrenovierung
+
+Sehr geehrte Damen und Herren,
+
+wir unterbreiten Ihnen folgendes Angebot:
+
+1. Komplettentkernung Badezimmer (pauschal)         €2.800,00
+2. Fliesenarbeiten inkl. Material (pauschal)         €4.200,00
+3. Sanitärinstallation (pauschal)                    €1.900,00
+4. Malerarbeiten (pauschal)                            €850,00
+5. Projektmanagement und Koordination                  €600,00
+
+Gesamtbetrag netto:  €10.350,00
+MwSt. 19%:            €1.966,50
+Gesamtbetrag brutto: €12.316,50
+
+Gültig bis: 21. März 2025
+
+Dieses Angebot ist freibleibend. Einzelaufstellungen und Materiallisten werden nach Auftragserteilung bereitgestellt.
+
+Mit freundlichen Grüßen
+Renovierung Profi GmbH
+    `.trim(),
+  },
+
+  "angebot:tier2-missing-details": {
+    type:        "angebot",
+    name:        "Test User",
+    email:       null,
+    description: "Tier-2 Angebot — fehlende Einzelpositionen, kein Zeitplan",
+    textContent: `
+IT SOLUTIONS GMBH
+Technikstraße 5 · 70173 Stuttgart
+
+Test User
+Musterstraße 1
+10115 Berlin
+
+Stuttgart, 12. März 2025
+
+Angebot — Webseitenentwicklung
+
+Sehr geehrte Damen und Herren,
+
+hiermit bieten wir Ihnen die Entwicklung Ihrer neuen Unternehmenswebseite an.
+
+Leistungsumfang: Entwicklung, Design und Inbetriebnahme einer responsiven Webseite
+
+Festpreis: €4.800,00 netto (inkl. MwSt.: €5.712,00)
+
+Zahlungsbedingungen: 50% bei Auftragserteilung, 50% bei Fertigstellung.
+
+Hinweis: Änderungswünsche nach Projektbeginn werden separat berechnet.
+
+Mit freundlichen Grüßen
+IT Solutions GmbH
+    `.trim(),
+  },
+
+  "angebot:tier3-clear-quote": {
+    type:        "angebot",
+    name:        "Test User",
+    email:       null,
+    description: "Tier-3 Angebot — nachvollziehbare Positionen, klarer Leistungsumfang",
+    textContent: `
+MALER SCHMIDT GMBH
+Pinselweg 3 · 50667 Köln
+
+Test User
+Musterstraße 1
+10115 Berlin
+
+Köln, 5. März 2025
+
+Angebot Nr. 2025-0088 — Malerarbeiten Wohnzimmer
+
+Sehr geehrte Damen und Herren,
+
+wir unterbreiten Ihnen folgendes Angebot für die Malerarbeiten in Ihrem Wohnzimmer (ca. 28 m²):
+
+1. Untergrund vorbereiten, schleifen, grundieren     €180,00
+2. 2× Anstrich Wände und Decke (Farbe nach Wahl)    €420,00
+3. Materialkosten (Farbe, Grundierung, Abdeckmaterial)  €95,00
+
+Nettobetrag:     €695,00
+MwSt. 19%:       €132,05
+Gesamtbetrag:    €827,05
+
+Ausführungszeitraum: 2 Tage
+Zahlungsziel: 14 Tage nach Fertigstellung
+
+Mit freundlichen Grüßen
+Maler Schmidt GmbH
+    `.trim(),
+  },
+
 };
 
 export function getTestCase(type, caseName) {
