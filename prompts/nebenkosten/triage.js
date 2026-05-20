@@ -69,7 +69,7 @@ Regeln:
 
 4. Possible issues
 - possible_fehlende_belege: true, wenn keine Belegliste, keine Belegnummern angegeben.
-- possible_nicht_umlagefähige_kosten: true, wenn Positionen erkennbar sind, die üblicherweise NICHT auf Mieter umgelegt werden dürfen (Instandhaltungsrücklage, Verwaltungskosten über Pauschale). WICHTIG: Gebäudeversicherung und Allgemeinstrom sind häufig umlagefähig — diese nur als possible_nicht_umlagefähig markieren wenn im konkreten Dokument ein klarer Hinweis auf Nicht-Umlagefähigkeit besteht.
+- possible_nicht_umlagefähige_kosten: true, NUR wenn eindeutig nicht umlagefähige Positionen erkennbar sind wie: Instandhaltungsrücklage, Verwaltungskosten (nicht als Betriebskosten vereinbart). NIMMER true für: Gebäudeversicherung (§2 Nr. 13 BetrKV — umlagefähig), Allgemeinstrom (§2 Nr. 11 BetrKV — umlagefähig), Hausmeister, Wasser/Abwasser, Heizung, Hausreinigung. Im Zweifel: false.
 - possible_falscher_verteilerschlüssel: true, wenn Verteilerschlüssel fehlt oder Gesamtwohnfläche fehlt.
 - possible_verjährt: true, NUR wenn Abrechnungsdatum konkret erkennbar mehr als 12 Monate nach Ende des Abrechnungsjahres liegt. Im Zweifel: null.
 - possible_keine_einsicht: true, wenn kein Hinweis auf Belegeinsicht angegeben. WICHTIG: Nur true setzen bei eindeutigem Fehlen, nicht bei bloßem Nichtvorhandensein eines expliziten Hinweises.
