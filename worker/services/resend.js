@@ -524,7 +524,7 @@ export async function sendPaidEmail(env, { name, email, type, triage, analysis }
   <p>Ihr Schreiben${senderText} liegt uns vor. Wir haben die Unterlagen für Sie eingeordnet und die wichtigsten Punkte übersichtlich zusammengefasst.</p>
   <p>Im Anhang finden Sie die Einschätzung sowie eine Vorlage, die Sie bei Bedarf verwenden können.</p>
   <p>Lesen Sie die Einschätzung bitte zunächst in Ruhe durch — sie erklärt, welche Punkte vor einer Entscheidung noch geklärt werden sollten.</p>
-  <p style="font-size:.9rem;color:#374151;">Falls Sie die Vorlage versenden möchten, empfehlen wir einen Versand mit Nachweis.</p>
+  <p style="font-size:.9rem;color:#374151;">${type === "nebenkosten" ? "Falls Sie eine schriftliche Rückfrage an die Hausverwaltung stellen möchten, liegt eine Vorlage im Anhang." : "Falls Sie die Vorlage versenden möchten, empfehlen wir einen Versand mit Nachweis."}</p>
   <p>Bei Fragen antworten Sie einfach auf diese E-Mail.</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
   <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
