@@ -38,7 +38,7 @@ Lies das Dokument und gib NUR dieses JSON zurück — kein Text davor oder danac
 
 {
   "documentType": "mahnung|inkasso|anwalt|gericht|rechnung|sonstige|null",
-  "sender": "string oder null",
+  "sender": "Nur der Name des Unternehmens oder der Beh\u00f6rde — KEINE Adresse, KEINE Stra\u00dfe, KEINE PLZ. Beispiel: \"Creditum Inkasso GmbH\" (nicht: \"Creditum Inkasso GmbH, Musterstra\u00dfe 1, 12345 Berlin\"). String oder null.",
   "forderungstyp": "inkasso|mahnung|anwalt|gericht|rechnung|sonstige|null",
   "amount_claimed": Zahl oder null,
   "currency": "EUR|GBP|USD|null",
