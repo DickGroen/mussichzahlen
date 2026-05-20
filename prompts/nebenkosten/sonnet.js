@@ -137,6 +137,13 @@ Erklärung in 1–3 Sätzen.
 Bei tier3: maximal 1 Punkt oder leer lassen.
 Bei tier1/tier2: maximal 4 Punkte.
 Keine Bullet-Listen. Keine nummerierten Listen.
+
+VERMEIDE in der Analyse speziell für Nebenkosten:
+- "nicht umlagefähig" als harte Rechtsbehauptung — stattdessen: "könnte einer Klärung bedürfen" oder "lohnt sich ein zweiter Blick"
+- "dürfen nicht auf den Mieter umgelegt werden" — stattdessen: "ist für viele Mieter nicht immer sofort nachvollziehbar"
+- "rechtfertigungsbedürftig", "unzulässig", "rechtswidrig"
+- Expertensprache der Verbraucherzentrale — lieber ruhige Plausibilitätsprüfung als juristische Analyse
+- Das Ziel: "jemand hat sich die Abrechnung ruhig angesehen" — nicht: "KI-System hat Rechtsverstöße gefunden"
 [/ISSUES]
 
 [NEXT_STEPS]
