@@ -276,11 +276,11 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">Geforderter Betrag</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
     <tr><td style="padding:9px 12px;font-weight:600;">Erste Einschätzung</td><td style="padding:9px 12px;">Begrenzte sichtbare Auffälligkeiten</td></tr>
   </table>
-  <p>Manche Verbraucher entscheiden sich dennoch für eine vollständige Prüfung — etwa um sicherzugehen, dass alle Kostenbestandteile nachvollziehbar sind und keine Unterlagen fehlen. Das bleibt selbstverständlich optional.</p>
+  <p>Manche Verbraucher möchten die Unterlagen dennoch noch einmal genauer einordnen lassen — besonders wenn der Betrag höher ist oder einzelne Positionen noch nicht vollständig nachvollziehbar sind. Das bleibt selbstverständlich optional.</p>
   ${stripeLink ? `
   <div style="margin:24px 0;">
     <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#374151;color:#fff;padding:13px 22px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;">
-      Forderung genauer prüfen — €${escapeHtml(labels.price)} →
+      ${type === "rechnung" || type === "angebot" || type === "vertrag" || type === "nebenkosten" ? "Abrechnung genauer einordnen" : type === "parkstrafe" ? "Bescheid genauer einordnen" : "Unterlagen genauer einordnen"} — €${escapeHtml(labels.price)} →
     </a>
   </div>
   <p style="font-size:.82rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>` : ""}
@@ -329,7 +329,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
   ${stripeLink ? `
   <div style="margin:28px 0;">
     <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 26px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
-      ${type === "rechnung" || type === "angebot" || type === "vertrag" ? "Rechnung genauer einordnen" : type === "parkstrafe" ? "Bescheid genauer prüfen" : "Forderung vollständig prüfen"} — €${escapeHtml(labels.price)} →
+      ${type === "rechnung" || type === "angebot" || type === "vertrag" ? "Rechnung genauer einordnen" : type === "parkstrafe" ? "Bescheid genauer prüfen" : "Schreiben genauer einordnen"} — €${escapeHtml(labels.price)} →
     </a>
   </div>
   <p style="font-size:.84rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
@@ -375,7 +375,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
   ${stripeLink ? `
   <div style="margin:28px 0;">
     <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 26px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
-      ${type === "rechnung" || type === "angebot" || type === "vertrag" ? "Rechnung genauer einordnen" : type === "parkstrafe" ? "Bescheid genauer prüfen" : "Forderung vollständig prüfen"} — €${escapeHtml(labels.price)} →
+      ${type === "rechnung" || type === "angebot" || type === "vertrag" ? "Rechnung genauer einordnen" : type === "parkstrafe" ? "Bescheid genauer prüfen" : "Schreiben genauer einordnen"} — €${escapeHtml(labels.price)} →
     </a>
   </div>
   <p style="font-size:.84rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
@@ -426,7 +426,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
   </table>
   <div style="margin:22px 0;">
     <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 24px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
-      ${type === "rechnung" || type === "angebot" || type === "vertrag" ? "Rechnung genauer einordnen" : type === "parkstrafe" ? "Bescheid genauer prüfen" : "Forderung vollständig prüfen"} — €${escapeHtml(labels.price)} →
+      ${type === "rechnung" || type === "angebot" || type === "vertrag" ? "Rechnung genauer einordnen" : type === "parkstrafe" ? "Bescheid genauer prüfen" : "Schreiben genauer einordnen"} — €${escapeHtml(labels.price)} →
     </a>
   </div>
   <p style="font-size:.84rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
