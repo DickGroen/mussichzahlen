@@ -37,7 +37,7 @@ Lies das Dokument und gib NUR dieses JSON zurück — kein Text davor oder danac
 
 {
   "documentType": "bussgeld|parkstrafe|geschwindigkeit|rotlicht|sonstige|null",
-  "sender": "string oder null",
+  "sender": "Nur der Name des Unternehmens oder der Beh\u00f6rde — KEINE Adresse, KEINE Stra\u00dfe, KEINE PLZ. Beispiel: \"Creditum Inkasso GmbH\" (nicht: \"Creditum Inkasso GmbH, Musterstra\u00dfe 1, 12345 Berlin\"). String oder null.",
   "bescheid_typ": "behoerdlich|privat|unbekannt|null",
   "amount_claimed": Zahl oder null,
   "currency": "EUR|GBP|USD|null",
