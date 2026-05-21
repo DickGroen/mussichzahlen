@@ -2,6 +2,7 @@
 
 import { escapeHtml } from "../utils/files.js";
 import { makeAnalysisRtf, makeLetterRtf, rtfToBase64 } from "../utils/rtf.js";
+import { makeAnalysisDocxDE, makeLetterDocxDE, docxToBase64 } from "../utils/docx.js";
 
 const FROM       = "MussIchZahlen <noreply@mussichzahlen.de>";
 const DISCLAIMER = "MussIchZahlen bietet informative Analysen — keine Rechtsberatung und keine anwaltliche Vertretung.";
@@ -15,42 +16,42 @@ const TYPE_LABELS = {
   mahnung: {
     title:        "Mahnung / Inkassoschreiben",
     letter:       "Widerspruch",
-    filename:     "Widerspruch.rtf",
+    filename:     "Widerspruch.docx",
     price:        "49",
     stripe_label: "Vollständige Analyse + fertiger Widerspruch — €49",
   },
   parkstrafe: {
     title:        "Bußgeldbescheid",
     letter:       "Einspruchsschreiben",
-    filename:     "Einspruch.rtf",
+    filename:     "Einspruch.docx",
     price:        "19",
     stripe_label: "Analyse + fertiges Einspruchsschreiben — €19",
   },
   rechnung: {
     title:        "Rechnung",
     letter:       "Widerspruchsschreiben",
-    filename:     "Widerspruchsschreiben.rtf",
+    filename:     "Widerspruchsschreiben.docx",
     price:        "29",
     stripe_label: "Analyse + fertiges Widerspruchsschreiben — €29",
   },
   vertrag: {
     title:        "Vertrag / Kündigung",
     letter:       "Kündigungsschreiben",
-    filename:     "Kuendigungsschreiben.rtf",
+    filename:     "Kuendigungsschreiben.docx",
     price:        "29",
     stripe_label: "Analyse + fertiges Kündigungsschreiben — €29",
   },
   angebot: {
     title:        "Angebot / Kostenvoranschlag",
     letter:       "Prüfbericht",
-    filename:     "Angebot-Pruefung.rtf",
+    filename:     "Angebot-Pruefung.docx",
     price:        "29",
     stripe_label: "Analyse des Angebots — €29",
   },
   nebenkosten: {
     title:        "Nebenkostenabrechnung",
     letter:       "Rückfrageschreiben",
-    filename:     "Nebenkosten-Einordnung.rtf",
+    filename:     "Nebenkosten-Einordnung.docx",
     price:        "29",
     stripe_label: "Einordnung der Nebenkostenabrechnung — €29",
   },
@@ -273,7 +274,7 @@ export async function notifyAdminPaid(env, { name, email, type, triage, analysis
   </table>
 </div>`,
     attachments: [
-      { filename: "MussIchZahlen-Analyse.rtf", content: rtfToBase64(rtf) },
+      { filename: "MussIchZahlen-Analyse.docx", content: rtfToBase64(rtf) },
     ],
   });
 }
@@ -499,8 +500,8 @@ export async function sendPaidEmail(env, { name, email, type, triage, analysis }
       ? "Private Parkforderung"
       : baseLabels.title,
   };
-  const analysisRtf = makeAnalysisRtf(analysis, name, email, triage, type);
-  const letterRtf   = makeLetterRtf(analysis, name, triage, type);
+  const analysisDocx = makeAnalysisDocxDE(analysis, name, email, triage, type);
+  const letterDocx   = makeLetterDocxDE(analysis, name, triage, type);
   const safeName    = escapeHtml(capitalizeFirst(name || "Kunde"));
   const isTier3     = triage?.tier === "tier3";
   const rawSender   = triage?.sender || "";
@@ -535,7 +536,7 @@ export async function sendPaidEmail(env, { name, email, type, triage, analysis }
     subject: `Ihre Einschätzung — ${triage?.sender ? escapeHtml(triage.sender) : escapeHtml(labels.title)}`,
     html:    isTier3 ? htmlTier3 : htmlTier1Tier2,
     attachments: [
-      { filename: "MussIchZahlen-Analyse.rtf", content: rtfToBase64(analysisRtf) },
+      { filename: "MussIchZahlen-Analyse.docx", content: rtfToBase64(analysisRtf) },
       { filename: labels.filename,              content: rtfToBase64(letterRtf)   },
     ],
   });
