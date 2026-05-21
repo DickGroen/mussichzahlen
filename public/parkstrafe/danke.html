@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Analyse wird erstellt | MussIchZahlen.de</title>
+  <title>Bußgeldbescheid-Prüfung | MussIchZahlen.de</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -26,7 +26,6 @@
     .progress-bar__step--done{color:#166534;font-weight:700;}
     .progress-bar__step--current{color:#1d3a6e;font-weight:700;}
     .progress-bar__divider{width:24px;height:1px;background:#e2e8f0;}
-    .deadline-box{background:#fff7ed;border-left:4px solid #f97316;border-radius:10px;padding:13px 15px;margin:18px 0 22px;color:#92400e;font-size:.9rem;line-height:1.65;}
     .steps{display:grid;gap:14px;margin:22px 0 28px;background:#f7f9fc;border:1px solid #e2e8f0;border-radius:12px;padding:18px 18px 8px;}
     .step{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;}
     .step-num{width:28px;height:28px;flex-shrink:0;border-radius:50%;background:#eef4ff;color:#1d3a6e;display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:700;}
@@ -58,15 +57,15 @@
 
 <div class="wrap">
 
-  <div class="card" id="auto-card">
+  <div class="card hidden" id="auto-card">
     <div class="badge"><span class="dot"></span>Zahlung erfolgreich</div>
     <h1>Analyse wird erstellt…</h1>
-    <p>Wir prüfen deine Zahlung und starten automatisch die vollständige Analyse auf Basis deines bereits hochgeladenen Bescheids.</p>
+    <p>Wir prüfen deine Zahlung und starten automatisch die vollständige Analyse auf Basis deines bereits hochgeladenen Schreibens.</p>
     <div id="auto-status" class="status-box info">Zahlung wird geprüft…</div>
     <p class="note">Du kannst diese Seite geöffnet lassen. Deine vollständige Analyse erhältst du per E-Mail — am nächsten Werktag bis 15:15 Uhr.</p>
   </div>
 
-  <div class="card hidden" id="thankyou-app">
+  <div class="card" id="thankyou-app">
     <div class="badge"><span class="dot"></span>Zahlung erfolgreich</div>
 
     <div class="progress-bar">
@@ -78,32 +77,26 @@
     <h1>Noch ein letzter Schritt</h1>
     <p>Bitte lade deinen Bescheid hoch, damit wir deine vollständige Analyse und dein fertiges Schreiben vorbereiten können. Nach dem Upload erhältst du dein Ergebnis per E-Mail — am nächsten Werktag bis 15:15 Uhr.</p>
 
-    <div class="deadline-box">
-      ⚠️ <strong>Frist beachten:</strong> Wenn eine Einspruchs- oder Zahlungsfrist läuft, prüfe sie bitte selbst im Bescheid. Wir liefern dir die Analyse und den Einspruchsentwurf per E-Mail.
-    </div>
-
     <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
         <div>
-          <div class="step-title">Bescheid hochladen</div>
-          <div class="step-desc">Parkstrafe, Bußgeldbescheid, Verwarnung, Parkzettel oder Zahlungsaufforderung. PDF, JPG oder PNG.</div>
+          <div class="step-title">Bußgeldbescheid hochladen</div>
+          <div class="step-desc">Bußgeldbescheid, Verwarngeld oder behördliche Zahlungsaufforderung. PDF, JPG oder PNG.</div>
         </div>
       </div>
-
       <div class="step">
         <div class="step-num">2</div>
         <div>
-          <div class="step-title">Wir prüfen den Bescheid</div>
-          <div class="step-desc">Fristen, Formfehler, Zustellung, Fahrzeugdaten, Beschilderung und mögliche Einspruchspunkte.</div>
+          <div class="step-title">Wir prüfen die Forderung</div>
+          <div class="step-desc">Tatnachweis, Fristen, Zustellung, mögliche Formfehler und behördliche Angaben.</div>
         </div>
       </div>
-
       <div class="step">
         <div class="step-num">3</div>
         <div>
-          <div class="step-title">Einspruchsentwurf per E-Mail</div>
-          <div class="step-desc">Du erhältst die vollständige Analyse und einen fertigen Einspruchsentwurf per E-Mail.</div>
+          <div class="step-title">Analyse per E-Mail</div>
+          <div class="step-desc">Du erhältst die vollständige Analyse und einen fertigen Widerspruchsentwurf per E-Mail.</div>
         </div>
       </div>
     </div>
@@ -140,22 +133,22 @@
 
     <div class="fallback-box">
       <strong>Upload funktioniert nicht?</strong>
-      <p>Sende deinen Bescheid direkt per E-Mail an uns. Bitte gib deinen Namen und die E-Mail-Adresse an, mit der du bezahlt hast.</p>
+      <p>Sende deine Mahnung direkt per E-Mail an uns. Bitte gib deinen Namen und die E-Mail-Adresse an, mit der du bezahlt hast.</p>
       <a href="mailto:support@mussichzahlen.de" class="fallback-email">support@mussichzahlen.de</a>
     </div>
   </div>
 
   <div class="card hidden" id="locked-screen">
     <h1>Zahlung nicht gefunden</h1>
-    <p>Bitte starte den Vorgang erneut über die Parkstrafe-Prüfung.</p>
+    <p>Bitte starte den Vorgang erneut über die Mahnungsprüfung.</p>
     <div class="status-box error">Keine gültige Zahlungssitzung gefunden.</div>
   </div>
 
   <div class="card hidden" id="success-screen">
     <div class="success-icon">✓</div>
     <h1>Alles erledigt</h1>
-    <p>Deine Analyse ist in der Warteschlange.</p>
-    <p>Du erhältst deine vollständige Analyse und fertigen Einspruchsentwurf per E-Mail — am nächsten Werktag bis 15:15 Uhr.</p>
+    <p>Deine Analyse wurde erfolgreich eingereicht und wird von unserem Team bearbeitet.</p>
+    <p>Du erhältst deine vollständige Analyse und fertigen Widerspruchsentwurf per E-Mail — am nächsten Werktag bis 15:15 Uhr.</p>
     <p class="note">Bitte prüfe auch deinen Spam-Ordner, falls du bis dahin nichts erhalten hast.</p>
   </div>
 
@@ -163,7 +156,6 @@
 
 <script type="module">
   import {
-    submitAutoPaid,
     submitPaid,
     validateFile,
     formatFileSize,
@@ -218,7 +210,7 @@
     const hasEmail = Boolean(emailEl.value.trim());
 
     submitBtn.disabled = !(hasFile && hasName && hasEmail);
-    submitBtn.textContent = hasFile ? "Analyse starten" : "Zuerst eine Datei auswählen";
+    submitBtn.textContent = hasFile ? "Analyse starten" : "Zuerst eine Datei wählen";
   }
 
   function setFile(file) {
@@ -277,68 +269,29 @@
   nameEl.addEventListener("input", updateSubmitState);
   emailEl.addEventListener("input", updateSubmitState);
 
-  submitBtn.addEventListener("click", async () => {
-    try {
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Upload läuft…";
+  submitBtn.addEventListener("click", () => {
+    const name  = nameEl.value.trim();
+    const email = emailEl.value.trim();
+    if (!chosenFile || !name || !email) return;
 
-      await submitPaid({
-        file: chosenFile,
-        name: nameEl.value.trim(),
-        email: emailEl.value.trim(),
-        type,
-        sessionId,
-        onStatus: setStatus
-      });
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Wird hochgeladen…";
 
-      track("paid_fallback_upload_completed", { type });
-      showOnly(success);
-    } catch (err) {
-      track("paid_fallback_upload_failed", {
-        type,
-        error: err.message
-      });
+    showOnly(success);
+    track("paid_fallback_upload_started", { type });
 
-      setStatus("error", err.message || "Upload fehlgeschlagen. Bitte erneut versuchen.");
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Analyse starten";
-    }
+    submitPaid({ file: chosenFile, name, email, type, sessionId, onStatus: () => {} })
+      .then(() => track("paid_fallback_upload_completed", { type }))
+      .catch(err => { track("paid_fallback_upload_failed", { type, error: err.message }); console.error(err.message); });
   });
 
   if (!sessionId || !sessionId.startsWith("cs_")) {
     showOnly(locked);
   } else {
-    try {
-      autoStatus.textContent = "Zahlung wird geprüft…";
-
-      await submitAutoPaid({
-        type,
-        sessionId,
-        onStatus: (_, msg) => {
-          autoStatus.textContent = msg;
-        }
-      });
-
-      track("auto_paid_analysis_started", { type });
-      showOnly(success);
-    } catch (err) {
-      if (err.needUpload) {
-        track("auto_paid_fallback_upload_needed", {
-          type,
-          reason: err.message
-        });
-
-        if (emailEl && params.get("email")) emailEl.value = params.get("email");
-        if (nameEl && params.get("name")) nameEl.value = params.get("name");
-
-        showOnly(fallback);
-        updateSubmitState();
-      } else {
-        autoStatus.className = "status-box error";
-        autoStatus.textContent =
-          err.message || "Automatische Analyse fehlgeschlagen. Bitte kontaktiere support@mussichzahlen.de";
-      }
-    }
+    showOnly(fallback);
+    if (emailEl && params.get("email")) emailEl.value = params.get("email");
+    if (nameEl  && params.get("name"))  nameEl.value  = params.get("name");
+    updateSubmitState();
   }
 </script>
 
