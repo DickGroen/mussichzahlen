@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Analyse wird erstellt | MussIchZahlen.de</title>
+  <title>Angebot-Prüfung | MussIchZahlen.de</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -57,15 +57,15 @@
 
 <div class="wrap">
 
-  <div class="card" id="auto-card">
+  <div class="card hidden" id="auto-card">
     <div class="badge"><span class="dot"></span>Zahlung erfolgreich</div>
     <h1>Analyse wird erstellt…</h1>
-    <p>Wir prüfen deine Zahlung und starten automatisch die vollständige Analyse auf Basis deines bereits hochgeladenen Angebots.</p>
+    <p>Wir prüfen deine Zahlung und starten automatisch die vollständige Analyse auf Basis deines bereits hochgeladenen Schreibens.</p>
     <div id="auto-status" class="status-box info">Zahlung wird geprüft…</div>
     <p class="note">Du kannst diese Seite geöffnet lassen. Deine vollständige Analyse erhältst du per E-Mail — am nächsten Werktag bis 15:15 Uhr.</p>
   </div>
 
-  <div class="card hidden" id="thankyou-app">
+  <div class="card" id="thankyou-app">
     <div class="badge"><span class="dot"></span>Zahlung erfolgreich</div>
 
     <div class="progress-bar">
@@ -82,23 +82,21 @@
         <div class="step-num">1</div>
         <div>
           <div class="step-title">Angebot hochladen</div>
-          <div class="step-desc">Handwerkerangebot, Dienstleistungsangebot, Kostenvoranschlag oder Preisvorschlag. PDF, JPG oder PNG.</div>
+          <div class="step-desc">Angebot, Kostenvoranschlag oder Leistungsbeschreibung. PDF, JPG oder PNG.</div>
         </div>
       </div>
-
       <div class="step">
         <div class="step-num">2</div>
         <div>
-          <div class="step-title">Wir prüfen den Preis</div>
-          <div class="step-desc">Positionen, Preise, unklare Kosten, auffällige Aufschläge und mögliches Einsparpotenzial.</div>
+          <div class="step-title">Wir prüfen die Forderung</div>
+          <div class="step-desc">Preise, Leistungsumfang, Zahlungsbedingungen und unklare Positionen.</div>
         </div>
       </div>
-
       <div class="step">
         <div class="step-num">3</div>
         <div>
-          <div class="step-title">Ergebnis per E-Mail</div>
-          <div class="step-desc">Du erhältst die vollständige Analyse und praktische Hinweise zur Antwort oder Verhandlung per E-Mail.</div>
+          <div class="step-title">Analyse per E-Mail</div>
+          <div class="step-desc">Du erhältst die vollständige Analyse und einen fertigen Widerspruchsentwurf per E-Mail.</div>
         </div>
       </div>
     </div>
@@ -107,7 +105,13 @@
     <input id="customer-email" class="input" placeholder="Deine E-Mail" type="email" autocomplete="email">
 
     <div id="upload-panel" class="upload-panel">
-      <div class="upload-icon">📄</div>
+      <div class="upload-icon">
+        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#6B7A90" stroke-width="1.8">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+      </div>
       <strong>Datei auswählen oder hierher ziehen</strong><br>
       <span>PDF, JPG oder PNG · max. 8 MB</span>
       <input id="real-file-input" type="file" accept=".pdf,.jpg,.jpeg,.png" style="display:none;">
@@ -129,22 +133,22 @@
 
     <div class="fallback-box">
       <strong>Upload funktioniert nicht?</strong>
-      <p>Sende dein Angebot direkt per E-Mail an uns. Bitte gib deinen Namen und die E-Mail-Adresse an, mit der du bezahlt hast.</p>
+      <p>Sende deine Mahnung direkt per E-Mail an uns. Bitte gib deinen Namen und die E-Mail-Adresse an, mit der du bezahlt hast.</p>
       <a href="mailto:support@mussichzahlen.de" class="fallback-email">support@mussichzahlen.de</a>
     </div>
   </div>
 
   <div class="card hidden" id="locked-screen">
     <h1>Zahlung nicht gefunden</h1>
-    <p>Bitte starte den Vorgang erneut über die Angebotsprüfung.</p>
+    <p>Bitte starte den Vorgang erneut über die Mahnungsprüfung.</p>
     <div class="status-box error">Keine gültige Zahlungssitzung gefunden.</div>
   </div>
 
   <div class="card hidden" id="success-screen">
     <div class="success-icon">✓</div>
     <h1>Alles erledigt</h1>
-    <p>Deine Analyse ist in der Warteschlange.</p>
-    <p>Du erhältst deine vollständige Analyse und praktische Hinweise per E-Mail — am nächsten Werktag bis 15:15 Uhr.</p>
+    <p>Deine Analyse wurde erfolgreich eingereicht und wird von unserem Team bearbeitet.</p>
+    <p>Du erhältst deine vollständige Analyse und fertigen Widerspruchsentwurf per E-Mail — am nächsten Werktag bis 15:15 Uhr.</p>
     <p class="note">Bitte prüfe auch deinen Spam-Ordner, falls du bis dahin nichts erhalten hast.</p>
   </div>
 
@@ -152,7 +156,6 @@
 
 <script type="module">
   import {
-    submitAutoPaid,
     submitPaid,
     validateFile,
     formatFileSize,
@@ -266,68 +269,29 @@
   nameEl.addEventListener("input", updateSubmitState);
   emailEl.addEventListener("input", updateSubmitState);
 
-  submitBtn.addEventListener("click", async () => {
-    try {
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Upload läuft…";
+  submitBtn.addEventListener("click", () => {
+    const name  = nameEl.value.trim();
+    const email = emailEl.value.trim();
+    if (!chosenFile || !name || !email) return;
 
-      await submitPaid({
-        file: chosenFile,
-        name: nameEl.value.trim(),
-        email: emailEl.value.trim(),
-        type,
-        sessionId,
-        onStatus: setStatus
-      });
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Wird hochgeladen…";
 
-      track("paid_fallback_upload_completed", { type });
-      showOnly(success);
-    } catch (err) {
-      track("paid_fallback_upload_failed", {
-        type,
-        error: err.message
-      });
+    showOnly(success);
+    track("paid_fallback_upload_started", { type });
 
-      setStatus("error", err.message || "Upload fehlgeschlagen. Bitte erneut versuchen.");
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Analyse starten";
-    }
+    submitPaid({ file: chosenFile, name, email, type, sessionId, onStatus: () => {} })
+      .then(() => track("paid_fallback_upload_completed", { type }))
+      .catch(err => { track("paid_fallback_upload_failed", { type, error: err.message }); console.error(err.message); });
   });
 
   if (!sessionId || !sessionId.startsWith("cs_")) {
     showOnly(locked);
   } else {
-    try {
-      autoStatus.textContent = "Zahlung wird geprüft…";
-
-      await submitAutoPaid({
-        type,
-        sessionId,
-        onStatus: (_, msg) => {
-          autoStatus.textContent = msg;
-        }
-      });
-
-      track("auto_paid_analysis_started", { type });
-      showOnly(success);
-    } catch (err) {
-      if (err.needUpload) {
-        track("auto_paid_fallback_upload_needed", {
-          type,
-          reason: err.message
-        });
-
-        if (emailEl && params.get("email")) emailEl.value = params.get("email");
-        if (nameEl && params.get("name")) nameEl.value = params.get("name");
-
-        showOnly(fallback);
-        updateSubmitState();
-      } else {
-        autoStatus.className = "status-box error";
-        autoStatus.textContent =
-          err.message || "Automatische Analyse fehlgeschlagen. Bitte kontaktiere support@mussichzahlen.de";
-      }
-    }
+    showOnly(fallback);
+    if (emailEl && params.get("email")) emailEl.value = params.get("email");
+    if (nameEl  && params.get("name"))  nameEl.value  = params.get("name");
+    updateSubmitState();
   }
 </script>
 
