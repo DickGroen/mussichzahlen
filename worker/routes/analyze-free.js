@@ -13,7 +13,30 @@ import {
 import { loadPrompts } from "../config/prompts.js";
 import { getStripeLink } from "../services/stripe.js";
 
+function mockTriageDE(type) {
+  return {
+    documentType:    type || "sonstige",
+    sender:          "Debug GmbH",
+    forderungstyp:   "inkasso",
+    amount_claimed:  250,
+    currency:        "EUR",
+    is_inkasso:      true,
+    risk:            "medium",
+    route:           "HAIKU",
+    chance:          55,
+    flagCount:       2,
+    tier:            "tier2",
+    emailType:       "soft",
+    teaser:          "[DEBUG] Dies ist ein Test-Triage-Ergebnis. Es wurde kein API-Aufruf gemacht.",
+    consumer_position: "Das Schreiben enthält einige unklare Punkte.",
+    possible_überhöhte_kosten: true,
+    possible_kein_nachweis:    true,
+  };
+}
+
 export async function handleAnalyzeFree(request, env, ctx) {
+  const debugMode = env.API_DEBUG_MODE === "true";
+
   try {
     const formData = await request.formData();
 
@@ -28,27 +51,41 @@ export async function handleAnalyzeFree(request, env, ctx) {
     }
 
     const { base64, mediaType } = await fileToBase64(file);
-    const prompts = await loadPrompts(type);
 
-    if (!prompts?.triage) {
-      return jsonResponse(
-        { ok: false, error: `Triage prompt not found for type: ${type}` },
-        500
-      );
+    console.log("API_CALL_LOG:", JSON.stringify({
+      route: "analyze-free", model: "haiku", type,
+      free_paid: "free", file: !!file, file_size: file?.size || 0,
+      debug_mode: debugMode, timestamp: new Date().toISOString(),
+    }));
+
+    let triage;
+
+    if (debugMode) {
+      console.log("[DEBUG] Kein Anthropic API-Aufruf — Debug-Modus aktiv");
+      triage = normalizeTriage(mockTriageDE(type));
+    } else {
+      const prompts = await loadPrompts(type);
+
+      if (!prompts?.triage) {
+        return jsonResponse(
+          { ok: false, error: `Triage prompt not found for type: ${type}` },
+          500
+        );
+      }
+
+      const raw = await runTriage(env, {
+        fileBase64: base64,
+        mediaType,
+        triagePrompt: prompts.triage,
+      });
+
+      const cleanedRaw = (raw || "")
+        .replace(/^```json\s*/i, "")
+        .replace(/^```\s*/i, "")
+        .replace(/```\s*$/i, "")
+        .trim();
+      triage = normalizeTriage(safeJsonParse(cleanedRaw) || fallbackTriage(type));
     }
-
-    const raw = await runTriage(env, {
-      fileBase64: base64,
-      mediaType,
-      triagePrompt: prompts.triage,
-    });
-
-    const cleanedRaw = (raw || "")
-      .replace(/^```json\s*/i, "")
-      .replace(/^```\s*/i, "")
-      .replace(/```\s*$/i, "")
-      .trim();
-    const triage = normalizeTriage(safeJsonParse(cleanedRaw) || fallbackTriage(type));
 
     console.log("FREE TRIAGE:", JSON.stringify(triage));
 
@@ -97,10 +134,14 @@ export async function handleAnalyzeFree(request, env, ctx) {
         text:          triage.teaser,
         stripeLink,
       },
-      message: "Ihre erste Einschätzung ist fertig.",
+      message: debugMode ? "[DEBUG] Test-Triage zurückgegeben. Kein API-Aufruf gemacht." : "Ihre erste Einschätzung ist fertig.",
     });
 
     const emailWork = (async () => {
+      if (debugMode) {
+        console.log("[DEBUG] E-Mails werden übersprungen — Debug-Modus aktiv");
+        return;
+      }
       try {
         await sendConfirmationEmail(env, { name, email, type });
         console.log("sendConfirmationEmail: OK");
