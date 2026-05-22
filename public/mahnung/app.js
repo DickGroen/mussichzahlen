@@ -119,6 +119,9 @@ window.startGratisUpload = async function() {
 
     track('free_triage_completed', { type: TYPE });
 
+    const freeCard = document.getElementById('free-card');
+    if (freeCard) freeCard.style.display = 'none';
+
     renderTeaser(triage);
 
     if (status) {
@@ -191,9 +194,9 @@ function renderTeaser(triage) {
         Wir werden Ihr Dokument sorgfältig prüfen und Ihnen spätestens am nächsten Werktag bis 16:00 Uhr eine erste Einschätzung per E-Mail zukommen lassen.
       </p>
       <div style="background:#fff;border:1px solid #bbf7d0;border-radius:8px;padding:14px;margin-bottom:14px;">
-        <strong style="color:#14532d;">Warum das wichtig ist:</strong>
+        <strong style="color:#14532d;">Wie geht es weiter?</strong>
         <p style="color:#166534;margin-top:6px;margin-bottom:0;line-height:1.65;">
-          Bei Zahlungserinnerungen und Mahnschreiben können Fristen und zusätzliche Kosten entstehen, wenn Sie nicht rechtzeitig reagieren. Unsere Einschätzung klärt, ob Handlungsbedarf besteht.
+          Wir schauen uns das Schreiben genauer an und lassen Sie wissen, ob es Punkte gibt, die vor einer Zahlung geklärt werden sollten.
         </p>
       </div>
       <p style="font-size:.85rem;color:#166534;">
