@@ -66,13 +66,13 @@ function checkGratisReady() {
 
   if (!btn) return;
 
-  const emailOk = email && email.includes('@') && email.includes('.');
+  const emailOk = email.includes('@') && email.includes('.');
   const ready   = !!(gratisFile && name && emailOk);
 
   btn.disabled = !ready;
 
   if (hint) {
-    if (email && email.length > 3 && !emailOk) {
+    if (email.length > 3 && !emailOk) {
       hint.textContent = 'Bitte eine gültige E-Mail-Adresse eingeben.';
       hint.style.display = 'block';
     } else {
@@ -94,7 +94,7 @@ window.startGratisUpload = async function() {
 
   if (btn) {
     btn.disabled = true;
-    btn.textContent = 'Wird angesehen…';
+    btn.textContent = 'Wird geprüft…';
   }
 
   try {
@@ -118,6 +118,9 @@ window.startGratisUpload = async function() {
       stripeLink;
 
     track('free_triage_completed', { type: TYPE });
+
+    const freeCard = document.getElementById('free-card');
+    if (freeCard) freeCard.style.display = 'none';
 
     renderTeaser(triage);
 
@@ -156,14 +159,14 @@ function normalizeTriage(triage) {
 
 function getFallbackTeaser(risk) {
   if (risk === 'high') {
-    return 'Die Nachzahlung oder einzelne Kostenpositionen wirken auf den ersten Blick nicht vollständig nachvollziehbar. Eine genauere Einordnung vor einer Zahlung kann sinnvoll sein.';
+    return 'Es deutet einiges darauf hin, dass hier mögliche Unstimmigkeiten bestehen. Wenn du nicht reagierst, kann sich die Situation finanziell deutlich verschlechtern.';
   }
 
   if (risk === 'medium') {
-    return 'Einzelne Positionen oder Angaben in der Nebenkostenabrechnung könnten vor einer Zahlung noch besser eingeordnet werden.';
+    return 'In diesem Schreiben könnten Ansatzpunkte vorliegen, die ohne rechtzeitige Reaktion zu unnötigen Mehrkosten führen können.';
   }
 
-  return 'Die Abrechnung wirkt nach den sichtbaren Angaben eher nachvollziehbar. Ein Abgleich mit den eigenen Unterlagen kann dennoch sinnvoll sein.';
+  return 'Es gibt Hinweise darauf, dass diese Forderung nicht vollständig eindeutig ist. Ohne Reaktion könnten jedoch zusätzliche Kosten entstehen.';
 }
 
 function renderTeaser(triage) {
@@ -188,12 +191,12 @@ function renderTeaser(triage) {
         ✓ Ihre Abrechnung ist eingegangen.
       </div>
       <p style="color:#166534;margin-bottom:12px;line-height:1.7;">
-        Wir sehen uns Ihre Nebenkostenabrechnung an und senden Ihnen in der Regel bis zum nächsten Werktag eine erste Einschätzung per E-Mail.
+        Wir werden Ihr Dokument sorgfältig prüfen und Ihnen spätestens am nächsten Werktag bis 16:00 Uhr eine erste Einschätzung per E-Mail zukommen lassen.
       </p>
       <div style="background:#fff;border:1px solid #bbf7d0;border-radius:8px;padding:14px;margin-bottom:14px;">
-        <strong style="color:#14532d;">Warum das sinnvoll sein kann:</strong>
+        <strong style="color:#14532d;">Wie geht es weiter?</strong>
         <p style="color:#166534;margin-top:6px;margin-bottom:0;line-height:1.65;">
-          Bei Nebenkostenabrechnungen sind Nachzahlungen, Heizkosten, Verteilungsschlüssel und Verbrauchswerte nicht immer sofort verständlich. Eine kurze Einordnung hilft, die Abrechnung vor einer Zahlung besser zu verstehen.
+          Wir schauen uns das Schreiben genauer an und lassen Sie wissen, ob es Punkte gibt, die vor einer Zahlung geklärt werden sollten.
         </p>
       </div>
       <p style="font-size:.85rem;color:#166534;">
@@ -207,9 +210,9 @@ function renderTeaser(triage) {
 }
 
 function ctaText(risk) {
-  if (risk === 'high') return `Nebenkosten genauer einordnen lassen — €${PRICE} →`;
-  if (risk === 'low')  return `Mehr Klarheit zur Abrechnung erhalten — €${PRICE} →`;
-  return `Ausführlichere Einschätzung + Antwortvorlage — €${PRICE} →`;
+  if (risk === 'high') return `Jetzt prüfen und unnötige Kosten vermeiden — €${PRICE} →`;
+  if (risk === 'low')  return `Klarheit schaffen mit vollständiger Analyse — €${PRICE} →`;
+  return `Vollständige Analyse + Widerspruch erhalten — €${PRICE} →`;
 }
 
 window.goToStripe = function() {
@@ -271,6 +274,8 @@ function validateSession() {
   const sessionId = params.get('session_id');
   const autoCard  = document.getElementById('auto-card');
 
+  // Hybride B-flow: danke.html beheert auto/fallback state.
+  // app.js mag hier niet zelf thankyou-app tonen, anders ontstaat race condition.
   if (autoCard) return;
 
   if (sessionId?.startsWith('cs_')) {
@@ -308,7 +313,7 @@ function updateSelectedFile(file) {
   const btn = document.getElementById('submit-btn');
   if (btn) {
     btn.disabled = false;
-    btn.textContent = 'Hochladen und Einordnung starten';
+    btn.textContent = 'Hochladen und Analyse starten';
   }
 }
 
@@ -385,7 +390,7 @@ async function doSubmit() {
         <div class="success-screen">
           <div class="success-screen__icon">✓</div>
           <h2>Upload erfolgreich!</h2>
-          <p>Wir sehen uns Ihre Abrechnung an und senden Ihnen die ausführlichere Einschätzung sowie eine Vorlage für eine schriftliche Rückfrage per E-Mail an <strong>${esc(email)}</strong>.</p>
+          <p>Wir analysieren dein Schreiben und senden dir die vollständige Analyse sowie den fertigen Widerspruch per E-Mail an <strong>${esc(email)}</strong>.</p>
           <p style="font-size:.82rem;color:var(--muted);">Bitte auch den Spam-Ordner prüfen.</p>
         </div>`;
     }
@@ -394,7 +399,7 @@ async function doSubmit() {
 
     if (btn) {
       btn.disabled = false;
-      btn.textContent = 'Hochladen und Einordnung starten';
+      btn.textContent = 'Hochladen und Analyse starten';
     }
   }
 }
