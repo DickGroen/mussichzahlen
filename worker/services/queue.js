@@ -1,4 +1,4 @@
-// worker/services/queue.js — doipaythat
+// worker/services/queue.js — mussichzahlen
 
 const PAID_MARKER_TTL_SECONDS = 60 * 60 * 24 * 30; // 30 days
 const FREE_CASE_TTL_SECONDS = 60 * 60 * 24 * 3; // 3 days
@@ -44,14 +44,26 @@ function isTier3({ triage, tier, emailType } = {}) {
   );
 }
 
-function nextWorkdayAt15UK(fromMs = Date.now()) {
+function nextWorkdayAt15CET(fromMs = Date.now()) {
+  // CET = UTC+1, CEST = UTC+2 (last Sunday March → last Sunday October)
+  function isCEST(date) {
+    const year = date.getUTCFullYear();
+    const lastSundayMarch = new Date(Date.UTC(year, 2, 31));
+    lastSundayMarch.setUTCDate(31 - lastSundayMarch.getUTCDay());
+    const lastSundayOctober = new Date(Date.UTC(year, 9, 31));
+    lastSundayOctober.setUTCDate(31 - lastSundayOctober.getUTCDay());
+    return date >= lastSundayMarch && date < lastSundayOctober;
+  }
+
   const d = new Date(fromMs);
   d.setUTCDate(d.getUTCDate() + 1);
-  d.setUTCHours(15, 0, 0, 0);
 
   while (d.getUTCDay() === 0 || d.getUTCDay() === 6) {
     d.setUTCDate(d.getUTCDate() + 1);
   }
+
+  const offset = isCEST(d) ? 2 : 1; // CEST=UTC+2, CET=UTC+1
+  d.setUTCHours(15 - offset, 0, 0, 0); // 15:00 lokaal = 13:00 of 14:00 UTC
 
   return d.toISOString();
 }
@@ -253,7 +265,7 @@ export async function enqueuePaid(env, {
     file_name: fileName || null,
     file_size: fileSize || null,
     created_at: new Date().toISOString(),
-    send_at: new Date(Date.now() + PAID_SEND_DELAY_MS).toISOString(),
+    send_at: nextWorkdayAt15CET(Date.now()),
   };
 
   await kv(env).put(key, JSON.stringify(entry), {
