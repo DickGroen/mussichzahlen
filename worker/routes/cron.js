@@ -101,6 +101,15 @@ export async function handleCron(env) {
 
       // ── Paid analysis emails ─────────────────────────────────────────────
       else if (entry.kind === "paid") {
+
+        // Testbetalingen (cs_test_) nooit verwerken in productie
+        const sessionId = entry.sessionId || entry.payment?.sessionId || "";
+        if (String(sessionId).startsWith("cs_test_")) {
+          console.warn(`Cron: Testsitzung übersprungen und gelöscht: ${sessionId}`);
+          await deleteEntry(env, key);
+          continue;
+        }
+
         let analysis = entry.analysis || null;
 
         if (!analysis) {
