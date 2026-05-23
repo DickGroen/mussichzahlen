@@ -11,7 +11,7 @@ const MAX_RETRIES = 2;
 function isPdf(mediaType) {
   return mediaType === "application/pdf";
 }
-
+ 
 function isSupportedMediaType(mediaType) {
   return [
     "application/pdf",
