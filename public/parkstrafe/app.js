@@ -1,15 +1,14 @@
-import {
-  validateFile,
-  formatFileSize,
-  submitFree,
-  submitPaid,
-  initFaq,
-  initModal,
-  initStickyFooter,
-  openModal,
-  closeModal,
-  track
-} from '../app.js';
+// Functies worden geladen via /app.js (window.*)
+const validateFile      = window.validateFile;
+const formatFileSize    = window.formatFileSize;
+const submitFree        = window.submitFree;
+const submitPaid        = window.submitPaid;
+const initFaq           = window.initFaq;
+const initModal         = window.initModal;
+const initStickyFooter  = window.initStickyFooter;
+const openModal         = window.openModal;
+const closeModal        = window.closeModal;
+const track             = window.track;
 
 window.openModal = openModal;
 window.closeModal = closeModal;
