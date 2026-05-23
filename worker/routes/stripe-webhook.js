@@ -61,10 +61,11 @@ async function findFreeCase(env, email, preferredType = null) {
   // Nodig als Stripe-email afwijkt van formulier-email (static Payment Links)
   console.warn(`Exacte lookup mislukt voor ${email} — fallback naar KV list scan`);
   try {
+    const kvStore = env.SESSIONS_KV; // getFreeCase gebruikt ook SESSIONS_KV (DEBT_QUEUE bestaat niet in MussIchZahlen)
     const normalizedEmail = String(email || "").trim().toLowerCase();
     let cursor;
     do {
-      const list = await env.SESSIONS_KV.list(cursor
+      const list = await kvStore.list(cursor
         ? { prefix: "free_case:", cursor }
         : { prefix: "free_case:" }
       );
@@ -72,7 +73,7 @@ async function findFreeCase(env, email, preferredType = null) {
 
       for (const key of list.keys) {
         try {
-          const raw = await env.SESSIONS_KV.get(key.name);
+          const raw = await kvStore.get(key.name);
           if (!raw) continue;
           const entry = JSON.parse(raw);
           if (!entry?.file_base64 || !entry?.triage) continue;
