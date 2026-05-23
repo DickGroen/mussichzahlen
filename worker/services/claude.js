@@ -187,9 +187,34 @@ export async function callClaude(
   throw lastError || new Error("Claude Anfrage fehlgeschlagen");
 }
 
+// ─── Debug mode ───────────────────────────────────────────────────────────────
+
+function isDebugMode(env) {
+  return env?.API_DEBUG_MODE === "true" || env?.API_DEBUG_MODE === true;
+}
+
+const DEBUG_TRIAGE = JSON.stringify({
+  tier: "tier2",
+  risk: "medium",
+  teaser: "Es gibt einige Punkte in diesem Schreiben, die einer näheren Prüfung wert sind.",
+  emailType: "standard",
+  concerns: ["Forderungshöhe nicht belegt", "Fristen unklar"],
+  documentType: "mahnung",
+});
+
+const DEBUG_ANALYSIS = `[DEBUG] Vollständige Analyse nicht verfügbar im Testmodus.
+
+Dieser Text dient als Platzhalter für die KI-gestützte Dokumentenprüfung.
+Im Produktionsbetrieb erscheint hier die vollständige Analyse mit konkreten Handlungsempfehlungen.`;
+
 // ─── Triage ───────────────────────────────────────────────────────────────────
 
 export async function runTriage(env, { fileBase64, mediaType, triagePrompt }) {
+  if (isDebugMode(env)) {
+    console.log("TRIAGE DEBUG MODE — echte API overgeslagen");
+    return DEBUG_TRIAGE;
+  }
+
   const raw = await callClaude(env, {
     model:     HAIKU_MODEL,
     maxTokens: 800,
@@ -206,11 +231,16 @@ export async function runTriage(env, { fileBase64, mediaType, triagePrompt }) {
 // ─── Analysis ─────────────────────────────────────────────────────────────────
 
 export async function runAnalysis(env, { fileBase64, mediaType, route, haikuPrompt, sonnetPrompt }) {
+  if (isDebugMode(env)) {
+    console.log("ANALYSIS DEBUG MODE — echte API overgeslagen");
+    return DEBUG_ANALYSIS;
+  }
+
   const useSonnet = route === "SONNET";
 
   const analysis = await callClaude(env, {
     model:     useSonnet ? SONNET_MODEL : HAIKU_MODEL,
-    maxTokens: useSonnet ? 6000 : 1800, // 6000 voor uitgebreide Duitse analyses
+    maxTokens: useSonnet ? 6000 : 1800,
     prompt:    useSonnet ? sonnetPrompt : haikuPrompt,
     fileBase64,
     mediaType,
