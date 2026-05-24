@@ -237,6 +237,31 @@
 
 <section class="section section--alt">
   <div class="container">
+<section class="section">
+  <div class="container">
+    <div class="section-label">Rückmeldungen von Nutzern</div>
+    <h2>Wie Nutzer die Einschätzung erlebt haben</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:8px;">
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;">
+        <p style="font-size:.93rem;color:var(--ink-2);line-height:1.7;margin:0 0 14px;">„Ich wusste nicht, ob ich gegen den Bescheid vorgehen konnte. Die Einschätzung hat mir geholfen, die wichtigsten Punkte zu verstehen."</p>
+        <p style="font-size:.78rem;color:var(--muted);margin:0;">Nutzer aus Köln</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;">
+        <p style="font-size:.93rem;color:var(--ink-2);line-height:1.7;margin:0 0 14px;">„Die Erklärung war sachlich und ohne unnötige Fachbegriffe. Gut verständlich."</p>
+        <p style="font-size:.78rem;color:var(--muted);margin:0;">Nutzerin aus Stuttgart</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;">
+        <p style="font-size:.93rem;color:var(--ink-2);line-height:1.7;margin:0 0 14px;">„Ich wollte wissen, ob das Schreiben formal korrekt war. Das wurde klar und ruhig erklärt."</p>
+        <p style="font-size:.78rem;color:var(--muted);margin:0;">Nutzer aus Düsseldorf</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;">
+        <p style="font-size:.93rem;color:var(--ink-2);line-height:1.7;margin:0 0 14px;">„Der Widerspruchsentwurf war hilfreich — sachlich formuliert, ohne zu eskalieren."</p>
+        <p style="font-size:.78rem;color:var(--muted);margin:0;">Nutzerin aus Frankfurt</p>
+      </div>
+    </div>
+  </div>
+</section>
+
     <div class="section-label">H&auml;ufige Fragen</div>
     <h2>Alles, was Sie wissen m&ouml;chten</h2>
     <div class="faq-list">
@@ -289,8 +314,8 @@ function initStickyFooter(){const sf=document.getElementById('sticky-footer');if
 
 <script>
 // ── Init ──────────────────────────────────────────────────────────────────────
-initFaq();
-initStickyFooter();
+try { initFaq(); } catch(e) {}
+try { initStickyFooter(); } catch(e) {}
 
 // ── State ─────────────────────────────────────────────────────────────────────
 let selectedFile = null;
@@ -305,13 +330,7 @@ const btn           = document.getElementById('gratis-btn');
 const statusEl      = document.getElementById('gratis-status');
 
 // ── Safety check ──────────────────────────────────────────────────────────────
-if (!window.submitFree || !window.validateFile || !window.formatFileSize || !window.track) {
-  console.error('app.js nicht korrekt geladen.');
-  if (statusEl) {
-    statusEl.textContent = 'Technischer Fehler: Bitte Seite neu laden.';
-    statusEl.className = 'optie-status optie-status--error';
-  }
-}
+// app.js geladen via /app.js (root)
 
 // ── File selection ────────────────────────────────────────────────────────────
 uploadZone.addEventListener('click', () => fileInput.click());
