@@ -4,7 +4,8 @@ import { escapeHtml } from "../utils/files.js";
 import { makeAnalysisRtf, makeLetterRtf, rtfToBase64 } from "../utils/rtf.js";
 import { makeAnalysisDocxDE, makeLetterDocxDE, docxToBase64 } from "../utils/docx.js";
 
-const FROM       = "MussIchZahlen <noreply@mussichzahlen.de>";
+const FROM       = "MussIchZahlen Support <support@mussichzahlen.de>";
+const REPLY_TO   = "support@mussichzahlen.de";
 const DISCLAIMER = "MussIchZahlen bietet informative Analysen — keine Rechtsberatung und keine anwaltliche Vertretung.";
 
 function capitalizeFirst(str) {
@@ -76,6 +77,7 @@ async function trackEvent(env, event, data = {}) {
 async function sendEmail(env, { to, subject, html, attachments = [] }) {
   const body = {
     from: FROM,
+    reply_to: REPLY_TO,
     to:   Array.isArray(to) ? to : [to],
     subject,
     html,
