@@ -133,14 +133,14 @@
 
     <div class="fallback-box">
       <strong>Upload funktioniert nicht?</strong>
-      <p>Senden Sie Ihr Dokument direkt per E-Mail an uns. Bitte geben Sie Ihren Namen und die E-Mail-Adresse an, mit der Sie bezahlt haben.</p>
+      <p>Schicken Sie Ihr Dokument einfach per E-Mail an uns — wir kümmern uns darum. Falls Sie bereits eine Analyse bestellt haben, geben Sie bitte auch die E-Mail-Adresse an, die Sie bei der Bestellung verwendet haben.</p>
       <a href="mailto:support@mussichzahlen.de" class="fallback-email">support@mussichzahlen.de</a>
     </div>
   </div>
 
   <div class="card hidden" id="locked-screen">
     <h1>Zahlung nicht gefunden</h1>
-    <p>Bitte starten Sie den Vorgang erneut über die Mahnungsprüfung.</p>
+    <p>Bitte öffnen Sie die Bußgeldbescheid-Prüfung erneut, um den Vorgang neu zu starten.</p>
     <div class="status-box error">Keine gültige Zahlungssitzung gefunden.</div>
   </div>
 
@@ -154,13 +154,14 @@
 
 </div>
 
-<script type="module">
-  import {
-    submitPaid,
-    validateFile,
-    formatFileSize,
-    track
-  } from "/app.js";
+<script src="/app.js"></script>
+<script>
+  function formatFileSize(bytes) {
+    if (!Number.isFinite(bytes)) return "0 B";
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+    return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+  }
 
   const params = new URLSearchParams(window.location.search);
 
@@ -288,10 +289,23 @@
   if (!sessionId || !sessionId.startsWith("cs_")) {
     showOnly(locked);
   } else {
-    showOnly(fallback);
     if (emailEl && params.get("email")) emailEl.value = params.get("email");
     if (nameEl  && params.get("name"))  nameEl.value  = params.get("name");
-    updateSubmitState();
+
+    showOnly(autoCard);
+    autoStatus.textContent = "Zahlung wird geprüft…";
+
+    submitAutoPaid({ type, sessionId, onStatus: (kind, msg) => { autoStatus.textContent = msg; } })
+      .then(() => {
+        autoStatus.className = "status-box success";
+        autoStatus.textContent = "Analyse gestartet. Sie erhalten Ihre E-Mail am nächsten Werktag bis 16:00 Uhr.";
+        track("paid_auto_success", { type });
+      })
+      .catch(err => {
+        track("paid_auto_failed", { type, needUpload: err.needUpload, error: err.message });
+        showOnly(fallback);
+        updateSubmitState();
+      });
   }
 </script>
 
