@@ -150,13 +150,13 @@ function teaserList(triage) {
 // Natural rotation for contact/closing phrases
 function contactPhrase(seed = 0) {
   const phrases = [
-    "Bei Fragen antworten Sie einfach auf diese E-Mail.",
-    "Falls noch Fragen offen sind, können Sie uns jederzeit antworten.",
+    "Bei Fragen können Sie uns unter support@mussichzahlen.de schreiben.",
+    "Falls noch Fragen offen sind, können Sie uns unter support@mussichzahlen.de schreiben.",
     "Bei Rückfragen genügt eine kurze Antwort auf diese Nachricht.",
     "Falls etwas unklar bleibt, können Sie sich jederzeit melden.",
     "Wenn Sie möchten, können Sie uns direkt auf diese E-Mail antworten.",
-    "Bei Fragen können Sie einfach auf diese Nachricht antworten.",
-    "Wenn Sie noch Fragen haben, erreichen Sie uns per Antwort auf diese E-Mail.",
+    "Bei Fragen können Sie uns unter support@mussichzahlen.de kontaktieren.",
+    "Wenn Sie noch Fragen haben, erreichen Sie uns unter support@mussichzahlen.de.",
   ];
   return phrases[seed % phrases.length];
 }
@@ -202,7 +202,7 @@ export async function sendConfirmationEmail(env, { name, email, type }) {
   <p>Vielen Dank für Ihre Zahlung. Wir sehen uns Ihr Schreiben nun genauer an.</p>
   <p>Sie erhalten die Einschätzung sowie eine Vorlage in der Regel bis zum nächsten Werktag per E-Mail.</p>
   <p style="font-size:.9rem;color:#6b7280;">→ Bitte prüfen Sie auch Ihren Spam-Ordner, falls Sie keine E-Mail erhalten sollten.</p>
-  <p>Bei Fragen können Sie einfach auf diese E-Mail antworten.</p>
+  <p>Bei Fragen können Sie uns unter <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a> kontaktieren.</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
   <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
 </div>`,
@@ -517,7 +517,7 @@ export async function sendPaidEmail(env, { name, email, type, triage, analysis }
   <p>Ihr Schreiben${senderText} liegt uns vor. Wir haben die Unterlagen für Sie eingeordnet und übersichtlich zusammengefasst.</p>
   <p>Im Anhang finden Sie die Einschätzung sowie eine Vorlage, die Sie bei Bedarf verwenden können.</p>
   <p>Lesen Sie die Einschätzung bitte in Ruhe durch.</p>
-  <p>Bei Fragen antworten Sie einfach auf diese E-Mail.</p>
+  <p>Bei Fragen erreichen Sie uns unter <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a>.</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
   <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
 </div>`;
@@ -528,7 +528,7 @@ export async function sendPaidEmail(env, { name, email, type, triage, analysis }
   <p>Im Anhang finden Sie die Einschätzung sowie eine Vorlage, die Sie bei Bedarf verwenden können.</p>
   <p>Lesen Sie die Einschätzung bitte zunächst in Ruhe durch — sie erklärt, welche Punkte vor einer Entscheidung noch geklärt werden sollten.</p>
   <p style="font-size:.9rem;color:#374151;">${type === "nebenkosten" ? "Falls Sie eine schriftliche Rückfrage an die Hausverwaltung stellen möchten, liegt eine Vorlage im Anhang." : "Falls Sie die Vorlage versenden möchten, empfehlen wir einen Versand mit Nachweis."}</p>
-  <p>Bei Fragen antworten Sie einfach auf diese E-Mail.</p>
+  <p>Bei Fragen erreichen Sie uns unter <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a>.</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
   <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
 </div>`;
@@ -579,7 +579,7 @@ export async function sendAbandonedEmail(env, { name, email, type, amount, strip
     </a>
   </div>
   <p style="font-size:.84rem;color:#6b7280;">Einmalig €${escapeHtml(labels.price)} · kein Abo · sichere Zahlung</p>
-  <p>Bei Fragen antworten Sie einfach auf diese E-Mail.</p>
+  <p>Bei Fragen erreichen Sie uns unter <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a>.</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
   <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
 </div>`,
