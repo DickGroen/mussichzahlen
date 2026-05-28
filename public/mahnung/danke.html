@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+  <script src="/app.js"></script>
   <style>
     body{font-family:'DM Sans',sans-serif;background:#f7f9fc;color:#0f1923;margin:0;-webkit-font-smoothing:antialiased;}
     h1,h2{font-family:'Lora',Georgia,serif;line-height:1.2;}
@@ -158,14 +159,9 @@
   import {
     submitPaid,
     validateFile,
+    formatFileSize,
     track
   } from "/app.js";
-
-  function formatFileSize(bytes) {
-    if (bytes < 1024) return bytes + " B";
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
-    return (bytes / (1024 * 1024)).toFixed(1) + " MB";
-  }
 
   const params = new URLSearchParams(window.location.search);
 
@@ -293,10 +289,32 @@
   if (!sessionId || !sessionId.startsWith("cs_")) {
     showOnly(locked);
   } else {
-    showOnly(fallback);
+    // Pre-fill fields from URL params
     if (emailEl && params.get("email")) emailEl.value = params.get("email");
     if (nameEl  && params.get("name"))  nameEl.value  = params.get("name");
-    updateSubmitState();
+
+    // Try auto-processing first (free case already uploaded before payment)
+    showOnly(autoCard);
+    autoStatus.textContent = "Zahlung wird geprüft…";
+
+    submitAutoPaid({ type, sessionId, onStatus: (kind, msg) => { autoStatus.textContent = msg; } })
+      .then(() => {
+        autoStatus.className = "status-box success";
+        autoStatus.textContent = "Analyse gestartet. Sie erhalten Ihre E-Mail am nächsten Werktag bis 16:00 Uhr.";
+        track("paid_auto_success", { type });
+      })
+      .catch(err => {
+        track("paid_auto_failed", { type, needUpload: err.needUpload, error: err.message });
+        if (err.needUpload) {
+          // No free case found — show upload fallback
+          showOnly(fallback);
+          updateSubmitState();
+        } else {
+          // Unexpected error — still show fallback
+          showOnly(fallback);
+          updateSubmitState();
+        }
+      });
   }
 </script>
 
