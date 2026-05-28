@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <script src="/app.js"></script>
   <style>
     body{font-family:'DM Sans',sans-serif;background:#f7f9fc;color:#0f1923;margin:0;-webkit-font-smoothing:antialiased;}
     h1,h2{font-family:'Lora',Georgia,serif;line-height:1.2;}
@@ -155,13 +154,14 @@
 
 </div>
 
-<script type="module">
-  import {
-    submitPaid,
-    validateFile,
-    formatFileSize,
-    track
-  } from "/app.js";
+<script src="/app.js"></script>
+<script>
+  function formatFileSize(bytes) {
+    if (!Number.isFinite(bytes)) return "0 B";
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+    return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+  }
 
   const params = new URLSearchParams(window.location.search);
 
