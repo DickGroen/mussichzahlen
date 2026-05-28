@@ -158,9 +158,14 @@
   import {
     submitPaid,
     validateFile,
-    formatFileSize,
     track
   } from "/app.js";
+
+  function formatFileSize(bytes) {
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+    return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+  }
 
   const params = new URLSearchParams(window.location.search);
 
