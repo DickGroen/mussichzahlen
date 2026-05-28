@@ -163,11 +163,6 @@
     return (bytes / (1024 * 1024)).toFixed(1) + " MB";
   }
 
-  const track           = window.track           || function() {};
-  const validateFile    = window.validateFile    || function() { return null; };
-  const submitPaid      = window.submitPaid      || async function() {};
-  const submitAutoPaid  = window.submitAutoPaid  || async function() { throw Object.assign(new Error("no auto"), { needUpload: true }); };
-
   const params = new URLSearchParams(window.location.search);
 
   const sessionId = params.get("session_id");
