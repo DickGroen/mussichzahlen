@@ -60,8 +60,8 @@
   <div class="card hidden" id="auto-card">
     <div class="badge"><span class="dot"></span>Zahlung erfolgreich</div>
     <h1>Vielen Dank für Ihre Zahlung.</h1>
-    <p>Ihre Unterlagen und Ihre Zahlung wurden erfolgreich übermittelt. Unser Team kann nun mit der Analyse beginnen.</p>
-    <div id="auto-status" class="status-box success">Ihre Unterlagen wurden erfolgreich übermittelt. Unser Team kann nun mit der Analyse beginnen. Sie erhalten Ihre Einschätzung spätestens am nächsten Werktag bis 16:00 Uhr.</div>
+    <p>Vielen Dank. Ihre Zahlung ist eingegangen und Ihre Unterlagen liegen uns vor. Unser Team kann nun mit der Analyse beginnen.</p>
+    <div id="auto-status" class="status-box success">Vielen Dank. Ihre Zahlung ist eingegangen und Ihre Unterlagen liegen uns vor. Unser Team kann nun mit der Analyse beginnen. Sie erhalten Ihre Einschätzung spätestens am nächsten Werktag bis 16:00 Uhr.</div>
     <p class="note">Du kannst diese Seite geöffnet lassen. Ihre vollständige Analyse erhalten Sie per E-Mail — am nächsten Werktag bis 16:00 Uhr.</p>
   </div>
 
@@ -295,12 +295,12 @@
 
     // Try auto-processing first (free case already uploaded before payment)
     showOnly(autoCard);
-    autoStatus.textContent = "Ihre Unterlagen wurden erfolgreich übermittelt. Unser Team kann nun mit der Analyse beginnen. Sie erhalten Ihre Einschätzung spätestens am nächsten Werktag bis 16:00 Uhr.";
+    autoStatus.textContent = "Vielen Dank. Ihre Zahlung ist eingegangen und Ihre Unterlagen liegen uns vor. Unser Team kann nun mit der Analyse beginnen. Sie erhalten Ihre Einschätzung spätestens am nächsten Werktag bis 16:00 Uhr.";
 
     submitAutoPaid({ type, sessionId, onStatus: (kind, msg) => {  } })
       .then(() => {
         autoStatus.className = "status-box success";
-        autoStatus.textContent = "Ihre Unterlagen wurden erfolgreich übermittelt. Unser Team kann nun mit der Analyse beginnen. Sie erhalten Ihre Einschätzung spätestens am nächsten Werktag bis 16:00 Uhr.";
+        autoStatus.textContent = "Vielen Dank. Ihre Zahlung ist eingegangen und Ihre Unterlagen liegen uns vor. Unser Team kann nun mit der Analyse beginnen. Sie erhalten Ihre Einschätzung spätestens am nächsten Werktag bis 16:00 Uhr.";
         track("paid_auto_success", { type });
       })
       .catch(err => {
