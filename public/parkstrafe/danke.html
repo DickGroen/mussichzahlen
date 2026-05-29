@@ -298,7 +298,7 @@
     submitAutoPaid({ type, sessionId, onStatus: (kind, msg) => { autoStatus.textContent = msg; } })
       .then(() => {
         autoStatus.className = "status-box success";
-        autoStatus.textContent = "Analyse gestartet. Sie erhalten Ihre E-Mail am nächsten Werktag bis 16:00 Uhr.";
+        autoStatus.textContent = "Ihre Unterlagen wurden erfolgreich übermittelt. Unser Team kann nun mit der Analyse beginnen. Sie erhalten Ihre Einschätzung spätestens am nächsten Werktag bis 16:00 Uhr.";
         track("paid_auto_success", { type });
       })
       .catch(err => {
