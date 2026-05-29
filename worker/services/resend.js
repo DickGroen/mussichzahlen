@@ -196,13 +196,17 @@ export async function sendConfirmationEmail(env, { name, email, type }) {
 
   await sendEmail(env, {
     to:      email,
-    subject: `Wir sehen uns Ihr Schreiben an — MussIchZahlen`,
+    subject: `Ihr Schreiben ist eingegangen — MussIchZahlen`,
     html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
   <p>Guten Tag ${safeName},</p>
-  <p>Vielen Dank für Ihre Zahlung. Wir sehen uns Ihr Schreiben nun genauer an.</p>
+  <p>Vielen Dank. Ihr Schreiben ist bei uns eingegangen und wir sehen es uns nun genauer an.</p>
+  <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px;margin:16px 0;">
+    <strong style="color:#14532d;">Wie geht es weiter?</strong>
+    <p style="color:#166534;margin-top:6px;margin-bottom:0;line-height:1.65;">Wir prüfen Ihr Schreiben und informieren Sie, ob vor einer Zahlung oder Reaktion einzelne Punkte näher betrachtet werden sollten.</p>
+  </div>
   <p>Sie erhalten die Einschätzung sowie eine Vorlage in der Regel bis zum nächsten Werktag per E-Mail.</p>
   <p style="font-size:.9rem;color:#6b7280;">→ Bitte prüfen Sie auch Ihren Spam-Ordner, falls Sie keine E-Mail erhalten sollten.</p>
-  <p>Bei Fragen können Sie uns unter <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a> kontaktieren.</p>
+  <p>Bei Rückfragen genügt eine kurze Antwort auf diese Nachricht.</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
   <p style="color:#6b7280;font-size:.82rem;margin-top:24px;">${escapeHtml(DISCLAIMER)}</p>
 </div>`,
