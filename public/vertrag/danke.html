@@ -59,10 +59,10 @@
 
   <div class="card hidden" id="auto-card">
     <div class="badge"><span class="dot"></span>Zahlung erfolgreich</div>
-    <h1>Analyse wird erstellt…</h1>
-    <p>Wir prüfen Ihre Zahlung und starten automatisch die vollständige Analyse auf Basis Ihres bereits hochgeladenen Schreibens.</p>
-    <div id="auto-status" class="status-box info">Zahlung wird geprüft…</div>
-    <p class="note">Sie können diese Seite geöffnet lassen. Ihre vollständige Analyse erhalten Sie per E-Mail — am nächsten Werktag bis 16:00 Uhr.</p>
+    <h1>Vielen Dank für Ihre Zahlung.</h1>
+    <p>Ihre Unterlagen und Ihre Zahlung wurden erfolgreich übermittelt. Unser Team kann nun mit der Analyse beginnen.</p>
+    <div id="auto-status" class="status-box success">Ihre Unterlagen wurden erfolgreich übermittelt. Unser Team kann nun mit der Analyse beginnen. Sie erhalten Ihre Einschätzung spätestens am nächsten Werktag bis 16:00 Uhr.</div>
+    <p class="note">Sie erhalten Ihre Einschätzung spätestens am nächsten Werktag bis 16:00 Uhr per E-Mail.</p>
   </div>
 
   <div class="card" id="thankyou-app">
@@ -293,9 +293,9 @@
     if (nameEl  && params.get("name"))  nameEl.value  = params.get("name");
 
     showOnly(autoCard);
-    autoStatus.textContent = "Zahlung wird geprüft…";
+    autoStatus.textContent = "Ihre Unterlagen wurden erfolgreich übermittelt. Unser Team kann nun mit der Analyse beginnen. Sie erhalten Ihre Einschätzung spätestens am nächsten Werktag bis 16:00 Uhr.";
 
-    submitAutoPaid({ type, sessionId, onStatus: (kind, msg) => { autoStatus.textContent = msg; } })
+    submitAutoPaid({ type, sessionId, onStatus: (kind, msg) => {  } })
       .then(() => {
         autoStatus.className = "status-box success";
         autoStatus.textContent = "Ihre Unterlagen wurden erfolgreich übermittelt. Unser Team kann nun mit der Analyse beginnen. Sie erhalten Ihre Einschätzung spätestens am nächsten Werktag bis 16:00 Uhr.";
