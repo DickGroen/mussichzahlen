@@ -64,6 +64,24 @@ function nextWorkdayAt15CET(fromMs = Date.now()) {
 
   const offset = isCEST(d) ? 2 : 1; // CEST=UTC+2, CET=UTC+1
   d.setUTCHours(15 - offset, 15, 0, 0); // 15:15 lokaal = 13:15 of 14:15 UTC
+}
+
+function nextWorkdayAt1519CET(fromMs = Date.now()) {
+  function isCEST(date) {
+    const year = date.getUTCFullYear();
+    const lastSundayMarch = new Date(Date.UTC(year, 2, 31));
+    lastSundayMarch.setUTCDate(31 - lastSundayMarch.getUTCDay());
+    const lastSundayOctober = new Date(Date.UTC(year, 9, 31));
+    lastSundayOctober.setUTCDate(31 - lastSundayOctober.getUTCDay());
+    return date >= lastSundayMarch && date < lastSundayOctober;
+  }
+  const d = new Date(fromMs);
+  d.setUTCDate(d.getUTCDate() + 1);
+  while (d.getUTCDay() === 0 || d.getUTCDay() === 6) {
+    d.setUTCDate(d.getUTCDate() + 1);
+  }
+  const offset = isCEST(d) ? 2 : 1;
+  d.setUTCHours(15 - offset, 19, 0, 0); // 15:19 lokaal
 
   return d.toISOString();
 }
@@ -267,7 +285,7 @@ export async function enqueuePaid(env, {
     file_name: fileName || null,
     file_size: fileSize || null,
     created_at: new Date().toISOString(),
-    send_at: nextWorkdayAt15CET(Date.now()),
+    send_at: nextWorkdayAt1519CET(Date.now()),
   };
 
   await kv(env).put(key, JSON.stringify(entry), {
