@@ -63,7 +63,7 @@ function nextWorkdayAt15CET(fromMs = Date.now()) {
   }
 
   const offset = isCEST(d) ? 2 : 1; // CEST=UTC+2, CET=UTC+1
-  d.setUTCHours(15 - offset, 18, 0, 0); // 15:00 lokaal = 13:00 of 14:00 UTC
+  d.setUTCHours(15 - offset, 15, 0, 0); // 15:15 lokaal = 13:15 of 14:15 UTC
 
   return d.toISOString();
 }
@@ -193,17 +193,19 @@ export async function enqueueFree(env, {
   const emailKey = safeEmailKey(normalized);
   const baseKey = `free:${type}:${createdAt}:${emailKey}`;
 
-  // Stage 1 is sent immediately by analyze-free.js.
-  // Queue only recovery stages.
+  // Stage 1 via cron — volgende werkdag 15:15 CET.
+  // Stage 2 en 3 zijn recovery na 24h en 48h.
+  const stage1SendAt = nextWorkdayAt15CET(createdAt);
   const stage2SendAt = addHours(createdAt, 24);
   const stage3SendAt = addHours(createdAt, 48);
 
   const sendAts = {
+    1: stage1SendAt,
     2: stage2SendAt,
     3: stage3SendAt,
   };
 
-  for (const stage of [2, 3]) {
+  for (const stage of [1, 2, 3]) {
     const key = `${baseKey}:stage_${stage}`;
 
     const entry = {
