@@ -8,7 +8,6 @@ import { enqueueFree, saveFreeCase } from "../services/queue.js";
 import {
   notifyAdminFree,
   sendConfirmationEmail,
-  sendFreeEmail,
 } from "../services/resend.js";
 import { loadPrompts } from "../config/prompts.js";
 import { getStripeLink } from "../services/stripe.js";
@@ -156,12 +155,7 @@ export async function handleAnalyzeFree(request, env, ctx) {
         console.error("notifyAdminFree FAILED:", err.message);
       }
 
-      try {
-        await sendFreeEmail(env, { name, email, type, triage, stripeLink, stage: 1 });
-        console.log("sendFreeEmail stage 1: OK");
-      } catch (err) {
-        console.error("sendFreeEmail stage 1 FAILED:", err.message);
-      }
+
     })();
 
     if (ctx?.waitUntil) {
