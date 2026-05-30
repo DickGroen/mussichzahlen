@@ -64,6 +64,7 @@ function nextWorkdayAt15CET(fromMs = Date.now()) {
 
   const offset = isCEST(d) ? 2 : 1; // CEST=UTC+2, CET=UTC+1
   d.setUTCHours(15 - offset, 15, 0, 0); // 15:15 lokaal = 13:15 of 14:15 UTC
+  return d.toISOString();
 }
 
 function nextWorkdayAt1519CET(fromMs = Date.now()) {
