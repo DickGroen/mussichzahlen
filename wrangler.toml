@@ -9,6 +9,7 @@ routes = [
 
 [vars]
 ENV = "production"
+API_DEBUG_MODE = "false"
 ADMIN_EMAIL = "groenvantexel@gmail.com"
 SITE_URL = "https://mussichzahlen.de"
 
