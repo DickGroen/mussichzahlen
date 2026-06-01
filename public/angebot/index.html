@@ -134,6 +134,7 @@
       <div class="trust-trigger"><span>●</span><div><strong>Was ist enthalten?</strong>Arbeitsaufwand, Material und Nebenkosten sollten einzeln ausgewiesen sein, nicht als Pauschalbetrag.</div></div>
       <div class="trust-trigger"><span>●</span><div><strong>Was könnte extra kosten?</strong>Offene Formulierungen wie „nach Aufwand“ können den Endpreis später deutlich erhöhen.</div></div>
       <div class="trust-trigger"><span>●</span><div><strong>Vor der Zusage oder Anzahlung</strong>Rückfragen lassen sich vor einer Zustimmung deutlich einfacher stellen als nach Auftragserteilung.</div></div>
+      <div class="faq-item"><div class="faq-q">Kann ich telefonisch mit jemandem sprechen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Unser Service basiert auf der Prüfung eingereichter Unterlagen und schriftlichen Einschätzungen per E-Mail. Durch die Bearbeitung per E-Mail können wir die Kosten für unsere Kunden niedrig halten und gleichzeitig eine sorgfältige und einheitliche Prüfung gewährleisten. Bei Fragen zu Ihrer Bestellung können Sie uns selbstverständlich jederzeit per E-Mail kontaktieren.</div></div>
     </div>
   </div>
 </section>
@@ -220,7 +221,10 @@
       <div class="offer-price">&euro;29 <span>einmalig &middot; kein Abo</span></div>
       <a href="#free-check" class="offer-cta">Zuerst kostenlos einordnen lassen</a>
       <div class="offer-security">&#128274; Sichere Zahlung &uuml;ber Stripe nach der Ersteinordnung</div>
-      <div class="offer-refund">Wenn die Einordnung Ihren Fall nicht vollständig abdeckt, melden Sie sich — wir schauen es noch einmal an.</div>
+      
+      <p style="font-size:.82rem;color:var(--muted);line-height:1.6;margin-top:14px;">Enthält eine schriftliche Einschätzung per E-Mail. Telefonische Beratung oder Termine bieten wir nicht an. Dadurch können wir den Service kostengünstig anbieten und jede Anfrage sorgfältig bearbeiten.</p>
+
+      <div class="offer-refund">Wenn die Einordnung nicht vollständig ist, melden Sie sich. Wir schauen es noch einmal an.</div>
     </div>
   </div>
 </section>
@@ -271,7 +275,7 @@
       <div class="faq-item"><div class="faq-q">Was sollte ein Angebot oder Kostenvoranschlag enthalten? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Ein klares Angebot weist Arbeitsaufwand und Material getrennt aus, enthält Angaben zur Mehrwertsteuer, benennt den Leistungsumfang sowie Ausschlüsse und nennt Anzahlung und Gültigkeit. Ein Pauschalpreis ohne Aufschlüsselung macht es schwierig, den Preis zu beurteilen oder zu vergleichen.</div></div>
       <div class="faq-item"><div class="faq-q">Können nach der Auftragserteilung noch weitere Kosten entstehen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Das hängt von den Formulierungen ab. Angaben wie „nach Aufwand“ oder „zzgl. Material“ können den Endpreis deutlich erhöhen. Vor der Zusage ist es einfacher, konkrete Angaben einzufordern als danach.</div></div>
       <div class="faq-item"><div class="faq-q">Was passiert nach dem Hochladen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Sie erhalten eine kostenlose Ersteinordnung per E-Mail — in der Regel bis zum nächsten Werktag bis 16:00 Uhr. Darin erfahren Sie, ob einzelne Punkte vor einer Zusage noch offenbleiben. Eine ausführlichere Einordnung mit Rückfragevorlage ist für 29 € optional verfügbar.</div></div>
-      <div class="faq-item"><div class="faq-q">Ist das Rechtsberatung? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nein. MussIchZahlen.de erstellt verständliche Einordnungen und Schreibvorlagen in verständlicher Sprache. Keine Rechtsberatung, keine rechtliche Vertretung.</div></div>
+      <div class="faq-item"><div class="faq-q">Ist das Rechtsberatung? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nein. MussIchZahlen.de erstellt verständliche Einordnungen und Vorlagen. Keine Rechtsberatung und keine rechtliche Vertretung.</div></div>
     </div>
   </div>
 </section>
@@ -287,7 +291,7 @@
 
 <div class="container">
   <div class="footer-trust"><strong>MussIchZahlen.de</strong> hilft Verbrauchern, Angebote und Kostenvoranschläge besser zu verstehen, bevor sie zustimmen oder anzahlen.<br>Fragen? <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a></div>
-  <div class="disclaimer">MussIchZahlen.de erstellt verständliche Einordnungen und Schreibvorlagen. Keine Rechtsberatung, keine rechtliche Vertretung. © 2026 MussIchZahlen.de</div>
+  <div class="disclaimer">MussIchZahlen.de erstellt verständliche Einordnungen und Vorlagen. Keine Rechtsberatung und keine Rechtsvertretung. <!--nd Schreibenentw&uuml;rfe. Keine Rechtsberatung und keine Rechtsvertretung. Dokumente werden nach Verarbeitung gel&ouml;scht. &copy; 2026 MussIchZahlen.de</div>
 </div>
 
 <footer style="border-top:1px solid var(--line);padding:20px 0;text-align:center;background:var(--white);">
@@ -358,7 +362,7 @@ btn.addEventListener('click', async () => {
     if (fc) fc.style.display = 'none';
     setStatus('', '');
   } catch (err) {
-    setStatus('error', err.message || 'Etwas ist schiefgelaufen — bitte versuchen Sie es noch einmal.');
+    setStatus('error', err.message || 'Pr\u00fcfung fehlgeschlagen. Bitte erneut versuchen.');
     btn.disabled = false;
     btn.textContent = 'Kostenlose Einsch\u00e4tzung starten';
   }
