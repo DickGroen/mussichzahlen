@@ -134,6 +134,7 @@
       <div class="trust-trigger"><span>&#9679;</span><div><strong>K&uuml;ndigungsfristen</strong>Wann gek&uuml;ndigt werden muss, steht oft versteckt im Vertragstext.</div></div>
       <div class="trust-trigger"><span>&#9679;</span><div><strong>Automatische Verl&auml;ngerung</strong>Viele Vertr&auml;ge verl&auml;ngern sich automatisch &mdash; wenn nicht rechtzeitig gek&uuml;ndigt wurde.</div></div>
       <div class="trust-trigger"><span>&#9679;</span><div><strong>Vor der Unterschrift</strong>Was vor einer Bindung unklar ist, l&auml;sst sich vorher kl&auml;ren &mdash; danach kaum noch.</div></div>
+      <div class="faq-item"><div class="faq-q">Kann ich telefonisch mit jemandem sprechen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Unser Service basiert auf der Prüfung eingereichter Unterlagen und schriftlichen Einschätzungen per E-Mail. Durch die Bearbeitung per E-Mail können wir die Kosten für unsere Kunden niedrig halten und gleichzeitig eine sorgfältige und einheitliche Prüfung gewährleisten. Bei Fragen zu Ihrer Bestellung können Sie uns selbstverständlich jederzeit per E-Mail kontaktieren.</div></div>
     </div>
   </div>
 </section>
@@ -219,7 +220,10 @@
       <div class="offer-price">&euro;29 <span>einmalig &middot; kein Abo</span></div>
       <a href="#free-check" class="offer-cta">Zuerst kostenlos einordnen lassen</a>
       <div class="offer-security">&#128274; Sichere Zahlung &uuml;ber Stripe nach der Ersteinordnung</div>
-      <div class="offer-refund">Wenn die Einordnung Ihren Fall nicht vollständig abdeckt, melden Sie sich — wir schauen es noch einmal an.</div>
+      
+      <p style="font-size:.82rem;color:var(--muted);line-height:1.6;margin-top:14px;">Enthält eine schriftliche Einschätzung per E-Mail. Telefonische Beratung oder Termine bieten wir nicht an. Dadurch können wir den Service kostengünstig anbieten und jede Anfrage sorgfältig bearbeiten.</p>
+
+      <div class="offer-refund">Wenn die Einordnung Ihren Vertrag nicht vollständig erfasst, melden Sie sich. Wir schauen es uns noch einmal an.</div>
     </div>
   </div>
 </section>
@@ -271,7 +275,7 @@
       <div class="faq-item"><div class="faq-q">Was bedeutet automatische Verl&auml;ngerung? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Wenn ein Vertrag nicht rechtzeitig gek&uuml;ndigt wird, verl&auml;ngert er sich oft automatisch &mdash; meist um die urspr&uuml;ngliche Laufzeit. Ob und wie das gilt, l&auml;sst sich aus dem Vertrag einordnen.</div></div>
       <div class="faq-item"><div class="faq-q">Muss ich schriftlich k&uuml;ndigen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Die meisten Vertr&auml;ge verlangen eine K&uuml;ndigung in Textform &mdash; per Brief oder E-Mail. Manche fordern eine eigenh&auml;ndige Unterschrift. Was gilt, steht im Vertrag. Eine fertige Vorlage hilft, die richtigen Angaben zu machen.</div></div>
       <div class="faq-item"><div class="faq-q">Was passiert nach dem Hochladen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Sie erhalten eine kostenlose Ersteinordnung per E-Mail &mdash; in der Regel bis zum nächsten Werktag bis 16:00 Uhr. Darin erfahren Sie, welche Punkte vor einer Entscheidung relevant sein könnten. Eine ausführlichere Einordnung mit Kündigungsvorlage ist für 29&nbsp;€ optional verfügbar.</div></div>
-      <div class="faq-item"><div class="faq-q">Ist das Rechtsberatung? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nein. MussIchZahlen.de erstellt verständliche Einordnungen und Schreibvorlagen in verständlicher Sprache. Keine Rechtsberatung, keine rechtliche Vertretung.</div></div>
+      <div class="faq-item"><div class="faq-q">Ist das Rechtsberatung? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nein. MussIchZahlen.de erstellt informative Einordnungen in verständlicher Sprache sowie Vorlagen bei Bedarf. Keine Rechtsberatung, keine anwaltliche Vertretung.</div></div>
     </div>
   </div>
 </section>
@@ -287,7 +291,7 @@
 
 <div class="container">
   <div class="footer-trust"><strong>MussIchZahlen.de</strong> hilft Verbrauchern, Verträge und Kündigungsbedingungen besser zu verstehen, bevor sie unterschreiben oder handeln.<br>Fragen? <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a></div>
-  <div class="disclaimer">MussIchZahlen.de erstellt verständliche Einordnungen und Schreibvorlagen. Keine Rechtsberatung, keine rechtliche Vertretung. © 2026 MussIchZahlen.de</div>
+  <div class="disclaimer">MussIchZahlen.de erstellt verständliche Einordnungen und Vorlagen. Das ist keine Rechtsberatung und keine anwaltliche Vertretung. und Schreibenentw&uuml;rfe. Keine Rechtsberatung und keine Rechtsvertretung. Dokumente werden nach Verarbeitung gel&ouml;scht. &copy; 2026 MussIchZahlen.de</div>
 </div>
 
 <footer style="border-top:1px solid var(--line);padding:20px 0;text-align:center;background:var(--white);">
@@ -358,7 +362,7 @@ btn.addEventListener('click', async () => {
     if (fc) fc.style.display = 'none';
     setStatus('', '');
   } catch (err) {
-    setStatus('error', err.message || 'Etwas ist schiefgelaufen — bitte versuchen Sie es noch einmal.');
+    setStatus('error', err.message || 'Pr\u00fcfung fehlgeschlagen. Bitte erneut versuchen.');
     btn.disabled = false;
     btn.textContent = 'Kostenlose Einsch\u00e4tzung starten';
   }
