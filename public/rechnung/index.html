@@ -134,6 +134,7 @@
       <div class="trust-trigger"><span>●</span><div><strong>Unklare Positionen</strong>Nicht alle Posten sind sofort nachvollziehbar — besonders bei Handwerkerrechnungen oder Nachforderungen.</div></div>
       <div class="trust-trigger"><span>●</span><div><strong>Fehlende Angaben</strong>Fehlen Leistungsbeschreibung oder Berechnungsgrundlage, ist ein Abgleich schwierig.</div></div>
       <div class="trust-trigger"><span>●</span><div><strong>Vor der Zahlung</strong>Rückfragen sind vor einer Zahlung einfacher als danach.</div></div>
+      <div class="faq-item"><div class="faq-q">Kann ich telefonisch mit jemandem sprechen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Unser Service basiert auf der Prüfung eingereichter Unterlagen und schriftlichen Einschätzungen per E-Mail. Durch die Bearbeitung per E-Mail können wir die Kosten für unsere Kunden niedrig halten und gleichzeitig eine sorgfältige und einheitliche Prüfung gewährleisten. Bei Fragen zu Ihrer Bestellung können Sie uns selbstverständlich jederzeit per E-Mail kontaktieren.</div></div>
     </div>
   </div>
 </section>
@@ -219,7 +220,10 @@
       <div class="offer-price">&euro;29 <span>einmalig &middot; kein Abo</span></div>
       <a href="#free-check" class="offer-cta">Zuerst kostenlos einordnen lassen</a>
       <div class="offer-security">&#128274; Sichere Zahlung &uuml;ber Stripe nach der Ersteinordnung</div>
-      <div class="offer-refund">Wenn die Einordnung Ihren Fall nicht vollständig abdeckt, melden Sie sich — wir schauen es noch einmal an.</div>
+      
+      <p style="font-size:.82rem;color:var(--muted);line-height:1.6;margin-top:14px;">Enthält eine schriftliche Einschätzung per E-Mail. Telefonische Beratung oder Termine bieten wir nicht an. Dadurch können wir den Service kostengünstig anbieten und jede Anfrage sorgfältig bearbeiten.</p>
+
+      <div class="offer-refund">Wenn die Einordnung Ihre Rechnung nicht vollständig abdeckt, melden Sie sich — wir stellen es richtig.</div>
     </div>
   </div>
 </section>
@@ -270,7 +274,7 @@
       <div class="faq-item"><div class="faq-q">Muss ich eine Rechnung zahlen, wenn einzelne Positionen unklar sind? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nicht unbedingt sofort. Wenn Positionen unklar sind oder nicht zur Vereinbarung passen, können Sie vor einer Zahlung schriftlich um Klärung bitten.</div></div>
       <div class="faq-item"><div class="faq-q">Was passiert nach dem Hochladen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Sie erhalten eine kostenlose Ersteinordnung per E-Mail — in der Regel bis zum nächsten Werktag bis 16:00 Uhr. Darin erfahren Sie, ob Punkte erkennbar sind, die vor einer Zahlung noch geklärt werden sollten. Eine ausführlichere Einordnung mit Vorlage ist für 29 € optional.</div></div>
       <div class="faq-item"><div class="faq-q">Gilt das auch für Handwerker- oder Dienstleistungsrechnungen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Ja. Handwerkerrechnungen, Servicerechnungen, Dienstleistungsabrechnungen und ähnliche Dokumente können hochgeladen werden, wenn einzelne Positionen oder Beträge nicht nachvollziehbar sind.</div></div>
-      <div class="faq-item"><div class="faq-q">Ist das Rechtsberatung? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nein. MussIchZahlen.de erstellt verständliche Einordnungen und Schreibvorlagen in verständlicher Sprache. Keine Rechtsberatung, keine rechtliche Vertretung.</div></div>
+      <div class="faq-item"><div class="faq-q">Ist das Rechtsberatung? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nein. MussIchZahlen.de erstellt verständliche Einordnungen und Vorlagen in verständlicher Sprache. Keine Rechtsberatung und keine rechtliche Vertretung.</div></div>
     </div>
   </div>
 </section>
@@ -286,7 +290,7 @@
 
 <div class="container">
   <div class="footer-trust"><strong>MussIchZahlen.de</strong> hilft Verbrauchern, Rechnungen und Nachforderungen vor einer Zahlung besser einzuordnen.<br>Fragen? <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a></div>
-  <div class="disclaimer">MussIchZahlen.de erstellt verständliche Einordnungen und Schreibvorlagen. Keine Rechtsberatung, keine rechtliche Vertretung. © 2026 MussIchZahlen.de</div>
+  <div class="disclaimer">MussIchZahlen.de erstellt verständliche Einordnungen und Vorlagen. Keine Rechtsberatung, keine Rechtsvertretung. © 2026 MussIchZahlen.de</div>
 </div>
 
 <footer style="border-top:1px solid var(--line);padding:20px 0;text-align:center;background:var(--white);">
@@ -357,7 +361,7 @@ btn.addEventListener('click', async () => {
     if (fc) fc.style.display = 'none';
     setStatus('', '');
   } catch (err) {
-    setStatus('error', err.message || 'Etwas ist schiefgelaufen — bitte versuchen Sie es noch einmal.');
+    setStatus('error', err.message || 'Upload fehlgeschlagen. Bitte erneut versuchen.');
     btn.disabled = false;
     btn.textContent = 'Kostenlose Einsch\u00e4tzung starten';
   }
