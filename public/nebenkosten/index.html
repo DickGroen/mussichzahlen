@@ -159,6 +159,16 @@
       <div class="offer-security">&#128274; Ihre Datei wird vertraulich verarbeitet und nicht an Dritte weitergegeben.</div>
     </div>
 
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Kann ich telefonisch mit jemandem sprechen?
+          <span>⌄</span>
+        </div>
+        <div class="faq-a">
+          Unser Service basiert auf der Prüfung eingereichter Unterlagen und schriftlichen Einschätzungen per E-Mail. Durch die Bearbeitung per E-Mail können wir die Kosten für unsere Kunden niedrig halten und gleichzeitig eine sorgfältige und einheitliche Prüfung gewährleisten. Bei Fragen zu Ihrer Bestellung können Sie uns selbstverständlich jederzeit per E-Mail kontaktieren.
+        </div>
+      </div>
+
     <div id="confirmation-card" style="display:none;margin-top:24px;background:#f0fdf4;border:2px solid #86efac;border-radius:16px;padding:28px 28px 24px;">
       <div style="font-size:1.1rem;font-weight:700;color:#14532d;margin-bottom:10px;">&#10003; Wir haben Ihre Abrechnung erhalten.</div>
       <p style="font-size:.95rem;color:#166534;margin-bottom:16px;line-height:1.75;">Wir sehen uns die Unterlagen in Ruhe an. Sie erhalten Ihre erste Einordnung in der Regel bis zum nächsten Werktag per E-Mail.</p>
@@ -221,7 +231,10 @@
       <div class="offer-price">&euro;29 <span>einmalig &middot; kein Abo</span></div>
       <a href="#free-check" class="offer-cta">Zuerst kostenlos einordnen lassen</a>
       <div class="offer-security">&#128274; Sichere Zahlung über Stripe</div>
-      <div class="offer-refund">Wenn die Einordnung Ihren Fall nicht vollständig abdeckt, melden Sie sich — wir schauen es noch einmal an.</div>
+      
+      <p style="font-size:.82rem;color:var(--muted);line-height:1.6;margin-top:14px;">Enthält eine schriftliche Einschätzung per E-Mail. Telefonische Beratung oder Termine bieten wir nicht an. Dadurch können wir den Service kostengünstig anbieten und jede Anfrage sorgfältig bearbeiten.</p>
+
+      <div class="offer-refund">Wenn die Einordnung nicht vollständig ist, melden Sie sich. Wir schauen es noch einmal an.</div>
     </div>
   </div>
 </section>
@@ -277,7 +290,7 @@
       <div class="faq-item"><div class="faq-q">Wie lange habe ich Zeit, eine Nebenkostenabrechnung nachzuvollziehen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Mieter haben in der Regel zwölf Monate nach Erhalt der Abrechnung Zeit für Einwände — unabhängig davon, ob die Nachzahlung bereits gezahlt wurde. Offene Punkte frühzeitig zu klären gibt mehr Spielraum.</div></div>
       <div class="faq-item"><div class="faq-q">Muss ich die Nachzahlung zahlen, auch wenn die Abrechnung unklar ist? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Eine Nebenkostenabrechnung muss nachvollziehbar sein. Wenn Angaben fehlen oder unklar sind, können Sie als Mieter eine Erklärung oder Belegeinsicht anfordern — sachlich und schriftlich.</div></div>
       <div class="faq-item"><div class="faq-q">Was passiert nach dem Hochladen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Sie erhalten eine kostenlose Ersteinordnung per E-Mail — in der Regel bis zum nächsten Werktag bis 16:00 Uhr. Darin erfahren Sie, ob Punkte erkennbar sind, die vor einer Zahlung noch geklärt werden sollten. Eine ausführlichere Einordnung mit Rückfragevorlage ist für 29 € optional verfügbar.</div></div>
-      <div class="faq-item"><div class="faq-q">Ist das Rechtsberatung? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nein. MussIchZahlen.de erstellt verständliche Einordnungen und Schreibvorlagen in verständlicher Sprache. Keine Rechtsberatung, keine rechtliche Vertretung.</div></div>
+      <div class="faq-item"><div class="faq-q">Ist das Rechtsberatung? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nein. MussIchZahlen.de erstellt verständliche Einordnungen und Vorlagen in verständlicher Sprache. Keine Rechtsberatung und keine rechtliche Vertretung.</div></div>
     </div>
   </div>
 </section>
@@ -293,7 +306,7 @@
 
 <div class="container">
   <div class="footer-trust"><strong>MussIchZahlen.de</strong> hilft Verbrauchern, Nebenkostenabrechnungen und Nachzahlungen vor einer Zahlung besser einzuordnen.<br>Fragen? <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a></div>
-  <div class="disclaimer">MussIchZahlen.de erstellt verständliche Einordnungen und Schreibvorlagen. Keine Rechtsberatung, keine rechtliche Vertretung. © 2026 MussIchZahlen.de</div>
+  <div class="disclaimer">MussIchZahlen.de erstellt verständliche Einordnungen und Vorlagen. Keine Rechtsberatung und keine Rechtsvertretung. Dokumente werden nach Verarbeitung gelöscht. &copy; 2026 MussIchZahlen.de</div>
 </div>
 
 <footer style="border-top:1px solid var(--line);padding:20px 0;text-align:center;background:var(--white);">
@@ -364,7 +377,7 @@ btn.addEventListener('click', async () => {
     if (fc) fc.style.display = 'none';
     setStatus('', '');
   } catch (err) {
-    setStatus('error', err.message || 'Etwas ist schiefgelaufen — bitte versuchen Sie es noch einmal.');
+    setStatus('error', err.message || 'Upload fehlgeschlagen. Bitte erneut versuchen.');
     btn.disabled = false;
     btn.textContent = 'Kostenlos einordnen lassen';
   }
