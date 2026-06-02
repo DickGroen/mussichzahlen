@@ -51,6 +51,14 @@
     .success-icon{width:54px;height:54px;border-radius:999px;background:#dcfce7;color:#166534;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.6rem;margin-bottom:14px;}
     @media(max-width:600px){.wrap{padding:32px 16px 100px;margin:0 auto}.card{padding:24px 18px;}}
   </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18193666186"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18193666186');
+</script>
 </head>
 
 <body>
@@ -59,10 +67,17 @@
 
   <div class="card hidden" id="auto-card">
     <div class="badge"><span class="dot"></span>Zahlung erfolgreich</div>
-    <h1>Vielen Dank für Ihre Zahlung.</h1>
-    <p>Vielen Dank. Ihre Zahlung ist eingegangen und Ihre Unterlagen liegen uns vor. Unser Team kann nun mit der Analyse beginnen.</p>
-    <div id="auto-status" class="status-box success">Vielen Dank. Ihre Zahlung ist eingegangen und Ihre Unterlagen liegen uns vor. Unser Team kann nun mit der Analyse beginnen. Sie erhalten Ihre Einschätzung spätestens am nächsten Werktag bis 16:00 Uhr.</div>
-    <p class="note">Du kannst diese Seite geöffnet lassen. Ihre vollständige Analyse erhalten Sie per E-Mail — am nächsten Werktag bis 16:00 Uhr.</p>
+    <h1>Analyse wird erstellt…</h1>
+    <p>Wir prüfen Ihre Zahlung und starten automatisch die vollständige Analyse auf Basis Ihres bereits hochgeladenen Schreibens.</p>
+    <div id="auto-status" class="status-box info">Zahlung wird geprüft…</div>
+
+    <div style="background:#f7f9fc;border:1px solid #e2e8f0;border-radius:10px;padding:16px 18px;margin-top:18px;font-size:.87rem;color:#4a5568;line-height:1.75;">
+      <strong style="display:block;color:#0f1923;margin-bottom:6px;">Lieferung per E-Mail</strong>
+      Ihre Einordnung wird per E-Mail übermittelt. Wir bieten keine telefonische Beratung und keine persönlichen Termine an. Durch die Bearbeitung per E-Mail können wir den Preis niedrig halten und gleichzeitig jede Einsendung sorgfältig prüfen.<br>
+      Bei Fragen zu Ihrer Bestellung erreichen Sie uns unter <a href="mailto:support@mussichzahlen.de" style="color:#1a3a6b;">support@mussichzahlen.de</a>.
+    </div>
+
+    <p class="note">Sie können diese Seite geöffnet lassen. Ihre vollständige Analyse erhalten Sie per E-Mail — am nächsten Werktag bis 16:00 Uhr.</p>
   </div>
 
   <div class="card" id="thankyou-app">
@@ -75,21 +90,21 @@
     </div>
 
     <h1>Noch ein letzter Schritt</h1>
-    <p>Bitte lade Ihre Mahnung hoch, damit wir Ihre vollständige Analyse und Ihr fertiges Schreiben vorbereiten können. Nach dem Upload erhalten Sie Ihr Ergebnis per E-Mail — am nächsten Werktag bis 16:00 Uhr.</p>
+    <p>Bitte laden Sie Ihre Mahnung hoch, damit wir Ihre vollständige Einordnung und den Formulierungsvorschlag vorbereiten können. Nach dem Upload erhalten Sie Ihr Ergebnis per E-Mail — am nächsten Werktag bis 16:00 Uhr.</p>
 
     <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
         <div>
           <div class="step-title">Mahnung hochladen</div>
-          <div class="step-desc">Mahnung, Inkassoschreiben, Zahlungsaufforderung oder Anwaltsbrief. PDF, JPG oder PNG.</div>
+          <div class="step-desc">Mahnung, Inkassoschreiben, Zahlungsaufforderung oder Anwaltsbrief., Rechnungskorrektur oder Zahlungsaufforderung. PDF, JPG oder PNG.</div>
         </div>
       </div>
       <div class="step">
         <div class="step-num">2</div>
         <div>
           <div class="step-title">Wir prüfen die Forderung</div>
-          <div class="step-desc">Forderungshöhe, Inkassokosten, Nachweise, mögliche Verjährung und formale Auffälligkeiten.</div>
+          <div class="step-desc">Mahnung, Inkassoschreiben, Zahlungsaufforderung oder Anwaltsbrief.spositionen, Preise, Mehrwertsteuer, mögliche Fehler und unklare Posten.</div>
         </div>
       </div>
       <div class="step">
@@ -125,15 +140,15 @@
       <a href="#" id="remove-file">Datei entfernen</a>
     </div>
 
-    <button id="submit-btn" class="offer-cta" disabled>Zuerst eine Datei wählen</button>
+    <button id="submit-btn" class="offer-cta" disabled>Bitte zuerst eine Datei auswählen</button>
 
     <div id="status-box" class="status-box hidden"></div>
 
-    <p class="note">Dieser Upload ist nur nötig, wenn die automatische Zuordnung nicht gefunden werden konnte.</p>
+    <p class="note">Dieser Schritt ist nur erforderlich, wenn Ihre Unterlagen nicht automatisch zugeordnet werden konnten.</p>
 
     <div class="fallback-box">
-      <strong>Upload funktioniert nicht?</strong>
-      <p>Schicken Sie Ihr Dokument einfach per E-Mail an uns — wir kümmern uns darum. Falls Sie bereits eine Analyse bestellt haben, geben Sie bitte auch die E-Mail-Adresse an, die Sie bei der Bestellung verwendet haben.</p>
+      <strong>Upload nicht möglich?</strong>
+      <p>Senden Sie Ihr Dokument direkt per E-Mail an uns. Bitte geben Sie Ihren Namen und die E-Mail-Adresse an, mit der Sie bezahlt haben.</p>
       <a href="mailto:support@mussichzahlen.de" class="fallback-email">support@mussichzahlen.de</a>
     </div>
   </div>
@@ -147,25 +162,30 @@
   <div class="card hidden" id="success-screen">
     <div class="success-icon">✓</div>
     <h1>Alles erledigt</h1>
-    <p>Ihre Analyse wurde erfolgreich eingereicht und wird bearbeitet.</p>
-    <p>Sie erhalten Ihre vollständige Analyse und den fertigen Widerspruchsentwurf per E-Mail — am nächsten Werktag bis 16:00 Uhr.</p>
+    <p>Ihre Unterlagen sind eingegangen und werden bearbeitet.</p>
+    <p>Sie erhalten Ihre vollständige Analyse und fertigen Widerspruchsentwurf per E-Mail — am nächsten Werktag bis 16:00 Uhr.</p>
     <p class="note">Bitte prüfen Sie auch Ihren Spam-Ordner, falls Sie bis dahin keine E-Mail erhalten haben.</p>
   </div>
 
 </div>
 
-<script src="/app.js"></script>
-<script>
-  function formatFileSize(bytes) {
-    if (!Number.isFinite(bytes)) return "0 B";
-    if (bytes < 1024) return bytes + " B";
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
-    return (bytes / (1024 * 1024)).toFixed(1) + " MB";
-  }
+<script type="module">
+  import {
+    submitPaid,
+    validateFile,
+    formatFileSize,
+    track
+  } from "/app.js";
 
   const params = new URLSearchParams(window.location.search);
 
   const sessionId = params.get("session_id");
+  // Google Ads Conversion
+  if (sessionId && sessionId.startsWith("cs_")) {
+    if (typeof gtag !== "undefined") {
+      gtag("event", "conversion", {"send_to": "AW-18193666186/purchase","value": 49.0,"currency": "EUR","transaction_id": sessionId});
+    }
+  }
   const type = params.get("type") || "mahnung";
 
   const autoCard = document.getElementById("auto-card");
@@ -211,7 +231,7 @@
     const hasEmail = Boolean(emailEl.value.trim());
 
     submitBtn.disabled = !(hasFile && hasName && hasEmail);
-    submitBtn.textContent = hasFile ? "Analyse starten" : "Zuerst eine Datei wählen";
+    submitBtn.textContent = hasFile ? "Einordnung starten" : "Bitte zuerst eine Datei auswählen";
   }
 
   function setFile(file) {
@@ -276,7 +296,7 @@
     if (!chosenFile || !name || !email) return;
 
     submitBtn.disabled = true;
-    submitBtn.textContent = "Wird hochgeladen…";
+    submitBtn.textContent = "Wird übertragen…";
 
     showOnly(success);
     track("paid_fallback_upload_started", { type });
@@ -289,32 +309,10 @@
   if (!sessionId || !sessionId.startsWith("cs_")) {
     showOnly(locked);
   } else {
-    // Pre-fill fields from URL params
+    showOnly(fallback);
     if (emailEl && params.get("email")) emailEl.value = params.get("email");
     if (nameEl  && params.get("name"))  nameEl.value  = params.get("name");
-
-    // Try auto-processing first (free case already uploaded before payment)
-    showOnly(autoCard);
-    autoStatus.textContent = "Vielen Dank. Ihre Zahlung ist eingegangen und Ihre Unterlagen liegen uns vor. Unser Team kann nun mit der Analyse beginnen. Sie erhalten Ihre Einschätzung spätestens am nächsten Werktag bis 16:00 Uhr.";
-
-    submitAutoPaid({ type, sessionId, onStatus: (kind, msg) => {  } })
-      .then(() => {
-        autoStatus.className = "status-box success";
-        autoStatus.textContent = "Vielen Dank. Ihre Zahlung ist eingegangen und Ihre Unterlagen liegen uns vor. Unser Team kann nun mit der Analyse beginnen. Sie erhalten Ihre Einschätzung spätestens am nächsten Werktag bis 16:00 Uhr.";
-        track("paid_auto_success", { type });
-      })
-      .catch(err => {
-        track("paid_auto_failed", { type, needUpload: err.needUpload, error: err.message });
-        if (err.needUpload) {
-          // No free case found — show upload fallback
-          showOnly(fallback);
-          updateSubmitState();
-        } else {
-          // Unexpected error — still show fallback
-          showOnly(fallback);
-          updateSubmitState();
-        }
-      });
+    updateSubmitState();
   }
 </script>
 
