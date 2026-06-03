@@ -309,10 +309,23 @@
   if (!sessionId || !sessionId.startsWith("cs_")) {
     showOnly(locked);
   } else {
-    showOnly(fallback);
     if (emailEl && params.get("email")) emailEl.value = params.get("email");
     if (nameEl  && params.get("name"))  nameEl.value  = params.get("name");
-    updateSubmitState();
+
+    showOnly(autoCard);
+    autoStatus.textContent = "Vielen Dank. Ihre Zahlung ist eingegangen und Ihre Unterlagen liegen uns vor.";
+
+    submitAutoPaid({ type, sessionId, onStatus: (kind, msg) => { autoStatus.textContent = msg; } })
+      .then(() => {
+        autoStatus.className = "status-box success";
+        autoStatus.textContent = "Ihre Einordnung wird vorbereitet. Sie erhalten das Ergebnis per E-Mail — am nächsten Werktag bis 16:00 Uhr.";
+        track("paid_auto_success", { type });
+      })
+      .catch(err => {
+        track("paid_auto_failed", { type, needUpload: err.needUpload, error: err.message });
+        showOnly(fallback);
+        updateSubmitState();
+      });
   }
 </script>
 
