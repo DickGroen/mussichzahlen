@@ -2,42 +2,34 @@ name = "mussichzahlen"
 main = "worker/index.js"
 compatibility_date = "2025-01-01"
 compatibility_flags = ["nodejs_compat"]
-
 routes = [
   { pattern = "mussichzahlen.de/api/*", zone_name = "mussichzahlen.de" }
 ]
-
 [vars]
 ENV = "production"
 API_DEBUG_MODE = "false"
 ADMIN_EMAIL = "groenvantexel@gmail.com"
 SITE_URL = "https://mussichzahlen.de"
-
 # Stripe Payment Links (publiek — geen secrets)
-STRIPE_LINK_MAHNUNG    = "https://buy.stripe.com/test_aFa5kE5Le9eT61MdS41440d"
-STRIPE_LINK_PARKSTRAFE = "https://buy.stripe.com/test_bJe28sflO76Ldue6pC1440c"
-STRIPE_LINK_RECHNUNG   = "https://buy.stripe.com/test_eVq4gA1uY3Uzai29BO1440a"
-STRIPE_LINK_VERTRAG    = "https://buy.stripe.com/test_00w7sMddGgHlbm6aFS1440b"
-STRIPE_LINK_ANGEBOT    = "https://buy.stripe.com/test_bJe28sflO76Ldue6pC1440c"
-STRIPE_LINK_NEBENKOSTEN = "https://buy.stripe.com/test_bJe28sflO76Ldue6pC1440c"
-
+STRIPE_LINK_MAHNUNG     = "https://buy.stripe.com/7sYdRab5yezd89U15i14407"
+STRIPE_LINK_PARKSTRAFE  = "https://buy.stripe.com/3cI14o5LeaiX3TEeW814408"
+STRIPE_LINK_RECHNUNG    = "https://buy.stripe.com/aFa6oI4Ha1Mr2PA7tG14409"
+STRIPE_LINK_VERTRAG     = "https://buy.stripe.com/eVq4gA1uY3Uzai29BO1440a"
+STRIPE_LINK_ANGEBOT     = "https://buy.stripe.com/00w7sMddGgHlbm6aFS1440b"
+STRIPE_LINK_NEBENKOSTEN = "https://buy.stripe.com/bJe28sflO76Ldue6pC1440c"
 # Secrets worden ingesteld via Cloudflare Dashboard:
 # ANTHROPIC_API_KEY
 # STRIPE_SECRET_KEY
 # STRIPE_WEBHOOK_SECRET
 # RESEND_API_KEY
-
 # Test route (nooit publiek linken)
-TEST_SECRET  = "miz-test-2026-xq7k"
+TEST_SECRET = "miz-test-2026-xq7k"
 TEST_EMAIL  = "groenvantexel@gmail.com"
-
 [[kv_namespaces]]
 binding = "SESSIONS_KV"
 id = "394807db041c4b83907c9f6818a4184b"
-
 [[r2_buckets]]
 binding = "DOCS_BUCKET"
 bucket_name = "mussichzahlen-docs"
-
 [triggers]
 crons = ["*/5 * * * *"]
