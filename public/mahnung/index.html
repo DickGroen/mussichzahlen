@@ -2,6 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
+    <link rel="canonical" href="https://www.mussichzahlen.de/mahnung/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mahnung erhalten? Erst einordnen, dann reagieren | MussIchZahlen.de</title>
   <meta name="description" content="Mahnung, Inkassoschreiben oder Zahlungsaufforderung erhalten? Erst kostenlos einsch&auml;tzen lassen, ob vor einer Zahlung noch Punkte gekl&auml;rt werden sollten.">
@@ -686,5 +687,23 @@ function escapeHtmlAttribute(value = '') {
 }
 </script>
 
+
+<script>
+  // Google Ads upload conversion
+  document.addEventListener('DOMContentLoaded', function(){
+    var el = document.getElementById('gratis-status');
+    if(!el) return;
+    var fired = false;
+    new MutationObserver(function(){
+      if(fired) return;
+      if(el.classList.contains('optie-status--success')){
+        fired = true;
+        if(typeof gtag !== 'undefined'){
+          gtag('event', 'conversion', {'send_to': 'AW-18193666186/CONVERSION_LABEL'});
+        }
+      }
+    }).observe(el, {attributes: true, attributeFilter: ['class']});
+  });
+</script>
 </body>
 </html>
