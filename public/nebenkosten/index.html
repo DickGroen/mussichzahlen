@@ -2,6 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
+    <link rel="canonical" href="https://www.mussichzahlen.de/nebenkosten/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nebenkostenabrechnung erhalten? Erst verstehen, dann zahlen &mdash; MussIchZahlen.de</title>
   <meta name="description" content="Nebenkostenabrechnung erhalten? Kostenlose Ersteinordnung per E-Mail — bevor Sie zahlen oder reagieren. Kostenlose Ersteinordnung vor einer Zahlung. Ausführlichere Einordnung optional.">
@@ -371,6 +372,24 @@ btn.addEventListener('click', async () => {
   }
 });
 function setStatus(kind, msg) { statusEl.textContent = msg; statusEl.className = 'optie-status' + (kind ? ' optie-status--' + kind : ''); }
+</script>
+
+<script>
+  // Google Ads upload conversion
+  document.addEventListener('DOMContentLoaded', function(){
+    var el = document.getElementById('gratis-status');
+    if(!el) return;
+    var fired = false;
+    new MutationObserver(function(){
+      if(fired) return;
+      if(el.classList.contains('optie-status--success')){
+        fired = true;
+        if(typeof gtag !== 'undefined'){
+          gtag('event', 'conversion', {'send_to': 'AW-18193666186/CONVERSION_LABEL'});
+        }
+      }
+    }).observe(el, {attributes: true, attributeFilter: ['class']});
+  });
 </script>
 </body>
 </html>
