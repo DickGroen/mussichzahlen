@@ -2,6 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
+    <link rel="canonical" href="https://www.mussichzahlen.de/parkstrafe/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Parkforderung erhalten? Erst einordnen, dann entscheiden &mdash; MussIchZahlen.de</title>
   <meta name="description" content="Bu&szlig;geldbescheid, Strafzettel oder private Parkforderung erhalten? Kostenlose Ersteinordnung, danach vollst&auml;ndige Pr&uuml;fung + fertiges Antwortvorlage.">
@@ -431,5 +432,23 @@ function setStatus(kind, msg) {
 }
 </script>
 
+
+<script>
+  // Google Ads upload conversion
+  document.addEventListener('DOMContentLoaded', function(){
+    var el = document.getElementById('gratis-status');
+    if(!el) return;
+    var fired = false;
+    new MutationObserver(function(){
+      if(fired) return;
+      if(el.classList.contains('optie-status--success')){
+        fired = true;
+        if(typeof gtag !== 'undefined'){
+          gtag('event', 'conversion', {'send_to': 'AW-18193666186/CONVERSION_LABEL'});
+        }
+      }
+    }).observe(el, {attributes: true, attributeFilter: ['class']});
+  });
+</script>
 </body>
 </html>
