@@ -59,6 +59,11 @@
   gtag('js', new Date());
   gtag('config', 'AW-18193666186');
 </script>
+
+
+  <!-- Google Analytics GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GT-WR4P7PNB"></script>
+  <script>gtag('config','GT-WR4P7PNB');</script>
 </head>
 
 <body>
@@ -68,16 +73,9 @@
   <div class="card hidden" id="auto-card">
     <div class="badge"><span class="dot"></span>Zahlung erfolgreich</div>
     <h1>Vielen Dank für Ihre Zahlung.</h1>
-    <p>Ihre Zahlung ist eingegangen und Ihre Unterlagen liegen uns vor. Unser Team kann nun mit der Analyse beginnen.</p>
-    <div id="auto-status" class="status-box success">Vielen Dank. Ihre Zahlung ist eingegangen und Ihre Unterlagen liegen uns vor.</div>
-
-    <div style="background:#f7f9fc;border:1px solid #e2e8f0;border-radius:10px;padding:14px 16px;margin-top:16px;font-size:.85rem;color:#4a5568;line-height:1.75;">
-      <strong style="display:block;color:#0f1923;margin-bottom:6px;">Zustellung per E-Mail</strong>
-      Ihre Analyse wird per E-Mail übermittelt. Wir bieten keine telefonische Beratung und keine persönlichen Termine an. Durch die Bearbeitung per E-Mail können wir den Preis niedrig halten und gleichzeitig jede Einsendung sorgfältig prüfen.<br>
-      Bei Fragen zu Ihrer Bestellung erreichen Sie uns unter <a href="mailto:support@mussichzahlen.de" style="color:#1a3a6b;">support@mussichzahlen.de</a>.
-    </div>
-
-    <p class="note">Ihre Analyse ist in Bearbeitung. Sie erhalten das Ergebnis per E-Mail — am nächsten Werktag bis 16:00 Uhr.</p>
+    <p>Vielen Dank. Ihre Zahlung ist eingegangen und Ihre Unterlagen liegen uns vor. Unser Team kann nun mit der Analyse beginnen.</p>
+    <div id="auto-status" class="status-box success">Vielen Dank. Ihre Zahlung ist eingegangen und Ihre Unterlagen liegen uns vor. Unser Team kann nun mit der Analyse beginnen. Sie erhalten Ihre Einschätzung spätestens am nächsten Werktag bis 16:00 Uhr.</div>
+    <p class="note">Sie erhalten Ihre Einschätzung spätestens am nächsten Werktag bis 16:00 Uhr per E-Mail.</p>
   </div>
 
   <div class="card" id="thankyou-app">
@@ -148,14 +146,14 @@
 
     <div class="fallback-box">
       <strong>Upload funktioniert nicht?</strong>
-      <p>Senden Sie Ihr Dokument direkt per E-Mail an uns. Bitte geben Sie Ihren Namen und die E-Mail-Adresse an, mit der Sie bezahlt haben.</p>
+      <p>Schicken Sie Ihr Dokument einfach per E-Mail an uns — wir kümmern uns darum. Falls Sie bereits eine Analyse bestellt haben, geben Sie bitte auch die E-Mail-Adresse an, die Sie bei der Bestellung verwendet haben.</p>
       <a href="mailto:support@mussichzahlen.de" class="fallback-email">support@mussichzahlen.de</a>
     </div>
   </div>
 
   <div class="card hidden" id="locked-screen">
     <h1>Zahlung nicht gefunden</h1>
-    <p>Bitte starten Sie den Vorgang erneut über die Mahnungsprüfung.</p>
+    <p>Bitte öffnen Sie die Angebot-Prüfung erneut, um den Vorgang neu zu starten.</p>
     <div class="status-box error">Keine gültige Zahlungssitzung gefunden.</div>
   </div>
 
@@ -169,24 +167,26 @@
 
 </div>
 
-<script type="module">
-  import {
-    submitPaid,
-    validateFile,
-    formatFileSize,
-    track
-  } from "/app.js";
+<script src="/app.js"></script>
+<script>
+  function formatFileSize(bytes) {
+    if (!Number.isFinite(bytes)) return "0 B";
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+    return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+  }
 
   const params = new URLSearchParams(window.location.search);
 
   const sessionId = params.get("session_id");
-  // Google Ads Conversion
+  const type = params.get("type") || "angebot";
+
+  // Google Ads purchase conversion
   if (sessionId && sessionId.startsWith("cs_")) {
     if (typeof gtag !== "undefined") {
       gtag("event", "conversion", {"send_to": "AW-18193666186/axNLCNDdgrkcEIqhteND","value": 29.0,"currency": "EUR","transaction_id": sessionId});
     }
   }
-  const type = params.get("type") || "angebot";
 
   const autoCard = document.getElementById("auto-card");
   const autoStatus = document.getElementById("auto-status");
@@ -313,12 +313,12 @@
     if (nameEl  && params.get("name"))  nameEl.value  = params.get("name");
 
     showOnly(autoCard);
-    autoStatus.textContent = "Vielen Dank. Ihre Zahlung ist eingegangen und Ihre Unterlagen liegen uns vor.";
+    autoStatus.textContent = "Vielen Dank. Ihre Zahlung ist eingegangen und Ihre Unterlagen liegen uns vor. Unser Team kann nun mit der Analyse beginnen. Sie erhalten Ihre Einschätzung spätestens am nächsten Werktag bis 16:00 Uhr.";
 
-    submitAutoPaid({ type, sessionId, onStatus: (kind, msg) => { autoStatus.textContent = msg; } })
+    submitAutoPaid({ type, sessionId, onStatus: (kind, msg) => {  } })
       .then(() => {
         autoStatus.className = "status-box success";
-        autoStatus.textContent = "Ihre Einordnung wird vorbereitet. Sie erhalten das Ergebnis per E-Mail — am nächsten Werktag bis 16:00 Uhr.";
+        autoStatus.textContent = "Vielen Dank. Ihre Zahlung ist eingegangen und Ihre Unterlagen liegen uns vor. Unser Team kann nun mit der Analyse beginnen. Sie erhalten Ihre Einschätzung spätestens am nächsten Werktag bis 16:00 Uhr.";
         track("paid_auto_success", { type });
       })
       .catch(err => {
