@@ -2,103 +2,711 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
+    <link rel="canonical" href="https://www.mussichzahlen.de/mahnung/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MussIchZahlen — Muss ich das wirklich zahlen?</title>
-  <meta name="description" content="Mahnung, Bußgeldbescheid, Rechnung oder Vertrag? Prüfen Sie Ihr Schreiben und erhalten Sie eine vollständige Analyse plus fertiges Antwortschreiben.">
+  <title>Mahnung erhalten? Erst einordnen, dann reagieren | MussIchZahlen.de</title>
+  <meta name="description" content="Mahnung, Inkassoschreiben oder Zahlungsaufforderung erhalten? Erst kostenlos einsch&auml;tzen lassen, ob vor einer Zahlung noch Punkte gekl&auml;rt werden sollten.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--ink:#0f1923;--ink-2:#2d3748;--ink-3:#4a5568;--muted:#718096;--line:#e2e8f0;--surface:#f7f9fc;--white:#ffffff;--accent:#1a3a6b;--accent-2:#2d5499;--green:#166534;--green-soft:#dcfce7;--warn:#eab308;--warn-soft:#fef9c3;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.65;color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased;}
+    h1,h2,h3{font-family:'Lora',Georgia,serif;line-height:1.2;}
+    a{color:var(--accent);}
+    .container{max-width:860px;margin:0 auto;padding:0 24px;}
+    .hinweis-banner{background:#fff7ed;border-bottom:2px solid #fdba74;padding:10px 0;text-align:center;font-size:.84rem;font-weight:600;color:#92400e;}
+    .header{background:var(--white);border-bottom:1px solid var(--line);padding:16px 0;position:sticky;top:0;z-index:100;}
+    .header__inner{display:flex;align-items:center;justify-content:space-between;}
+    .logo{font-family:'Lora',serif;font-size:1.15rem;font-weight:700;color:var(--accent);}
+    .logo-dot{display:inline-block;width:8px;height:8px;background:var(--accent-2);border-radius:50%;margin-right:6px;vertical-align:middle;}
+    .header-cta{background:var(--accent);color:var(--white);border:none;border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;text-decoration:none;}
+    .hero{padding:64px 0 48px;text-align:center;}
+    .hero h1{font-size:clamp(1.9rem,5vw,2.9rem);margin-bottom:20px;max-width:700px;margin-left:auto;margin-right:auto;}
+    .hero__sub{font-size:1.05rem;color:var(--ink-3);max-width:560px;margin:0 auto 30px;line-height:1.7;}
+    .hero-cta,.primary-btn{display:inline-block;background:var(--accent);color:var(--white);text-decoration:none;padding:17px 34px;border-radius:10px;font-size:1.05rem;font-weight:700;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;}
+    .hero-cta:hover,.primary-btn:hover,.offer-cta:hover{background:var(--accent-2);}
+    .hero-sub-note{font-size:.82rem;color:var(--muted);margin-top:10px;}
+    .trust-triggers{background:var(--green-soft);border:1px solid #bbf7d0;border-radius:12px;padding:20px 24px;margin:40px auto 0;display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:600px;}
+    @media(max-width:600px){.trust-triggers{grid-template-columns:1fr;}}
+    .trust-trigger{display:flex;align-items:flex-start;gap:10px;font-size:.87rem;color:var(--green);line-height:1.55;}
+    .trust-trigger strong{display:block;font-weight:700;color:#14532d;margin-bottom:2px;}
+    .section{padding:72px 0;}
+    .section--alt{background:var(--surface);}
+    .section-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-2);margin-bottom:10px;}
+    .section h2{font-size:clamp(1.5rem,3vw,2rem);margin-bottom:32px;}
+    .value-strip{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 36px;justify-content:center;}
+    .value-item{display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--line);border-radius:100px;padding:8px 16px;font-size:.86rem;color:var(--ink-2);font-weight:500;}
+    .vi-check{color:var(--green);font-weight:700;}
+    .offer-card{background:var(--white);border:2px solid var(--accent);border-radius:16px;padding:36px 32px;max-width:580px;margin:0 auto;box-shadow:0 12px 40px rgba(26,58,107,.1);}
+    @media(max-width:600px){.offer-card{padding:24px 20px;}}
+    .offer-badge{display:inline-block;background:var(--accent);color:var(--white);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 12px;border-radius:100px;margin-bottom:16px;}
+    .offer-title{font-family:'Lora',serif;font-size:1.45rem;margin-bottom:8px;}
+    .offer-desc{color:var(--ink-3);font-size:.93rem;margin-bottom:20px;line-height:1.65;}
+    .offer-list{list-style:none;margin-bottom:24px;display:grid;gap:8px;}
+    .offer-list li{display:flex;align-items:flex-start;gap:10px;font-size:.93rem;color:var(--ink-2);line-height:1.55;}
+    .offer-list li::before{content:"✓";color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px;}
+    hr.offer-divider{border:none;border-top:1px solid var(--line);margin:20px 0;}
+    .offer-price{font-size:2rem;font-weight:700;color:var(--accent);font-family:'Lora',serif;}
+    .offer-price span{font-size:.95rem;color:var(--muted);font-weight:400;font-family:'DM Sans',sans-serif;}
+    .offer-cta{display:block;background:var(--accent);color:var(--white);text-decoration:none;text-align:center;padding:17px;border-radius:10px;font-size:1.05rem;font-weight:700;margin-top:20px;border:none;width:100%;cursor:pointer;font-family:'DM Sans',sans-serif;}
+    .offer-security{text-align:center;font-size:.78rem;color:var(--muted);margin-top:10px;}
+    .offer-refund{text-align:center;font-size:.76rem;color:var(--muted);margin-top:6px;}
+    .upload-zone{border:2px dashed var(--line);border-radius:14px;padding:28px;text-align:center;cursor:pointer;background:var(--surface);transition:.2s;}
+    .upload-zone:hover{border-color:var(--accent);background:#eef4ff;}
+    .upload-label{font-weight:700;color:var(--accent);}
+    .upload-hint{font-size:.84rem;color:var(--muted);margin-top:6px;}
+    .contact-fields{display:none;flex-direction:column;gap:10px;margin-top:18px;}
+    .input{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:1rem;}
+    .input:focus{outline:none;border-color:var(--accent);}
+    .optie-status{font-size:.9rem;margin-top:12px;}
+    .optie-status--error{color:#b91c1c;}
+    .optie-status--success{color:var(--green);}
+    .optie-status--info{color:var(--accent);}
+    .teaser{display:none;margin-top:30px;opacity:0;transform:translateY(10px);transition:.25s ease;}
+    .teaser--visible{opacity:1;transform:translateY(0);}
+    .teaser-card{border-color:var(--warn);background:#fffdf2;}
+    .teaser-heading{font-weight:800;font-size:1.2rem;color:var(--ink);}
+    .teaser-sub{margin-top:6px;color:var(--muted);font-size:.92rem;}
+    .teaser-ai{margin:16px 0;background:var(--warn-soft);border-left:4px solid var(--warn);padding:14px;border-radius:8px;font-weight:500;color:#713f12;}
+    .teaser-cta{margin-top:16px;}
+    .teaser-cta h3{font-size:1.1rem;margin-bottom:10px;font-family:'Lora',serif;}
+    .teaser-cta ul{list-style:none;margin:10px 0 16px;display:grid;gap:7px;}
+    .teaser-cta li{font-size:.92rem;color:var(--ink-2);}
+    .teaser-cta li::before{content:"✓ ";color:var(--green);font-weight:700;}
+    .teaser-trust{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;font-size:.8rem;color:var(--muted);}
+    .teaser-trust span{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 10px;}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+    @media(max-width:640px){.steps{grid-template-columns:1fr;}}
+    .step__num{font-family:'Lora',serif;font-size:2.2rem;font-weight:700;color:var(--line);margin-bottom:10px;line-height:1;}
+    .step__title{font-weight:700;margin-bottom:6px;font-size:.98rem;}
+    .step__desc{font-size:.87rem;color:var(--ink-3);line-height:1.65;}
+    .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+    @media(max-width:680px){.trust-grid{grid-template-columns:1fr;}}
+    .trust-item{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:20px;}
+    .trust-item__label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:8px;}
+    .trust-item__text{font-size:.87rem;color:var(--ink-3);line-height:1.65;}
+    .fit-rows{display:grid;gap:10px;max-width:560px;}
+    .fit-row{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;background:var(--green-soft);border:1px solid #bbf7d0;border-radius:10px;font-size:.93rem;color:#14532d;}
+    .fit-row span:first-child{font-weight:700;flex-shrink:0;}
+    .faq-list{display:grid;gap:4px;}
+    .faq-item{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--white);}
+    .faq-q{display:flex;align-items:center;justify-content:space-between;padding:17px 20px;cursor:pointer;font-weight:600;font-size:.93rem;user-select:none;gap:12px;}
+    .faq-q:hover{background:var(--surface);}
+    .faq-chevron{flex-shrink:0;color:var(--muted);transition:transform .25s;}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;font-size:.9rem;color:var(--ink-3);line-height:1.7;padding:0 20px;}
+    .faq-item--open .faq-a{max-height:300px;padding:0 20px 17px;}
+    .faq-item--open .faq-chevron{transform:rotate(180deg);}
+    .final-cta{background:var(--accent);color:var(--white);padding:72px 0;text-align:center;}
+    .final-cta h2{color:var(--white);font-size:clamp(1.6rem,3.5vw,2.1rem);margin-bottom:12px;}
+    .final-cta p{color:rgba(255,255,255,.75);margin-bottom:32px;}
+    .final-cta-btn{display:inline-block;background:var(--white);color:var(--accent);text-decoration:none;padding:17px 40px;border-radius:10px;font-size:1.05rem;font-weight:700;}
+    .final-cta-note{color:rgba(255,255,255,.6);font-size:.8rem;margin-top:12px;}
+    .sticky-footer{position:fixed;bottom:0;left:0;right:0;background:var(--ink);color:var(--white);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;transform:translateY(100%);transition:transform .3s ease;z-index:200;}
+    .sticky-footer.visible,.sticky-footer--visible{transform:translateY(0);}
+    .sticky-footer__text{font-size:.9rem;font-weight:600;}
+    .sticky-footer__sub{font-size:.76rem;color:rgba(255,255,255,.6);margin-top:2px;}
+    .sticky-cta{background:var(--white);color:var(--accent);border:none;border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;text-decoration:none;}
+    @media(max-width:500px){.sticky-footer{flex-direction:column;text-align:center;}.sticky-cta{width:100%;}}
+    .modal-overlay{position:fixed;inset:0;background:rgba(15,25,35,.6);backdrop-filter:blur(4px);z-index:300;display:none;align-items:center;justify-content:center;padding:24px;}
+    .modal-overlay.open,.modal-overlay.modal--open{display:flex;}
+    .modal{background:var(--white);border-radius:16px;max-width:480px;width:100%;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.2);}
+    .modal__header{background:var(--accent);color:var(--white);padding:28px 28px 24px;}
+    .modal__eyebrow{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;opacity:.7;margin-bottom:8px;}
+    .modal__title{font-family:'Lora',serif;font-size:1.25rem;font-weight:700;margin-bottom:8px;}
+    .modal__price{font-size:1.6rem;font-weight:700;font-family:'Lora',serif;}
+    .modal__price span{font-size:.95rem;opacity:.7;font-weight:400;font-family:'DM Sans',sans-serif;}
+    .modal__body{padding:24px 28px;}
+    .modal__feature{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;font-size:.92rem;color:var(--ink-2);}
+    .modal__feature .check{color:var(--green);font-weight:700;flex-shrink:0;}
+    .modal__disclaimer{background:var(--surface);border-radius:8px;padding:10px 14px;font-size:.8rem;color:var(--muted);margin:16px 0;line-height:1.55;}
+    .modal__cta{display:block;background:var(--accent);color:var(--white);text-decoration:none;text-align:center;padding:16px;border-radius:10px;font-size:1rem;font-weight:700;margin-bottom:10px;}
+    .modal__security{text-align:center;font-size:.78rem;color:var(--muted);}
+    .modal__close{display:block;text-align:center;margin-top:14px;font-size:.84rem;color:var(--muted);cursor:pointer;}
+    .modal__close:hover{color:var(--ink);}
+    .footer-trust{padding:32px 0 16px;font-size:.85rem;color:var(--ink-3);line-height:1.75;border-top:1px solid var(--line);}
+    .disclaimer{padding:16px 0 20px;font-size:.78rem;color:var(--muted);line-height:1.7;}
+  </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18193666186"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-18193666186');
+</script>
+<!-- Google Analytics GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GT-WR4P7PNB"></script>
+<script>gtag('config','GT-WR4P7PNB');</script>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="container--wide">
-    <div class="site-header__inner">
+<div class="hinweis-banner">Mahnung oder Inkassoschreiben erhalten? Viele Schreiben wirken dringender, als sie auf den ersten Blick nachvollziehbar sind.</div>
+
+<header class="header">
+  <div class="container">
+    <div class="header__inner">
       <div class="logo"><span class="logo-dot"></span>MussIchZahlen</div>
+      <a href="#free-check" class="header-cta">Kostenlos einordnen lassen</a>
     </div>
   </div>
 </header>
 
-<section class="hero" style="padding-bottom:20px;">
-  <div class="container" style="text-align:center;">
-    <div class="hero__eyebrow" style="display:inline-block;margin-bottom:20px;">
-      Basierend auf deutschem Verbraucher- und Vertragsrecht
+<section class="hero">
+  <div class="container">
+    <h1>Mahnung erhalten? Erst einordnen, bevor Sie reagieren.</h1>
+    <p class="hero__sub">Laden Sie Ihr Schreiben hoch und erhalten Sie eine kostenlose Ersteinordnung. Wenn vor einer Zahlung noch Punkte geklärt werden sollten, ist eine ausführlichere Prüfung optional.</p>
+    <p style="font-size:.95rem;color:var(--muted);margin-bottom:16px;">Viele Menschen zahlen solche Schreiben schnell — ohne vorher zu verstehen, was tatsächlich gefordert wird und ob alle Angaben nachvollziehbar sind.</p>
+    <a href="#free-check" class="hero-cta">Kostenlose Ersteinordnung erhalten</a>
+    <div class="hero-sub-note">PDF, JPG oder PNG · kein Abo · ausführlichere Einordnung möglich</div>
+    <div class="trust-triggers">
+      <div class="trust-trigger"><span>●</span><div><strong>Unklare Kosten</strong>Wie sich Mahn- und Inkassokosten zusammensetzen, ist nicht immer sofort erkennbar.</div></div>
+      <div class="trust-trigger"><span>●</span><div><strong>Fehlende Unterlagen</strong>Ob alle relevanten Nachweise beigefügt sind, ist vor einer Reaktion relevant.</div></div>
+      <div class="trust-trigger"><span>●</span><div><strong>Vor der Zahlung</strong>Eine Zahlung oder Reaktion verändert die Situation. Eine kurze Einordnung vorher ist sinnvoll.</div></div>
     </div>
-    <h1>Muss ich das zahlen &mdash; oder zahle ich gerade zu viel?</h1>
-    <p class="hero__sub" style="max-width:600px;margin:0 auto 8px;">
-      Viele zahlen ohne zu pr&uuml;fen &mdash; und zahlen mehr als n&ouml;tig. Mahnungen, Bu&szlig;geldbescheide, falsche Rechnungen und Vertr&auml;ge werfen h&auml;ufig Fragen auf, die vor einer Zahlung genauer gepr&uuml;ft werden sollten.
-    </p>
-    <p style="font-size:.95rem;color:var(--muted);margin-bottom:4px;">Viele merken das erst, nachdem sie bereits gezahlt haben.</p>
-    <p style="font-size:.9rem;color:var(--muted);margin-bottom:4px;">W&auml;hlen Sie aus, was Sie erhalten haben:</p>
   </div>
 </section>
 
-<section style="padding:0 0 72px;">
-  <div class="container">
-    <div class="category-grid">
-
-      <a href="/mahnung/" class="category-card category-card--featured" style="position:relative;">
-        <div style="position:absolute;top:-10px;left:20px;background:#1a3a6b;color:#fff;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;padding:3px 10px;border-radius:100px;">Am h&auml;ufigsten gepr&uuml;ft</div>
-        <div class="category-card__icon">📄</div>
-        <div class="category-card__title">Mahnung / Inkasso</div>
-        <div class="category-card__desc">Inkassoschreiben, Mahnbescheid oder Zahlungsaufforderung. Pr&uuml;fen Sie, ob Sie wirklich zahlen m&uuml;ssen.</div>
-        <div class="category-card__price">Analyse + fertiges Schreiben &mdash; &euro;49</div>
-      </a>
-
-      <a href="/parkstrafe/" class="category-card">
-        <div class="category-card__icon">🚗</div>
-        <div class="category-card__title">Bu&szlig;geldbescheid / Parkstrafe</div>
-        <div class="category-card__desc">Bu&szlig;geldbescheid, Kn&ouml;llchen oder Strafzettel. Bei manchen lohnt sich eine genauere Pr&uuml;fung, bevor Sie zahlen.</div>
-        <div class="category-card__price">Analyse + fertiges Schreiben &mdash; &euro;19</div>
-      </a>
-
-      <a href="/rechnung/" class="category-card">
-        <div class="category-card__icon">⚡</div>
-        <div class="category-card__title">Rechnung / &Uuml;berzahlung</div>
-        <div class="category-card__desc">Energie-, Telefon-, Handwerker- oder Dienstleistungsrechnung, die nicht stimmt. Pr&uuml;fen Sie vor der Zahlung.</div>
-        <div class="category-card__price">Analyse + fertiges Schreiben &mdash; &euro;29</div>
-      </a>
-
-      <a href="/vertrag/" class="category-card">
-        <div class="category-card__icon">🔄</div>
-        <div class="category-card__title">Vertrag / K&uuml;ndigung</div>
-        <div class="category-card__desc">Abo, Mitgliedschaft oder Vertrag, den Sie k&uuml;ndigen m&ouml;chten. Pr&uuml;fen Sie, ob die Bedingungen wirksam sind.</div>
-        <div class="category-card__price">Analyse + fertiges Schreiben &mdash; &euro;29</div>
-      </a>
-
-      <a href="/angebot/" class="category-card">
-        <div class="category-card__icon">🔨</div>
-        <div class="category-card__title">Angebot / Kostenvoranschlag</div>
-        <div class="category-card__desc">Handwerkerangebot, Kostenvoranschlag oder Dienstleistungsangebot. Pr&uuml;fen Sie, bevor Sie zustimmen.</div>
-        <div class="category-card__price">Analyse + fertiges Schreiben &mdash; &euro;29</div>
-      </a>
-
-      <a href="/nebenkosten/" class="category-card">
-        <div class="category-card__icon">🏠</div>
-        <div class="category-card__title">Nebenkostenabrechnung</div>
-        <div class="category-card__desc">J&auml;hrliche Betriebskosten- oder Heizkostenabrechnung. Pr&uuml;fen Sie, ob die Positionen und der Nachzahlungsbetrag nachvollziehbar sind.</div>
-        <div class="category-card__price">Analyse + Einordnung &mdash; &euro;29</div>
-      </a>
-
+<section class="section" id="free-check">
+  <div class="container" style="max-width:620px;">
+    <div class="offer-card" id="free-card">
+      <div class="offer-badge">Kostenlose Ersteinordnung</div>
+      <div class="offer-title">Kostenlose Ersteinordnung</div>
+      <p class="offer-desc">Laden Sie Ihre Mahnung, Ihr Inkassoschreiben oder Ihre Zahlungsaufforderung hoch. Sie erhalten eine erste Einordnung dazu, ob vor einer Zahlung noch Punkte gekl&auml;rt werden sollten.</p>
+      <div id="gratis-upload-zone" class="upload-zone">
+        <div class="upload-label">Datei ausw&auml;hlen</div>
+        <div class="upload-hint">PDF, JPG oder PNG &middot; max. 8 MB</div>
+        <input id="gratis-file-input" type="file" accept=".pdf,.jpg,.jpeg,.png" style="display:none;">
+      </div>
+      <div id="gratis-contact-fields" class="contact-fields">
+        <input id="gratis-name" class="input" placeholder="Ihr Name" autocomplete="name">
+        <input id="gratis-email" class="input" placeholder="Ihre E-Mail-Adresse" type="email" autocomplete="email">
+        <button id="gratis-btn" disabled class="offer-cta">Kostenlose Einordnung starten</button>
+      </div>
+      <div id="gratis-status" class="optie-status"></div>
+      <div class="offer-security">&#128274; Ihre Datei wird vertraulich verarbeitet und nicht an Dritte weitergegeben.</div>
     </div>
 
-    <p style="text-align:center;font-size:.82rem;color:var(--muted);margin-top:8px;">
-      Fragen? <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a>
-    </p>
+    <!-- Bevestigingskaart na upload -->
+    <div id="confirmation-card" style="display:none;margin-top:24px;background:#f0fdf4;border:2px solid #86efac;border-radius:16px;padding:28px 28px 24px;max-width:580px;margin-left:auto;margin-right:auto;">
+      <div style="font-size:1.1rem;font-weight:700;color:#14532d;margin-bottom:10px;">&#10003; Wir haben Ihr Schreiben erhalten.</div>
+      <p style="font-size:.95rem;color:#166534;margin-bottom:16px;line-height:1.7;">
+        Sie erhalten Ihre Ersteinordnung in K&uuml;rze per E-Mail &mdash; sp&auml;testens am n&auml;chsten Werktag bis 16:00 Uhr.
+      </p>
+      <div style="background:#fff;border:1px solid #bbf7d0;border-radius:10px;padding:14px 16px;margin-bottom:16px;">
+        <div style="font-weight:700;font-size:.9rem;color:#14532d;margin-bottom:6px;">Was passiert als n&auml;chstes?</div>
+        <p style="font-size:.88rem;color:#166534;line-height:1.65;margin:0;">
+          Wir sehen uns Ihr Schreiben an und senden Ihnen eine erste Einordnung per E-Mail. Falls vor einer Zahlung noch Punkte offen bleiben, erfahren Sie das dort.
+        </p>
+      </div>
+      <p style="font-size:.84rem;color:#166534;margin-bottom:6px;">&#8594; Bitte pr&uuml;fen Sie auch Ihren Spam-Ordner, falls Sie keine E-Mail erhalten.</p>
+      <p style="font-size:.84rem;color:#166534;margin:0;">Vielen Dank f&uuml;r Ihr Vertrauen.</p>
+    </div>
+
+    <div id="teaser" class="teaser">
+      <div class="offer-card teaser-card">
+        <div id="teaser-company" class="teaser-heading"></div>
+        <div id="teaser-sub" class="teaser-sub"></div>
+        <div id="modal-dynamic-copy" class="teaser-ai"></div>
+        <div id="teaser-cta" class="teaser-cta"></div>
+        <div class="teaser-trust">
+          <span>Kein Abo</span><span>Sichere Zahlung via Stripe</span><span>Ergebnis per E-Mail</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<footer style="border-top:1px solid var(--border,#e5e7eb);padding:24px 0;text-align:center;">
+<section class="section section--alt">
   <div class="container">
-    <p style="font-size:.82rem;color:var(--muted,#6b7280);margin:0;">
-      MussIchZahlen ist ein Dokumentenpr&uuml;fdienst &mdash; keine Rechtsberatung. &nbsp;&middot;&nbsp;
-      <a href="/impressum.html" style="color:inherit;margin:0 10px;">Impressum</a>
-      <a href="/datenschutz.html" style="color:inherit;margin:0 10px;">Datenschutz</a>
-      <a href="/agb.html" style="color:inherit;margin:0 10px;">AGB</a>
+    <div class="value-strip">
+      <span class="value-item"><span class="vi-check">&#10003;</span> Unklare Kosten</span>
+      <span class="value-item"><span class="vi-check">&#10003;</span> Nachweise und Unterlagen</span>
+      <span class="value-item"><span class="vi-check">&#10003;</span> Wer die Zahlung verlangt</span>
+      <span class="value-item"><span class="vi-check">&#10003;</span> Antwortvorlage bei Bedarf</span>
+      <span class="value-item"><span class="vi-check">&#10003;</span> Einmalig Ausführlichere Einordnung optional</span>
+    </div>
+    <div class="offer-card">
+      <div class="offer-badge">Nach Ersteinordnung</div>
+      <div class="offer-title">Ausf&uuml;hrlichere Einordnung + Antwortvorlage</div>
+      <p class="offer-desc">Wir ordnen das Schreiben ausführlicher ein — Forderungsgrundlage, Kosten, Absender und offene Punkte. Sie erhalten bei Bedarf einen Formulierungsvorschlag. Sie entscheiden, was Sie tun.</p>
+      <ul class="offer-list">
+        <li>Pr&uuml;fung der genannten Forderung und zus&auml;tzlicher Kosten</li>
+        <li>Hinweise zu unklaren Kostenbestandteilen</li>
+        <li>Pr&uuml;fung, ob Nachweise und Unterlagen nachvollziehbar beigef&uuml;gt sind</li>
+        <li>Einordnung offener Punkte im Schreiben</li>
+        <li>Formulierungsvorschlag für eine schriftliche Reaktion (anpassbar)</li>
+        <li>Klare n&auml;chste Schritte</li>
+        <li>Ergebnis per E-Mail</li>
+      </ul>
+      <hr class="offer-divider">
+      <div class="offer-price">&euro;49 <span>einmalig &middot; kein Abo</span></div>
+      <a href="#free-check" class="offer-cta">Zuerst kostenlos einordnen lassen</a>
+      <div class="offer-security">&#128274; Sichere Zahlung &uuml;ber Stripe nach der Ersteinordnung</div>
+      <div class="offer-refund">Wenn die Einordnung Ihr Schreiben nicht vollständig erfasst, melden Sie sich. Wir schauen es noch einmal an.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-label">So funktioniert es</div>
+    <h2>In 3 Schritten zur Entscheidung</h2>
+    <div class="steps">
+      <div class="step"><div class="step__num">01</div><div class="step__title">Schreiben hochladen</div><div class="step__desc">Sie laden Ihre Mahnung hoch. PDF, JPG oder PNG.</div></div>
+      <div class="step"><div class="step__num">02</div><div class="step__title">Kostenlose Ersteinordnung</div><div class="step__desc">Sie sehen, ob m&ouml;gliche Ansatzpunkte erkennbar sind.</div></div>
+      <div class="step"><div class="step__num">03</div><div class="step__title">Optional: ausf&uuml;hrlichere Einordnung</div><div class="step__desc">Wenn Sie m&ouml;chten, erhalten Sie eine ausf&uuml;hrlichere Einordnung und bei Bedarf eine Antwortvorlage per E-Mail.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container">
+    <div class="section-label">Worauf es oft ankommt</div>
+    <h2>Typische Punkte in Mahn- und Inkassoschreiben</h2>
+    <div class="trust-grid">
+      <div class="trust-item"><div class="trust-item__label">Kosten und Nebenkosten</div><div class="trust-item__text">Zusätzliche Inkasso- oder Mahnkosten sind nicht automatisch fällig. Wie sie berechnet wurden und ob sie im konkreten Fall so anfallen, lässt sich prüfen.</div></div>
+      <div class="trust-item"><div class="trust-item__label">Unterlagen und Nachweise</div><div class="trust-item__text">Ob das Schreiben auf einem klar belegten Vertrag basiert und ob alle nötigen Unterlagen beigefügt sind, kann vor einer Zahlung oder Reaktion relevant sein.</div></div>
+      <div class="trust-item"><div class="trust-item__label">Ihre Entscheidung</div><div class="trust-item__text">Sie erhalten eine Einordnung zur besseren Orientierung. Sie entscheiden selbst, ob und wie Sie reagieren.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-label">Passend f&uuml;r Sie?</div>
+    <h2>F&uuml;r wen ist das geeignet?</h2>
+    <div class="fit-rows">
+      <div class="fit-row"><span>✓</span><span>Sie haben eine Mahnung, ein Inkassoschreiben oder eine Zahlungsaufforderung erhalten</span></div>
+      <div class="fit-row"><span>✓</span><span>Sie sind unsicher, ob Betrag, Kosten oder beigefügte Nachweise vollständig und nachvollziehbar sind</span></div>
+      <div class="fit-row"><span>✓</span><span>Sie wissen nicht, ob das Schreiben von einem Inkassodienstleister oder dem ursprünglichen Gläubiger stammt</span></div>
+      <div class="fit-row"><span>✓</span><span>Sie möchten vor einer Zahlung oder Reaktion verstehen, was der Schreiben tatsächlich bedeutet</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container">
+<section class="section">
+  <div class="container">
+    <div class="section-label">Rückmeldungen von Nutzern</div>
+    <h2>Wie Nutzer die Einordnung erlebt haben</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:8px;">
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;">
+        <p style="font-size:.93rem;color:var(--ink-2);line-height:1.7;margin:0 0 14px;">„Ich wollte zunächst einfach zahlen. Nach der Einordnung war klarer, ob das Schreiben überhaupt ausreichend belegt war."</p>
+        <p style="font-size:.78rem;color:var(--muted);margin:0;">Nutzer aus Frankfurt</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;">
+        <p style="font-size:.93rem;color:var(--ink-2);line-height:1.7;margin:0 0 14px;">„Die Erklärung war ruhig formuliert. Keine unnötige Aufregung, nur eine sachliche Einordnung, was in dem Schreiben stand."</p>
+        <p style="font-size:.78rem;color:var(--muted);margin:0;">Nutzerin aus Berlin</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;">
+        <p style="font-size:.93rem;color:var(--ink-2);line-height:1.7;margin:0 0 14px;">„Ich hatte keine Ahnung, ob die Inkassokosten so zulässig waren. Die Zusammenfassung hat mir geholfen, das besser einzuschätzen."</p>
+        <p style="font-size:.78rem;color:var(--muted);margin:0;">Nutzer aus München</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;">
+        <p style="font-size:.93rem;color:var(--ink-2);line-height:1.7;margin:0 0 14px;">„Der Antwortentwurf war brauchbar. Nicht zu aggressiv, aber klar genug, um Rückfragen zu stellen."</p>
+        <p style="font-size:.78rem;color:var(--muted);margin:0;">Nutzerin aus Hamburg</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <div class="section-label">H&auml;ufige Fragen</div>
+    <h2>Alles, was Sie wissen m&ouml;chten</h2>
+    <div class="faq-list">
+      <div class="faq-item"><div class="faq-q">Muss ich sofort zahlen, wenn ich eine Mahnung erhalte? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nicht unbedingt. Mahnschreiben setzen eine Zahlungsfrist — Sie sind aber grundsätzlich berechtigt, vor einer Zahlung Nachweise oder Klärung anzufordern. Eine erste Einordnung kann helfen, die Situation zu verstehen.</div></div>
+      <div class="faq-item"><div class="faq-q">Müssen Inkassokosten immer bezahlt werden? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Inkassokosten sind nicht automatisch zu zahlen. Wie hoch sie sein dürfen und ob sie berechtigt sind, hängt vom Vertrag und Ablauf ab. Eine Einordnung kann das klären.</div></div>
+      <div class="faq-item"><div class="faq-q">Was passiert nach dem Hochladen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Sie erhalten eine kostenlose Ersteinordnung per E-Mail — in der Regel bis zum nächsten Werktag bis 16:00 Uhr. Darin erfahren Sie, ob offene Punkte erkennbar sind, die vor einer Zahlung geklärt werden sollten. Eine ausführlichere Prüfung mit Formulierungsvorschlag ist für 49 € optional verfügbar.</div></div>
+      <div class="faq-item"><div class="faq-q">Ist das Rechtsberatung? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nein. MussIchZahlen.de erstellt informative Einordnungen und Formulierungsvorschlag in verständlicher Sprache. Keine Rechtsberatung und keine anwaltliche Vertretung.</div></div>
+      <div class="faq-item"><div class="faq-q">Was passiert mit meinen Unterlagen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Ihr Dokument wird ausschließlich für die Erstellung Ihrer Einordnung verarbeitet. Es wird nicht an Dritte weitergegeben und nicht für andere Zwecke verwendet.</div></div>
+      <div class="faq-item"><div class="faq-q">Kann ich telefonisch mit jemandem sprechen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Unser Service basiert auf der Prüfung eingereichter Unterlagen und schriftlichen Einschätzungen per E-Mail. Durch die Bearbeitung per E-Mail können wir die Kosten niedrig halten und gleichzeitig eine sorgfältige und einheitliche Prüfung gewährleisten.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="container">
+    <h2>Erst verstehen — dann entscheiden.</h2>
+    <p>Mahnung oder Inkassoschreiben erhalten? Eine kostenlose Ersteinordnung gibt Ihnen Klarheit — bevor Sie zahlen oder reagieren.</p>
+    <a href="#free-check" class="final-cta-btn">Kostenlose Ersteinordnung erhalten</a>
+    <div class="final-cta-note">PDF, JPG oder PNG · kein Abo · ausführlichere Einordnung möglich</div>
+  </div>
+</section>
+
+<div class="container">
+  <div class="footer-trust"><strong>MussIchZahlen.de</strong> hilft Verbrauchern, Forderungen vor einer Zahlung besser zu verstehen.<br>Fragen? <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a></div>
+  <div class="disclaimer">MussIchZahlen.de bietet informative Einordnungen und Formulierungsvorschlag. Keine Rechtsberatung, keine rechtliche Vertretung. Dokumente werden vertraulich verarbeitet. &copy; 2026 MussIchZahlen.de</div>
+</div>
+
+<footer style="border-top:1px solid var(--line);padding:20px 0;text-align:center;background:var(--white);">
+  <div class="container">
+    <p style="font-size:.78rem;color:var(--muted);margin:0;">
+      <a href="/impressum.html" style="color:var(--muted);margin:0 10px;">Impressum</a>
+      <a href="/datenschutz.html" style="color:var(--muted);margin:0 10px;">Datenschutz</a>
+      <a href="/agb.html" style="color:var(--muted);margin:0 10px;">AGB</a>
     </p>
   </div>
 </footer>
 
+<div class="sticky-footer" id="sticky-footer">
+  <div>
+    <div class="sticky-footer__text" style="font-weight:400;font-size:.86rem;color:rgba(255,255,255,.9);">Schreiben erhalten? Kostenlos einordnen lassen.</div>
+    <div class="sticky-footer__sub">Kein Abo · ausführlichere Einordnung optional</div>
+  </div>
+  <a href="#free-check" class="sticky-cta">Kostenlos pr&uuml;fen &rarr;</a>
+</div>
+
+<!-- Modal — dynamisch befüllt nach Triage -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal__header">
+      <div class="modal__eyebrow">Ausf&uuml;hrlichere Pr&uuml;fung der Forderung</div>
+      <div class="modal__title" id="modal-title">Einordnung + Formulierungsvorschlag</div>
+      <div class="modal__price">&euro;49 <span>einmalig</span></div>
+    </div>
+    <div class="modal__body">
+      <div id="modal-features">
+        <div class="modal__feature"><span class="check">&#10003;</span><span>Einordnung der offenen Punkte</span></div>
+        <div class="modal__feature"><span class="check">&#10003;</span><span>Pr&uuml;fung von Kosten, Unterlagen und Nachweisen</span></div>
+        <div class="modal__feature"><span class="check">&#10003;</span><span>Fertiges Formulierungsvorschlag bei Bedarf</span></div>
+      </div>
+      <div class="modal__disclaimer">Informative Einordnung und Formulierungsvorschlag. Keine rechtliche Vertretung.</div>
+      <a id="modal-cta" href="#" class="modal__cta">Ausf&uuml;hrlichere Pr&uuml;fung starten &rarr;</a>
+      <div class="modal__security">&#128274; Sichere Zahlung via Stripe &middot; kein Abo</div>
+      <div class="modal__close" id="modal-close-btn">Zur&uuml;ck</div>
+    </div>
+  </div>
+</div>
+
+<script src="/app.js"></script>
+
+<script>
+// ── State ─────────────────────────────────────────────────────────────────────
+let selectedFile = null;
+let currentStripeLink = null;
+
+// ── DOM refs ──────────────────────────────────────────────────────────────────
+const uploadZone      = document.getElementById('gratis-upload-zone');
+const fileInput       = document.getElementById('gratis-file-input');
+const contactFields   = document.getElementById('gratis-contact-fields');
+const nameEl          = document.getElementById('gratis-name');
+const emailEl         = document.getElementById('gratis-email');
+const btn             = document.getElementById('gratis-btn');
+const statusEl        = document.getElementById('gratis-status');
+const teaserEl        = document.getElementById('teaser');
+const teaserCompany   = document.getElementById('teaser-company');
+const teaserSub       = document.getElementById('teaser-sub');
+const teaserCopy      = document.getElementById('modal-dynamic-copy');
+const teaserCta       = document.getElementById('teaser-cta');
+const modalEl         = document.getElementById('modal');
+const modalCta        = document.getElementById('modal-cta');
+const modalFeatures   = document.getElementById('modal-features');
+const modalCloseBtn   = document.getElementById('modal-close-btn');
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+try { if (window.initFaq) initFaq(); } catch(e) {}
+try { if (window.initStickyFooter) initStickyFooter(); } catch(e) {}
+
+// ── File selection ────────────────────────────────────────────────────────────
+uploadZone.addEventListener('click', () => fileInput.click());
+
+uploadZone.addEventListener('dragover', (event) => {
+  event.preventDefault();
+  uploadZone.style.borderColor = 'var(--accent)';
+});
+
+uploadZone.addEventListener('dragleave', () => {
+  uploadZone.style.borderColor = '';
+});
+
+uploadZone.addEventListener('drop', (event) => {
+  event.preventDefault();
+  uploadZone.style.borderColor = '';
+
+  const file = event.dataTransfer?.files?.[0];
+
+  if (file) {
+    handleFile(file);
+  }
+});
+
+fileInput.addEventListener('change', () => {
+  if (fileInput.files?.[0]) {
+    handleFile(fileInput.files[0]);
+  }
+});
+
+function handleFile(file) {
+  const err = validateFile(file);
+
+  if (err) {
+    setStatus('error', err);
+    return;
+  }
+
+  selectedFile = file;
+
+  uploadZone.querySelector('.upload-label').textContent = file.name;
+  uploadZone.querySelector('.upload-hint').textContent = formatFileSize(file.size);
+
+  contactFields.style.display = 'flex';
+
+  setStatus('', '');
+  updateBtn();
+
+  track('file_selected', {
+    type: 'mahnung',
+    fileType: file.type,
+    fileSize: file.size,
+  });
+}
+
+function updateBtn() {
+  const ready =
+    selectedFile &&
+    nameEl.value.trim() &&
+    emailEl.value.trim();
+
+  btn.disabled = !ready;
+}
+
+nameEl.addEventListener('input', updateBtn);
+emailEl.addEventListener('input', updateBtn);
+
+// ── Upload + Triage ───────────────────────────────────────────────────────────
+btn.addEventListener('click', async () => {
+  const name  = nameEl.value.trim();
+  const email = emailEl.value.trim();
+
+  if (!selectedFile || !name || !email) {
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Wird geprüft…';
+
+  setStatus('info', 'Ihr Schreiben wird geprüft…');
+
+  try {
+    const data = await submitFree({
+      file: selectedFile,
+      name,
+      email,
+      type: 'mahnung',
+      onStatus: (kind, msg) => setStatus(kind, msg),
+    });
+
+    currentStripeLink = data.stripeLink || null;
+
+    // Toon bevestigingskaart
+    const confirmCard = document.getElementById('confirmation-card');
+    if (confirmCard) {
+      confirmCard.style.display = 'block';
+    }
+
+    // Verberg uploadkaart
+    const freeCard = document.getElementById('free-card');
+    if (freeCard) freeCard.style.display = 'none';
+
+    // Teaser verbergen — betaalknop zit in de email
+    const teaserEl2 = document.getElementById('teaser');
+    if (teaserEl2) teaserEl2.style.display = 'none';
+
+    setStatus('', '');
+
+    // Scroll naar bevestigingskaart
+    if (confirmCard) {
+      confirmCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+  } catch (err) {
+    setStatus(
+      'error',
+      err.message || 'Hochladen fehlgeschlagen. Bitte erneut versuchen.'
+    );
+
+    btn.disabled = false;
+    btn.textContent = 'Kostenlos einordnen lassen';
+  }
+});
+
+// ── Teaser rendering ──────────────────────────────────────────────────────────
+function renderTeaser(data) {
+  const triage     = data.triage || {};
+  const tier       = data.tier || triage.tier || 'tier2';
+  const sender     = triage.sender || null;
+  const amount     = triage.amount_claimed ? `€${triage.amount_claimed}` : null;
+  const teaser     = triage.teaser || data.teaser?.text || '';
+  const stripeLink = data.stripeLink || currentStripeLink || null;
+
+  if (sender) {
+    teaserCompany.textContent = `Schreiben von ${sender}`;
+  } else {
+    teaserCompany.textContent = 'Ihre Mahnung wurde geprüft';
+  }
+
+  teaserSub.textContent = amount
+    ? `Geforderte Summe: ${amount}`
+    : 'Erste Einordnung liegt vor';
+
+  if (teaser) {
+    teaserCopy.textContent = teaser;
+    teaserCopy.style.display = '';
+  } else {
+    teaserCopy.style.display = 'none';
+  }
+
+  const userEmail  = emailEl ? emailEl.value.trim() : '';
+  const payUrl     = stripeLink && userEmail
+    ? stripeLink + '?prefilled_email=' + encodeURIComponent(userEmail)
+    : stripeLink;
+
+  if (stripeLink && tier !== 'tier3') {
+    teaserCta.innerHTML = `
+      <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 16px;margin:16px 0 14px;font-size:.93rem;color:#14532d;line-height:1.6;">
+        <strong>📬 Was passiert nach der Zahlung?</strong><br>
+        Sie erhalten die ausführlichere Einordnung und bei Bedarf einen Formulierungsvorschlag per E-Mail —
+        spätestens am nächsten Werktag bis 16:00 Uhr.
+      </div>
+      <a href="${escapeHtmlAttribute(payUrl)}" class="offer-cta">
+        Ausführlichere Einordnung erhalten
+      </a>
+      <p style="font-size:.78rem;color:var(--muted);margin-top:8px;text-align:center;">
+        Einmalig €49 · kein Abo · sichere Zahlung über Stripe
+      </p>
+    `;
+
+    if (modalCta) {
+      modalCta.href = payUrl;
+    }
+
+    updateModalFeatures(triage);
+
+  } else if (tier === 'tier3') {
+    teaserCta.innerHTML = `
+      <p style="font-size:.9rem;color:var(--ink-3);margin-top:8px;">
+        Auf Basis der sichtbaren Informationen wirkt das Schreiben derzeit eher standardmäßig.
+        Eine ausführlichere Einordnung ist optional verfügbar.
+      </p>
+      ${
+        payUrl
+          ? `<a href="${escapeHtmlAttribute(payUrl)}" class="offer-cta" style="margin-top:12px;background:var(--ink-3);">Optionale vollständige Prüfung — €49</a>`
+          : ''
+      }
+    `;
+  } else {
+    teaserCta.innerHTML = '';
+  }
+
+  teaserEl.style.display = 'block';
+
+  requestAnimationFrame(() => {
+    teaserEl.classList.add('teaser--visible');
+  });
+
+  teaserEl.scrollIntoView({
+    behavior: 'smooth',
+    block: 'nearest',
+  });
+
+  track('teaser_shown', {
+    type: 'mahnung',
+    tier,
+    hasStripeLink: Boolean(stripeLink),
+  });
+}
+
+function updateModalFeatures(triage) {
+  const features = [];
+
+  if (triage.possible_verjährt) {
+    features.push('Einordnung einer möglichen Verjährung');
+  }
+
+  if (triage.possible_überhöhte_kosten || triage.possible_kein_nachweis) {
+    features.push('Einordnung von Kosten und Nachweisen');
+  }
+
+  if (triage.possible_kein_abtretungsnachweis) {
+    features.push('Einordnung von Inkassoberechtigung und Abtretung');
+  }
+
+  if (triage.possible_falscher_empfänger) {
+    features.push('Einordnung von Adressierung und Schuldneridentität');
+  }
+
+  features.push('Formulierungsvorschlag bei Bedarf (anpassbar)');
+  features.push('Klare nächste Schritte');
+
+  if (modalFeatures && features.length > 0) {
+    modalFeatures.innerHTML = features
+      .slice(0, 4)
+      .map((feature) => `
+        <div class="modal__feature">
+          <span class="check">✓</span>
+          <span>${escapeHtml(feature)}</span>
+        </div>
+      `)
+      .join('');
+  }
+}
+
+// ── Modal ─────────────────────────────────────────────────────────────────────
+modalCloseBtn?.addEventListener('click', () => {
+  modalEl.classList.remove('modal--open', 'open');
+  document.body.style.overflow = '';
+});
+
+modalEl?.addEventListener('click', (event) => {
+  if (event.target === modalEl) {
+    modalEl.classList.remove('modal--open', 'open');
+    document.body.style.overflow = '';
+  }
+});
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+function setStatus(kind, msg) {
+  statusEl.textContent = msg;
+  statusEl.className =
+    'optie-status' +
+    (kind ? ` optie-status--${kind}` : '');
+}
+
+function escapeHtml(value = '') {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function escapeHtmlAttribute(value = '') {
+  return escapeHtml(value);
+}
+</script>
+
+
+<script>
+  // Google Ads upload conversion
+  document.addEventListener('DOMContentLoaded', function(){
+    var el = document.getElementById('gratis-status');
+    if(!el) return;
+    var fired = false;
+    new MutationObserver(function(){
+      if(fired) return;
+      if(el.classList.contains('optie-status--success')){
+        fired = true;
+        if(typeof gtag !== 'undefined'){
+          gtag('event', 'conversion', {'send_to': 'AW-18193666186/hTTyCMbF67gcEIqhteND'});
+        }
+      }
+    }).observe(el, {attributes: true, attributeFilter: ['class']});
+  });
+</script>
 </body>
 </html>
