@@ -58,14 +58,14 @@
     .upload-zone:hover{border-color:var(--accent);background:#eef4ff;}
     .upload-label{font-weight:700;color:var(--accent);}
     .upload-hint{font-size:.84rem;color:var(--muted);margin-top:6px;}
-    .contact-fields{display:none;flex-direction:column;gap:10px;margin-top:18px;}
+    .contact-fields{opacity:0;position:absolute;width:1px;height:1px;pointer-events:none;;flex-direction:column;gap:10px;margin-top:18px;}
     .input{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:1rem;}
     .input:focus{outline:none;border-color:var(--accent);}
     .optie-status{font-size:.9rem;margin-top:12px;}
     .optie-status--error{color:#b91c1c;}
     .optie-status--success{color:var(--green);}
     .optie-status--info{color:var(--accent);}
-    .teaser{display:none;margin-top:30px;opacity:0;transform:translateY(10px);transition:.25s ease;}
+    .teaser{opacity:0;position:absolute;width:1px;height:1px;pointer-events:none;;margin-top:30px;opacity:0;transform:translateY(10px);transition:.25s ease;}
     .teaser--visible{opacity:1;transform:translateY(0);}
     .teaser-card{border-color:var(--warn);background:#fffdf2;}
     .teaser-heading{font-weight:800;font-size:1.2rem;color:var(--ink);}
@@ -110,7 +110,7 @@
     .sticky-footer__sub{font-size:.76rem;color:rgba(255,255,255,.6);margin-top:2px;}
     .sticky-cta{background:var(--white);color:var(--accent);border:none;border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;text-decoration:none;}
     @media(max-width:500px){.sticky-footer{flex-direction:column;text-align:center;}.sticky-cta{width:100%;}}
-    .modal-overlay{position:fixed;inset:0;background:rgba(15,25,35,.6);backdrop-filter:blur(4px);z-index:300;display:none;align-items:center;justify-content:center;padding:24px;}
+    .modal-overlay{position:fixed;inset:0;background:rgba(15,25,35,.6);backdrop-filter:blur(4px);z-index:300;opacity:0;position:absolute;width:1px;height:1px;pointer-events:none;;align-items:center;justify-content:center;padding:24px;}
     .modal-overlay.open,.modal-overlay.modal--open{display:flex;}
     .modal{background:var(--white);border-radius:16px;max-width:480px;width:100%;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.2);}
     .modal__header{background:var(--accent);color:var(--white);padding:28px 28px 24px;}
@@ -180,7 +180,7 @@
       <div id="gratis-upload-zone" class="upload-zone">
         <div class="upload-label">Datei ausw&auml;hlen</div>
         <div class="upload-hint">PDF, JPG oder PNG &middot; max. 8 MB</div>
-        <input id="gratis-file-input" type="file" accept=".pdf,.jpg,.jpeg,.png" style="display:none;">
+        <input id="gratis-file-input" type="file" accept=".pdf,.jpg,.jpeg,.png" style="opacity:0;position:absolute;width:1px;height:1px;pointer-events:none;;">
       </div>
       <div id="gratis-contact-fields" class="contact-fields">
         <input id="gratis-name" class="input" placeholder="Ihr Name" autocomplete="name">
@@ -192,7 +192,7 @@
     </div>
 
     <!-- Bevestigingskaart na upload -->
-    <div id="confirmation-card" style="display:none;margin-top:24px;background:#f0fdf4;border:2px solid #86efac;border-radius:16px;padding:28px 28px 24px;max-width:580px;margin-left:auto;margin-right:auto;">
+    <div id="confirmation-card" style="opacity:0;position:absolute;width:1px;height:1px;pointer-events:none;;margin-top:24px;background:#f0fdf4;border:2px solid #86efac;border-radius:16px;padding:28px 28px 24px;max-width:580px;margin-left:auto;margin-right:auto;">
       <div style="font-size:1.1rem;font-weight:700;color:#14532d;margin-bottom:10px;">&#10003; Wir haben Ihr Schreiben erhalten.</div>
       <p style="font-size:.95rem;color:#166534;margin-bottom:16px;line-height:1.7;">
         Sie erhalten Ihre Ersteinordnung in K&uuml;rze per E-Mail &mdash; sp&auml;testens am n&auml;chsten Werktag bis 16:00 Uhr.
