@@ -512,6 +512,11 @@ btn.addEventListener('click', async () => {
     const confirmCard = document.getElementById('confirmation-card');
     if (confirmCard) {
       confirmCard.style.display = 'block';
+      confirmCard.style.position = 'relative';
+      confirmCard.style.width = '100%';
+      confirmCard.style.height = 'auto';
+      confirmCard.style.opacity = '1';
+      confirmCard.style.pointerEvents = 'auto';
     }
 
     // Verberg uploadkaart
