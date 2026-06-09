@@ -455,6 +455,11 @@ function handleFile(file) {
   uploadZone.querySelector('.upload-hint').textContent = formatFileSize(file.size);
 
   contactFields.style.display = 'flex';
+  contactFields.style.position = 'relative';
+  contactFields.style.width = '100%';
+  contactFields.style.height = 'auto';
+  contactFields.style.opacity = '1';
+  contactFields.style.pointerEvents = 'auto';
 
   setStatus('', '');
   updateBtn();
