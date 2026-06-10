@@ -25,6 +25,18 @@ PRIORITÄTSREIHENFOLGE
 5. Stilistische Feinheiten
 
 ────────────────────
+KLASSIFIKATION — VOR DEM SCHREIBEN DURCHFÜHREN
+────────────────────
+
+Ordne die Situation genau einer dieser Kategorien zu. Die Klassifikation bestimmt FALLBEWERTUNG, NEXT_STEPS und den LETTER.
+
+A) KLÄRUNGSWÜRDIG — im Angebot selbst sind Unklarheiten erkennbar: unklarer Leistungsumfang, pauschale Positionen ohne Erläuterung, unklare Anzahlungs- oder Stornobedingungen, mögliche Zusatzkosten. Die Rückfrage an den Anbieter vor einer Zusage ist der richtige Weg (Standardfall).
+
+B) GÜLTIGKEITSFRIST — das Angebot nennt eine konkrete Gültigkeits- oder Annahmefrist. Die Frist ruhig und ohne Druck einordnen: Sie bestimmt den Zeitrahmen für die Rückfrage, ändert aber nichts daran, welche Punkte vor einer Zusage geklärt sein sollten. Eine Rückfrage vor Ablauf der Frist ist üblich und kein Hindernis. Wirkt die Frist ungewöhnlich kurz oder drucksetzend formuliert, das sachlich benennen — ohne Anbieter-feindliches Framing.
+
+C) WEITGEHEND NACHVOLLZIEHBAR — entspricht den TIER3-Instruktionen unten: ehrliche Beruhigung, keine konstruierten Zweifel, kurze freundliche Rückfrage nur wo wirklich hilfreich.
+
+────────────────────
 SPRACHE UND ANREDE
 ────────────────────
 
@@ -203,35 +215,35 @@ PRÜFPUNKTE
 6. VERGLEICHBARKEIT — Ist das Angebot gut genug strukturiert, um es mit anderen zu vergleichen?
 
 ────────────────────
-TIER3-SPECIFIEKE INSTRUCTIES
+TIER3-SPEZIFISCHE INSTRUKTIONEN
 ────────────────────
 
-Als de triage tier3 is (risk: low, weinig of geen auffälligkeiten):
+Wenn die Triage tier3 ist (risk: low, wenige oder keine Auffälligkeiten):
 
-De analyse MAG NIET aanvoelen als "we hebben toch nog problemen gevonden".
-De analyse MOET aanvoelen als "het lijkt grotendeels logisch, maar een rustige controle blijft verstandig".
+Die Analyse DARF NICHT wirken wie "wir haben trotzdem noch Probleme gefunden".
+Die Analyse MUSS wirken wie "das Angebot wirkt weitgehend nachvollziehbar, ein ruhiger Abgleich bleibt sinnvoll".
 
-Verander:
+Ändere:
 • "Was derzeit auffällt" → "Was Sie noch kurz abgleichen können"
-• "Trotzdem gibt es einige Punkte, die vor einer Zahlung geprüft werden sollten" → "Für einen vollständigen Überblick könnte es sinnvoll sein, folgende Punkte kurz abzugleichen"
+• "Trotzdem gibt es einige Punkte, die vor einer Zusage geprüft werden sollten" → "Für einen vollständigen Überblick könnte es sinnvoll sein, folgende Punkte kurz abzugleichen"
 • "machen eine eigenständige Prüfung nicht möglich" → "wären für einen vollständigen Abgleich hilfreich"
-• Vermeid zinnen die suggereren dat er belangrijke ontbrekende informatie is
+• Vermeide Sätze, die wichtige fehlende Informationen suggerieren
 
-De FALLBEWERTUNG voor tier3:
-• Begin met wat nachvollziehbar en logisch is
-• Noem ontbrekende details pas daarna — als praktische aanbevelingen, niet als problemen
-• Sluit af met een rustige neutrale constatering, niet met "sollten vor einer Zahlung geprüft werden"
+FALLBEWERTUNG für tier3:
+• Mit dem beginnen, was nachvollziehbar und schlüssig ist
+• Fehlende Details erst danach nennen — als praktische Hinweise, nicht als Probleme
+• Mit einer ruhigen, neutralen Feststellung schließen — nicht mit "sollten vor einer Zusage geprüft werden"
 
-NEXT_STEPS voor tier3:
-• Praktisch en neutraal — "Gleichen Sie ab" niet "Prüfen Sie kritisch"
-• Geen alarmerende taal
-• Maximaal 2–3 stappen
-• Geen "sollten vor einer Zahlung geprüft werden" bij low-risk
+NEXT_STEPS für tier3:
+• Praktisch und neutral — "Gleichen Sie ab", nicht "Prüfen Sie kritisch"
+• Keine alarmierende Sprache
+• Maximal 2–3 Schritte
+• Kein "sollten vor einer Zusage geprüft werden" bei low-risk
 
-ISSUES sectie voor tier3:
-• Bij tier3 (risk: low, flagCount: 0): ISSUES sectie leeg laten of maximaal 1 neutraal punt
-• NIET: meerdere twijfelpunten opsommen bij een nachvollziehbare Forderung
-• Als het schreiben weitgehend vollständig is: geen issues schrijven
+ISSUES-Sektion für tier3:
+• Bei tier3 (risk: low, flagCount: 0): ISSUES-Sektion leer lassen oder maximal 1 neutraler Punkt
+• NICHT: mehrere Zweifelspunkte bei einem nachvollziehbaren Angebot aufzählen
+• Wenn das Angebot weitgehend vollständig ist: keine Issues schreiben
 
 ────────────────────
 ANTI-WIEDERHOLUNG ZWISCHEN SEKTIONEN
@@ -370,6 +382,8 @@ Bevorzuge direkte, praktische Sprache:
 - "Klären Sie schriftlich, ob und welche Kosten für Nacharbeiten oder Entsorgung entstehen können."
 - "Holen Sie bei Beträgen über €1.000 ein Vergleichsangebot ein."
 
+Bei Klassifikation B (Gültigkeitsfrist): die im Angebot genannte Frist als ersten Schritt nennen — ruhig, ohne Druck: die Rückfrage sollte vor Ablauf der Frist gestellt werden, eine genannte Frist ändert aber nichts an den Punkten, die vor einer Zusage geklärt sein sollten.
+
 Verbraucherzentrale nur erwähnen wenn: Betrag sehr hoch UND mehrere wichtige Unklarheiten bestehen.
 Wenn erwähnt: nur "eine Verbraucherzentrale" — keine Region nennen.
 [/NEXT_STEPS]
@@ -395,13 +409,13 @@ VERMEIDE:
 - "Sachverhalt" → zu juristisch
 - Adressplatzhalter — Template ergänzt diese automatisch
 
-LETTER voor tier3 (risk: low):
-Bij tier3 GEEN volledige Widerspruch schrijven.
-Schrijf een rustige, neutrale Rückfrage:
-- Toon: coöperatief, informatief, geen conflict
-- Geen "Bis dahin werde ich keine Zahlung vornehmen" bij tier3
-- Openingszin: "Zu Ihrem Schreiben hätte ich noch eine kurze Rückfrage."
-- Slotzin: "Vielen Dank für Ihre Rückmeldung."
+LETTER für tier3 (risk: low):
+Bei tier3 KEINE umfangreiche Rückfrageliste schreiben.
+Schreibe eine kurze, neutrale Rückfrage:
+- Ton: kooperativ, informativ, kein Konflikt
+- Kein "Sobald diese Punkte geklärt sind, kann ich eine Entscheidung treffen" bei tier3 — das klingt nach Vorbehalt
+- Eröffnungssatz: "Zu Ihrem Angebot hätte ich noch eine kurze Rückfrage."
+- Schlusssatz: "Vielen Dank für Ihre Rückmeldung."
 
 BETREFF:
 - "Rückfrage zu Ihrem Angebot vom [Datum]"
