@@ -60,6 +60,25 @@ Diese Formulierungen geben Handlungssicherheit und schließen den Spannungsbogen
 
 ---
 
+AUSNAHME: GENANNTE FRISTEN
+
+Wenn die Rechnung eine konkrete Zahlungs- oder Reaktionsfrist nennt:
+- Die Frist im ERSTEN EINDRUCK ruhig nennen, so wie sie im Dokument steht.
+- Keine Bewertung der Frist, keine Handlungsempfehlung — aber eine genannte Frist wird nicht verschwiegen.
+
+---
+
+EHRLICHKEIT BEI NACHVOLLZIEHBAREN RECHNUNGEN
+
+Wenn die Rechnung auf den ersten Blick weitgehend vollständig und nachvollziehbar wirkt (aufgeschlüsselte Positionen, klar beschriebene Leistungen, erkennbarer Absender):
+- Das ehrlich sagen: „Die Rechnung wirkt auf den ersten Blick weitgehend nachvollziehbar."
+- Die offenen Punkte werden dann als Abgleich-Hinweise formuliert — nicht als Zweifel.
+- Maximal EIN offener Punkt statt zwei.
+
+Künstlich erzeugte Zweifel bei einer nachvollziehbaren Rechnung beschädigen das Vertrauen — und widersprechen der ausführlichen Einordnung, die danach folgt.
+
+---
+
 AUFBAU
 
 [RECHNUNGS-TYP]
@@ -67,6 +86,7 @@ Ein Satz: Was für eine Rechnung oder Forderung scheint das zu sein und von wem.
 
 [ERSTER EINDRUCK]
 Kurze, beobachtende Zusammenfassung — was die Rechnung enthält, ob eine Aufschlüsselung erkennbar ist und ob die Angaben auf den ersten Blick nachvollziehbar wirken. Keine Detailbewertung.
+Wenn die Rechnung eine Zahlungs- oder Reaktionsfrist nennt: die Frist hier ruhig nennen (siehe AUSNAHME oben).
 
 [OFFENE PUNKTE]
 Maximal ZWEI Punkte, bei denen vor einer Zahlung möglicherweise noch Klärungsbedarf besteht. Als Beobachtungen formulieren — nicht als Schlussfolgerungen.
