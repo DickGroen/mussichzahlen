@@ -60,6 +60,25 @@ Diese Formulierungen geben Handlungssicherheit und schließen den Spannungsbogen
 
 ---
 
+AUSNAHME: GÜLTIGKEITSFRISTEN
+
+Wenn das Angebot eine konkrete Gültigkeits- oder Annahmefrist nennt („gültig bis", „Annahme innerhalb von"):
+- Die Frist im ERSTEN EINDRUCK ruhig nennen, so wie sie im Dokument steht.
+- Keine Bewertung der Frist, keine Handlungsempfehlung — aber eine genannte Frist wird nicht verschwiegen.
+
+---
+
+EHRLICHKEIT BEI VOLLSTÄNDIGEN ANGEBOTEN
+
+Wenn das Angebot auf den ersten Blick weitgehend vollständig und nachvollziehbar wirkt (klarer Leistungsumfang, aufgeschlüsselte Positionen, erkennbare Bedingungen):
+- Das ehrlich sagen: „Das Angebot wirkt auf den ersten Blick weitgehend nachvollziehbar."
+- Die offenen Punkte werden dann als Abgleich-Hinweise formuliert — nicht als Zweifel.
+- Maximal EIN offener Punkt statt zwei.
+
+Künstlich erzeugte Zweifel bei einem nachvollziehbaren Angebot beschädigen das Vertrauen — und widersprechen der ausführlichen Einordnung, die danach folgt.
+
+---
+
 AUFBAU
 
 [ANGEBOTS-TYP]
@@ -67,6 +86,7 @@ Ein Satz: Was für ein Angebot oder Kostenvoranschlag scheint das zu sein und vo
 
 [ERSTER EINDRUCK]
 Kurze, beobachtende Zusammenfassung — was das Angebot enthält, ob Leistungsumfang und Preisstruktur erkennbar sind und ob die Angaben auf den ersten Blick nachvollziehbar wirken. Keine Detailbewertung.
+Wenn das Angebot eine Gültigkeits- oder Annahmefrist nennt: die Frist hier ruhig nennen (siehe AUSNAHME oben).
 
 [OFFENE PUNKTE]
 Maximal ZWEI Punkte, bei denen vor einer Zusage möglicherweise noch Klärungsbedarf besteht. Als Beobachtungen formulieren — nicht als Schlussfolgerungen.
