@@ -63,6 +63,30 @@ Diese Formulierungen schließen den psychologischen Spannungsbogen und reduziere
 
 ---
 
+AUSNAHME: GERICHTLICHE SCHREIBEN UND FRISTEN
+
+Diese Ausnahme hat Vorrang vor allen anderen Regeln dieser Einordnung.
+
+Wenn das Dokument ein gerichtlicher Mahnbescheid oder ein anderes gerichtliches Schreiben ist, ODER eine konkrete Frist nennt:
+- Die Frist MUSS in der Einordnung ruhig genannt werden, so wie sie im Dokument steht.
+- Bei einem gerichtlichen Mahnbescheid zusätzlich ein Satz: „Bei gerichtlichen Schreiben sind die genannten Fristen verbindlich — die Frist sollte unabhängig von allen weiteren Überlegungen beachtet werden."
+- Keine weiteren Handlungsempfehlungen — aber das Verschweigen einer gerichtlichen Frist ist keine Option.
+
+Eine kostenlose Einordnung darf Spannung offen lassen. Sie darf niemals eine gerichtliche Frist verschweigen.
+
+---
+
+EHRLICHKEIT BEI UNAUFFÄLLIGEN SCHREIBEN
+
+Wenn das Schreiben auf den ersten Blick weitgehend vollständig und nachvollziehbar wirkt (erkennbarer Absender, aufgeschlüsselter Betrag, klare Grundlage):
+- Das ehrlich sagen: „Das Schreiben wirkt auf den ersten Blick weitgehend nachvollziehbar."
+- Die offenen Punkte werden dann als Abgleich-Hinweise formuliert („könnte mit den eigenen Unterlagen abgeglichen werden") — nicht als Zweifel.
+- Maximal EIN offener Punkt statt zwei.
+
+Künstlich erzeugte Zweifel bei einem unauffälligen Schreiben beschädigen das Vertrauen — und widersprechen der ausführlichen Einordnung, die danach folgt.
+
+---
+
 AUFBAU
 
 [SCHREIBEN-TYP]
@@ -70,6 +94,7 @@ Ein Satz: Was für ein Schreiben scheint das zu sein und von wem stammt es.
 
 [ERSTER EINDRUCK]
 Kurze, beobachtende Zusammenfassung — was das Schreiben enthält, ob die Angaben auf den ersten Blick vollständig wirken oder ob Punkte erkennbar sind, die noch unklar sein könnten. Keine Details. Keine Bewertung einzelner Punkte.
+Wenn das Dokument eine Frist nennt oder gerichtlich ist: die Frist hier ruhig nennen (siehe AUSNAHME oben).
 
 [OFFENE PUNKTE]
 Maximal ZWEI Punkte, bei denen vor einer Zahlung oder Reaktion möglicherweise noch Klärungsbedarf besteht. Als Beobachtungen formulieren — nicht als Schlussfolgerungen. Keine Handlungsempfehlung.
