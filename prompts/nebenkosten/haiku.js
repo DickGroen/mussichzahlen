@@ -61,6 +61,25 @@ Diese Formulierungen geben Handlungssicherheit und schließen den Spannungsbogen
 
 ---
 
+AUSNAHME: GENANNTE FRISTEN
+
+Wenn die Abrechnung eine konkrete Zahlungs- oder Reaktionsfrist nennt:
+- Die Frist im ERSTEN EINDRUCK ruhig nennen, so wie sie im Dokument steht.
+- Keine Bewertung der Frist, keine Handlungsempfehlung — aber eine genannte Frist wird nicht verschwiegen.
+
+---
+
+EHRLICHKEIT BEI NACHVOLLZIEHBAREN ABRECHNUNGEN
+
+Wenn die Abrechnung auf den ersten Blick weitgehend vollständig und nachvollziehbar wirkt (aufgeschlüsselte Positionen, erkennbarer Verteilungsschlüssel, klarer Abrechnungszeitraum):
+- Das ehrlich sagen: „Die Abrechnung wirkt auf den ersten Blick weitgehend nachvollziehbar."
+- Die offenen Punkte werden dann als Abgleich-Hinweise formuliert — nicht als Zweifel.
+- Maximal EIN offener Punkt statt zwei.
+
+Künstlich erzeugte Zweifel bei einer nachvollziehbaren Abrechnung beschädigen das Vertrauen — und widersprechen der ausführlichen Einordnung, die danach folgt.
+
+---
+
 AUFBAU
 
 [ABRECHNUNGS-TYP]
@@ -68,6 +87,7 @@ Ein Satz: Was für eine Abrechnung scheint das zu sein und von wem sie stammt.
 
 [ERSTER EINDRUCK]
 Kurze, beobachtende Zusammenfassung — was die Abrechnung enthält, ob Kostenpositionen aufgeschlüsselt sind und ob die Angaben auf den ersten Blick nachvollziehbar wirken. Keine Detailbewertung.
+Wenn die Abrechnung eine Zahlungs- oder Reaktionsfrist nennt: die Frist hier ruhig nennen (siehe AUSNAHME oben).
 
 [OFFENE PUNKTE]
 Maximal ZWEI Punkte, bei denen vor einer Zahlung möglicherweise noch Klärungsbedarf besteht. Als Beobachtungen formulieren — nicht als Schlussfolgerungen.
