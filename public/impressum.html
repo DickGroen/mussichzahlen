@@ -3,73 +3,150 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Impressum | MussIchZahlen.de</title>
+  <title>Impressum | MussIchZahlen</title>
+  <meta name="description" content="Wer hinter MussIchZahlen steht: Anbieterkennzeichnung, Kontakt und klare Angaben dazu, was unser Service ist — und was nicht.">
+  <link rel="canonical" href="https://mussichzahlen.de/impressum.html">
+  <meta name="robots" content="index,follow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css">
-  <!-- Google Analytics GA4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=GT-WR4P7PNB"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','GT-WR4P7PNB');</script>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+  <style>
+    :root{--ink:#0f1923;--ink-2:#2d3748;--ink-3:#4a5568;--muted:#718096;--line:#e2e8f0;--surface:#f7f9fc;--white:#ffffff;--accent:#1a3a6b;--accent-2:#2d5499;--soft:#eef4ff;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.65;color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased;}
+    h1,h2{font-family:'Lora',Georgia,serif;line-height:1.2;}
+    a{color:var(--accent);}
+    .container{max-width:860px;margin:0 auto;padding:0 24px;}
+    .header{background:var(--white);border-bottom:1px solid var(--line);padding:16px 0;position:sticky;top:0;z-index:100;}
+    .header__inner{display:flex;align-items:center;justify-content:space-between;}
+    .logo{font-family:'Lora',serif;font-size:1.15rem;font-weight:700;color:var(--accent);}
+    .logo-dot{display:inline-block;width:8px;height:8px;background:var(--accent-2);border-radius:50%;margin-right:6px;vertical-align:middle;}
+    .header-cta{background:var(--accent);color:var(--white);border-radius:10px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;text-decoration:none;display:inline-block;}
+    .page{padding:64px 0 56px;}
+    .page h1{font-size:clamp(1.6rem,4vw,2.2rem);margin-bottom:10px;}
+    .page-sub{font-size:1rem;color:var(--ink-3);max-width:560px;margin-bottom:32px;line-height:1.8;}
+    .trust-intro{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px 28px;max-width:560px;margin-bottom:44px;}
+    .trust-intro__title{font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--accent-2);margin-bottom:14px;}
+    .trust-intro ul{list-style:none;display:grid;gap:11px;}
+    .trust-intro li{display:flex;align-items:flex-start;gap:12px;font-size:.93rem;color:var(--ink-2);line-height:1.65;}
+    .trust-intro li::before{content:"—";color:var(--muted);flex-shrink:0;margin-top:2px;}
+    .block{max-width:560px;margin-bottom:40px;}
+    .block h2{font-size:1.15rem;margin-bottom:14px;}
+    .block p{font-size:.95rem;color:var(--ink-2);line-height:1.8;margin-bottom:10px;}
+    .block .small{font-size:.85rem;color:var(--muted);}
+    .company-card{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:24px 28px;}
+    .company-card p{margin-bottom:4px;}
+    .company-card .label{font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin:14px 0 4px;}
+    .company-card .label:first-child{margin-top:0;}
+    .email-link{font-weight:700;color:var(--accent);text-decoration:none;border-bottom:2px solid var(--soft);}
+    .email-link:hover{border-bottom-color:var(--accent);}
+    .not-list{list-style:none;display:grid;gap:10px;margin-top:6px;}
+    .not-list li{display:flex;align-items:flex-start;gap:12px;font-size:.95rem;color:var(--ink-2);line-height:1.65;}
+    .not-list li::before{content:"—";color:var(--muted);flex-shrink:0;margin-top:2px;}
+    .footer-trust{padding:32px 0 16px;font-size:.85rem;color:var(--ink-3);line-height:1.75;border-top:1px solid var(--line);}
+    .disclaimer{padding:16px 0 20px;font-size:.78rem;color:var(--muted);line-height:1.7;}
+  </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="container--wide">
-    <div class="site-header__inner">
-      <a href="/" style="text-decoration:none;color:inherit;"><div class="logo"><span class="logo-dot"></span>MussIchZahlen</div></a>
+<header class="header">
+  <div class="container">
+    <div class="header__inner">
+      <div class="logo"><span class="logo-dot"></span>MussIchZahlen</div>
+      <a href="/mahnung/" class="header-cta">Kostenlose Ersteinordnung</a>
     </div>
   </div>
 </header>
 
-<section style="padding:60px 0 80px;">
-  <div class="container" style="max-width:760px;">
+<section class="page">
+  <div class="container">
 
-    <h1 style="font-family:'DM Serif Display',serif;font-size:2rem;margin-bottom:32px;">Impressum</h1>
+    <h1>Impressum</h1>
+    <p class="page-sub">Viele Besucher m&ouml;chten vor dem Hochladen wissen, wer hinter MussIchZahlen steht und wie der Service funktioniert. Hier finden Sie die wichtigsten Informationen dazu.</p>
 
-    <h2 style="font-size:1.1rem;font-weight:700;margin-top:32px;margin-bottom:8px;">Angaben gem&auml;&szlig; &sect; 5 DDG</h2>
-    <p>
-      groenvantexel<br>
-      Schilderend 52<br>
-      1791 BH Den Burg<br>
-      Niederlande<br>
-      KvK-Nummer: 42072123
-    </p>
+    <div class="trust-intro">
+      <div class="trust-intro__title">Das Wichtigste vor dem Hochladen</div>
+      <ul>
+        <li>Die Ersteinordnung Ihres Schreibens ist kostenlos.</li>
+        <li>Mit dem Hochladen eines Dokuments entstehen keine Kosten und keine Zahlungsverpflichtung.</li>
+        <li>Die ausf&uuml;hrlichere Analyse f&uuml;r 49&nbsp;&euro; ist ein sp&auml;terer, optionaler Schritt &mdash; sie wird nur erstellt, wenn Sie sie selbst anfordern.</li>
+        <li>Dokumente werden nicht l&auml;nger gespeichert als f&uuml;r die Pr&uuml;fung notwendig.</li>
+      </ul>
+    </div>
 
-    <h2 style="font-size:1.1rem;font-weight:700;margin-top:32px;margin-bottom:8px;">Kontakt</h2>
-    <p>
-      E-Mail: <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a><br>
-      Website: <a href="https://mussichzahlen.de">https://mussichzahlen.de</a>
-    </p>
+    <div class="block">
+      <h2>Angaben gem&auml;&szlig; &sect;&nbsp;5 DDG</h2>
+      <div class="company-card">
+        <p class="label">Anbieter</p>
+        <p>[FIRMENNAME &amp; RECHTSFORM]</p>
+        <p>[STRASSE UND HAUSNUMMER]</p>
+        <p>[PLZ UND ORT]</p>
+        <p>[LAND]</p>
+        <p class="label">Vertreten durch</p>
+        <p>[VERTRETUNGSBERECHTIGTE PERSON]</p>
+        <p class="label">Registereintrag</p>
+        <p>[REGISTER UND REGISTERNUMMER]</p>
+        <p class="label">Umsatzsteuer-Identifikationsnummer</p>
+        <p>[UST-IDNR., FALLS VORHANDEN]</p>
+        <p class="label">Kontakt</p>
+        <p><a href="mailto:support@mussichzahlen.de" class="email-link">support@mussichzahlen.de</a></p>
+      </div>
+    </div>
 
-    <h2 style="font-size:1.1rem;font-weight:700;margin-top:32px;margin-bottom:8px;">Verantwortlich f&uuml;r den Inhalt</h2>
-    <p>
-      groenvantexel<br>
-      Schilderend 52, 1791 BH Den Burg, Niederlande
-    </p>
+    <div class="block">
+      <h2>Was MussIchZahlen ist &mdash; und was nicht</h2>
+      <p>MussIchZahlen hilft Verbraucherinnen und Verbrauchern, Mahnungen, Inkassoschreiben und Zahlungsaufforderungen zu verstehen, bevor sie entscheiden, ob sie zahlen, antworten oder widersprechen.</p>
+      <ul class="not-list">
+        <li>MussIchZahlen ist keine Anwaltskanzlei und bietet keine Rechtsberatung im Einzelfall.</li>
+        <li>MussIchZahlen &uuml;bernimmt keine Rechtsvertretung.</li>
+        <li>MussIchZahlen ist kein Inkassounternehmen und steht in keiner Verbindung zu Absendern von Mahnungen oder Inkassoschreiben.</li>
+      </ul>
+      <p style="margin-top:12px;">Alle Einordnungen und Entw&uuml;rfe dienen dem besseren Verst&auml;ndnis Ihrer Situation. Die Entscheidung, wie Sie reagieren, liegt bei Ihnen.</p>
+    </div>
 
-    <h2 style="font-size:1.1rem;font-weight:700;margin-top:32px;margin-bottom:8px;">Hinweis zur Dienstleistung</h2>
-    <p>
-      MussIchZahlen bietet eine digitale Dokumentenpr&uuml;fung und allgemeine Einsch&auml;tzung zu Mahnungen, Inkassoschreiben und &auml;hnlichen Zahlungsaufforderungen an.
-      Wir bieten keine Rechtsberatung, keine anwaltliche Vertretung und keine Vertretung gegen&uuml;ber Dritten an.
-    </p>
+    <div class="block">
+      <h2>Umgang mit Ihren Dokumenten</h2>
+      <p>Hochgeladene Dokumente werden ausschlie&szlig;lich f&uuml;r die Erstellung Ihrer Einordnung verwendet, nicht an Dritte weitergegeben und nicht l&auml;nger gespeichert als daf&uuml;r notwendig. Einzelheiten finden Sie in der <a href="/datenschutz.html">Datenschutzerkl&auml;rung</a>.</p>
+    </div>
 
-    <h2 style="font-size:1.1rem;font-weight:700;margin-top:32px;margin-bottom:8px;">Online-Streitbeilegung</h2>
-    <p>
-      Die Europ&auml;ische Kommission stellt eine Plattform zur Online-Streitbeilegung bereit:
-      <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener">https://ec.europa.eu/consumers/odr</a><br>
-      Wir sind nicht verpflichtet und nicht bereit, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
-    </p>
+    <div class="block">
+      <h2>Fragen zum Service</h2>
+      <p>Fragen zu einer Bestellung oder zum Ablauf erreichen uns unter <a href="mailto:support@mussichzahlen.de" class="email-link">support@mussichzahlen.de</a>.</p>
+      <p class="small">Wir antworten in der Regel innerhalb eines Werktags, Montag bis Freitag.</p>
+    </div>
+
+    <div class="block">
+      <h2>Verbraucherstreitbeilegung</h2>
+      <p class="small">Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+    </div>
+
+    <div class="block">
+      <h2>Haftung f&uuml;r Inhalte und Links</h2>
+      <p class="small">Die Inhalte dieser Website wurden mit Sorgfalt erstellt. F&uuml;r die Richtigkeit, Vollst&auml;ndigkeit und Aktualit&auml;t der Inhalte k&ouml;nnen wir jedoch keine Gew&auml;hr &uuml;bernehmen. F&uuml;r Inhalte externer Links sind ausschlie&szlig;lich deren Betreiber verantwortlich; zum Zeitpunkt der Verlinkung waren keine Rechtsverst&ouml;&szlig;e erkennbar.</p>
+    </div>
+
+    <div class="block">
+      <h2>Urheberrecht</h2>
+      <p class="small">Die durch den Betreiber erstellten Inhalte und Werke auf dieser Website unterliegen dem Urheberrecht. Vervielf&auml;ltigung, Bearbeitung und Verbreitung au&szlig;erhalb der Grenzen des Urheberrechts bed&uuml;rfen der Zustimmung des Betreibers.</p>
+    </div>
 
   </div>
 </section>
 
-<footer style="border-top:1px solid var(--border,#e5e7eb);padding:24px 0;text-align:center;">
+<div class="container">
+  <div class="footer-trust"><strong>MussIchZahlen</strong> hilft Menschen, Mahnungen und Zahlungsaufforderungen besser zu verstehen, bevor sie entscheiden, wie sie reagieren.</div>
+  <div class="disclaimer">MussIchZahlen erstellt verst&auml;ndliche Dokumenteinsch&auml;tzungen und Antwortentw&uuml;rfe. Keine Rechtsberatung. Keine Rechtsvertretung. &copy; 2026 MussIchZahlen</div>
+</div>
+
+<footer style="border-top:1px solid var(--line);padding:20px 0;text-align:center;background:var(--white);">
   <div class="container">
-    <p style="font-size:.82rem;color:var(--muted,#6b7280);margin:0;">
-      <a href="/impressum.html" style="color:inherit;margin:0 10px;">Impressum</a>
-      <a href="/datenschutz.html" style="color:inherit;margin:0 10px;">Datenschutz</a>
-      <a href="/agb.html" style="color:inherit;margin:0 10px;">AGB</a>
+    <p style="font-size:.78rem;color:var(--muted);margin:0;">
+      <a href="/datenschutz.html" style="color:var(--muted);margin:0 10px;">Datenschutz</a>
+      <a href="/agb.html" style="color:var(--muted);margin:0 10px;">AGB</a>
+      <a href="/impressum.html" style="color:var(--muted);margin:0 10px;">Impressum</a>
+      <a href="/kontakt.html" style="color:var(--muted);margin:0 10px;">Kontakt</a>
     </p>
   </div>
 </footer>
