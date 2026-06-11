@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kontakt | MussIchZahlen</title>
+  <meta name="description" content="Bevor Sie hochladen: Das m&ouml;chten die meisten Menschen wissen. Keine Verpflichtung, kein Druck.">
+  <link rel="canonical" href="https://mussichzahlen.de/kontakt.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+  <style>
+    :root{--ink:#0f1923;--ink-2:#2d3748;--ink-3:#4a5568;--muted:#718096;--line:#e2e8f0;--surface:#f7f9fc;--white:#ffffff;--accent:#1a3a6b;--accent-2:#2d5499;--soft:#eef4ff;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.65;color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased;}
+    h1,h2{font-family:'Lora',Georgia,serif;line-height:1.2;}
+    a{color:var(--accent);}
+    .container{max-width:860px;margin:0 auto;padding:0 24px;}
+    .header{background:var(--white);border-bottom:1px solid var(--line);padding:16px 0;position:sticky;top:0;z-index:100;}
+    .header__inner{display:flex;align-items:center;justify-content:space-between;}
+    .logo{font-family:'Lora',serif;font-size:1.15rem;font-weight:700;color:var(--accent);}
+    .logo-dot{display:inline-block;width:8px;height:8px;background:var(--accent-2);border-radius:50%;margin-right:6px;vertical-align:middle;}
+    .header-cta{background:var(--accent);color:var(--white);border-radius:10px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;text-decoration:none;display:inline-block;}
+    .page{padding:72px 0 56px;}
+    .page h1{font-size:clamp(1.6rem,4vw,2.2rem);margin-bottom:20px;max-width:580px;}
+    .body-text{font-size:1rem;color:var(--ink-3);max-width:540px;margin-bottom:14px;line-height:1.85;}
+    .fact-list{list-style:none;margin:28px 0 36px;display:grid;gap:13px;max-width:540px;}
+    .fact-list li{display:flex;align-items:flex-start;gap:12px;font-size:.95rem;color:var(--ink-2);line-height:1.65;}
+    .fact-list li::before{content:"—";color:var(--muted);flex-shrink:0;margin-top:2px;}
+    .email-block{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:28px;max-width:540px;margin-bottom:40px;}
+    .email-block__label{font-size:.74rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--accent-2);margin-bottom:10px;}
+    .email-link{font-size:1.1rem;font-weight:700;color:var(--accent);text-decoration:none;border-bottom:2px solid var(--soft);display:inline-block;}
+    .email-link:hover{border-bottom-color:var(--accent);}
+    .response-note{margin-top:14px;font-size:.87rem;color:var(--muted);}
+    .who-block{max-width:540px;padding:24px 0 0;border-top:1px solid var(--line);}
+    .who-block p{font-size:.85rem;color:var(--muted);line-height:1.8;}
+    .footer-trust{padding:32px 0 16px;font-size:.85rem;color:var(--ink-3);line-height:1.75;border-top:1px solid var(--line);}
+    .disclaimer{padding:16px 0 20px;font-size:.78rem;color:var(--muted);line-height:1.7;}
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="container">
+    <div class="header__inner">
+      <div class="logo"><span class="logo-dot"></span>MussIchZahlen</div>
+      <a href="/mahnung/" class="header-cta">Kostenlose Ersteinordnung</a>
+    </div>
+  </div>
+</header>
+
+<section class="page">
+  <div class="container">
+
+    <h1>Bevor Sie hochladen: Das m&ouml;chten die meisten Menschen wissen.</h1>
+
+    <p class="body-text">Bevor Sie ein Dokument hochladen, m&ouml;chten Sie vermutlich genau wissen, was danach passiert &mdash; und ob eine Zahlungspflicht entsteht. Die entsteht nicht.</p>
+
+    <p class="body-text">Das passiert, wenn Sie hochladen:</p>
+
+    <ul class="fact-list">
+      <li>Ihr Dokument wird individuell gepr&uuml;ft und in verst&auml;ndlichem Deutsch erkl&auml;rt.</li>
+      <li>Sie erhalten eine klare Einordnung, was das Schreiben tats&auml;chlich bedeutet.</li>
+      <li>Diese Ersteinordnung ist kostenlos. Keine Kartendaten. Keine automatische Abbuchung.</li>
+      <li>Wenn Sie eine ausf&uuml;hrlichere Pr&uuml;fung oder einen Antwortentwurf m&ouml;chten, ist das ein separater, optionaler Schritt.</li>
+      <li>Ihr Dokument wird nach Abschluss der Pr&uuml;fung gel&ouml;scht.</li>
+      <li>Das Hochladen eines Dokuments begr&uuml;ndet keine Zahlungspflicht.</li>
+    </ul>
+
+    <div class="email-block">
+      <div class="email-block__label">Fragen zu einer Bestellung oder zum Service?</div>
+      <a href="mailto:support@mussichzahlen.de" class="email-link">support@mussichzahlen.de</a>
+      <p class="response-note">Wir antworten in der Regel innerhalb eines Werktags, Montag bis Freitag.</p>
+    </div>
+
+    <div class="who-block">
+      <p>MussIchZahlen wird betrieben von [BETREIBER &mdash; SIEHE IMPRESSUM], [ORT]. Keine Anwaltskanzlei. Keine Rechtsberatung.</p>
+    </div>
+
+  </div>
+</section>
+
+<div class="container">
+  <div class="footer-trust"><strong>MussIchZahlen</strong> hilft Menschen, Mahnungen und Zahlungsaufforderungen besser zu verstehen, bevor sie entscheiden, wie sie reagieren.</div>
+  <div class="disclaimer">MussIchZahlen erstellt verst&auml;ndliche Dokumenteinsch&auml;tzungen und Antwortentw&uuml;rfe. Keine Rechtsberatung. Keine Rechtsvertretung. &copy; 2026 MussIchZahlen</div>
+</div>
+
+<footer style="border-top:1px solid var(--line);padding:20px 0;text-align:center;background:var(--white);">
+  <div class="container">
+    <p style="font-size:.78rem;color:var(--muted);margin:0;">
+      <a href="/datenschutz.html" style="color:var(--muted);margin:0 10px;">Datenschutz</a>
+      <a href="/agb.html" style="color:var(--muted);margin:0 10px;">AGB</a>
+      <a href="/impressum.html" style="color:var(--muted);margin:0 10px;">Impressum</a>
+      <a href="/kontakt.html" style="color:var(--muted);margin:0 10px;">Kontakt</a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
