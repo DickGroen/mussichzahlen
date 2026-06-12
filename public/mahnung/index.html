@@ -537,6 +537,12 @@ btn.addEventListener('click', async () => {
       confirmCard.style.pointerEvents = 'auto';
     }
 
+    // Conversie-tracking: Google Ads + GA4 (direct in het success-pad)
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'conversion', {'send_to': 'AW-18193666186/hTTyCMbF67gcEIqhteND'});
+      gtag('event', 'upload_complete');
+    }
+
     // Verberg uploadkaart
     const freeCard = document.getElementById('free-card');
     if (freeCard) freeCard.style.display = 'none';
@@ -721,21 +727,7 @@ function escapeHtmlAttribute(value = '') {
 
 
 <script>
-  // Google Ads upload conversion
-  document.addEventListener('DOMContentLoaded', function(){
-    var el = document.getElementById('gratis-status');
-    if(!el) return;
-    var fired = false;
-    new MutationObserver(function(){
-      if(fired) return;
-      if(el.classList.contains('optie-status--success')){
-        fired = true;
-        if(typeof gtag !== 'undefined'){
-          gtag('event', 'conversion', {'send_to': 'AW-18193666186/hTTyCMbF67gcEIqhteND'});
-        }
-      }
-    }).observe(el, {attributes: true, attributeFilter: ['class']});
-  });
+  // Conversie-tracking verplaatst naar het upload-success-pad (zie handleSubmit)
 </script>
 </body>
 </html>
