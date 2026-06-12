@@ -128,7 +128,11 @@
     .modal__close:hover{color:var(--ink);}
     .footer-trust{padding:32px 0 16px;font-size:.85rem;color:var(--ink-3);line-height:1.75;border-top:1px solid var(--line);}
     .disclaimer{padding:16px 0 20px;font-size:.78rem;color:var(--muted);line-height:1.7;}
-  </style>
+  
+/* CTA-klik zichtbaar laten landen: upload-zone licht kort op bij ankersprong */
+@keyframes mizTargetPulse{0%{box-shadow:0 0 0 0 rgba(45,84,153,.35);}100%{box-shadow:0 0 0 16px rgba(45,84,153,0);}}
+#free-check:target .upload-zone{animation:mizTargetPulse .9s ease-out 2;}
+</style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18193666186"></script>
 <script>
@@ -184,11 +188,6 @@
       <div class="offer-badge">Kostenlose Ersteinordnung</div>
       <div class="offer-title">Kostenlose Ersteinordnung</div>
       <p class="offer-desc">Laden Sie Ihre Mahnung, Ihr Inkassoschreiben oder Ihre Zahlungsaufforderung hoch. Sie erhalten eine erste Einordnung dazu, ob vor einer Zahlung noch Punkte gekl&auml;rt werden sollten.</p>
-      <div style="margin:0 0 18px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:10px;font-size:.88rem;color:var(--ink-2);line-height:1.7;">
-        Sie erhalten zun&auml;chst eine kostenlose Ersteinordnung.<br>
-        Eine ausf&uuml;hrlichere Pr&uuml;fung f&uuml;r 49&nbsp;&euro; ist nur verf&uuml;gbar, wenn Sie diese sp&auml;ter ausdr&uuml;cklich anfordern.<br>
-        Mit dem Upload entsteht keine Zahlungsverpflichtung.
-      </div>
       <div style="margin:0 0 18px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:10px;font-size:.88rem;color:var(--ink-2);line-height:1.7;">
         Sie erhalten zun&auml;chst eine kostenlose Ersteinordnung.<br>
         Eine ausf&uuml;hrlichere Pr&uuml;fung f&uuml;r 49&nbsp;&euro; ist nur verf&uuml;gbar, wenn Sie diese sp&auml;ter ausdr&uuml;cklich anfordern.<br>
