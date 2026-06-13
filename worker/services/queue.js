@@ -3,11 +3,11 @@
 const PAID_MARKER_TTL_SECONDS = 60 * 60 * 24 * 30; // 30 days
 const FREE_CASE_TTL_SECONDS = 60 * 60 * 24 * 3; // 3 days
 const FREE_TRIAGE_TTL_SECONDS = 60 * 60 * 24 * 14; // 14 days
-const QUEUE_TTL_SECONDS = 60 * 60 * 24 * 7; // 7 days
+export const QUEUE_TTL_SECONDS = 60 * 60 * 24 * 7; // 7 days
 const ABANDONED_TTL_SECONDS = 60 * 60 * 24 * 7; // 7 days
 const PAID_SEND_DELAY_MS = 0;
 
-function kv(env) {
+export function kv(env) {
   return env.DEBT_QUEUE || env.SESSIONS_KV;
 }
 
