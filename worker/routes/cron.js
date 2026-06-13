@@ -1,409 +1,237 @@
-// worker/services/queue.js — mussichzahlen
+// worker/routes/cron.js
 
-const PAID_MARKER_TTL_SECONDS = 60 * 60 * 24 * 30; // 30 days
-const FREE_CASE_TTL_SECONDS = 60 * 60 * 24 * 3; // 3 days
-const FREE_TRIAGE_TTL_SECONDS = 60 * 60 * 24 * 14; // 14 days
-export const QUEUE_TTL_SECONDS = 60 * 60 * 24 * 7; // 7 days
-const ABANDONED_TTL_SECONDS = 60 * 60 * 24 * 7; // 7 days
-const PAID_SEND_DELAY_MS = 0;
+import { getDueEntries, deleteEntry, hasPaid } from "../services/queue.js";
+import { runAnalysis } from "../services/claude.js";
+import { loadPrompts } from "../config/prompts.js";
+import {
+  sendFreeEmail,
+  sendPaidEmail,
+  sendAbandonedEmail,
+  notifyAdminPaid,
+} from "../services/resend.js";
 
-export function kv(env) {
-  return env.DEBT_QUEUE || env.SESSIONS_KV;
-}
+// ─── Helpers ─────────────────────────────────────────────────────────────────
 
-function normalizeEmail(email) {
-  return String(email || "").trim().toLowerCase();
-}
-
-function safeEmailKey(email) {
-  return normalizeEmail(email).replace(/[^a-z0-9]/gi, "_");
-}
-
-function paidMarkerKey(email) {
-  return `paid_marker:${normalizeEmail(email)}`;
-}
-
-function freeTriageKey(type, email) {
-  return `free_triage:${type}:${safeEmailKey(email)}`;
-}
-
-function freeCaseKey(type, email) {
-  return `free_case:${type}:${safeEmailKey(email)}`;
-}
-
-function abandonedKey(email, stage) {
-  return `abandoned:${safeEmailKey(email)}:stage_${stage}`;
-}
-
-function isTier3({ triage, tier, emailType } = {}) {
+function isTier3(entry) {
   return (
-    tier === "tier3" ||
-    emailType === "trust" ||
-    triage?.tier === "tier3" ||
-    triage?.emailType === "trust"
+    entry?.triage?.tier === "tier3" ||
+    entry?.tier === "tier3" ||
+    entry?.triage?.emailType === "vertrauen" ||
+    entry?.emailType === "vertrauen"
   );
 }
 
-function nextWorkdayAt15CET(fromMs = Date.now()) {
-  // CET = UTC+1, CEST = UTC+2 (last Sunday March → last Sunday October)
-  function isCEST(date) {
-    const year = date.getUTCFullYear();
-    const lastSundayMarch = new Date(Date.UTC(year, 2, 31));
-    lastSundayMarch.setUTCDate(31 - lastSundayMarch.getUTCDay());
-    const lastSundayOctober = new Date(Date.UTC(year, 9, 31));
-    lastSundayOctober.setUTCDate(31 - lastSundayOctober.getUTCDay());
-    return date >= lastSundayMarch && date < lastSundayOctober;
-  }
-
-  const d = new Date(fromMs);
-  d.setUTCDate(d.getUTCDate() + 1);
-
-  while (d.getUTCDay() === 0 || d.getUTCDay() === 6) {
-    d.setUTCDate(d.getUTCDate() + 1);
-  }
-
-  const offset = isCEST(d) ? 2 : 1; // CEST=UTC+2, CET=UTC+1
-  d.setUTCHours(15 - offset, 15, 0, 0); // 15:15 lokaal = 13:15 of 14:15 UTC
-  return d.toISOString();
+function getStripeLink(entry) {
+  return (
+    entry?.stripe_link ||
+    entry?.stripeLink ||
+    entry?.paymentLink ||
+    null
+  );
 }
 
-function nextWorkdayAt1519CET(fromMs = Date.now()) {
-  function isCEST(date) {
-    const year = date.getUTCFullYear();
-    const lastSundayMarch = new Date(Date.UTC(year, 2, 31));
-    lastSundayMarch.setUTCDate(31 - lastSundayMarch.getUTCDay());
-    const lastSundayOctober = new Date(Date.UTC(year, 9, 31));
-    lastSundayOctober.setUTCDate(31 - lastSundayOctober.getUTCDay());
-    return date >= lastSundayMarch && date < lastSundayOctober;
-  }
-  const d = new Date(fromMs);
-  d.setUTCDate(d.getUTCDate() + 1);
-  while (d.getUTCDay() === 0 || d.getUTCDay() === 6) {
-    d.setUTCDate(d.getUTCDate() + 1);
-  }
-  const offset = isCEST(d) ? 2 : 1;
-  d.setUTCHours(15 - offset, 19, 0, 0); // 15:19 lokaal
+// ─── Main handler ─────────────────────────────────────────────────────────────
 
-  return d.toISOString();
-}
+export async function handleCron(env) {
+  console.log("Cron: Warteschlange wird geprüft…");
 
-function addHours(ms, hours) {
-  return new Date(ms + hours * 60 * 60 * 1000).toISOString();
-}
-
-export async function markPaid(env, email) {
-  const normalized = normalizeEmail(email);
-  if (!normalized) return;
-
-  await kv(env).put(paidMarkerKey(normalized), "1", {
-    expirationTtl: PAID_MARKER_TTL_SECONDS,
-  });
-}
-
-export async function hasPaid(env, email) {
-  const normalized = normalizeEmail(email);
-  if (!normalized) return false;
-
-  const value = await kv(env).get(paidMarkerKey(normalized));
-  return value === "1";
-}
-
-export async function saveFreeTriage(env, { type, rawType, name, email, triage, stripeLink }) {
-  const entry = {
-    type,
-    rawType: rawType || type,
-    name,
-    email: normalizeEmail(email),
-    triage,
-    stripe_link: stripeLink || null,
-    created_at: new Date().toISOString(),
-  };
-
-  await kv(env).put(freeTriageKey(type, email), JSON.stringify(entry), {
-    expirationTtl: FREE_TRIAGE_TTL_SECONDS,
-  });
-
-  return entry;
-}
-
-export async function getFreeTriage(env, { type, email }) {
-  const raw = await kv(env).get(freeTriageKey(type, email));
-  if (!raw) return null;
-
+  let due = [];
   try {
-    return JSON.parse(raw);
-  } catch {
-    return null;
-  }
-}
-
-export async function saveFreeCase(env, {
-  type,
-  rawType,
-  name,
-  email,
-  triage,
-  stripeLink,
-  fileBase64,
-  mediaType,
-  fileName,
-  fileSize,
-}) {
-  const entry = {
-    type,
-    rawType: rawType || type,
-    name,
-    email: normalizeEmail(email),
-    triage,
-    stripe_link: stripeLink || null,
-    file_base64: fileBase64 || null,
-    media_type: mediaType || null,
-    file_name: fileName || null,
-    file_size: fileSize || null,
-    created_at: new Date().toISOString(),
-  };
-
-  await kv(env).put(freeCaseKey(type, email), JSON.stringify(entry), {
-    expirationTtl: FREE_CASE_TTL_SECONDS,
-  });
-
-  return entry;
-}
-
-export async function getFreeCase(env, { type, email }) {
-  const raw = await kv(env).get(freeCaseKey(type, email));
-  if (!raw) return null;
-
-  try {
-    return JSON.parse(raw);
-  } catch {
-    return null;
-  }
-}
-
-export async function enqueueFree(env, {
-  type,
-  rawType,
-  name,
-  email,
-  triage,
-  stripeLink,
-  tier,
-  emailType,
-}) {
-  const normalized = normalizeEmail(email);
-  if (!normalized) return null;
-
-  await saveFreeTriage(env, {
-    type,
-    rawType,
-    name,
-    email: normalized,
-    triage,
-    stripeLink,
-  });
-
-  if (isTier3({ triage, tier, emailType })) {
-    console.log("QUEUE: tier3 free recovery suppressed:", normalized);
-    return null;
+    due = await getDueEntries(env);
+  } catch (err) {
+    console.error("Cron: getDueEntries FAILED:", err?.message, err?.stack);
+    return;
   }
 
-  const createdAt = Date.now();
-  const emailKey = safeEmailKey(normalized);
-  const baseKey = `free:${type}:${createdAt}:${emailKey}`;
+  console.log(`Cron: ${due.length} fällige Einträge gefunden`);
 
-  // Stage 1 via cron — volgende werkdag 15:15 CET.
-  // Stage 2 en 3 worden gepland relatief aan de vorige stage,
-  // zodat ze nooit eerder kunnen vallen dan een eerdere stage.
-  const stage1SendAt = nextWorkdayAt15CET(createdAt);
-  const stage2SendAt = addHours(new Date(stage1SendAt).getTime(), 24);
-  const stage3SendAt = addHours(new Date(stage2SendAt).getTime(), 24);
+  for (const { key, entry } of due) {
+    try {
+      console.log("Cron: Eintrag wird verarbeitet:", JSON.stringify({
+        key,
+        kind:    entry?.kind,
+        stage:   entry?.stage    || null,
+        email:   entry?.email    || null,
+        type:    entry?.type     || null,
+        tier:    entry?.triage?.tier || entry?.tier || null,
+        send_at: entry?.send_at  || null,
+      }));
 
-  const sendAts = {
-    1: stage1SendAt,
-    2: stage2SendAt,
-    3: stage3SendAt,
-  };
-
-  for (const stage of [1, 2, 3]) {
-    const key = `${baseKey}:stage_${stage}`;
-
-    const entry = {
-      kind: "free",
-      stage,
-      type,
-      rawType: rawType || type,
-      name,
-      email: normalized,
-      triage,
-      tier: triage?.tier || tier || null,
-      emailType: triage?.emailType || emailType || null,
-      stripe_link: stripeLink || null,
-      created_at: new Date(createdAt).toISOString(),
-      send_at: sendAts[stage],
-    };
-
-    await kv(env).put(key, JSON.stringify(entry), {
-      expirationTtl: QUEUE_TTL_SECONDS,
-    });
-
-    console.log("ENQUEUED FREE RECOVERY:", key, "SEND_AT:", sendAts[stage]);
-  }
-
-  return baseKey;
-}
-
-export async function enqueuePaid(env, {
-  type,
-  rawType,
-  name,
-  email,
-  triage,
-  analysis,
-  file_base64,
-  media_type,
-  fileName,
-  fileSize,
-  sessionId,
-  payment,
-}) {
-  const normalized = normalizeEmail(email);
-  if (!normalized) return null;
-
-  const key = `paid:${type}:${Date.now()}:${safeEmailKey(normalized)}`;
-
-  const entry = {
-    kind: "paid",
-    type,
-    rawType: rawType || type,
-    name,
-    email: normalized,
-    sessionId: sessionId || payment?.sessionId || null,
-    payment: payment || null,
-    triage,
-    analysis: analysis || null,
-    file_base64: file_base64 || null,
-    media_type: media_type || null,
-    file_name: fileName || null,
-    file_size: fileSize || null,
-    created_at: new Date().toISOString(),
-    send_at: nextWorkdayAt1519CET(Date.now()),
-  };
-
-  await kv(env).put(key, JSON.stringify(entry), {
-    expirationTtl: QUEUE_TTL_SECONDS,
-  });
-
-  console.log("ENQUEUED PAID:", key, "SEND_AT:", entry.send_at);
-
-  return key;
-}
-
-export async function saveAbandoned(env, {
-  email,
-  name,
-  type,
-  rawType,
-  amount,
-  stripeLink,
-  tier,
-  emailType,
-  triage,
-}) {
-  const normalized = normalizeEmail(email);
-  if (!normalized) return null;
-
-  if (isTier3({ triage, tier, emailType })) {
-    console.log("QUEUE: tier3 abandoned recovery suppressed:", normalized);
-    return null;
-  }
-
-  const now = Date.now();
-
-  const sendAts = {
-    1: addHours(now, 1),
-    2: addHours(now, 24),
-    3: addHours(now, 48),
-  };
-
-  for (const stage of [1, 2, 3]) {
-    const key = abandonedKey(normalized, stage);
-
-    const existing = await kv(env).get(key);
-    if (existing) continue;
-
-    const entry = {
-      kind: "abandoned",
-      stage,
-      type,
-      rawType: rawType || type,
-      name,
-      email: normalized,
-      amount: amount || null,
-      stripe_link: stripeLink || null,
-      tier: triage?.tier || tier || null,
-      emailType: triage?.emailType || emailType || null,
-      triage: triage || null,
-      created_at: new Date(now).toISOString(),
-      send_at: sendAts[stage],
-    };
-
-    await kv(env).put(key, JSON.stringify(entry), {
-      expirationTtl: ABANDONED_TTL_SECONDS,
-    });
-
-    console.log("ENQUEUED ABANDONED:", key, "SEND_AT:", sendAts[stage]);
-  }
-
-  return true;
-}
-
-export async function getDueEntries(env) {
-  const now = Date.now();
-  const due = [];
-  let cursor;
-
-  console.log("GET DUE START:", new Date(now).toISOString());
-
-  do {
-    const list = await kv(env).list(cursor ? { cursor } : undefined);
-    cursor = list.cursor;
-
-    for (const key of list.keys) {
-      if (key.name.startsWith("paid_marker:")) continue;
-      if (key.name.startsWith("free_triage:")) continue;
-      if (key.name.startsWith("free_case:")) continue;
-      if (key.name.startsWith("track:")) continue;
-      if (key.name.startsWith("analysis_sent:")) continue;
-      if (key.name.startsWith("paid_missing_free_case:")) continue;
-      if (key.name.startsWith("paid_missing_email:")) continue;
-      if (key.name.startsWith("paid_failed_missing_file:")) continue;
-
-      try {
-        const raw = await kv(env).get(key.name);
-        if (!raw) continue;
-
-        const entry = JSON.parse(raw);
-        if (!entry?.send_at) continue;
-
-        const sendAtMs = new Date(entry.send_at).getTime();
-        if (!Number.isFinite(sendAtMs)) continue;
-
-        if (sendAtMs <= now) {
-          due.push({ key: key.name, entry });
-        }
-      } catch (err) {
-        console.error(`Queue read error for ${key.name}:`, err.message);
+      if (!entry?.kind) {
+        console.warn(`Cron: Eintrag ohne kind übersprungen und gelöscht: ${key}`);
+        await deleteEntry(env, key);
+        continue;
       }
+
+      if (!entry?.email) {
+        console.warn(`Cron: Eintrag ohne E-Mail übersprungen und gelöscht: ${key}`);
+        await deleteEntry(env, key);
+        continue;
+      }
+
+      // ── Free recovery emails ─────────────────────────────────────────────
+      if (entry.kind === "free") {
+        const alreadyPaid = await hasPaid(env, entry.email);
+        if (alreadyPaid) {
+          await deleteEntry(env, key);
+          console.log(`Cron: Free-Recovery übersprungen, bereits bezahlt: ${entry.email}`);
+          continue;
+        }
+
+        // Tier 3 krijgt geen follow-up recovery emails na stage 1
+        if (isTier3(entry) && Number(entry.stage || 1) > 1) {
+          await deleteEntry(env, key);
+          console.log(`Cron: Tier3-Recovery unterdrückt: ${entry.email}`);
+          continue;
+        }
+
+        const stripeLink = getStripeLink(entry);
+
+        await sendFreeEmail(env, {
+          name:       entry.name,
+          email:      entry.email,
+          type:       entry.type,
+          triage:     entry.triage,
+          stripeLink,
+          stage:      entry.stage || 1,
+        });
+
+        console.log(`Cron: Free-Mail gesendet: ${entry.email}, stage ${entry.stage || 1}`);
+      }
+
+      // ── Paid analysis emails ─────────────────────────────────────────────
+      else if (entry.kind === "paid") {
+
+        // Testbetalingen (cs_test_) nooit verwerken in productie
+        const sessionId = entry.sessionId || entry.payment?.sessionId || "";
+        if (String(sessionId).startsWith("cs_test_")) {
+          console.warn(`Cron: Testsitzung übersprungen und gelöscht: ${sessionId}`);
+          await deleteEntry(env, key);
+          continue;
+        }
+
+        let analysis = entry.analysis || null;
+
+        if (!analysis) {
+          if (!entry.file_base64 || !entry.media_type) {
+            console.error(`Cron: Paid-Eintrag ohne file_base64/media_type — Analyse nicht möglich: ${key}`);
+
+            // Log mislukte entry voor handmatige opvolging
+            await env.SESSIONS_KV.put(
+              `paid_failed_missing_file:${entry.email}:${Date.now()}`,
+              JSON.stringify({
+                key,
+                type:        entry.type,
+                email:       entry.email,
+                reason:      "missing_file_base64_or_media_type",
+                received_at: new Date().toISOString(),
+              }),
+              { expirationTtl: 60 * 60 * 24 * 30 }
+            );
+
+            await deleteEntry(env, key);
+            continue;
+          }
+
+          try {
+            const prompts = await loadPrompts(entry.type);
+
+            if (!prompts?.haiku || !prompts?.sonnet) {
+              throw new Error(`Analyse-Prompts nicht gefunden für type: ${entry.type}`);
+            }
+
+            analysis = await runAnalysis(env, {
+              fileBase64:   entry.file_base64,
+              mediaType:    entry.media_type,
+              route:        entry.triage?.route || "SONNET",
+              haikuPrompt:  prompts.haiku,
+              sonnetPrompt: prompts.sonnet,
+            });
+
+            console.log(`Cron: Analyse abgeschlossen für ${entry.email}`);
+          } catch (err) {
+            console.error(`Cron: runAnalysis fehlgeschlagen für ${entry.email}:`, err.message, err.stack);
+            // Niet verwijderen — volgende cron-run probeert het opnieuw
+            continue;
+          }
+        }
+
+        await sendPaidEmail(env, {
+          name:     entry.name,
+          email:    entry.email,
+          type:     entry.type,
+          triage:   entry.triage,
+          analysis,
+          payment:  entry.payment || null,
+        });
+
+        console.log(`Cron: Paid-Mail gesendet: ${entry.email}`);
+
+        try {
+          await notifyAdminPaid(env, {
+            name:     entry.name,
+            email:    entry.email,
+            type:     entry.type,
+            triage:   entry.triage,
+            analysis,
+            payment:  entry.payment || null,
+          });
+        } catch (err) {
+          console.error("Cron: Admin-Benachrichtigung fehlgeschlagen:", err.message);
+        }
+      }
+
+      // ── Abandoned checkout emails ────────────────────────────────────────
+      else if (entry.kind === "abandoned") {
+        const alreadyPaid = await hasPaid(env, entry.email);
+        if (alreadyPaid) {
+          await deleteEntry(env, key);
+          console.log(`Cron: Abandoned übersprungen, bereits bezahlt: ${entry.email}`);
+          continue;
+        }
+
+        // Tier 3 krijgt geen abandoned/pressure emails
+        if (isTier3(entry)) {
+          await deleteEntry(env, key);
+          console.log(`Cron: Tier3-Abandoned unterdrückt: ${entry.email}`);
+          continue;
+        }
+
+        const stripeLink = getStripeLink(entry);
+
+        if (!stripeLink) {
+          console.warn(`Cron: Abandoned ohne Stripe-Link gelöscht: ${key}`);
+          await deleteEntry(env, key);
+          continue;
+        }
+
+        await sendAbandonedEmail(env, {
+          name:       entry.name,
+          email:      entry.email,
+          type:       entry.type,
+          amount:     entry.amount,
+          stripeLink,
+          stage:      entry.stage || 1,
+        });
+
+        console.log(`Cron: Abandoned-Mail gesendet: ${entry.email}, stage ${entry.stage || 1}`);
+      }
+
+      // ── Onbekend type ────────────────────────────────────────────────────
+      else {
+        console.warn(`Cron: Unbekannter Eintragstyp: ${entry.kind} (${key})`);
+        await deleteEntry(env, key);
+        continue;
+      }
+
+      await deleteEntry(env, key);
+      console.log(`Cron: Gesendet und gelöscht: ${key}`);
+
+    } catch (err) {
+      console.error(`Cron: Fehler bei ${key}:`, err?.message, err?.stack);
+      // Niet globaal gooien — volgende entry wordt gewoon verwerkt
     }
-  } while (cursor);
+  }
 
-  console.log("GET DUE DONE:", due.length);
-
-  return due;
-}
-
-export async function deleteEntry(env, key) {
-  await kv(env).delete(key);
-  console.log("DELETED QUEUE KEY:", key);
+  console.log("Cron: Verarbeitung abgeschlossen.");
 }
