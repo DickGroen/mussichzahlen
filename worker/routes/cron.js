@@ -1,6 +1,6 @@
 // worker/routes/cron.js
 
-import { getDueEntries, deleteEntry, hasPaid } from "../services/queue.js";
+import { getDueEntries, deleteEntry, hasPaid, kv, QUEUE_TTL_SECONDS } from "../services/queue.js";
 import { runAnalysis } from "../services/claude.js";
 import { loadPrompts } from "../config/prompts.js";
 import {
@@ -151,7 +151,40 @@ export async function handleCron(env) {
             console.log(`Cron: Analyse abgeschlossen für ${entry.email}`);
           } catch (err) {
             console.error(`Cron: runAnalysis fehlgeschlagen für ${entry.email}:`, err.message, err.stack);
-            // Niet verwijderen — volgende cron-run probeert het opnieuw
+
+            const retryCount = (entry.retry_count || 0) + 1;
+            const MAX_RETRIES = 3;
+
+            if (retryCount >= MAX_RETRIES) {
+              console.error(`Cron: Eintrag nach ${retryCount} Versuchen aufgegeben: ${key}`);
+
+              await env.SESSIONS_KV.put(
+                `paid_failed_permanently:${entry.email}:${Date.now()}`,
+                JSON.stringify({
+                  key,
+                  type: entry.type,
+                  email: entry.email,
+                  error: err.message,
+                  retry_count: retryCount,
+                  failed_at: new Date().toISOString(),
+                }),
+                { expirationTtl: 60 * 60 * 24 * 30 }
+              );
+
+              await deleteEntry(env, key);
+            } else {
+              // Verhoog de teller en schuif send_at een uur op, zodat
+              // dezelfde entry niet binnen één cron-cyclus opnieuw vuurt.
+              entry.retry_count = retryCount;
+              entry.send_at = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+
+              await kv(env).put(key, JSON.stringify(entry), {
+                expirationTtl: QUEUE_TTL_SECONDS,
+              });
+
+              console.warn(`Cron: Eintrag erneut geplant (Versuch ${retryCount}/${MAX_RETRIES}, +1h): ${key}`);
+            }
+
             continue;
           }
         }
