@@ -56,7 +56,7 @@
     .offer-cta:hover { background:var(--accent-2); }
     .offer-security { text-align:center; font-size:.78rem; color:var(--muted); margin-top:10px; }
     .offer-refund { text-align:center; font-size:.76rem; color:var(--muted); margin-top:6px; }
-    .upload-zone { border:2px dashed var(--line); border-radius:14px; padding:28px; text-align:center; cursor:pointer; background:var(--surface); transition:.2s; }
+    .upload-zone { position:relative; border:2px dashed var(--line); border-radius:14px; padding:28px; text-align:center; cursor:pointer; background:var(--surface); transition:.2s; }
     .upload-zone:hover { border-color:var(--accent); background:#eef4ff; }
     .upload-label { font-weight:700; color:var(--accent); }
     .upload-hint { font-size:.84rem; color:var(--muted); margin-top:6px; }
@@ -149,11 +149,11 @@
       <div class="offer-badge">Kostenlose Ersteinordnung</div>
       <div class="offer-title">Kostenlose Ersteinordnung</div>
       <p class="offer-desc">Laden Sie Ihr Angebot oder Ihren Kostenvoranschlag hoch. Sie erhalten eine erste Einordnung, ob alle Positionen klar und nachvollziehbar sind — in der Regel bis zum nächsten Werktag.</p>
-      <div id="gratis-upload-zone" class="upload-zone">
+      <label id="gratis-upload-zone" class="upload-zone" for="gratis-file-input">
         <div class="upload-label">Datei ausw&auml;hlen</div>
         <div class="upload-hint">PDF, JPG oder PNG &middot; max. 8 MB</div>
-        <input id="gratis-file-input" type="file" accept=".pdf,.jpg,.jpeg,.png" style="display:none;">
-      </div>
+        <input id="gratis-file-input" type="file" accept=".pdf,.jpg,.jpeg,.png" style="position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;cursor:pointer;" aria-label="Datei ausw&auml;hlen">
+      </label>
       <div id="gratis-contact-fields" class="contact-fields">
         <input id="gratis-name" class="input" placeholder="Ihr Name" autocomplete="name">
         <input id="gratis-email" class="input" placeholder="Ihre E-Mail-Adresse" type="email" autocomplete="email">
@@ -331,7 +331,7 @@ const nameEl = document.getElementById('gratis-name');
 const emailEl = document.getElementById('gratis-email');
 const btn = document.getElementById('gratis-btn');
 const statusEl = document.getElementById('gratis-status');
-uploadZone.addEventListener('click', () => fileInput.click());
+// Picker wird nativ über <label for="gratis-file-input"> geöffnet — kein JS nötig.
 uploadZone.addEventListener('dragover', (e) => { e.preventDefault(); uploadZone.style.borderColor = 'var(--accent)'; });
 uploadZone.addEventListener('dragleave', () => { uploadZone.style.borderColor = ''; });
 uploadZone.addEventListener('drop', (e) => { e.preventDefault(); uploadZone.style.borderColor = ''; const f = e.dataTransfer?.files?.[0]; if (f) handleFile(f); });
