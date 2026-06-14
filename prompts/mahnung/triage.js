@@ -184,7 +184,7 @@ Wenn möglich, die Spannung zwischen Behauptung und fehlendem Beleg benennen:
 Diese Kontrastform wirkt menschlicher und konkreter als reine Faktenaufzählung.
 
 Für tier3 — Teaser neutral und ruhig:
-Keine Kontrast-Formulierungen. Sachlich beschrijven wat er te controleren valt:
+Keine Kontrast-Formulierungen. Sachlich beschreiben, was sich überprüfen lässt:
 - "Das Schreiben enthält eine nachvollziehbare Aufschlüsselung der Beträge. Ein Abgleich mit eigenen Unterlagen kann dennoch sinnvoll sein."
 - "Wenn flagCount = 0 und risk = "low": einen kurzen, ausgewogenen Satz formulieren, der auf einen konkreten prüfenswerten Aspekt hinweist ohne zu alarmieren."
 
