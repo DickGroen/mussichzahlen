@@ -193,11 +193,11 @@
         Eine ausf&uuml;hrlichere Pr&uuml;fung f&uuml;r 49&nbsp;&euro; ist nur verf&uuml;gbar, wenn Sie diese sp&auml;ter ausdr&uuml;cklich anfordern.<br>
         Mit dem Upload entsteht keine Zahlungsverpflichtung.
       </div>
-      <div id="gratis-upload-zone" class="upload-zone">
+      <label id="gratis-upload-zone" class="upload-zone" for="gratis-file-input">
         <div class="upload-label">Datei ausw&auml;hlen</div>
         <div class="upload-hint">PDF, JPG oder PNG &middot; max. 8 MB</div>
         <input id="gratis-file-input" type="file" accept=".pdf,.jpg,.jpeg,.png" style="position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;cursor:pointer;" aria-label="Datei ausw&auml;hlen">
-      </div>
+      </label>
       <div id="gratis-contact-fields" class="contact-fields">
         <input id="gratis-name" class="input" placeholder="Ihr Name" autocomplete="name">
         <input id="gratis-email" class="input" placeholder="Ihre E-Mail-Adresse" type="email" autocomplete="email">
@@ -430,9 +430,9 @@ try { if (window.initFaq) initFaq(); } catch(e) {}
 try { if (window.initStickyFooter) initStickyFooter(); } catch(e) {}
 
 // ── File selection ────────────────────────────────────────────────────────────
-uploadZone.addEventListener('click', (e) => {
-  if (e.target !== fileInput) fileInput.click();
-});
+// Picker wordt nu native geopend via <label for="gratis-file-input"> — geen JS nodig.
+// Een extra fileInput.click() hier veroorzaakte een dubbele trigger in Safari,
+// waardoor de file-picker soms niet (zichtbaar) opende.
 
 uploadZone.addEventListener('dragover', (event) => {
   event.preventDefault();
@@ -499,8 +499,10 @@ function updateBtn() {
   btn.disabled = !ready;
 }
 
-nameEl.addEventListener('input', updateBtn);
-emailEl.addEventListener('input', updateBtn);
+['input', 'change', 'blur'].forEach((evt) => {
+  nameEl.addEventListener(evt, updateBtn);
+  emailEl.addEventListener(evt, updateBtn);
+});
 
 // ── Upload + Triage ───────────────────────────────────────────────────────────
 btn.addEventListener('click', async () => {
