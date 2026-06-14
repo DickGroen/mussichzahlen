@@ -465,14 +465,15 @@ VERMEIDE diese Formulierungen:
 - "Sachverhalt" → zu juristisch
 - "abschließend zu prüfen" → Kanzleijargon
 - Gesetzesparagraphen — nur nennen wenn im konkreten Dokument direkt relevant und hilfreich
-LETTER voor tier3 (risk: low):
-Bij tier3 GEEN volledige Widerspruch schrijven.
-Schrijf een rustige, neutrale Rückfrage:
-- Toon: coöperatief, informatief, geen conflict
-- Geen "Bis dahin werde ich keine Zahlung vornehmen" bij tier3
-- Geen harde bezwaarformuleringen
-- Openingszin: "Zu Ihrem Schreiben hätte ich noch eine kurze Rückfrage."
-- Slotzin: "Vielen Dank für Ihre Rückmeldung."
+
+WIDERSPRUCH BEI TIER3 (risk: low):
+Bei tier3 keinen vollständigen Widerspruch schreiben.
+Schreiben Sie eine ruhige, neutrale Rückfrage:
+- Ton: kooperativ, informativ, ohne Konfliktcharakter
+- Kein "Bis dahin werde ich vorerst keine Zahlung vornehmen" bei tier3
+- Keine harten Widerspruchsformulierungen
+- Einleitungssatz: "Zu Ihrem Schreiben hätte ich noch eine kurze Rückfrage."
+- Schlusssatz: "Vielen Dank für Ihre Rückmeldung."
 
 BETREFF:
 Natürlich und zweckmäßig. Bevorzuge:
