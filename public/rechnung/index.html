@@ -347,8 +347,10 @@ function handleFile(file) {
   track('file_selected', { type: 'rechnung', fileType: file.type, fileSize: file.size });
 }
 function updateBtn() { btn.disabled = !(selectedFile && nameEl.value.trim() && emailEl.value.trim()); }
-nameEl.addEventListener('input', updateBtn);
-emailEl.addEventListener('input', updateBtn);
+['input', 'change', 'blur'].forEach((evt) => {
+  nameEl.addEventListener(evt, updateBtn);
+  emailEl.addEventListener(evt, updateBtn);
+});
 btn.addEventListener('click', async () => {
   const name = nameEl.value.trim(), email = emailEl.value.trim();
   if (!selectedFile || !name || !email) return;
