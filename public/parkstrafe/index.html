@@ -389,8 +389,10 @@ function updateBtn() {
   btn.disabled = !(selectedFile && nameEl.value.trim() && emailEl.value.trim());
 }
 
-nameEl.addEventListener('input', updateBtn);
-emailEl.addEventListener('input', updateBtn);
+['input', 'change', 'blur'].forEach((evt) => {
+  nameEl.addEventListener(evt, updateBtn);
+  emailEl.addEventListener(evt, updateBtn);
+});
 
 // ── Upload ────────────────────────────────────────────────────────────────────
 btn.addEventListener('click', async () => {
