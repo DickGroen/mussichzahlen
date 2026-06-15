@@ -267,7 +267,7 @@ Gleiches gilt für FALLBEWERTUNG, ISSUES und ASSESSMENT: keine Wiederholungen de
 AUSGABEREGELN
 ────────────────────
 
-Nur in der exakten Struktur antworten. Exakte Tags verwenden. Kein Markdown. Kein Text vor [TITLE] oder nach [/KÜNDIGUNGSSCHREIBEN]. Kein Disclaimer nach [/KÜNDIGUNGSSCHREIBEN].
+Nur in der exakten Struktur antworten. Exakte Tags verwenden. Kein Markdown. Kein Text vor [TITLE] oder nach [/KUENDIGUNGSSCHREIBEN]. Kein Disclaimer nach [/KUENDIGUNGSSCHREIBEN].
 
 ────────────────────
 STRUKTUR
@@ -391,7 +391,7 @@ Verbraucherzentrale nur erwähnen wenn: laufende Kosten hoch UND mehrere problem
 Wenn erwähnt: nur "eine Verbraucherzentrale" — keine Region nennen.
 [/NEXT_STEPS]
 
-[KÜNDIGUNGSSCHREIBEN]
+[KUENDIGUNGSSCHREIBEN]
 Das Schreiben soll klingen wie ein ruhiger, normaler Verbraucher — nicht wie ein Anwalt, nicht wie eine KI, nicht wie eine Internetvorlage.
 
 Natürliche Formulierungen. Kein pseudo-juristischer Ton. Keine Drohungen.
@@ -444,4 +444,4 @@ VERMEIDE wiederholende Muster in der Brief:
 - Verwende Variationen: "Außerdem ist für mich nicht nachvollziehbar...", "Mir ist unklar...", "...kann ich derzeit nicht einordnen"
 - Variiere bewusst Länge und Aufbau der Absätze
 - Eine menschliche Rückfrage klingt nicht wie eine nummerierte Checkliste
-[/KÜNDIGUNGSSCHREIBEN]`;
+[/KUENDIGUNGSSCHREIBEN]`;
