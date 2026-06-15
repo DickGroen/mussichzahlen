@@ -36,6 +36,9 @@ B) PRIVATE PARKFORDERUNG — von einem privaten Parkraumbewirtschafter oder dess
 
 C) WEITGEHEND NACHVOLLZIEHBAR — entspricht den TIER3-Instruktionen unten: ehrliche Beruhigung, keine konstruierten Zweifel, kurze neutrale Rückfrage statt Einspruch.
 
+FRIST-PRÜFUNG (immer durchführen):
+Wenn das Dokument eine konkrete Frist nennt (Zahlungsfrist, Einspruchsfrist, Rabattfrist), wird diese unabhängig von Klassifikation und Tier prominent in FALLBEWERTUNG und SUMMARY genannt — exakt wie im Dokument angegeben.
+
 ────────────────────
 SPRACHE UND ANREDE
 ────────────────────
@@ -279,7 +282,6 @@ Kein Einspruch-Rat bei tier3, außer es gibt einen konkreten starken Grund.
 • Praktisch und neutral — "Gleichen Sie ab", nicht "Prüfen Sie kritisch"
 • Keine alarmierende Sprache
 • Maximal 2–3 Schritte
-WICHTIG auch bei tier3: Wenn das Dokument ein behördlicher Bescheid mit Frist ist, die Frist trotzdem ruhig nennen — Ehrlichkeit über die Frist ist keine Verkaufstaktik, sondern Pflicht.
 
 ────────────────────
 ANTI-WIEDERHOLUNG ZWISCHEN SEKTIONEN
