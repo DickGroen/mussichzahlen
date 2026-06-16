@@ -2,7 +2,7 @@
 
 import { escapeHtml } from "../utils/files.js";
 import { makeAnalysisRtf, makeLetterRtf, rtfToBase64 } from "../utils/rtf.js";
-import { makeAnalysisDocxDE, makeLetterDocxDE, docxToBase64 } from "../utils/docx.js";
+
 
 const FROM       = "MussIchZahlen Support <support@mussichzahlen.de>";
 const REPLY_TO   = "support@mussichzahlen.de";
@@ -508,8 +508,8 @@ export async function sendPaidEmail(env, { name, email, type, triage, analysis }
       ? "Private Parkforderung"
       : baseLabels.title,
   };
-  const analysisDocx = makeAnalysisDocxDE(analysis, name, email, triage, type);
-  const letterDocx   = makeLetterDocxDE(analysis, name, triage, type);
+  const analysisRtf = makeAnalysisRtf(analysis, name, email, triage, type);
+  const letterRtf   = makeLetterRtf(analysis, name, triage, type);
   const safeName    = escapeHtml(capitalizeFirst(name || "Kunde"));
   const isTier3     = triage?.tier === "tier3";
   const rawSender   = triage?.sender || "";
