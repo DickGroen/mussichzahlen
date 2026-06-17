@@ -49,7 +49,7 @@ Regeln:
 3. Betrag: total_price als Zahl (Gesamtbetrag brutto oder netto, das Erkennbarere).
 
 4. Possible issues
-- possible_\u00fcberh\u00f6hter_gesamtpreis: Gesamtbetrag wirkt auff\u00e4llig hoch im Verh\u00e4ltnis zur beschriebenen Leistung.
+- possible_\u00fcberh\u00f6hter_gesamtpreis: NUR true wenn im Dokument selbst Vergleichswerte, Widerspr\u00fcche oder offensichtliche Diskrepanzen zwischen genanntem Betrag und beschriebener Leistung erkennbar sind. Nicht true auf Basis allgemeiner Preiseinsch\u00e4tzung — das Modell kennt keine regionalen Marktpreise, Materialkos\u00adten oder Spoedzuschl\u00e4ge. Im Zweifel: null.
 - possible_unklare_einzelpositionen: Positionen pauschal ohne Aufschl\u00fcsselung von Stunden, Mengen oder Materialien.
 - possible_fehlende_leistungsbeschreibung: Leistungsumfang, Zeitraum oder konkrete T\u00e4tigkeiten fehlen oder unklar.
 - possible_versteckte_zusatzkosten: \u00c4nderungswunsch-Klauseln, Nachtragsregelungen oder unklare Kostenpositionen.
@@ -80,9 +80,27 @@ DOKUMENTSPEZIFISCH \u2014 keine hardcodierten Texte.
 
 SCHLECHT: "Einzelne Positionen k\u00f6nnten noch schriftlich gekl\u00e4rt werden."
 
-GUT (Kontrastform): "Das Angebot nennt einen Gesamtpreis von 12.316,50 EUR, enth\u00e4lt aber f\u00fcr keine der f\u00fcnf Positionen eine Aufschl\u00fcsselung von Stunden oder Materialien."
-GUT (Einordnungsform): "Der Festpreis von 4.800,00 EUR ist ohne Zeitplan oder Leistungsdetails angegeben \u2014 \u00c4nderungen werden separat berechnet."
+GUT (Kontrastform): "Das Angebot nennt einen Gesamtpreis \u2014 einzelne Angaben zur Zusammensetzung lassen sich aus dem Schreiben allein nicht vollst\u00e4ndig nachvollziehen."
+GUT (Einordnungsform): "Das Angebot enth\u00e4lt einen Gesamtbetrag \u2014 einzelne Angaben zur Leistungsgrundlage lassen sich aus dem Schreiben allein nicht vollst\u00e4ndig einordnen."
 GUT (tier3): "Das Angebot enth\u00e4lt eine nachvollziehbare Aufschl\u00fcsselung der Positionen mit Materialien und Arbeitszeit."
+
+KRITISCH \u2014 GRENZE F\u00dcR DEN TEASER:
+Der teaser darf NICHT nennen:
+- den genauen Preismangel
+- den genauen Aufschl\u00fcsselungsmangel
+- die genauen ausgeschlossenen Kosten
+- den genauen Zahlungsbedingungsmangel
+- den genauen Leistungsumfangmangel
+- eine Verhandlungsstrategie
+Intern d\u00fcrfen flags spezifisch bleiben.
+Der teaser darf nur auf \u00fcbergeordnete Kategorien verweisen:
+- Preis, Leistungsumfang, Kosten, Zahlungsbedingungen, Zeitplanung, Unterlagen, Nachvollziehbarkeit des Angebots.
+
+NICHT erlaubt im teaser:
+- "keine Einzelaufschl\u00fcsselung" oder "keine Positionsaufstellung"
+- "zus\u00e4tzliche Kosten nicht angegeben" mit spezifischen Details
+- "Zahlungsbedingungen unklar" mit konkreten Angaben
+- Formulierungen, die dem Nutzer eine kostenlose Verhandlungsstrategie geben
 
 Maximal 2 S\u00e4tze. Nur Informationen aus dem Dokument. Keine Rechtsbehauptungen.
 
