@@ -94,7 +94,7 @@ Regeln:
 - possible_kein_tatnachweis: true, wenn der Tatvorwurf nicht nachvollziehbar belegt wird oder angebotene Beweismittel vollständig fehlen, obwohl sie für die Einordnung wesentlich wären.
   WICHTIG: Bei behördlichen Bescheiden (bescheid_typ = "behoerdlich") ist das Fehlen von Fotobeweisen allein KEIN Grund für true — Behörden versenden standardmäßig keine Fotos. Nur true setzen wenn ein konkreter inhaltlicher Widerspruch oder eine unplausible Tatzeit/-ort-Angabe erkennbar ist.
   Bei privaten Parkraumunternehmen (bescheid_typ = "privat"): true wenn Fotonachweise oder Beschilderungsbelege fehlen und keine alternativen Beweise genannt werden.
-- possible_falscher_halter: true, wenn Kennzeichen, Name oder Fahreridentität fraglich wirken oder Halter ≠ Fahrer nicht ausgeschlossen werden kann.
+- possible_falscher_halter: NUR true wenn konkrete Widersprüche zwischen Fahrer-, Halter- oder Fahrzeugangaben im Dokument selbst erkennbar sind. Nicht true auf Basis einer Spekulation darüber, wer gefahren sein könnte — das Modell kennt die tatsächlichen Verhältnisse nicht. Im Zweifel: null.
 - possible_formfehler: true, wenn Pflichtangaben fehlen (Aktenzeichen, Tatzeit, Tatort, Rechtsgrundlage, Rechtsmittelbelehrung) oder Unterschrift/Dienstsiegel fehlt.
 - possible_privater_betreiber: true, wenn ein privates Parkraummanagement erkennbar ist und Vertragsgrundlage, Forderungsgrund oder Nachweise nicht klar nachvollziehbar sind.
 - Setze ein possible_*-Feld nur dann auf true, wenn konkrete Hinweise im Dokument vorhanden sind.
@@ -173,15 +173,33 @@ SCHLECHT:
 "Mögliche Auffälligkeiten wurden erkannt."
 
 GUT — Einordnungsform (neutral, sachlich):
-"Der Bescheid enthält keinen Tatnachweis und keine Beschilderungsfotos — vor einer Zahlung sollte zumindest geprüft werden, ob diese auf Anfrage nachgereicht werden."
+"Einzelne Angaben zum Tatvorwurf lassen sich aus dem Bescheid allein nicht vollständig einordnen."
 "Die Forderung stammt von einem privaten Parkraumunternehmen — es gelten andere Regeln als bei behördlichen Bescheiden."
 
 GUT — Kontrastform für tier1/tier2 (wenn Widerspruch zwischen Behauptung und fehlendem Beleg erkennbar):
-"Das Unternehmen behauptet eine Überschreitung der Parkdauer, legt aber weder Fotonachweise noch Beschilderungsfotos bei."
-"Dem Bescheid fehlen Nachweise über die Beschilderung am Tatort — ohne diese lässt sich der Vorwurf nicht vollständig nachvollziehen."
+"Das Unternehmen macht eine Überschreitung der Parkdauer geltend — einzelne Angaben lassen sich aus dem Bescheid allein nicht vollständig nachvollziehen."
+"Einzelne Angaben zur Grundlage des Bescheids lassen sich aus dem Schreiben allein nicht vollständig nachvollziehen."
 
 GUT — Neutrale Form für tier3:
 "Der Bescheid einer städtischen Behörde enthält Tatvorwurf, Tatzeit und Tatort. Ein kurzer Abgleich mit eigenen Unterlagen kann dennoch sinnvoll sein."
+
+KRITISCH — GRENZE FÜR DEN TEASER:
+Der teaser darf NICHT nennen:
+- den genauen ANPR-Fehler
+- den genauen Beschilderungsmangel
+- den genauen Zustellungsfehler
+- den genauen Verfahrensfehler
+- ein konkretes Einspruchsargument
+- eine Einspruchsstrategie
+Intern dürfen flags spezifisch bleiben.
+Der teaser darf nur auf übergeordnete Kategorien verweisen:
+- Nachweis, Beschilderung, Zeitangaben, Unterlagen, Fahrzeugdaten, Verfahrensanforderungen, Nachvollziehbarkeit des Bescheids.
+
+NICHT erlaubt im teaser:
+- "keine ANPR-Bilder" oder "keine Fotonachweise"
+- "Beschilderung nicht nachgewiesen"
+- "Halterhaftung nicht belegt"
+- Formulierungen, die dem Nutzer eine kostenlose Einspruchsstrategie geben
 
 Maximal 2 Sätze.
 Nur Informationen verwenden, die tatsächlich im Dokument erkennbar sind.
