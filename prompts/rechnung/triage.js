@@ -70,10 +70,10 @@ energie|wasser|telekommunikation|handwerk|arzt|versicherung|miete|sonstige|unbek
 3. Betrag: amount_claimed als Zahl, keine Währungszeichen. currency normalerweise EUR.
 
 4. Possible issues
-- possible_falsche_position: Positionen nicht nachvollziehbar vereinbart oder begründet.
+- possible_falsche_position: Positionen nicht ausreichend erläutert oder aus dem Dokument allein nicht nachvollziehbar. Nicht true auf Basis einer Annahme über die zugrunde liegende Vereinbarung — das Modell kennt den Vertrag nicht. Im Zweifel: null.
 - possible_doppelte_berechnung: dieselbe Leistung mehrfach berechnet.
 - possible_nicht_erbrachte_leistung: Leistung möglicherweise nicht erbracht oder nicht beschrieben.
-- possible_überhöhter_preis: Betrag auffällig hoch im Verhältnis zur Leistung.
+- possible_überhöhter_preis: NUR true wenn im Dokument selbst ein Vergleichswert, ein Widerspruch oder eine offensichtliche Diskrepanz zwischen genanntem Betrag und beschriebener Leistung erkennbar ist. Nicht true auf Basis allgemeiner Preiseinschätzung — das Modell kennt keine regionalen Tarife, Marktpreise oder Sonderzuschläge. Im Zweifel: null.
 - possible_keine_leistungsbeschreibung: Zeitraum, Menge, Stunden, Material oder Beschreibung fehlt.
 - possible_unplausible_nachforderung: Nachzahlung ohne nachvollziehbare Berechnungsgrundlage.
 Nur true setzen wenn konkrete Hinweise im Dokument. Im Zweifel: null.
@@ -98,9 +98,26 @@ Nur true setzen wenn konkrete Hinweise im Dokument. Im Zweifel: null.
 DOKUMENTSPEZIFISCH — keine generischen Texte.
 
 SCHLECHT: "Mögliche Fehler wurden erkannt."
-GUT (Einordnungsform): "Die Rechnung nennt Sanitärarbeiten und Materialkosten nur pauschal — eine Einzelaufstellung liegt nicht bei."
-GUT (Kontrastform tier1/tier2): "Das Unternehmen stellt 3.195,00 EUR in Rechnung, nennt aber für keine der fünf Positionen eine konkrete Berechnungsgrundlage."
+GUT (Einordnungsform): "Die Rechnung nennt einen Gesamtbetrag — einzelne Angaben zur Zusammensetzung lassen sich aus dem Schreiben allein nicht vollständig einordnen."
+GUT (Kontrastform tier1/tier2): "Das Unternehmen stellt [Betrag] in Rechnung — einzelne Angaben zur Grundlage lassen sich aus dem Schreiben allein nicht vollständig nachvollziehen."
 GUT (tier3): "Die Rechnung enthält eine nachvollziehbare Aufschlüsselung mit Zählerständen und Abrechnungszeitraum."
+
+KRITISCH — GRENZE FÜR DEN TEASER:
+Der teaser darf NICHT nennen:
+- den genauen Rechnungsfehler
+- den genauen Positionsmangel
+- die genaue fehlende Aufschlüsselung
+- ein konkretes Widerspruchsargument
+- eine Widerspruchsstrategie
+Intern dürfen flags spezifisch bleiben.
+Der teaser darf nur auf übergeordnete Kategorien verweisen:
+- Betrag, Positionen, Belege, Leistungsnachweis, Abrechnungsgrundlage, Nachvollziehbarkeit der Rechnung.
+
+NICHT erlaubt im teaser:
+- "keine Einzelaufstellung" oder "keine Aufschlüsselung"
+- "Leistung nicht nachgewiesen"
+- "Betrag nicht nachvollziehbar aufgeschlüsselt" mit spezifischen Details
+- Formulierungen, die dem Nutzer eine kostenlose Widerspruchsstrategie geben
 
 Maximal 2 Sätze. Nur Informationen aus dem Dokument. Keine Rechtsbehauptungen.
 
