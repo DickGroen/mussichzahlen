@@ -158,13 +158,13 @@ SCHLECHT:
 "possible_verjährt und possible_kein_nachweis wurden erkannt."
 
 GUT — Einordnungsform (neutral, sachlich):
-"Das Schreiben fordert 847,00 EUR, ohne den zugrundeliegenden Vertrag oder den Mandanten zu benennen."
-"Die Inkassogebühren von 260,00 EUR sind pauschal ausgewiesen — eine Aufschlüsselung liegt nicht bei."
-"Der genannte Leistungszeitraum 2019 sollte vor einer Zahlung zumindest kurz abgeglichen werden."
+"Das Schreiben fordert 847,00 EUR. Einzelne Angaben zur Forderung lassen sich aus dem Schreiben allein nicht vollständig einordnen."
+"Die Zusammensetzung der geforderten Beträge lässt sich aus dem Schreiben allein nicht vollständig einordnen."
+"Einzelne Angaben zum Ursprung der Forderung lassen sich aus dem Schreiben allein nicht vollständig einordnen."
 
-GUT — Kontrastform für tier1/tier2 (wenn Widerspruch zwischen Behauptung und Beleg erkennbar):
-"Das Unternehmen macht eine Forderungsübernahme geltend, legt aber keine Abtretungsanzeige bei."
-"Eine Vertragskopie ist nach eigener Aussage des Schreibens nicht beigefügt, obwohl die Forderung auf einem Vertragsverhältnis beruhen soll."
+GUT — Kontrastform für tier1/tier2 (Kategorie benennen, keine spezifische Lücke):
+"Das Unternehmen macht eine Forderungsübernahme geltend — einige Angaben lassen sich aus dem Schreiben allein nicht vollständig nachvollziehen."
+"Das Schreiben beruht auf einem Vertragsverhältnis — einzelne Angaben zur Forderungsgrundlage bleiben aus dem Schreiben allein nicht vollständig nachvollziehbar."
 
 GUT — Neutrale Form für tier3:
 "Das Schreiben enthält eine nachvollziehbare Aufschlüsselung der Beträge. Ein Abgleich mit eigenen Unterlagen kann dennoch sinnvoll sein."
@@ -174,14 +174,26 @@ Regeln für den teaser:
 - Nur Informationen verwenden, die tatsächlich im Dokument erkennbar sind.
 - Keine Rechtsbehauptungen. Keine Erfolgsgarantie.
 - Keine Formulierungen wie "Sie müssen nicht zahlen" oder "rechtswidrig".
-- Vorsichtige, sachliche Sprache: "nicht enthalten", "nicht erkennbar", "unklar bleibt", "nicht aufgeschlüsselt".
+- Vorsichtige, sachliche Sprache: "nicht vollständig nachvollziehbar", "unklar bleibt", "lässt sich nicht vollständig einordnen".
+
+KRITISCH — GRENZE FÜR DEN TEASER:
+Der teaser darf KEINE konkreten fehlenden Dokumente, Beweismittel oder Bezwaarstrategien nennen.
+Intern dürfen flags spezifisch bleiben (possible_kein_abtretungsnachweis, possible_kein_nachweis usw.).
+Extern — im teaser — darf nur die Kategorie benannt werden.
+Erlaubte Kategorien: Forderung, Absender, Kosten, Unterlagen, Forderungsübernahme, Frist, Nachvollziehbarkeit.
+
+NICHT erlaubt im teaser:
+- "Abtretungsnachweis fehlt" oder "keine Abtretungsanzeige"
+- "keine Vertragskopie beigefügt"
+- "kein ANPR-Bild" oder konkrete Beweismittel
+- Formulierungen, die dem Nutzer eine kostenlose Handlungsstrategie geben
 
 Für tier1 und tier2 — Teaser mit Kontrast (stärkste Konversionsform):
-Wenn möglich, die Spannung zwischen Behauptung und fehlendem Beleg benennen:
-- "Das Unternehmen macht eine Forderungsübernahme geltend, legt aber keine Abtretungsanzeige bei."
-- "Die Inkassogebühren von 260,00 EUR entsprechen mehr als 50% der Hauptforderung — eine Aufschlüsselung fehlt."
-- "Eine Vertragskopie ist nach eigener Aussage des Schreibens nicht beigefügt, obwohl die Forderung auf einem Vertragsverhältnis beruhen soll."
-Diese Kontrastform wirkt menschlicher und konkreter als reine Faktenaufzählung.
+Die Spannung zwischen Behauptung und fehlender Nachvollziehbarkeit benennen — ohne die spezifische Lücke zu noemen:
+- "Das Unternehmen macht eine Forderungsübernahme geltend — einige Angaben lassen sich aus dem Schreiben allein nicht vollständig nachvollziehen."
+- "Die Zusammensetzung der geforderten Beträge lässt sich aus dem Schreiben allein nicht vollständig einordnen."
+- "Das Schreiben fordert [Betrag] auf Basis eines Vertragsverhältnisses — einzelne Angaben zur Forderung bleiben aus dem Schreiben allein nicht vollständig nachvollziehbar."
+Diese Kontrastform wirkt menschlicher und konkreter als reine Faktenaufzählung — ohne konkrete Bezwaarstrategie preiszugeben.
 
 Für tier3 — Teaser neutral und ruhig:
 Keine Kontrast-Formulierungen. Sachlich beschreiben, was sich überprüfen lässt:
