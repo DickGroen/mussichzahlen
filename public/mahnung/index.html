@@ -188,11 +188,7 @@
       <div class="offer-badge">Kostenlose Ersteinordnung</div>
       <div class="offer-title">Kostenlose Ersteinordnung</div>
       <p class="offer-desc">Laden Sie Ihre Mahnung, Ihr Inkassoschreiben oder Ihre Zahlungsaufforderung hoch. Sie erhalten eine erste Einordnung dazu, ob vor einer Zahlung noch Punkte gekl&auml;rt werden sollten.</p>
-      <div style="margin:0 0 18px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:10px;font-size:.88rem;color:var(--ink-2);line-height:1.7;">
-        Sie erhalten zun&auml;chst eine kostenlose Ersteinordnung.<br>
-        Eine ausf&uuml;hrlichere Pr&uuml;fung f&uuml;r 49&nbsp;&euro; ist nur verf&uuml;gbar, wenn Sie diese sp&auml;ter ausdr&uuml;cklich anfordern.<br>
-        Mit dem Upload entsteht keine Zahlungsverpflichtung.
-      </div>
+
       <label id="gratis-upload-zone" class="upload-zone" for="gratis-file-input">
         <div class="upload-label">Datei ausw&auml;hlen</div>
         <div class="upload-hint">PDF, JPG oder PNG &middot; max. 8 MB</div>
@@ -409,6 +405,14 @@ let currentStripeLink = null;
 
 // ── DOM refs ──────────────────────────────────────────────────────────────────
 const uploadZone      = document.getElementById('gratis-upload-zone');
+
+// Hide sticky footer when upload zone is visible
+const stickyFooterEl = document.getElementById('sticky-footer');
+if (uploadZone && stickyFooterEl) {
+  new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) stickyFooterEl.classList.remove('visible');
+  }, { threshold: 0.2 }).observe(uploadZone);
+}
 const fileInput       = document.getElementById('gratis-file-input');
 const contactFields   = document.getElementById('gratis-contact-fields');
 const nameEl          = document.getElementById('gratis-name');
