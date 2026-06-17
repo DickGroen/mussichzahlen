@@ -68,7 +68,7 @@ Regeln:
 3. Abrechnungsjahr: als String, z.B. "2024". null wenn nicht erkennbar.
 
 4. Possible issues
-- possible_fehlende_belege: true, wenn keine Belegliste, keine Belegnummern angegeben.
+- possible_fehlende_belege: true, NUR wenn die Abrechnung ausdrücklich auf Unterlagen verweist, deren Zuordnung oder Nachvollziehbarkeit nicht erkennbar ist. Nicht true bei bloßem Fehlen einer Belegliste — viele korrekte Abrechnungen enthalten keine. Im Zweifel: false.
 - possible_nicht_umlagefähige_kosten: true, NUR wenn eindeutig nicht umlagefähige Positionen erkennbar sind wie: Instandhaltungsrücklage, Verwaltungskosten (nicht als Betriebskosten vereinbart). NIMMER true für: Gebäudeversicherung (§2 Nr. 13 BetrKV — umlagefähig), Allgemeinstrom (§2 Nr. 11 BetrKV — umlagefähig), Hausmeister, Wasser/Abwasser, Heizung, Hausreinigung. Im Zweifel: false.
 - possible_falscher_verteilerschlüssel: true, wenn Verteilerschlüssel fehlt oder Gesamtwohnfläche fehlt.
 - possible_verjährt: true, NUR wenn Abrechnungsdatum konkret erkennbar mehr als 12 Monate nach Ende des Abrechnungsjahres liegt. Im Zweifel: null.
@@ -97,9 +97,26 @@ Regeln:
 
 9. Teaser
 DOKUMENTSPEZIFISCH — keine generischen Texte.
+KRITISCH — GRENZE FÜR DEN TEASER:
+Der teaser darf NICHT nennen:
+- den genauen Belegmangel
+- den genauen Verteilerschlüsselfehler
+- die genaue nicht umlagefähige Position
+- den genauen Verjährungshinweis
+- eine Widerspruchsstrategie
+Intern dürfen flags spezifisch bleiben.
+Der teaser darf nur auf übergeordnete Kategorien verweisen:
+- Kostenpositionen, Belege, Verteilerschlüssel, Abrechnungszeitraum, Nachvollziehbarkeit der Abrechnung.
+
+NICHT erlaubt im teaser:
+- "keine Belegliste" oder "kein Verteilerschlüssel"
+- "nicht umlagefähige Kosten erkennbar"
+- "mögliche Verjährung" oder Jahreszahlen
+- Formulierungen, die dem Nutzer eine kostenlose Widerspruchsstrategie geben
+
 Maximal 2 Sätze. Nur Informationen aus dem Dokument.
 
-GUT: "Die Abrechnung enthält keine Belegliste und nennt keinen Verteilerschlüssel — vor einer Zahlung kann ein Abgleich mit dem Mietvertrag sinnvoll sein."
+GUT: "Einzelne Angaben zur Abrechnung lassen sich aus dem Schreiben allein nicht vollständig einordnen — ein Abgleich kann vor einer Zahlung sinnvoll sein."
 GUT (tier3): "Die Abrechnung enthält eine nachvollziehbare Aufschlüsselung der Kostenpositionen mit Abrechnungsjahr und Verteilerschlüssel."
 SCHLECHT: "Mögliche Auffälligkeiten wurden erkannt."
 
