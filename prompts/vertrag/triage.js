@@ -25,7 +25,7 @@ Lies das Dokument und gib NUR dieses JSON zurück — kein Text davor oder danac
   "annual_cost": Zahl oder null,
   "currency": "EUR|GBP|USD|null",
 
-  "possible_unwirksame_verlaengerungsklausel": true oder false oder null,
+  "possible_auffaellige_verlaengerung": true oder false oder null,
   "possible_preiserhoehung_sonderkuendigung": true oder false oder null,
   "possible_kuendigung_blockiert": true oder false oder null,
   "possible_widerrufsrecht": true oder false oder null,
@@ -50,21 +50,21 @@ Regeln:
 3. Kosten: monthly_cost und annual_cost als Zahlen. annual_cost darf aus monthly_cost * 12 abgeleitet werden.
 
 4. Possible issues
-- possible_unwirksame_verlaengerungsklausel: automatische Verlängerung auffällig oder unklar.
+- possible_auffaellige_verlaengerung: automatische Verlängerung unklar, nicht erkennbar dargestellt oder auffällig lang. Nicht true auf Basis einer rechtlichen Bewertung — nur auf Basis dessen, was im Dokument selbst erkennbar ist. Im Zweifel: null.
 - possible_preiserhoehung_sonderkuendigung: Preiserhöhung ohne klare Sonderkündigungsinformation.
 - possible_kuendigung_blockiert: Kündigung erschwert oder abgelehnt.
-- possible_widerrufsrecht: mögliches Widerrufsrecht nicht klar dargestellt.
+- possible_widerrufsrecht: NUR true wenn das Dokument selbst explizit auf ein Widerrufsrecht verweist, dessen Darstellung unklar oder unvollständig wirkt. Nicht true wenn das Dokument kein Widerrufsrecht erwähnt — das Modell kann nicht zuverlässig beurteilen, ob ein solches besteht. Im Zweifel: null.
 - possible_unklare_laufzeit: Laufzeit oder Vertragsende unklar.
 - possible_unklare_kuendigungsfrist: Kündigungsfrist oder -weg unklar.
 Nur true wenn konkrete Hinweise im Dokument. Im Zweifel: null.
 
 5. Risk
-- high: blockierte Kündigung, problematische Verlängerungsklausel, flagCount >= 4. annual_cost > 500 und flagCount >= 2 → normalerweise high.
+- high: blockierte Kündigung, auffällige Verlängerung, flagCount >= 4. annual_cost > 500 und flagCount >= 2 → normalerweise high.
 - medium: flagCount 2-3.
 - low: flagCount 0-1, überwiegend nachvollziehbar.
 
 6. Tier
-- tier1: flagCount >= 4, blockierte Kündigung.
+- tier1: flagCount >= 4, blockierte Kündigung, auffällige Verlängerung.
 - tier2: flagCount 1-3.
 - tier3: flagCount 0.
 
@@ -77,9 +77,26 @@ DOKUMENTSPEZIFISCH — keine hardcodierten Texte.
 
 SCHLECHT: "Einzelne Vertragsangaben könnten noch schriftlich geklärt werden."
 
-GUT (Kontrastform): "Das Schreiben informiert über eine Preiserhöhung von 39,90 EUR auf 49,90 EUR — ein Hinweis auf ein Sonderkündigungsrecht fehlt."
-GUT (Einordnungsform): "Die Mitteilung nennt eine automatische Verlängerung um 12 Monate, ohne die Kündigungsfrist konkret anzugeben."
+GUT (Kontrastform): "Das Schreiben enthält eine Änderungsmitteilung — einzelne Angaben zu den sich daraus ergebenden Optionen lassen sich aus dem Schreiben allein nicht vollständig einordnen."
+GUT (Einordnungsform): "Die Mitteilung enthält Angaben zur Vertragslaufzeit — einzelne Angaben lassen sich aus dem Schreiben allein nicht vollständig einordnen."
 GUT (tier3): "Die Vertragsbestätigung enthält nachvollziehbare Angaben zu Laufzeit, Kündigungsfrist und monatlichem Beitrag."
+
+KRITISCH — GRENZE FÜR DEN TEASER:
+Der teaser darf NICHT nennen:
+- den genauen Kündigungsmangel
+- den genauen Verlängerungsmangel
+- das genaue Sonderkündigungsrecht
+- den genauen Gebührenmangel
+- eine Kündigungs- oder Widerspruchsstrategie
+Intern dürfen flags spezifisch bleiben.
+Der teaser darf nur auf übergeordnete Kategorien verweisen:
+- Vertragsbedingungen, Laufzeit, Kündigung, Preisänderung, Fristen, Gebühren, Nachvollziehbarkeit des Dokuments.
+
+NICHT erlaubt im teaser:
+- "Sonderkündigungsrecht nicht erwähnt"
+- "automatische Verlängerung nicht klar dargelegt"
+- "Kündigungsfrist nicht angegeben" mit spezifischen Details
+- Formulierungen, die dem Nutzer eine kostenlose Kündigungsstrategie geben
 
 Maximal 2 Sätze. Nur Informationen aus dem Dokument. Keine Rechtsbehauptungen.
 
