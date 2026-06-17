@@ -381,8 +381,8 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
       ? "Ein genauerer Blick auf die Unterlagen kann helfen, die Positionen besser nachzuvollziehen und offene Punkte zu klären."
       : "Ein genauerer Blick auf das Schreiben kann helfen, die Grundlage der Forderung besser einzuordnen — und zu verstehen, ob alle Angaben vollständig nachvollziehbar sind."}</p>
   <p>${type === "mahnung" || type === "parkstrafe"
-    ? "Mit der vollständigen Analyse erhalten Sie eine verständliche Einordnung der offenen Punkte sowie ein passendes Widerspruchsschreiben, das Sie bei Bedarf verwenden können."
-    : "Mit der vollständigen Analyse erhalten Sie eine verständliche Einordnung der offenen Punkte sowie ein passendes Schreiben, das Sie bei Bedarf verwenden können."}</p>
+    ? "Mit der vollständigen Analyse erhalten Sie eine verständliche Einordnung der offenen Punkte sowie ein fertiges Widerspruchsschreiben, das Sie direkt verwenden können."
+    : "Mit der vollständigen Analyse erhalten Sie eine verständliche Einordnung der offenen Punkte sowie ein fertiges Schreiben, das Sie direkt verwenden können."}</p>
   ${stripeLink ? `
   <div style="margin:28px 0;">
     <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 26px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
@@ -428,7 +428,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;">${type === "vertrag" ? "Monatliche Kosten" : type === "angebot" || type === "nebenkosten" ? "Gesamtbetrag" : "Geforderter Betrag"}</td><td style="padding:9px 12px;font-weight:700;color:#1d3a6e;">${escapeHtml(amount)}</td></tr>
   </table>
   <p>${tier2IntroPhrase(type)}</p>
-  <p>${type === "rechnung" || type === "angebot" || type === "vertrag" ? "Mit der vollständigen Analyse erhalten Sie eine verständliche Einordnung der offenen Punkte sowie ein passendes Schreiben, das Sie bei Bedarf verwenden können." : (type === "mahnung" || type === "parkstrafe" ? "Mit der vollständigen Analyse erhalten Sie eine verständliche Einordnung der offenen Punkte sowie ein passendes Widerspruchsschreiben, das Sie bei Bedarf verwenden können." : "Mit der vollständigen Analyse erhalten Sie eine verständliche Einordnung der offenen Punkte sowie ein passendes Schreiben, das Sie bei Bedarf verwenden können.")}</p>
+  <p>${type === "rechnung" || type === "angebot" || type === "vertrag" ? "Mit der vollständigen Analyse erhalten Sie eine verständliche Einordnung der offenen Punkte sowie ein fertiges Schreiben, das Sie direkt verwenden können." : (type === "mahnung" || type === "parkstrafe" ? "Mit der vollständigen Analyse erhalten Sie eine verständliche Einordnung der offenen Punkte sowie ein fertiges Widerspruchsschreiben, das Sie direkt verwenden können." : "Mit der vollständigen Analyse erhalten Sie eine verständliche Einordnung der offenen Punkte sowie ein fertiges Schreiben, das Sie direkt verwenden können.")}</p>
   ${stripeLink ? `
   <div style="margin:28px 0;">
     <a href="${escapeHtml(stripeLink)}" style="display:inline-block;background:#1d3a6e;color:#ffffff;padding:14px 26px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;">
@@ -521,7 +521,7 @@ export async function sendPaidEmail(env, { name, email, type, triage, analysis }
   const htmlTier3 = `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
   <p>Guten Tag ${safeName},</p>
   <p>Ihr Schreiben${senderText} liegt uns vor. Wir haben die Unterlagen für Sie eingeordnet und übersichtlich zusammengefasst.</p>
-  <p>Im Anhang finden Sie die Einschätzung sowie eine Vorlage, die Sie bei Bedarf verwenden können.</p>
+  <p>Im Anhang finden Sie die Einschätzung sowie eine Vorlage, die Sie direkt verwenden können.</p>
   <p>Lesen Sie die Einschätzung bitte in Ruhe durch.</p>
   <p>Bei Fragen erreichen Sie uns unter <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a>.</p>
   <p>Viele Grüße<br><strong>MussIchZahlen</strong></p>
@@ -531,7 +531,7 @@ export async function sendPaidEmail(env, { name, email, type, triage, analysis }
   const htmlTier1Tier2 = `<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;color:#1f2937;line-height:1.8;">
   <p>Guten Tag ${safeName},</p>
   <p>Ihr Schreiben${senderText} liegt uns vor. Wir haben die Unterlagen für Sie eingeordnet und die wichtigsten Punkte übersichtlich zusammengefasst.</p>
-  <p>Im Anhang finden Sie die Einschätzung sowie eine Vorlage, die Sie bei Bedarf verwenden können.</p>
+  <p>Im Anhang finden Sie die Einschätzung sowie eine Vorlage, die Sie direkt verwenden können.</p>
   <p>Lesen Sie die Einschätzung bitte zunächst in Ruhe durch — sie erklärt, welche Punkte vor einer Entscheidung noch geklärt werden sollten.</p>
   <p style="font-size:.9rem;color:#374151;">${type === "nebenkosten" ? "Falls Sie eine schriftliche Rückfrage an die Hausverwaltung stellen möchten, liegt eine Vorlage im Anhang." : "Falls Sie die Vorlage versenden möchten, empfehlen wir einen Versand mit Nachweis."}</p>
   <p>Bei Fragen erreichen Sie uns unter <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a>.</p>
