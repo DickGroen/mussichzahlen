@@ -32,4 +32,4 @@ id = "394807db041c4b83907c9f6818a4184b"
 binding = "DOCS_BUCKET"
 bucket_name = "mussichzahlen-docs"
 [triggers]
-crons = ["*/5 * * * *"]
+crons = ["0 * * * *"]
