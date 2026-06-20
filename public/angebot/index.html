@@ -133,13 +133,13 @@
     <h1>Angebot erhalten?<br>Erst einordnen, bevor Sie zustimmen.</h1>
     <p class="hero__sub">Laden Sie Ihr Angebot kostenlos hoch und erhalten Sie eine erste Einordnung, ob alle Positionen klar und nachvollziehbar sind.</p>
     <p style="font-size:.95rem;color:var(--muted);margin-bottom:18px;">Angebote enthalten nicht immer eine klare Aufschlüsselung. Was vor einer Zusage unklar ist, lässt sich vorher deutlich einfacher klären als danach.</p>
-    <a href="#free-check" class="hero-cta">Kostenlose Ersteinordnung erhalten</a>
-    <div class="hero-sub-note">PDF, JPG oder PNG &middot; kein Abo &middot; vollst&auml;ndige Pr&uuml;fung optional</div>
     <div class="trust-triggers">
       <div class="trust-trigger"><span>●</span><div><strong>Was ist enthalten?</strong>Arbeitsaufwand, Material und Nebenkosten sollten einzeln ausgewiesen sein, nicht als Pauschalbetrag.</div></div>
-      <div class="trust-trigger"><span>●</span><div><strong>Was könnte extra kosten?</strong>Offene Formulierungen wie „nach Aufwand“ können den Endpreis später deutlich erhöhen.</div></div>
-      <div class="trust-trigger"><span>●</span><div><strong>Vor der Zusage oder Anzahlung</strong>Rückfragen lassen sich vor einer Zustimmung deutlich einfacher stellen als nach Auftragserteilung.</div></div>
+      <div class="trust-trigger"><span>●</span><div><strong>Was könnte extra kosten?</strong>Offene Formulierungen wie „nach Aufwand" können den Endpreis später deutlich erhöhen.</div></div>
+      <div class="trust-trigger"><span>●</span><div><strong>Alles schriftlich</strong>Kein Verkaufsgespräch, kein Druck am Telefon. Sie erhalten eine schriftliche Einordnung, die Sie in Ruhe lesen können.</div></div>
     </div>
+    <a href="#free-check" class="hero-cta">Kostenlose Ersteinordnung erhalten</a>
+    <div class="hero-sub-note">PDF, JPG oder PNG &middot; kein Abo &middot; vollst&auml;ndige Pr&uuml;fung optional</div>
   </div>
 </section>
 
@@ -147,20 +147,22 @@
   <div class="container" style="max-width:620px;">
     <div class="offer-card" id="free-card">
       <div class="offer-badge">Kostenlose Ersteinordnung</div>
-      <div class="offer-title">Kostenlose Ersteinordnung</div>
+      <div class="offer-title">Kostenlose Ersteinordnung erhalten</div>
       <p class="offer-desc">Laden Sie Ihr Angebot oder Ihren Kostenvoranschlag hoch. Sie erhalten eine erste Einordnung, ob alle Positionen klar und nachvollziehbar sind — in der Regel bis zum nächsten Werktag.</p>
       <label id="gratis-upload-zone" class="upload-zone" for="gratis-file-input">
-        <div class="upload-label">Datei ausw&auml;hlen</div>
+        <div class="upload-label">Datei ausw&auml;hlen oder hierher ziehen</div>
         <div class="upload-hint">PDF, JPG oder PNG &middot; max. 8 MB</div>
         <input id="gratis-file-input" type="file" accept=".pdf,.jpg,.jpeg,.png" style="position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;cursor:pointer;" aria-label="Datei ausw&auml;hlen">
       </label>
+      <div class="upload-hint" style="margin:-8px 0 14px;">Ein Foto vom Handy reicht v&ouml;llig aus &mdash; wichtig ist nur, dass die Angaben lesbar sind.</div>
       <div id="gratis-contact-fields" class="contact-fields">
         <input id="gratis-name" class="input" placeholder="Ihr Name" autocomplete="name">
         <input id="gratis-email" class="input" placeholder="Ihre E-Mail-Adresse" type="email" autocomplete="email">
+        <div style="font-size:.8rem;color:var(--muted);margin-top:-6px;margin-bottom:4px;">Nur f&uuml;r Ihre Ersteinordnung &mdash; kein Newsletter, keine Werbung.</div>
         <button id="gratis-btn" disabled class="offer-cta">Kostenlose Einordnung starten</button>
       </div>
       <div id="gratis-status" class="optie-status"></div>
-      <div class="offer-security">&#128274; Vertraulich verarbeitet — nicht an Dritte weitergegeben.</div>
+      <div class="offer-security">&#128274; Ihre Datei wird ausschlie&szlig;lich zur Erstellung Ihrer Einordnung verwendet und nicht an Dritte weitergegeben.</div>
     </div>
     <div id="confirmation-card" style="display:none;margin-top:24px;background:#f0fdf4;border:2px solid #86efac;border-radius:16px;padding:28px 28px 24px;">
       <div style="font-size:1.1rem;font-weight:700;color:#14532d;margin-bottom:10px;">&#10003; Wir haben Ihr Angebot erhalten.</div>
@@ -226,6 +228,8 @@
       <a href="#free-check" class="offer-cta">Zuerst kostenlos einordnen lassen</a>
       <div class="offer-security">&#128274; Sichere Zahlung &uuml;ber Stripe nach der Ersteinordnung</div>
       <div class="offer-refund">Wenn die Einordnung nicht vollständig ist, melden Sie sich. Wir schauen es noch einmal an.</div>
+      <p style="font-size:.82rem;color:var(--muted);line-height:1.6;margin-top:14px;text-align:left;">F&uuml;r manche reicht die kostenlose Ersteinordnung bereits aus. Wenn sie Ihre Frage schon beantwortet hat, brauchen Sie nicht weiterzugehen.</p>
+      <p style="font-size:.82rem;color:var(--muted);line-height:1.6;margin-top:10px;text-align:left;">Wir pr&uuml;fen jedes Angebot auf die gleiche sorgf&auml;ltige Weise und halten das Ergebnis schriftlich fest, statt in einem Telefongespr&auml;ch, an dessen Einzelheiten Sie sich sp&auml;ter vielleicht nicht mehr erinnern.</p>
     </div>
   </div>
 </section>
@@ -245,38 +249,14 @@
 
 <section class="section section--alt">
   <div class="container">
-<section class="section">
-  <div class="container">
-    <div class="section-label">Rückmeldungen von Nutzern</div>
-    <h2>Wie Nutzer die Einordnung erlebt haben</h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:8px;">
-      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;">
-        <p style="font-size:.93rem;color:var(--ink-2);line-height:1.7;margin:0 0 14px;">„Das Angebot war eine Zahl ohne Aufschlüsselung. Die Einordnung hat mir erklärt, was ich vor der Zusage hätte fragen sollen."</p>
-        <p style="font-size:.78rem;color:var(--muted);margin:0;">Nutzerin aus Stuttgart</p>
-      </div>
-      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;">
-        <p style="font-size:.93rem;color:var(--ink-2);line-height:1.7;margin:0 0 14px;">„Im Angebot stand „nach Aufwand" ohne nähere Angabe. Die Einordnung hat mir geholfen, das konkret zu hinterfragen."</p>
-        <p style="font-size:.78rem;color:var(--muted);margin:0;">Nutzer aus Köln</p>
-      </div>
-      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;">
-        <p style="font-size:.93rem;color:var(--ink-2);line-height:1.7;margin:0 0 14px;">„Ich sollte eine Anzahlung leisten, aber die Stornobedingungen waren nicht klar. Die Prüfung hat genau das angesprochen."</p>
-        <p style="font-size:.78rem;color:var(--muted);margin:0;">Nutzerin aus Düsseldorf</p>
-      </div>
-      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;">
-        <p style="font-size:.93rem;color:var(--ink-2);line-height:1.7;margin:0 0 14px;">„Ich wusste nicht, wie ich die Fragen professionell formulieren soll. Das Schreiben hat mir das abgenommen."</p>
-        <p style="font-size:.78rem;color:var(--muted);margin:0;">Nutzer aus Berlin</p>
-      </div>
-    </div>
-  </div>
-</section>
-
     <div class="section-label">H&auml;ufige Fragen</div>
     <h2>Alles, was Sie wissen m&ouml;chten</h2>
     <div class="faq-list">
+      <div class="faq-item"><div class="faq-q">Kann ich telefonisch mit jemandem sprechen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Wir bieten keine telefonische Beratung an. Alles wird schriftlich per E-Mail zugestellt — so können wir jedes Schreiben sorgfältig prüfen und den Service bezahlbar halten. Sie erhalten etwas, das Sie in Ruhe lesen, speichern und später wieder nachlesen können.</div></div>
+      <div class="faq-item"><div class="faq-q">Was passiert mit meinen Unterlagen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Ihr Dokument wird ausschließlich für die Erstellung Ihrer Einordnung verarbeitet. Es wird nicht an Dritte weitergegeben und nicht für andere Zwecke verwendet.</div></div>
       <div class="faq-item"><div class="faq-q">Was sollte ein Angebot oder Kostenvoranschlag enthalten? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Ein klares Angebot weist Arbeitsaufwand und Material getrennt aus, enthält Angaben zur Mehrwertsteuer, benennt den Leistungsumfang sowie Ausschlüsse und nennt Anzahlung und Gültigkeit. Ein Pauschalpreis ohne Aufschlüsselung macht es schwierig, den Preis zu beurteilen oder zu vergleichen.</div></div>
       <div class="faq-item"><div class="faq-q">Können nach der Auftragserteilung noch weitere Kosten entstehen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Das hängt von den Formulierungen ab. Angaben wie „nach Aufwand“ oder „zzgl. Material“ können den Endpreis deutlich erhöhen. Vor der Zusage ist es einfacher, konkrete Angaben einzufordern als danach.</div></div>
-      <div class="faq-item"><div class="faq-q">Was passiert nach dem Hochladen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Sie erhalten eine kostenlose Ersteinordnung per E-Mail — in der Regel bis zum nächsten Werktag bis 16:00 Uhr. Darin erfahren Sie, ob einzelne Punkte vor einer Zusage noch offenbleiben. Eine ausführlichere Einordnung mit Rückfragevorlage ist für 29 € optional verfügbar.</div></div>
-      <div class="faq-item"><div class="faq-q">Kann ich telefonisch mit jemandem sprechen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Unser Service basiert auf der Prüfung eingereichter Unterlagen und schriftlichen Einschätzungen per E-Mail. Durch die Bearbeitung per E-Mail können wir die Kosten niedrig halten und gleichzeitig eine sorgfältige und einheitliche Prüfung gewährleisten.</div></div>
+      <div class="faq-item"><div class="faq-q">Was passiert nach dem Hochladen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Sie erhalten eine kostenlose Ersteinordnung per E-Mail — in der Regel bis zum nächsten Werktag bis 16:00 Uhr. Darin erfahren Sie, ob einzelne Punkte vor einer Zusage noch offenbleiben. Eine ausführlichere Einordnung mit Rückfragevorlage ist für 29 € optional verfügbar.</div></div>
       <div class="faq-item"><div class="faq-q">Ist das Rechtsberatung? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nein. MussIchZahlen.de erstellt verständliche Einordnungen und Vorlagen. Keine Rechtsberatung und keine rechtliche Vertretung.</div></div>
     </div>
   </div>
