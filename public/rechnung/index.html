@@ -133,13 +133,13 @@
     <h1>Rechnung oder Nachforderung erhalten?<br>Erst verstehen, bevor Sie zahlen.</h1>
     <p class="hero__sub">Laden Sie Ihre Rechnung kostenlos hoch und erhalten Sie eine erste Einordnung, ob einzelne Positionen oder Betr&auml;ge vor einer Zahlung besser eingeordnet werden sollten.</p>
     <p style="font-size:.95rem;color:var(--muted);margin-bottom:18px;">Nicht immer ist sofort erkennbar, ob alle Positionen zur vereinbarten Leistung passen. Eine kurze Einordnung vor der Zahlung kann sinnvoll sein.</p>
-    <a href="#free-check" class="hero-cta">Kostenlose Ersteinordnung erhalten</a>
-    <div class="hero-sub-note">PDF, JPG oder PNG &middot; kein Abo &middot; ausf&uuml;hrlichere Einordnung optional</div>
     <div class="trust-triggers">
       <div class="trust-trigger"><span>●</span><div><strong>Unklare Positionen</strong>Nicht alle Posten sind sofort nachvollziehbar — besonders bei Handwerkerrechnungen oder Nachforderungen.</div></div>
       <div class="trust-trigger"><span>●</span><div><strong>Fehlende Angaben</strong>Fehlen Leistungsbeschreibung oder Berechnungsgrundlage, ist ein Abgleich schwierig.</div></div>
-      <div class="trust-trigger"><span>●</span><div><strong>Vor der Zahlung</strong>Rückfragen sind vor einer Zahlung einfacher als danach.</div></div>
+      <div class="trust-trigger"><span>●</span><div><strong>Alles schriftlich</strong>Kein Verkaufsgespräch, kein Druck am Telefon. Sie erhalten eine schriftliche Einordnung, die Sie in Ruhe lesen können.</div></div>
     </div>
+    <a href="#free-check" class="hero-cta">Kostenlose Ersteinordnung erhalten</a>
+    <div class="hero-sub-note">PDF, JPG oder PNG &middot; kein Abo &middot; ausf&uuml;hrlichere Einordnung optional</div>
   </div>
 </section>
 
@@ -147,20 +147,22 @@
   <div class="container" style="max-width:620px;">
     <div class="offer-card" id="free-card">
       <div class="offer-badge">Kostenlose Ersteinordnung</div>
-      <div class="offer-title">Kostenlose Ersteinordnung</div>
+      <div class="offer-title">Kostenlose Ersteinordnung erhalten</div>
       <p class="offer-desc">Laden Sie Ihre Rechnung oder Nachforderung hoch. Sie erhalten eine erste Einordnung per E-Mail &mdash; in der Regel bis zum n&auml;chsten Werktag.</p>
       <label id="gratis-upload-zone" class="upload-zone" for="gratis-file-input">
-        <div class="upload-label">Datei ausw&auml;hlen</div>
+        <div class="upload-label">Datei ausw&auml;hlen oder hierher ziehen</div>
         <div class="upload-hint">PDF, JPG oder PNG &middot; max. 8 MB</div>
         <input id="gratis-file-input" type="file" accept=".pdf,.jpg,.jpeg,.png" style="position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;cursor:pointer;" aria-label="Datei ausw&auml;hlen">
       </label>
+      <div class="upload-hint" style="margin:-8px 0 14px;">Ein Foto vom Handy reicht v&ouml;llig aus &mdash; wichtig ist nur, dass die Angaben lesbar sind.</div>
       <div id="gratis-contact-fields" class="contact-fields">
         <input id="gratis-name" class="input" placeholder="Ihr Name" autocomplete="name">
         <input id="gratis-email" class="input" placeholder="Ihre E-Mail-Adresse" type="email" autocomplete="email">
+        <div style="font-size:.8rem;color:var(--muted);margin-top:-6px;margin-bottom:4px;">Nur f&uuml;r Ihre Ersteinordnung &mdash; kein Newsletter, keine Werbung.</div>
         <button id="gratis-btn" disabled class="offer-cta">Kostenlos einordnen lassen</button>
       </div>
       <div id="gratis-status" class="optie-status"></div>
-      <div class="offer-security">&#128274; Ihre Datei wird vertraulich verarbeitet und nicht an Dritte weitergegeben.</div>
+      <div class="offer-security">&#128274; Ihre Datei wird ausschlie&szlig;lich zur Erstellung Ihrer Einordnung verwendet und nicht an Dritte weitergegeben.</div>
     </div>
     <div id="confirmation-card" style="display:none;margin-top:24px;background:#f0fdf4;border:2px solid #86efac;border-radius:16px;padding:28px 28px 24px;">
       <div style="font-size:1.1rem;font-weight:700;color:#14532d;margin-bottom:10px;">&#10003; Wir haben Ihre Rechnung erhalten.</div>
@@ -225,6 +227,8 @@
       <a href="#free-check" class="offer-cta">Zuerst kostenlos einordnen lassen</a>
       <div class="offer-security">&#128274; Sichere Zahlung &uuml;ber Stripe nach der Ersteinordnung</div>
       <div class="offer-refund">Wenn die Einordnung Ihre Rechnung nicht vollständig abdeckt, melden Sie sich — wir stellen es richtig.</div>
+      <p style="font-size:.82rem;color:var(--muted);line-height:1.6;margin-top:14px;text-align:left;">F&uuml;r manche reicht die kostenlose Ersteinordnung bereits aus. Wenn sie Ihre Frage schon beantwortet hat, brauchen Sie nicht weiterzugehen.</p>
+      <p style="font-size:.82rem;color:var(--muted);line-height:1.6;margin-top:10px;text-align:left;">Wir pr&uuml;fen jede Rechnung auf die gleiche sorgf&auml;ltige Weise und halten das Ergebnis schriftlich fest, statt in einem Telefongespr&auml;ch, an dessen Einzelheiten Sie sich sp&auml;ter vielleicht nicht mehr erinnern.</p>
     </div>
   </div>
 </section>
@@ -244,38 +248,14 @@
 
 <section class="section section--alt">
   <div class="container">
-    <div class="section-label">Rückmeldungen von Nutzern</div>
-    <h2>Wie Nutzer die Einordnung erlebt haben</h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:8px;">
-      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;">
-        <p style="font-size:.93rem;color:var(--ink-2);line-height:1.7;margin:0 0 14px;">„Die Rechnung hatte Positionen, die ich nicht zuordnen konnte. Die Einordnung hat mir geholfen, das besser nachzuvollziehen."</p>
-        <p style="font-size:.78rem;color:var(--muted);margin:0;">Nutzerin aus München</p>
-      </div>
-      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;">
-        <p style="font-size:.93rem;color:var(--ink-2);line-height:1.7;margin:0 0 14px;">„Ich wollte wissen, ob der Betrag plausibel war, bevor ich zahle. Die Übersicht war klar und verständlich."</p>
-        <p style="font-size:.78rem;color:var(--muted);margin:0;">Nutzer aus Hamburg</p>
-      </div>
-      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;">
-        <p style="font-size:.93rem;color:var(--ink-2);line-height:1.7;margin:0 0 14px;">„Die Vorlage für die Rückfrage war nützlich. Sachlich und ohne unnötige Schärfe."</p>
-        <p style="font-size:.78rem;color:var(--muted);margin:0;">Nutzerin aus Leipzig</p>
-      </div>
-      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;">
-        <p style="font-size:.93rem;color:var(--ink-2);line-height:1.7;margin:0 0 14px;">„Ich hatte Zweifel an einzelnen Posten. Die Einordnung hat geholfen, das einzuordnen, ohne dass ich selbst Stunden recherchieren musste."</p>
-        <p style="font-size:.78rem;color:var(--muted);margin:0;">Nutzer aus Köln</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section section--alt">
-  <div class="container">
     <div class="section-label">Häufige Fragen</div>
     <h2>H&auml;ufige Fragen</h2>
     <div class="faq-list">
+      <div class="faq-item"><div class="faq-q">Kann ich telefonisch mit jemandem sprechen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Wir bieten keine telefonische Beratung an. Alles wird schriftlich per E-Mail zugestellt — so können wir jedes Schreiben sorgfältig prüfen und den Service bezahlbar halten. Sie erhalten etwas, das Sie in Ruhe lesen, speichern und später wieder nachlesen können.</div></div>
+      <div class="faq-item"><div class="faq-q">Was passiert mit meinen Unterlagen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Ihr Dokument wird ausschließlich für die Erstellung Ihrer Einordnung verarbeitet. Es wird nicht an Dritte weitergegeben und nicht für andere Zwecke verwendet.</div></div>
       <div class="faq-item"><div class="faq-q">Muss ich eine Rechnung zahlen, wenn einzelne Positionen unklar sind? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nicht unbedingt sofort. Wenn Positionen unklar sind oder nicht zur Vereinbarung passen, können Sie vor einer Zahlung schriftlich um Klärung bitten.</div></div>
-      <div class="faq-item"><div class="faq-q">Was passiert nach dem Hochladen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Sie erhalten eine kostenlose Ersteinordnung per E-Mail — in der Regel bis zum nächsten Werktag bis 16:00 Uhr. Darin erfahren Sie, ob Punkte erkennbar sind, die vor einer Zahlung noch geklärt werden sollten. Eine ausführlichere Einordnung mit Vorlage ist für 29 € optional.</div></div>
+      <div class="faq-item"><div class="faq-q">Was passiert nach dem Hochladen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Sie erhalten eine kostenlose Ersteinordnung per E-Mail — in der Regel bis zum nächsten Werktag bis 16:00 Uhr. Darin erfahren Sie, ob Punkte erkennbar sind, die vor einer Zahlung noch geklärt werden sollten. Eine ausführlichere Einordnung mit Vorlage ist für 29 € optional.</div></div>
       <div class="faq-item"><div class="faq-q">Gilt das auch für Handwerker- oder Dienstleistungsrechnungen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Ja. Handwerkerrechnungen, Servicerechnungen, Dienstleistungsabrechnungen und ähnliche Dokumente können hochgeladen werden, wenn einzelne Positionen oder Beträge nicht nachvollziehbar sind.</div></div>
-      <div class="faq-item"><div class="faq-q">Kann ich telefonisch mit jemandem sprechen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Unser Service basiert auf der Prüfung eingereichter Unterlagen und schriftlichen Einschätzungen per E-Mail. Durch die Bearbeitung per E-Mail können wir die Kosten niedrig halten und gleichzeitig eine sorgfältige und einheitliche Prüfung gewährleisten.</div></div>
       <div class="faq-item"><div class="faq-q">Ist das Rechtsberatung? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nein. MussIchZahlen.de erstellt verständliche Einordnungen und Vorlagen in verständlicher Sprache. Keine Rechtsberatung und keine rechtliche Vertretung.</div></div>
     </div>
   </div>
