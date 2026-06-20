@@ -134,13 +134,13 @@
     <h1>Parkforderung erhalten?<br>Erst einordnen, bevor Sie entscheiden.</h1>
     <p class="hero__sub">Laden Sie Ihren Bescheid kostenlos hoch und erhalten Sie eine erste Einordnung, ob einzelne Punkte vor einer Zahlung genauer gepr&uuml;ft werden sollten.</p>
     <p style="font-size:.95rem;color:var(--muted);margin-bottom:16px;">Ob das Schreiben behördlich oder privat ist, ist nicht immer sofort erkennbar — dabei macht das einen erheblichen Unterschied für die mögliche Reaktion.</p>
-    <a href="#free-check" class="hero-cta">Kostenlose Ersteinordnung erhalten</a>
-    <div class="hero-sub-note">PDF, JPG oder PNG &middot; kein Abo &middot; vollst&auml;ndige Pr&uuml;fung optional</div>
     <div class="trust-triggers">
       <div class="trust-trigger"><span>●</span><div><strong>Privat oder behördlich?</strong>Beide folgen unterschiedlichen Regeln und Fristen — und das ist nicht immer sofort erkennbar.</div></div>
       <div class="trust-trigger"><span>●</span><div><strong>Fristen und Zustellung</strong>Bei Behördenbescheiden gilt eine Einspruchsfrist von zwei Wochen. Bei privaten Forderungen gelten andere Regeln.</div></div>
-      <div class="trust-trigger"><span>●</span><div><strong>Vor der Zahlung</strong>Eine Zahlung kann die Situation verändern. Eine kurze Einordnung vorher gibt mehr Klarheit.</div></div>
+      <div class="trust-trigger"><span>●</span><div><strong>Alles schriftlich</strong>Kein Verkaufsgespräch, kein Druck am Telefon. Sie erhalten eine schriftliche Einordnung, die Sie in Ruhe lesen können.</div></div>
     </div>
+    <a href="#free-check" class="hero-cta">Kostenlose Ersteinordnung erhalten</a>
+    <div class="hero-sub-note">PDF, JPG oder PNG &middot; kein Abo &middot; vollst&auml;ndige Pr&uuml;fung optional</div>
   </div>
 </section>
 
@@ -148,20 +148,22 @@
   <div class="container" style="max-width:620px;">
     <div class="offer-card" id="free-card">
       <div class="offer-badge">Kostenlose Ersteinordnung</div>
-      <div class="offer-title">Kostenlose Ersteinordnung</div>
-      <p class="offer-desc">Laden Sie Ihren Bu&szlig;geldbescheid, Strafzettel, Anh&ouml;rungsbogen oder Ihre Parkforderung hoch. Sie erhalten eine erste Einordnung, ob einzelne Punkte genauer gepr&uuml;ft werden sollten.</p>
+      <div class="offer-title">Kostenlose Ersteinordnung erhalten</div>
+      <p class="offer-desc">Laden Sie Ihren Bu&szlig;geldbescheid, Strafzettel, Anh&ouml;rungsbogen oder Ihre Parkforderung hoch. Sie erhalten eine erste Einordnung, ob einzelne Punkte genauer gepr&uuml;ft werden sollten — in der Regel bis zum n&auml;chsten Werktag.</p>
       <label id="gratis-upload-zone" class="upload-zone" for="gratis-file-input">
-        <div class="upload-label">Datei ausw&auml;hlen</div>
+        <div class="upload-label">Datei ausw&auml;hlen oder hierher ziehen</div>
         <div class="upload-hint">PDF, JPG oder PNG &middot; max. 8 MB</div>
         <input id="gratis-file-input" type="file" accept=".pdf,.jpg,.jpeg,.png" style="position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;cursor:pointer;" aria-label="Datei ausw&auml;hlen">
       </label>
+      <div class="upload-hint" style="margin:-8px 0 14px;">Ein Foto vom Handy reicht v&ouml;llig aus &mdash; wichtig ist nur, dass die Angaben lesbar sind.</div>
       <div id="gratis-contact-fields" class="contact-fields">
         <input id="gratis-name" class="input" placeholder="Ihr Name" autocomplete="name">
         <input id="gratis-email" class="input" placeholder="Ihre E-Mail-Adresse" type="email" autocomplete="email">
+        <div style="font-size:.8rem;color:var(--muted);margin-top:-6px;margin-bottom:4px;">Nur f&uuml;r Ihre Ersteinordnung &mdash; kein Newsletter, keine Werbung.</div>
         <button id="gratis-btn" disabled class="offer-cta">Kostenlos einordnen lassen</button>
       </div>
       <div id="gratis-status" class="optie-status"></div>
-      <div class="offer-security">&#128274; Vertraulich verarbeitet — nicht an Dritte weitergegeben.</div>
+      <div class="offer-security">&#128274; Ihre Datei wird ausschlie&szlig;lich zur Erstellung Ihrer Einordnung verwendet und nicht an Dritte weitergegeben.</div>
     </div>
 
     <!-- Bevestigingskaart na upload -->
@@ -210,6 +212,8 @@
       <div class="offer-security">&#128274; Sichere Zahlung &uuml;ber Stripe nach der Ersteinordnung</div>
       <div class="offer-refund">Wenn die Prüfung Ihr Schreiben nicht vollständig abdeckt, melden Sie sich — wir stellen es richtig.</div>
       <div style="text-align:center;font-size:.76rem;color:var(--muted);margin-top:8px;">Bei Fahrverbot empfehlen wir einen Anwalt.</div>
+      <p style="font-size:.82rem;color:var(--muted);line-height:1.6;margin-top:14px;text-align:left;">F&uuml;r manche reicht die kostenlose Ersteinordnung bereits aus. Wenn sie Ihre Frage schon beantwortet hat, brauchen Sie nicht weiterzugehen. Die ausf&uuml;hrlichere Einordnung ist f&uuml;r alle, die noch einen konkreten Punkt kl&auml;ren oder schriftlich festhalten m&ouml;chten.</p>
+      <p style="font-size:.82rem;color:var(--muted);line-height:1.6;margin-top:10px;text-align:left;">Wir pr&uuml;fen jedes Schreiben auf die gleiche sorgf&auml;ltige Weise und halten das Ergebnis schriftlich fest, statt in einem Telefongespr&auml;ch, an dessen Einzelheiten Sie sich sp&auml;ter vielleicht nicht mehr erinnern.</p>
     </div>
   </div>
 </section>
@@ -253,39 +257,15 @@
 
 <section class="section section--alt">
   <div class="container">
-<section class="section">
-  <div class="container">
-    <div class="section-label">Rückmeldungen von Nutzern</div>
-    <h2>Rückmeldungen von Nutzern</h2>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:8px;">
-      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;">
-        <p style="font-size:.93rem;color:var(--ink-2);line-height:1.7;margin:0 0 14px;">„Ich wusste nicht, ob es sich um eine behördliche oder private Forderung handelt. Das war der erste Punkt, den die Einordnung klar gemacht hat.“</p>
-        <p style="font-size:.78rem;color:var(--muted);margin:0;">Nutzer aus Köln</p>
-      </div>
-      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;">
-        <p style="font-size:.93rem;color:var(--ink-2);line-height:1.7;margin:0 0 14px;">„Die Erklärung war sachlich und ohne unnötige Fachbegriffe. Gut verständlich."</p>
-        <p style="font-size:.78rem;color:var(--muted);margin:0;">Nutzerin aus Stuttgart</p>
-      </div>
-      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;">
-        <p style="font-size:.93rem;color:var(--ink-2);line-height:1.7;margin:0 0 14px;">„Ich wollte wissen, ob die Frist noch läuft. Die Einordnung hat mir das sachlich erklärt, ohne gleich zum Einspruch zu räten.“</p>
-        <p style="font-size:.78rem;color:var(--muted);margin:0;">Nutzer aus Düsseldorf</p>
-      </div>
-      <div style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px 24px;">
-        <p style="font-size:.93rem;color:var(--ink-2);line-height:1.7;margin:0 0 14px;">„Der Widerspruchsentwurf war hilfreich — sachlich formuliert, ohne zu eskalieren."</p>
-        <p style="font-size:.78rem;color:var(--muted);margin:0;">Nutzerin aus Frankfurt</p>
-      </div>
-    </div>
-  </div>
-</section>
-
     <div class="section-label">H&auml;ufige Fragen</div>
     <h2>Alles, was Sie wissen m&ouml;chten</h2>
     <div class="faq-list">
+      <div class="faq-item"><div class="faq-q">Kann ich telefonisch mit jemandem sprechen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Wir bieten keine telefonische Beratung an. Alles wird schriftlich per E-Mail zugestellt — so können wir jedes Schreiben sorgfältig prüfen und den Service bezahlbar halten. Sie erhalten etwas, das Sie in Ruhe lesen, speichern und später wieder nachlesen können.</div></div>
+      <div class="faq-item"><div class="faq-q">Was passiert mit meinen Unterlagen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Ihr Dokument wird ausschließlich für die Erstellung Ihrer Einordnung verarbeitet. Es wird nicht an Dritte weitergegeben und nicht für andere Zwecke verwendet.</div></div>
       <div class="faq-item"><div class="faq-q">Wie lange habe ich Zeit für einen Einspruch? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Bei behördlichen Bußgeldbescheiden gilt eine Einspruchsfrist von zwei Wochen ab Zustellung (§ 67 OWiG) — nicht verlängerbar. Bei privaten Parkforderungen gelten andere Fristen und Regeln.</div></div>
       <div class="faq-item"><div class="faq-q">Was ist der Unterschied zwischen privater Parkforderung und behördlichem Bescheid? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Ein behördlicher Bescheid kann nach Rechtskraft vollstreckt werden. Eine private Parkforderung ist ein zivilrechtlicher Anspruch — mit anderen Regeln und anderen Möglichkeiten zur Reaktion.</div></div>
       <div class="faq-item"><div class="faq-q">Muss ich zahlen, wenn ich nicht sicher bin, ob die Forderung berechtigt ist? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nicht unbedingt. Es kann sinnvoll sein zu verstehen, ob das Schreiben formale Mängel enthält und ob Fristen und Angaben korrekt sind — bevor Sie zahlen oder reagieren.</div></div>
-      <div class="faq-item"><div class="faq-q">Was passiert nach dem Hochladen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Sie erhalten eine kostenlose Ersteinordnung per E-Mail — in der Regel bis zum nächsten Werktag bis 16:00 Uhr. Darin erfahren Sie, um welchen Schreibentyp es sich handelt und ob Punkte erkennbar sind, die vor einer Reaktion oder Zahlung relevant sein könnten. Eine ausführlichere Einordnung mit Antwortvorlage ist für 19 € optional verfügbar.</div></div>
-      <div class="faq-item"><div class="faq-q">Kann ich telefonisch mit jemandem sprechen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Unser Service basiert auf der Prüfung eingereichter Unterlagen und schriftlichen Einschätzungen per E-Mail. Durch die Bearbeitung per E-Mail können wir die Kosten niedrig halten und gleichzeitig eine sorgfältige und einheitliche Prüfung gewährleisten.</div></div>
+      <div class="faq-item"><div class="faq-q">Was passiert nach dem Hochladen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Sie erhalten eine kostenlose Ersteinordnung per E-Mail — in der Regel bis zum nächsten Werktag bis 16:00 Uhr. Darin erfahren Sie, um welchen Schreibentyp es sich handelt und ob Punkte erkennbar sind, die vor einer Reaktion oder Zahlung relevant sein könnten. Eine ausführlichere Einordnung mit Antwortvorlage ist für 19 € optional verfügbar.</div></div>
       <div class="faq-item"><div class="faq-q">Ist das Rechtsberatung? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nein. MussIchZahlen.de erstellt verständliche Einordnungen und Vorlagen. Keine Rechtsberatung, keine rechtliche Vertretung. Bei Fahrverbot oder komplexen Verfahren empfehlen wir einen Anwalt.</div></div>
     </div>
   </div>
