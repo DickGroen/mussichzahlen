@@ -58,8 +58,8 @@
     .offer-refund { text-align:center; font-size:.76rem; color:var(--muted); margin-top:6px; }
     .upload-zone { display:block; position:relative; border:2px dashed var(--line); border-radius:14px; padding:28px; text-align:center; cursor:pointer; background:var(--surface); transition:.2s; }
     .upload-zone:hover { border-color:var(--accent); background:#eef4ff; }
-    .upload-label { font-weight:700; color:var(--accent); }
-    .upload-hint { font-size:.84rem; color:var(--muted); margin-top:6px; }
+    .upload-label { font-weight:700; color:var(--accent); position:relative; z-index:2; pointer-events:none; }
+    .upload-hint { font-size:.84rem; color:var(--muted); margin-top:6px; position:relative; z-index:2; pointer-events:none; }
     .contact-fields { display:none; flex-direction:column; gap:10px; margin-top:18px; }
     .input { width:100%; padding:13px 14px; border:1px solid var(--line); border-radius:10px; font-family:'DM Sans',sans-serif; font-size:1rem; }
     .input:focus { outline:none; border-color:var(--accent); }
@@ -154,7 +154,7 @@
       <label id="gratis-upload-zone" class="upload-zone" for="gratis-file-input">
         <div class="upload-label">Datei auswählen oder hierher ziehen</div>
         <div class="upload-hint">PDF, JPG oder PNG &middot; max. 8 MB</div>
-        <input id="gratis-file-input" type="file" accept=".pdf,.jpg,.jpeg,.png" style="position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;cursor:pointer;" aria-label="Datei auswählen">
+        <input id="gratis-file-input" type="file" accept=".pdf,.jpg,.jpeg,.png" style="position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:1;" aria-label="Datei auswählen">
       </label>
       <div class="upload-hint" style="margin:-8px 0 14px;">Ein Foto vom Handy reicht völlig aus — wichtig ist nur, dass die Angaben lesbar sind.</div>
       <div id="gratis-contact-fields" class="contact-fields">
