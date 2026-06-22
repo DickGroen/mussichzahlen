@@ -97,7 +97,7 @@
     .faq-q:hover{background:var(--surface);}
     .faq-chevron{flex-shrink:0;color:var(--muted);transition:transform .25s;}
     .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;font-size:.9rem;color:var(--ink-3);line-height:1.7;padding:0 20px;}
-    .faq-item--open .faq-a{max-height:300px;padding:0 20px 17px;}
+    .faq-item--open .faq-a{max-height:500px;padding:0 20px 17px;}
     .faq-item--open .faq-chevron{transform:rotate(180deg);}
     .final-cta{background:var(--accent);color:var(--white);padding:72px 0;text-align:center;}
     .final-cta h2{color:var(--white);font-size:clamp(1.6rem,3.5vw,2.1rem);margin-bottom:12px;}
@@ -738,6 +738,23 @@ function escapeHtmlAttribute(value = '') {
 
 <script>
   // Conversie-tracking verplaatst naar het upload-success-pad (zie handleSubmit)
+</script>
+<script>
+  function initFaq(){
+    document.querySelectorAll('.faq-q').forEach(function(q){
+      q.addEventListener('click', function(){
+        var item = q.closest('.faq-item');
+        var isOpen = item.classList.contains('faq-item--open');
+        document.querySelectorAll('.faq-item--open').forEach(function(x){ x.classList.remove('faq-item--open'); });
+        if(!isOpen) item.classList.add('faq-item--open');
+      });
+    });
+  }
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initFaq);
+  } else {
+    initFaq();
+  }
 </script>
 </body>
 </html>
