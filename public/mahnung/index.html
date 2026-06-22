@@ -741,9 +741,10 @@ function escapeHtmlAttribute(value = '') {
 </script>
 <script>
   function initFaq(){
-    document.querySelectorAll('.faq-q').forEach(function(q){
-      q.addEventListener('click', function(){
-        var item = q.closest('.faq-item');
+    document.querySelectorAll('.faq-item').forEach(function(item){
+      var q = item.querySelector('.faq-q');
+      if(q){ q.setAttribute('tabindex','0'); }
+      item.addEventListener('click', function(){
         var isOpen = item.classList.contains('faq-item--open');
         document.querySelectorAll('.faq-item--open').forEach(function(x){ x.classList.remove('faq-item--open'); });
         if(!isOpen) item.classList.add('faq-item--open');
