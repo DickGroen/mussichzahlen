@@ -203,9 +203,10 @@ export async function enqueueFree(env, {
     stripeLink,
   });
 
-  if (isTier3({ triage, tier, emailType })) {
-    console.log("QUEUE: tier3 free recovery suppressed:", normalized);
-    return null;
+  // Tier3 krijgt alleen stage 1 (gratis analyse), geen follow-up druk.
+  const isTier3Case = isTier3({ triage, tier, emailType });
+  if (isTier3Case) {
+    console.log("QUEUE: tier3 — only stage 1 scheduled:", normalized);
   }
 
   const createdAt = Date.now();
@@ -225,7 +226,9 @@ export async function enqueueFree(env, {
     3: stage3SendAt,
   };
 
-  for (const stage of [1, 2, 3]) {
+  const stages = isTier3Case ? [1] : [1, 2, 3];
+
+  for (const stage of stages) {
     const key = `${baseKey}:stage_${stage}`;
 
     const entry = {
