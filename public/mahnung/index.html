@@ -744,11 +744,14 @@ function escapeHtmlAttribute(value = '') {
     document.querySelectorAll('.faq-item').forEach(function(item){
       var q = item.querySelector('.faq-q');
       if(q){ q.setAttribute('tabindex','0'); }
-      item.addEventListener('click', function(){
+      function toggle(e){
+        e.stopPropagation();
         var isOpen = item.classList.contains('faq-item--open');
         document.querySelectorAll('.faq-item--open').forEach(function(x){ x.classList.remove('faq-item--open'); });
         if(!isOpen) item.classList.add('faq-item--open');
-      });
+      }
+      item.addEventListener('touchend', function(e){ e.preventDefault(); toggle(e); }, { passive: false });
+      item.addEventListener('click', toggle);
     });
   }
   if(document.readyState === 'loading'){
