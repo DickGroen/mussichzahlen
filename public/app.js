@@ -311,50 +311,53 @@ async function submitPaid({
 // FAQ accordion
 function initFaq() {
   document.querySelectorAll(".faq-q").forEach((question) => {
-    question.addEventListener("click", () => {
-      const item = question.closest(".faq-item");
+    ["click", "touchstart"].forEach((evtName) => {
+      question.addEventListener(evtName, (e) => {
+        if (evtName === "touchstart") e.preventDefault();
+        const item = question.closest(".faq-item");
 
-      if (!item) return;
+        if (!item) return;
 
-      const answer = item.querySelector(".faq-a");
-      const chevron = item.querySelector(".faq-chevron");
+        const answer = item.querySelector(".faq-a");
+        const chevron = item.querySelector(".faq-chevron");
 
-      const isOpen = item.classList.contains(
-        "faq-item--open"
-      );
+        const isOpen = item.classList.contains(
+          "faq-item--open"
+        );
 
-      document
-        .querySelectorAll(".faq-item--open")
-        .forEach((openItem) => {
-          openItem.classList.remove("faq-item--open");
+        document
+          .querySelectorAll(".faq-item--open")
+          .forEach((openItem) => {
+            openItem.classList.remove("faq-item--open");
 
-          const openAnswer =
-            openItem.querySelector(".faq-a");
+            const openAnswer =
+              openItem.querySelector(".faq-a");
 
-          const openChevron =
-            openItem.querySelector(".faq-chevron");
+            const openChevron =
+              openItem.querySelector(".faq-chevron");
 
-          if (openAnswer) {
-            openAnswer.style.maxHeight = null;
+            if (openAnswer) {
+              openAnswer.style.maxHeight = null;
+            }
+
+            if (openChevron) {
+              openChevron.style.transform = "";
+            }
+          });
+
+        if (!isOpen) {
+          item.classList.add("faq-item--open");
+
+          if (answer) {
+            answer.style.maxHeight =
+              answer.scrollHeight + "px";
           }
 
-          if (openChevron) {
-            openChevron.style.transform = "";
+          if (chevron) {
+            chevron.style.transform = "rotate(180deg)";
           }
-        });
-
-      if (!isOpen) {
-        item.classList.add("faq-item--open");
-
-        if (answer) {
-          answer.style.maxHeight =
-            answer.scrollHeight + "px";
         }
-
-        if (chevron) {
-          chevron.style.transform = "rotate(180deg)";
-        }
-      }
+      }, { passive: false });
     });
   });
 }
