@@ -189,6 +189,25 @@ function tier3Teaser(triage = {}, type = "mahnung") {
   return teasers[type] || "Es kann sinnvoll sein, einzelne Details des Schreibens vor einer Zahlung oder Reaktion genauer zu prüfen.";
 }
 
+// Flag-based concrete insight for Tier2 stage-1 emails.
+// Returns one specific observation derived from the triage flags, or null.
+// Formulated as observation ("lässt sich nicht erkennen"), not legal conclusion.
+function getFlagInsight(triage = {}) {
+  if (triage.possible_kein_nachweis)
+    return "Aus dem Schreiben lässt sich ein konkreter Forderungsnachweis derzeit nicht erkennen.";
+  if (triage.possible_kein_abtretungsnachweis)
+    return "Ob die Forderung rechtmäßig übertragen wurde, bleibt aus dem Schreiben unklar.";
+  if (triage.possible_überhöhte_kosten)
+    return "Die enthaltenen Inkassokosten lassen sich aus dem Schreiben allein nicht vollständig nachvollziehen.";
+  if (triage.possible_verjährt)
+    return "Ob die Forderung zeitlich noch durchsetzbar ist, lässt sich aus dem Schreiben allein nicht abschließend beurteilen.";
+  if (triage.possible_falscher_empfänger)
+    return "Ob das Schreiben tatsächlich an die richtige Person gerichtet ist, lässt sich aus dem Schreiben nicht eindeutig entnehmen.";
+  if (triage.possible_keine_registrierung)
+    return "Ob das Inkassounternehmen für diese Art von Forderung registriert ist, lässt sich aus dem Schreiben nicht erkennen.";
+  return null;
+}
+
 // ── Exports ───────────────────────────────────────────────────────────────────
 
 export async function sendConfirmationEmail(env, { name, email, type }) {
@@ -407,9 +426,10 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
 
   // ── Stage 1 tier2 — moderate caution, concrete but restrained ────────────
   if (stageNumber === 1 && tier === "tier2") {
-    const senderText = triage?.sender ? `von <strong>${escapeHtml(triage.sender)}</strong> ` : "";
-    const amountText = amount !== "unbekannt" ? `über <strong>${escapeHtml(amount)}</strong> ` : "";
-    const teaserText = triage?.teaser ? escapeHtml(String(triage.teaser).trim()) : null;
+    const senderText  = triage?.sender ? `von <strong>${escapeHtml(triage.sender)}</strong> ` : "";
+    const amountText  = amount !== "unbekannt" ? `über <strong>${escapeHtml(amount)}</strong> ` : "";
+    const teaserText  = triage?.teaser ? escapeHtml(String(triage.teaser).trim()) : null;
+    const flagInsight = getFlagInsight(triage);
 
     await sendEmail(env, {
       to:      email,
@@ -422,6 +442,7 @@ export async function sendFreeEmail(env, { name, email, type, triage, stripeLink
     ${teaserText}
   </div>` : `
   <p>Einzelne Angaben in diesem Schreiben sollten vor einer Zahlung noch genauer geprüft werden — insbesondere hinsichtlich der Kosten und der zugrunde liegenden Unterlagen bleiben einzelne Punkte derzeit offen.</p>`}
+  ${flagInsight ? `<p style="color:#374151;font-size:.95rem;">${escapeHtml(flagInsight)}</p>` : ""}
   <table style="width:100%;border-collapse:collapse;margin:22px 0;font-size:.9rem;border:1px solid #e5e7eb;">
     <tr style="background:#f9fafb;"><td style="padding:9px 12px;font-weight:600;width:38%;">Dokument</td><td style="padding:9px 12px;">${escapeHtml(labels.title)}</td></tr>
     <tr><td style="padding:9px 12px;font-weight:600;">Absender</td><td style="padding:9px 12px;">${escapeHtml(triage?.sender || "nicht eindeutig erkennbar")}</td></tr>
