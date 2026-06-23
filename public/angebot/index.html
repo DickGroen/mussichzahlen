@@ -308,7 +308,7 @@
 
 <script src="/app.js"></script>
 <script>
-function initFaq(){document.querySelectorAll('.faq-q').forEach(q=>{q.addEventListener('click',()=>{const i=q.closest('.faq-item');const o=i.classList.contains('faq-item--open');document.querySelectorAll('.faq-item--open').forEach(x=>x.classList.remove('faq-item--open'));if(!o)i.classList.add('faq-item--open');});});}
+function initFaq(){document.querySelectorAll('.faq-item').forEach(function(item){var q=item.querySelector('.faq-q');if(q){q.setAttribute('tabindex','0');}function toggle(e){e.stopPropagation();var isOpen=item.classList.contains('faq-item--open');document.querySelectorAll('.faq-item--open').forEach(function(x){x.classList.remove('faq-item--open');});if(!isOpen)item.classList.add('faq-item--open');}item.addEventListener('touchend',function(e){e.preventDefault();toggle(e);},{passive:false});item.addEventListener('click',toggle);});}
 function initStickyFooter(){const sf=document.getElementById('sticky-footer');if(!sf)return;let t=false;window.addEventListener('scroll',()=>{if(!t){requestAnimationFrame(()=>{const y=window.scrollY;const nb=y+window.innerHeight>document.documentElement.scrollHeight-200;sf.classList.toggle('visible',y>400&&!nb);t=false;});t=true;}},{passive:true});}
 </script>
 
