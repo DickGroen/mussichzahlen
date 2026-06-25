@@ -152,9 +152,9 @@
       <p class="offer-desc">Laden Sie Ihre Nebenkostenabrechnung oder Betriebskostenabrechnung hoch. Sie erhalten eine erste Einordnung per E-Mail &mdash; in der Regel bis zum nächsten Werktag.</p>
       <p style="font-size:.84rem;color:var(--muted);margin-bottom:16px;">Nebenkostenabrechnungen haben Rückfragefristen. Offene Punkte frühzeitig zu klären gibt mehr Spielraum.</p>
       <label id="gratis-upload-zone" class="upload-zone" for="gratis-file-input">
-        <div class="upload-label">Datei auswählen oder hierher ziehen</div>
-        <div class="upload-hint">PDF, JPG oder PNG &middot; max. 8 MB</div>
-        <input id="gratis-file-input" type="file" accept=".pdf,.jpg,.jpeg,.png" style="position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:1;" aria-label="Datei auswählen">
+        <div class="upload-label" style="pointer-events:none;position:relative;z-index:0;">Datei auswählen oder hierher ziehen</div>
+        <div class="upload-hint" style="pointer-events:none;position:relative;z-index:0;">PDF, JPG oder PNG &middot; max. 8 MB</div>
+        <input id="gratis-file-input" type="file" accept=".pdf,.jpg,.jpeg,.png" style="position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:10;" aria-label="Datei auswählen">
       </label>
       <div class="upload-hint" style="margin:-8px 0 4px;">Ein Handyfoto genügt — wichtig ist nur die Lesbarkeit.</div>
       <div class="upload-hint" style="margin:0 0 14px;">Die meisten erhalten ihre kostenlose Ersteinordnung bis zum nächsten Werktag.</div>
