@@ -242,6 +242,8 @@ PRÜFPUNKTE
 
 6. FORMALE MÄNGEL — Pflichtangaben vorhanden? Registrierung des Inkassobüros nachweisbar?
 
+7. AUSKUNFTSPFLICHT DES INKASSOUNTERNEHMENS — Verbraucher haben das Recht, nähere Informationen zum Vertragsschluss in Textform zu verlangen. Das Landgericht Osnabrück hat in zwei Urteilen (Az 3 O 94/25 vom 01.07.2025 und Az 16 O 54/25 vom 16.09.2025) bestätigt, dass Inkassounternehmen hierzu verpflichtet sind. Wenn das Schreiben keine nachvollziehbare Vertragsgrundlage enthält, kann eine schriftliche Auskunftsanfrage sinnvoll sein. Diesen Punkt NUR nennen wenn das Schreiben tatsächlich keine erkennbare Vertragsgrundlage oder Originalforderung enthält — nicht generisch einsetzen.
+
 ────────────────────
 TIER3-SPEZIFISCHE INSTRUKTIONEN
 ────────────────────
@@ -447,6 +449,10 @@ BEVORZUGE diese natürlichen Formulierungen:
 - "Ich bitte Sie, mir die entsprechenden Unterlagen zuzusenden."
 - "Ich bitte um schriftliche Rückmeldung."
 - "Bis dahin werde ich vorerst keine Zahlung vornehmen."
+
+OPTIONALE FORMULIERUNG — Auskunftspflicht (NUR verwenden wenn das Schreiben keine Vertragsgrundlage enthält):
+- "Außerdem bitte ich Sie, mir den Vertragsschluss sowie die Grundlage der geltend gemachten Forderung in Textform mitzuteilen."
+Diese Formulierung ist inhaltlich durch aktuelle Rechtsprechung gestützt (LG Osnabrück 2025), soll aber nicht pauschal in jedes Schreiben eingebaut werden — nur wenn das konkrete Dokument tatsächlich keine Vertragsgrundlage erkennen lässt.
 
 VERMEIDE diese Formulierungen:
 - "Hiermit widerspreche ich der Forderung" → klingt zu formell-juristisch
