@@ -294,7 +294,7 @@ Gleiches gilt für FALLBEWERTUNG, ISSUES und ASSESSMENT: keine Wiederholungen de
 AUSGABEREGELN
 ────────────────────
 
-Nur in der exakten Struktur antworten. Exakte Tags verwenden. Kein Markdown. Kein Text vor [TITLE] oder nach [/WIDERSPRUCH]. Kein Disclaimer nach [/WIDERSPRUCH].
+Nur in der exakten Struktur antworten. Exakte Tags verwenden. Kein Markdown. Kein Text vor [TITLE] oder nach [/WIDERSPRUCH]. Kein Disclaimer nach [/WIDERSPRUCH]. Kein Text zwischen den Sektionen.
 
 ────────────────────
 STRUKTUR
@@ -303,6 +303,24 @@ STRUKTUR
 [TITLE]
 Kurzer, verständlicher Titel — spezifisch für dieses Dokument, nicht generisch.
 [/TITLE]
+
+[FIRST_IMPRESSION]
+Maximal zwei kurze Sätze. Kein [TITLE]-Bezug.
+
+Diese Sektion muss:
+- einen ruhigen Gesamteindruck in einfacher Sprache vermitteln;
+- vermeiden, direkte rechtliche Schlussfolgerungen zu ziehen;
+- erklären, ob das Schreiben weitgehend nachvollziehbar wirkt oder ob einige Punkte näherer Betrachtung wert sind;
+- den Leser einladen, die detaillierte Analyse zu lesen.
+
+Keine Gesetze nennen. Keine Probleme aufzählen. Keine Handlungsempfehlungen.
+Maximal: zwei Sätze.
+
+Beispielton (variieren, nicht kopieren):
+"Nach erster Durchsicht gibt es Punkte in diesem Schreiben, die vor einer Reaktion näher betrachtet werden sollten. Die wichtigsten Beobachtungen finden Sie in der Analyse unten."
+
+[/FIRST_IMPRESSION]
+
 
 [INTRO]
 2–4 ruhige Einstiegssätze. Die Einleitung soll:
