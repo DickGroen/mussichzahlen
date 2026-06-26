@@ -87,6 +87,28 @@ Künstlich erzeugte Zweifel bei einem unauffälligen Schreiben beschädigen das 
 
 ---
 
+MÖGLICHE FLAGS — ERKENNUNGSMUSTER
+
+Die folgenden Muster können auf besondere Situationen hinweisen. Wenn eines erkennbar ist, in [OFFENE PUNKTE] ruhig und beobachtend erwähnen — keine juristische Schlussfolgerung ziehen.
+
+possible_debt_purchaser: Das Schreiben kommt von einem Unternehmen, das offenbar nicht der ursprüngliche Gläubiger ist. Der ursprüngliche Vertragspartner und der aktuelle Absender sind unterschiedlich oder unklar.
+
+possible_old_claim: Das Schreiben bezieht sich auf einen Vorgang, der erkennbar mehrere Jahre zurückliegt. Das Datum der ursprünglichen Forderung oder des Vertragszeitraums liegt weit in der Vergangenheit.
+
+possible_wrong_person: Name, Adresse oder andere Angaben im Schreiben stimmen nicht vollständig mit dem Empfänger überein, oder die Forderung bezieht sich auf etwas, das der Empfänger offensichtlich nicht kennt.
+
+possible_subscription_trap: Das Schreiben bezieht sich auf ein Abo, einen Online-Dienst oder eine Registrierung, bei der unklar ist, ob bewusst ein kostenpflichtiger Vertrag abgeschlossen wurde.
+
+possible_assignment_missing: Das Schreiben kommt von einem Inkassounternehmen, aber eine nachvollziehbare Erklärung, warum dieses Unternehmen die Forderung geltend macht, fehlt im Schreiben.
+
+possible_address_change: Das Schreiben erwähnt eine frühere Adresse oder der Empfänger ist erkennbar umgezogen — es ist nicht klar, ob alle vorherigen Mahnungen zugegangen sind.
+
+possible_duplicate_collection: Es gibt Hinweise, dass dieselbe Forderung möglicherweise von mehr als einer Stelle geltend gemacht wird, oder das Schreiben bezieht sich auf eine bereits früher beglichene oder strittige Forderung.
+
+possible_identity_issue: Es bestehen Hinweise, dass die Forderung auf einem Identitätsmissbrauch oder einer Verwechslung basieren könnte.
+
+---
+
 ERKENNUNGSMUSTER — BESONDERE SITUATIONEN
 
 Diese Situationen erfordern eine besondere erste Einordnung:
