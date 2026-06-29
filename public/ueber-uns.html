@@ -3,124 +3,187 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Über MussIchZahlen | Unabhängige Dokumentenanalyse</title>
-  <meta name="description" content="Erfahren Sie, wer hinter MussIchZahlen steht, was der Service leistet, was er nicht leistet und wie die unabhängige Dokumentenanalyse funktioniert.">
+  <title>Über uns — MussIchZahlen.de</title>
+  <meta name="description" content="MussIchZahlen.de bietet unabhängige, verständliche Einschätzungen von Mahnungen und Inkassoschreiben. Erfahren Sie, wer wir sind und was wir tun — und was nicht.">
   <link rel="canonical" href="https://mussichzahlen.de/ueber-uns.html">
-  <meta name="robots" content="index,follow">
   <style>
-    body{font-family:Arial,sans-serif;line-height:1.7;color:#0f1923;margin:0;background:#fff}
-    .container{max-width:860px;margin:0 auto;padding:0 24px}
-    header{border-bottom:1px solid #e2e8f0;padding:16px 0}
-    .top{display:flex;justify-content:space-between;align-items:center;gap:16px}
-    .logo{font-weight:700;color:#1a3a6b;font-size:1.15rem}
-    .cta{background:#1a3a6b;color:white;text-decoration:none;padding:10px 18px;border-radius:10px;font-weight:700}
-    main{padding:56px 0}
-    h1{font-size:2.2rem;line-height:1.2;margin:0 0 18px}
-    h2{margin-top:38px;font-size:1.35rem}
-    .lead{font-size:1.05rem;color:#4a5568;max-width:700px}
-    .card{background:#f7f9fc;border:1px solid #e2e8f0;border-radius:16px;padding:24px;margin:32px 0;max-width:720px}
-    ul{padding-left:20px}
-    li{margin:8px 0}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:24px 0}
-    .panel{border:1px solid #e2e8f0;border-radius:14px;padding:20px}
-    .safe{background:#dcfce7;border-color:#bbf7d0}
-    .warning{background:#fff7ed;border-color:#fdba74}
-    .contact{background:#1a3a6b;color:white;border-radius:16px;padding:24px;margin-top:40px}
-    .contact a{color:white;font-weight:700}
-    footer{border-top:1px solid #e2e8f0;padding:24px 0;text-align:center;color:#718096;font-size:.85rem}
-    footer a{color:#718096;margin:0 10px}
-    @media(max-width:700px){.grid{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}h1{font-size:1.8rem}}
-  </style>
+    :root{--ink:#0f1923;--ink-2:#2d3748;--ink-3:#4a5568;--muted:#718096;--line:#e2e8f0;--surface:#f7f9fc;--white:#ffffff;--accent:#1a3a6b;--accent-2:#2d5499;--green:#166534;--green-soft:#dcfce7;--warn:#eab308;--warn-soft:#fef9c3;}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.65;color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased;}
+    h1,h2,h3{font-family:'Lora',Georgia,serif;line-height:1.2;}
+    a{color:var(--accent);}
+    .container{max-width:860px;margin:0 auto;padding:0 24px;}
+    .hinweis-banner{background:#fff7ed;border-bottom:2px solid #fdba74;padding:10px 0;text-align:center;font-size:.84rem;font-weight:600;color:#92400e;}
+    .header{background:var(--white);border-bottom:1px solid var(--line);padding:16px 0;position:sticky;top:0;z-index:100;}
+    .header__inner{display:flex;align-items:center;justify-content:space-between;}
+    .logo{font-family:'Lora',serif;font-size:1.15rem;font-weight:700;color:var(--accent);}
+    .logo-dot{display:inline-block;width:8px;height:8px;background:var(--accent-2);border-radius:50%;margin-right:6px;vertical-align:middle;}
+    .header-cta{background:var(--accent);color:var(--white);border:none;border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;text-decoration:none;}
+    .hero{padding:64px 0 48px;text-align:center;}
+    .hero h1{font-size:clamp(1.9rem,5vw,2.9rem);margin-bottom:20px;max-width:700px;margin-left:auto;margin-right:auto;}
+    .hero__sub{font-size:1.05rem;color:var(--ink-3);max-width:560px;margin:0 auto 30px;line-height:1.7;}
+    .hero-cta,.primary-btn{display:inline-block;background:var(--accent);color:var(--white);text-decoration:none;padding:17px 34px;border-radius:10px;font-size:1.05rem;font-weight:700;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;}
+    .hero-cta:hover,.primary-btn:hover,.offer-cta:hover{background:var(--accent-2);}
+    .hero-sub-note{font-size:.82rem;color:var(--muted);margin-top:10px;}
+    .trust-triggers{background:var(--green-soft);border:1px solid #bbf7d0;border-radius:12px;padding:20px 24px;margin:40px auto 0;display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:600px;}
+    @media(max-width:600px){.trust-triggers{grid-template-columns:1fr;}}
+    .trust-trigger{display:flex;align-items:flex-start;gap:10px;font-size:.87rem;color:var(--green);line-height:1.55;}
+    .trust-trigger strong{display:block;font-weight:700;color:#14532d;margin-bottom:2px;}
+    .section{padding:72px 0;}
+    .section--alt{background:var(--surface);}
+    .section-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--accent-2);margin-bottom:10px;}
+    .section h2{font-size:clamp(1.5rem,3vw,2rem);margin-bottom:32px;}
+    .value-strip{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 36px;justify-content:center;}
+    .value-item{display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--line);border-radius:100px;padding:8px 16px;font-size:.86rem;color:var(--ink-2);font-weight:500;}
+    .vi-check{color:var(--green);font-weight:700;}
+    .offer-card{background:var(--white);border:2px solid var(--accent);border-radius:16px;padding:36px 32px;max-width:580px;margin:0 auto;box-shadow:0 12px 40px rgba(26,58,107,.1);}
+    @media(max-width:600px){.offer-card{padding:24px 20px;}}
+    .offer-badge{display:inline-block;background:var(--accent);color:var(--white);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 12px;border-radius:100px;margin-bottom:16px;}
+    .offer-title{font-family:'Lora',serif;font-size:1.45rem;margin-bottom:8px;}
+    .offer-desc{color:var(--ink-3);font-size:.93rem;margin-bottom:20px;line-height:1.65;}
+    .offer-list{list-style:none;margin-bottom:24px;display:grid;gap:8px;}
+    .offer-list li{display:flex;align-items:flex-start;gap:10px;font-size:.93rem;color:var(--ink-2);line-height:1.55;}
+    .offer-list li::before{content:"✓";color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px;}
+    hr.offer-divider{border:none;border-top:1px solid var(--line);margin:20px 0;}
+    .offer-price{font-size:2rem;font-weight:700;color:var(--accent);font-family:'Lora',serif;}
+    .offer-price span{font-size:.95rem;color:var(--muted);font-weight:400;font-family:'DM Sans',sans-serif;}
+    .offer-cta{display:block;background:var(--accent);color:var(--white);text-decoration:none;text-align:center;padding:17px;border-radius:10px;font-size:1.05rem;font-weight:700;margin-top:20px;border:none;width:100%;cursor:pointer;font-family:'DM Sans',sans-serif;}
+    .offer-security{text-align:center;font-size:.78rem;color:var(--muted);margin-top:10px;}
+    .offer-refund{text-align:center;font-size:.76rem;color:var(--muted);margin-top:6px;}
+    .upload-zone{display:block;position:relative;border:2px dashed var(--line);border-radius:14px;padding:28px;text-align:center;cursor:pointer;background:var(--surface);transition:.2s;}
+    .upload-zone:hover{border-color:var(--accent);background:#eef4ff;}
+    .upload-label{font-weight:700;color:var(--accent);position:relative;z-index:2;pointer-events:none;}
+    .upload-hint{font-size:.84rem;color:var(--muted);margin-top:6px;position:relative;z-index:2;pointer-events:none;}
+    .contact-fields{opacity:0;position:absolute;width:1px;height:1px;pointer-events:none;;flex-direction:column;gap:10px;margin-top:18px;}
+    .input{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:1rem;}
+    .input:focus{outline:none;border-color:var(--accent);}
+    .optie-status{font-size:.9rem;margin-top:12px;}
+    .optie-status--error{color:#b91c1c;}
+    .optie-status--success{color:var(--green);}
+    .optie-status--info{color:var(--accent);}
+    .teaser{opacity:0;position:absolute;width:1px;height:1px;pointer-events:none;;margin-top:30px;opacity:0;transform:translateY(10px);transition:.25s ease;}
+    .teaser--visible{opacity:1;transform:translateY(0);}
+    .teaser-card{border-color:var(--warn);background:#fffdf2;}
+    .teaser-heading{font-weight:800;font-size:1.2rem;color:var(--ink);}
+    .teaser-sub{margin-top:6px;color:var(--muted);font-size:.92rem;}
+    .teaser-ai{margin:16px 0;background:var(--warn-soft);border-left:4px solid var(--warn);padding:14px;border-radius:8px;font-weight:500;color:#713f12;}
+    .teaser-cta{margin-top:16px;}
+    .teaser-cta h3{font-size:1.1rem;margin-bottom:10px;font-family:'Lora',serif;}
+    .teaser-cta ul{list-style:none;margin:10px 0 16px;display:grid;gap:7px;}
+    .teaser-cta li{font-size:.92rem;color:var(--ink-2);}
+    .teaser-cta li::before{content:"✓ ";color:var(--green);font-weight:700;}
+    .teaser-trust{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;font-size:.8rem;color:var(--muted);}
+    .teaser-trust span{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 10px;}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+    @media(max-width:640px){.steps{grid-template-columns:1fr;}}
+    .step__num{font-family:'Lora',serif;font-size:2.2rem;font-weight:700;color:var(--line);margin-bottom:10px;line-height:1;}
+    .step__title{font-weight:700;margin-bottom:6px;font-size:.98rem;}
+    .step__desc{font-size:.87rem;color:var(--ink-3);line-height:1.65;}
+    .trust-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+    @media(max-width:680px){.trust-grid{grid-template-columns:1fr;}}
+    .trust-item{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:20px;}
+    .trust-item__label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--accent);margin-bottom:8px;}
+    .trust-item__text{font-size:.87rem;color:var(--ink-3);line-height:1.65;}
+    .fit-rows{display:grid;gap:10px;max-width:560px;}
+    .fit-row{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;background:var(--green-soft);border:1px solid #bbf7d0;border-radius:10px;font-size:.93rem;color:#14532d;}
+    .fit-row span:first-child{font-weight:700;flex-shrink:0;}
+    .faq-list{display:grid;gap:4px;}
+    .faq-item{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--white);}
+    .faq-q{display:flex;align-items:center;justify-content:space-between;padding:17px 20px;cursor:pointer;font-weight:600;font-size:.93rem;user-select:none;gap:12px;}
+    .faq-q:hover{background:var(--surface);}
+    .faq-chevron{flex-shrink:0;color:var(--muted);transition:transform .25s;}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;font-size:.9rem;color:var(--ink-3);line-height:1.7;padding:0 20px;}
+    .faq-item--open .faq-a{max-height:500px;padding:0 20px 17px;}
+    .faq-item--open .faq-chevron{transform:rotate(180deg);}
+    .final-cta{background:var(--accent);color:var(--white);padding:72px 0;text-align:center;}
+    .final-cta h2{color:var(--white);font-size:clamp(1.6rem,3.5vw,2.1rem);margin-bottom:12px;}
+    .final-cta p{color:rgba(255,255,255,.75);margin-bottom:32px;}
+    .final-cta-btn{display:inline-block;background:var(--white);color:var(--accent);text-decoration:none;padding:17px 40px;border-radius:10px;font-size:1.05rem;font-weight:700;}
+    .final-cta-note{color:rgba(255,255,255,.6);font-size:.8rem;margin-top:12px;}
+    .sticky-footer{position:fixed;bottom:0;left:0;right:0;background:var(--ink);color:var(--white);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;transform:translateY(100%);transition:transform .3s ease;z-index:200;}
+    .sticky-footer.visible,.sticky-footer--visible{transform:translateY(0);}
+    .sticky-footer__text{font-size:.9rem;font-weight:600;}
+    .sticky-footer__sub{font-size:.76rem;color:rgba(255,255,255,.6);margin-top:2px;}
+    .sticky-cta{background:var(--white);color:var(--accent);border:none;border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;text-decoration:none;}
+    @media(max-width:500px){.sticky-footer{flex-direction:column;text-align:center;}.sticky-cta{width:100%;}}
+    .modal-overlay{position:fixed;inset:0;background:rgba(15,25,35,.6);backdrop-filter:blur(4px);z-index:300;opacity:0;position:absolute;width:1px;height:1px;pointer-events:none;;align-items:center;justify-content:center;padding:24px;}
+    .modal-overlay.open,.modal-overlay.modal--open{display:flex;}
+    .modal{background:var(--white);border-radius:16px;max-width:480px;width:100%;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.2);}
+    .modal__header{background:var(--accent);color:var(--white);padding:28px 28px 24px;}
+    .modal__eyebrow{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;opacity:.7;margin-bottom:8px;}
+    .modal__title{font-family:'Lora',serif;font-size:1.25rem;font-weight:700;margin-bottom:8px;}
+    .modal__price{font-size:1.6rem;font-weight:700;font-family:'Lora',serif;}
+    .modal__price span{font-size:.95rem;opacity:.7;font-weight:400;font-family:'DM Sans',sans-serif;}
+    .modal__body{padding:24px 28px;}
+    .modal__feature{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;font-size:.92rem;color:var(--ink-2);}
+    .modal__feature .check{color:var(--green);font-weight:700;flex-shrink:0;}
+    .modal__disclaimer{background:var(--surface);border-radius:8px;padding:10px 14px;font-size:.8rem;color:var(--muted);margin:16px 0;line-height:1.55;}
+    .modal__cta{display:block;background:var(--accent);color:var(--white);text-decoration:none;text-align:center;padding:16px;border-radius:10px;font-size:1rem;font-weight:700;margin-bottom:10px;}
+    .modal__security{text-align:center;font-size:.78rem;color:var(--muted);}
+    .modal__close{display:block;text-align:center;margin-top:14px;font-size:.84rem;color:var(--muted);cursor:pointer;}
+    .modal__close:hover{color:var(--ink);}
+    .footer-trust{padding:32px 0 16px;font-size:.85rem;color:var(--ink-3);line-height:1.75;border-top:1px solid var(--line);}
+    .disclaimer{padding:16px 0 20px;font-size:.78rem;color:var(--muted);line-height:1.7;}
+  
+/* CTA-klik zichtbaar laten landen: upload-zone licht kort op bij ankersprong */
+@keyframes mizTargetPulse{0%{box-shadow:0 0 0 0 rgba(45,84,153,.35);}100%{box-shadow:0 0 0 16px rgba(45,84,153,0);}}
+#free-check:target .upload-zone{animation:mizTargetPulse .9s ease-out 2;}
+</style>
 </head>
 <body>
-<header>
-  <div class="container top">
-    <a href="/" style="text-decoration:none"><div class="logo">MussIchZahlen</div></a>
-    <a class="cta" href="/mahnung/">Kostenlose Ersteinordnung</a>
+
+<header class="header">
+  <div class="container">
+    <div class="header__inner">
+      <div class="logo"><span class="logo-dot"></span>MussIchZahlen</div>
+      <a href="/mahnung/#free-check" class="header-cta">Kostenlos einordnen lassen</a>
+    </div>
   </div>
 </header>
 
-<main>
+<section class="hero" style="padding:48px 0 24px;">
   <div class="container">
-    <h1>Wir helfen Menschen, Mahnungen, Inkassoschreiben und andere Zahlungsdokumente besser zu verstehen.</h1>
-    <p class="lead">MussIchZahlen ist ein unabhängiger Dokumentenservice. Wir ordnen Mahnungen, Inkassoschreiben, Rechnungen, Nebenkostenabrechnungen und Verträge in verständlicher Sprache ein. Unser Ziel ist, Ihnen Orientierung zu geben — nicht, Entscheidungen für Sie zu treffen.</p>
-
-    <div class="card">
-      <ul>
-        <li>Die erste Einordnung ist kostenlos und unverbindlich.</li>
-        <li>Eine ausführlichere Analyse ist optional und kostet nur dann 49&nbsp;€, wenn Sie sie ausdrücklich anfordern.</li>
-        <li>Wir kontaktieren keine Gläubiger, Inkassounternehmen, Vermieter oder sonstigen Dritten in Ihrem Namen.</li>
-        <li>Wir sind keine Rechtsanwaltskanzlei und übernehmen keine rechtliche Vertretung.</li>
-        <li>Wir bieten keine Rechtsberatung, sondern eine unabhängige Dokumentenanalyse zur besseren Orientierung.</li>
-        <li>Ihr Dokument wird nur zur Erstellung Ihrer Einordnung oder Analyse verwendet.</li>
-      </ul>
-    </div>
-
-    <h2>Wer betreibt MussIchZahlen?</h2>
-    <p>MussIchZahlen wird betrieben von groenvantexel, Inhaber Dick Groen, mit Sitz in Den Burg, Niederlande. KvK-Nummer: 42072123.</p>
-    <p>Fragen zum Service erreichen uns unter <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a>. Wir antworten in der Regel innerhalb eines Werktags, Montag bis Freitag.</p>
-
-    <h2>Welche Dokumente wir einordnen</h2>
-    <p>Wir helfen Nutzerinnen und Nutzern, Dokumente wie Mahnungen, Inkassoschreiben, Zahlungsaufforderungen, Rechnungen, Nebenkostenabrechnungen und Vertragsunterlagen besser zu verstehen.</p>
-
-    <div class="grid">
-      <div class="panel safe">
-        <h2 style="margin-top:0">Was Sie erwarten können</h2>
-        <ul>
-          <li>Verständliche Einordnung in einfacher Sprache</li>
-          <li>Schriftliches Ergebnis per E-Mail</li>
-          <li>Unabhängige Dokumentenanalyse</li>
-          <li>Transparenter optionaler Preis</li>
-          <li>Kein Abo und keine automatische Zahlung</li>
-        </ul>
-      </div>
-      <div class="panel warning">
-        <h2 style="margin-top:0">Was wir nicht leisten</h2>
-        <ul>
-          <li>Keine Rechtsberatung</li>
-          <li>Keine Rechtsvertretung</li>
-          <li>Keine Vertretung gegenüber Gläubigern oder Inkassounternehmen</li>
-          <li>Keine Garantie für ein bestimmtes Ergebnis</li>
-          <li>Keine Entscheidung darüber, ob Sie zahlen oder nicht zahlen sollen</li>
-        </ul>
-      </div>
-    </div>
-
-    <h2>So funktioniert der Ablauf</h2>
-    <p><strong>1. Dokument hochladen.</strong> Sie laden Ihre Mahnung, Ihr Inkassoschreiben, Ihre Rechnung, Nebenkostenabrechnung oder ein anderes Zahlungsdokument hoch.</p>
-    <p><strong>2. Kostenlose Ersteinordnung erhalten.</strong> Sie erhalten eine erste verständliche Einordnung per E-Mail — in der Regel bis zum nächsten Werktag.</p>
-    <p><strong>3. Optional ausführlicher prüfen lassen.</strong> Wenn Sie mehr Details möchten, können Sie eine ausführlichere Analyse mit Antwortentwurf für 49&nbsp;€ anfordern. Dieser Schritt ist freiwillig.</p>
-
-    <h2>Typische Dokumente</h2>
-    <p><strong>Mahnung:</strong> Ein Schreiben, mit dem eine Zahlung angemahnt oder eine Frist gesetzt wird.</p>
-    <p><strong>Inkassoschreiben:</strong> Ein Schreiben eines Inkassodienstleisters oder einer anderen Stelle, die eine Forderung geltend macht.</p>
-    <p><strong>Rechnung:</strong> Eine Zahlungsaufforderung für eine Ware, Dienstleistung oder sonstige Leistung.</p>
-    <p><strong>Nebenkostenabrechnung:</strong> Eine Abrechnung über Betriebskosten oder Nachzahlungen im Mietverhältnis.</p>
-    <p><strong>Vertrag:</strong> Ein Dokument, das Rechte, Pflichten, Kosten oder Laufzeiten regelt.</p>
-
-    <h2>Warum wir vorsichtig formulieren</h2>
-    <p>Mahnungen, Inkassoschreiben und andere Zahlungsdokumente können Druck erzeugen. Deshalb vermeiden wir Formulierungen, die Ihnen eine Entscheidung abnehmen. Wir erklären, was im Dokument steht, welche Punkte unklar erscheinen können und welche Fragen Sie möglicherweise vor einer Reaktion klären möchten. Die Entscheidung liegt immer bei Ihnen.</p>
-
-    <h2>Datenschutz und Umgang mit Dokumenten</h2>
-    <p>Hochgeladene Dokumente werden ausschließlich zur Erstellung der angeforderten Einordnung oder Analyse verwendet. Wir geben Ihr Dokument nicht an Inkassounternehmen, Gläubiger, Vermieter, Vertragspartner, Werbepartner oder nicht beteiligte Dritte weiter. Weitere Informationen finden Sie in unserer <a href="/datenschutz.html">Datenschutzerklärung</a>.</p>
-
-    <div class="contact">
-      <h2 style="margin-top:0;color:white">Fragen vor dem Hochladen?</h2>
-      <p>Schreiben Sie uns an <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a>.</p>
-      <p>Wir antworten in der Regel innerhalb eines Werktags.</p>
-    </div>
+    <h1 style="text-align:center;">Über uns</h1>
+    <p style="text-align:center;color:var(--muted);max-width:620px;margin:14px auto 0;line-height:1.6;">MussIchZahlen.de hilft Ihnen zu verstehen, was eine Mahnung oder ein Inkassoschreiben bedeutet — bevor Sie entscheiden, was Sie tun.</p>
   </div>
-</main>
+</section>
 
-<footer>
-  <div class="container">
-    <p>MussIchZahlen bietet unabhängige Dokumentenanalysen zur allgemeinen Orientierung. Keine Rechtsberatung. Keine Vertretung. Keine Garantie für ein bestimmtes Ergebnis.</p>
-    <a href="/datenschutz.html">Datenschutz</a>
-    <a href="/agb.html">AGB</a>
-    <a href="/kontakt.html">Kontakt</a>
-    <a href="/impressum.html">Impressum</a>
-    <a href="/ueber-uns.html">Über uns</a>
+<section class="section" style="padding-top:8px;">
+  <div class="container" style="max-width:740px;">
+
+    <h2>Was wir tun</h2>
+    <p>Viele Menschen erhalten ein Schreiben mit einer Zahlungsaufforderung und sind unsicher, was es bedeutet, ob es korrekt ist und welche Möglichkeiten sie haben. Genau hier hilft MussIchZahlen.de. Sie laden das Dokument hoch, und wir geben Ihnen eine klare, verständliche Einschätzung dessen, was darin verlangt wird — auf Wunsch gefolgt von einer ausführlicheren unabhängigen Analyse und einer Antwortvorlage.</p>
+    <p>Die erste Einschätzung ist kostenlos. Eine ausführlichere Analyse gibt es als einmalige Leistung. Kein Abonnement, keine versteckten Kosten.</p>
+
+    <h2>Was wir nicht tun</h2>
+    <p>Zur Vertrauenswürdigkeit gehört, klar über unsere Grenzen zu sein. MussIchZahlen.de bietet <strong>keine</strong>:</p>
+    <ul style="margin:0 0 16px 22px;line-height:1.8;">
+      <li>Rechtsberatung oder rechtliche Vertretung;</li>
+      <li>Schuldnerberatung im rechtlichen Sinne;</li>
+      <li>Kontaktaufnahme mit Gläubigern oder Inkassobüros in Ihrem Namen;</li>
+      <li>Entscheidungen an Ihrer Stelle, ob Sie zahlen sollten;</li>
+      <li>Garantie für ein bestimmtes Ergebnis.</li>
+    </ul>
+    <p>Wir bieten unabhängige Dokumenten-Erklärungen und allgemeine Informationen. Die Entscheidung, was zu tun ist, bleibt immer bei Ihnen. Für eine rechtliche Beratung verweisen wir auf Verbraucherzentralen und zugelassene Stellen.</p>
+
+    <h2>Wie es funktioniert</h2>
+    <p>Wir nutzen KI-gestützte Dokumentenanalyse, um Schreiben verständlich zu erklären, kombiniert mit sorgfältig gestalteten Prüfprozessen. Die Technik hilft uns, Dinge klar und bezahlbar zu erklären — der Dienst ist jedoch eine informative Dokumenten-Einschätzung, kein automatischer Entscheider.</p>
+
+    <h2>Wer wir sind</h2>
+    <p>MussIchZahlen.de wird betrieben von [BEDRIJFSNAAM / "einem unabhängigen Team mit Sitz in den Niederlanden"]. [INDIEN GEREGISTREERD: Eingetragen als [bedrijfsnaam], [registratienummer]. Vollständige Angaben finden Sie im <a href="/impressum.html">Impressum</a>.]</p>
+    <p>Sie erreichen uns jederzeit unter <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a>.</p>
+
+    <h2>Unser Ansatz</h2>
+    <p>Wir glauben, dass Menschen bessere Entscheidungen treffen, wenn sie das Schreiben vor sich verstehen. Unser Ziel ist eine ruhige, klare und verständliche Erklärung — kein Druck, keine Panikmache, kein Hype.</p>
+
   </div>
-</footer>
+</section>
+
+<div class="container">
+  <div class="footer-trust"><strong>MussIchZahlen.de</strong> bietet unabhängige Dokumenten-Einschätzungen und allgemeine Informationen. Keine Rechtsberatung, keine rechtliche Vertretung.</div>
+  <div class="disclaimer"><a href="/datenschutz.html">Datenschutz</a> · <a href="/agb.html">AGB</a> · <a href="/kontakt.html">Kontakt</a> · <a href="/impressum.html">Impressum</a> · <a href="/ueber-uns.html">Über uns</a> &middot; &copy; 2026 MussIchZahlen.de</div>
+</div>
+
 </body>
 </html>
