@@ -47,7 +47,7 @@ window.handleGratisFileSelect = function(input) {
 
   if (zone) {
     zone.innerHTML = `
-      <div class="upload-label" style="color:var(--green);">✓ ${esc(gratisFile.name)}</div>
+      <div class="upload-label" style="color:var(--green);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;"><polyline points="20 6 9 17 4 12"></polyline></svg> ${esc(gratisFile.name)}</div>
       <div class="upload-hint">${formatFileSize(gratisFile.size)}</div>
     `;
   }
@@ -130,7 +130,7 @@ window.startGratisUpload = async function() {
     }
 
     if (btn) {
-      btn.textContent = 'Fertig ✓';
+      btn.textContent = 'Fertig';
     }
   } catch (err) {
     if (status) {
@@ -140,7 +140,7 @@ window.startGratisUpload = async function() {
 
     if (btn) {
       btn.disabled = false;
-      btn.textContent = 'Kostenlose Einschätzung starten';
+      btn.textContent = 'Kostenlose Einordnung starten';
     }
   }
 };
@@ -159,14 +159,14 @@ function normalizeTriage(triage) {
 
 function getFallbackTeaser(risk) {
   if (risk === 'high') {
-    return 'Es deutet einiges darauf hin, dass hier mögliche Unstimmigkeiten bestehen. Wenn du nicht reagierst, kann sich die Situation finanziell deutlich verschlechtern.';
+    return 'Mehrere Punkte in diesem Angebot könnten vor einer Zusage eine genauere Klärung wert sein — eine ausführlichere Prüfung zeigt, welche das sind.';
   }
 
   if (risk === 'medium') {
-    return 'In diesem Schreiben könnten Ansatzpunkte vorliegen, die ohne rechtzeitige Reaktion zu unnötigen Mehrkosten führen können.';
+    return 'Einige Punkte in diesem Angebot könnten vor einer Entscheidung eine Bestätigung wert sein.';
   }
 
-  return 'Es gibt Hinweise darauf, dass diese Forderung nicht vollständig eindeutig ist. Ohne Reaktion könnten jedoch zusätzliche Kosten entstehen.';
+  return 'Das Angebot wirkt vergleichsweise üblich; eine ausführlichere Prüfung kann die Details bestätigen, bevor Sie zusagen.';
 }
 
 function renderTeaser(triage) {
@@ -188,7 +188,7 @@ function renderTeaser(triage) {
   teaser.innerHTML = `
     <div class="offer-card teaser-card" style="border-color:var(--green);background:#f0fdf4;max-width:620px;margin:0 auto;">
       <div style="font-size:1.1rem;font-weight:700;color:#14532d;margin-bottom:12px;">
-        ✓ Ihr Angebot ist eingegangen.
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;"><polyline points="20 6 9 17 4 12"></polyline></svg> Ihr Angebot ist eingegangen.
       </div>
       <p style="color:#166534;margin-bottom:12px;line-height:1.7;">
         Wir werden Ihr Dokument sorgfältig prüfen und Ihnen spätestens am nächsten Werktag bis 16:00 Uhr eine erste Einschätzung per E-Mail zukommen lassen.
@@ -209,10 +209,8 @@ function renderTeaser(triage) {
   teaser.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-function ctaText(risk) {
-  if (risk === 'high') return `Jetzt prüfen und unnötige Kosten vermeiden — €${PRICE} →`;
-  if (risk === 'low')  return `Klarheit schaffen mit vollständiger Analyse — €${PRICE} →`;
-  return `Vollständige Analyse + Widerspruch erhalten — €${PRICE} →`;
+function ctaText() {
+  return `Vollständige Analyse + Rückfragevorlage erhalten — €${PRICE} →`;
 }
 
 window.goToStripe = function() {
@@ -388,7 +386,7 @@ async function doSubmit() {
     if (card) {
       card.innerHTML = `
         <div class="success-screen">
-          <div class="success-screen__icon">✓</div>
+          <div class="success-screen__icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
           <h2>Upload erfolgreich!</h2>
           <p>Wir analysieren dein Schreiben und senden dir die vollständige Analyse sowie den fertigen Widerspruch per E-Mail an <strong>${esc(email)}</strong>.</p>
           <p style="font-size:.82rem;color:var(--muted);">Bitte auch den Spam-Ordner prüfen.</p>
