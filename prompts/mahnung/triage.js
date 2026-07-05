@@ -177,7 +177,7 @@ Regeln für den teaser:
 - Vorsichtige, sachliche Sprache: "nicht vollständig nachvollziehbar", "unklar bleibt", "lässt sich nicht vollständig einordnen".
 
 KRITISCH — GRENZE FÜR DEN TEASER:
-Der teaser darf KEINE konkreten fehlenden Dokumente, Beweismittel oder Bezwaarstrategien nennen.
+Der teaser darf KEINE konkreten fehlenden Dokumente, Beweismittel oder Widerspruchsstrategien nennen.
 Intern dürfen flags spezifisch bleiben (possible_kein_abtretungsnachweis, possible_kein_nachweis usw.).
 Extern — im teaser — darf nur die Kategorie benannt werden.
 Erlaubte Kategorien: Forderung, Absender, Kosten, Unterlagen, Forderungsübernahme, Frist, Nachvollziehbarkeit.
@@ -193,7 +193,7 @@ Die Spannung zwischen Behauptung und fehlender Nachvollziehbarkeit benennen — 
 - "Das Unternehmen macht eine Forderungsübernahme geltend — einige Angaben lassen sich aus dem Schreiben allein nicht vollständig nachvollziehen."
 - "Die Zusammensetzung der geforderten Beträge lässt sich aus dem Schreiben allein nicht vollständig einordnen."
 - "Das Schreiben fordert [Betrag] auf Basis eines Vertragsverhältnisses — einzelne Angaben zur Forderung bleiben aus dem Schreiben allein nicht vollständig nachvollziehbar."
-Diese Kontrastform wirkt menschlicher und konkreter als reine Faktenaufzählung — ohne konkrete Bezwaarstrategie preiszugeben.
+Diese Kontrastform wirkt menschlicher und konkreter als reine Faktenaufzählung — ohne konkrete Widerspruchsstrategie preiszugeben.
 
 Für tier3 — Teaser neutral und ruhig:
 Keine Kontrast-Formulierungen. Sachlich beschreiben, was sich überprüfen lässt:
