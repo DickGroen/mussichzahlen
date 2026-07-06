@@ -41,13 +41,15 @@
     .value-item{display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--line);border-radius:100px;padding:8px 16px;font-size:.86rem;color:var(--ink-2);font-weight:500;}
     .vi-check{color:var(--green);font-weight:700;}
     .offer-card{background:var(--white);border:2px solid var(--accent);border-radius:16px;padding:36px 32px;max-width:580px;margin:0 auto;box-shadow:0 12px 40px rgba(26,58,107,.1);}
+    #free-card{padding:44px 40px;box-shadow:0 18px 52px rgba(26,58,107,.16);max-width:600px;}
+    @media(max-width:600px){#free-card{padding:28px 22px;}}
     @media(max-width:600px){.offer-card{padding:24px 20px;}}
     .offer-badge{display:inline-block;background:var(--accent);color:var(--white);font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:4px 12px;border-radius:100px;margin-bottom:16px;}
     .offer-title{font-family:'Lora',serif;font-size:1.45rem;margin-bottom:8px;}
     .offer-desc{color:var(--ink-3);font-size:.93rem;margin-bottom:20px;line-height:1.65;}
     .offer-list{list-style:none;margin-bottom:24px;display:grid;gap:8px;}
     .offer-list li{display:flex;align-items:flex-start;gap:10px;font-size:.93rem;color:var(--ink-2);line-height:1.55;}
-    .offer-list li::before{content:"✓";color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px;}
+    .offer-list li svg{color:var(--green);margin-top:3px;}
     hr.offer-divider{border:none;border-top:1px solid var(--line);margin:20px 0;}
     .offer-price{font-size:2rem;font-weight:700;color:var(--accent);font-family:'Lora',serif;}
     .offer-price span{font-size:.95rem;color:var(--muted);font-weight:400;font-family:'DM Sans',sans-serif;}
@@ -65,8 +67,8 @@
     .optie-status--error{color:#b91c1c;}
     .optie-status--success{color:var(--green);}
     .optie-status--info{color:var(--accent);}
-    .teaser{opacity:0;position:absolute;width:1px;height:1px;pointer-events:none;;margin-top:30px;opacity:0;transform:translateY(10px);transition:.25s ease;}
-    .teaser--visible{opacity:1;transform:translateY(0);}
+    .teaser{opacity:0;position:absolute;width:1px;height:1px;pointer-events:none;margin-top:30px;transform:translateY(10px);transition:.25s ease;}
+    .teaser--visible{opacity:1;position:relative;width:100%;height:auto;pointer-events:auto;transform:translateY(0);}
     .teaser-card{border-color:var(--warn);background:#fffdf2;}
     .teaser-heading{font-weight:800;font-size:1.2rem;color:var(--ink);}
     .teaser-sub{margin-top:6px;color:var(--muted);font-size:.92rem;}
@@ -74,8 +76,8 @@
     .teaser-cta{margin-top:16px;}
     .teaser-cta h3{font-size:1.1rem;margin-bottom:10px;font-family:'Lora',serif;}
     .teaser-cta ul{list-style:none;margin:10px 0 16px;display:grid;gap:7px;}
-    .teaser-cta li{font-size:.92rem;color:var(--ink-2);}
-    .teaser-cta li::before{content:"✓ ";color:var(--green);font-weight:700;}
+    .teaser-cta li{font-size:.92rem;color:var(--ink-2);display:flex;align-items:flex-start;gap:8px;}
+    .teaser-cta li svg{color:var(--green);margin-top:3px;}
     .teaser-trust{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;font-size:.8rem;color:var(--muted);}
     .teaser-trust span{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 10px;}
     .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
@@ -110,8 +112,8 @@
     .sticky-footer__sub{font-size:.76rem;color:rgba(255,255,255,.6);margin-top:2px;}
     .sticky-cta{background:var(--white);color:var(--accent);border:none;border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;text-decoration:none;}
     @media(max-width:500px){.sticky-footer{flex-direction:column;text-align:center;}.sticky-cta{width:100%;}}
-    .modal-overlay{position:fixed;inset:0;background:rgba(15,25,35,.6);backdrop-filter:blur(4px);z-index:300;opacity:0;position:absolute;width:1px;height:1px;pointer-events:none;;align-items:center;justify-content:center;padding:24px;}
-    .modal-overlay.open,.modal-overlay.modal--open{display:flex;}
+    .modal-overlay{position:fixed;inset:0;background:rgba(15,25,35,.6);backdrop-filter:blur(4px);z-index:300;opacity:0;width:1px;height:1px;pointer-events:none;display:none;align-items:center;justify-content:center;padding:24px;}
+    .modal-overlay.open,.modal-overlay.modal--open{display:flex;opacity:1;width:100%;height:100%;pointer-events:auto;}
     .modal{background:var(--white);border-radius:16px;max-width:480px;width:100%;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.2);}
     .modal__header{background:var(--accent);color:var(--white);padding:28px 28px 24px;}
     .modal__eyebrow{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;opacity:.7;margin-bottom:8px;}
@@ -128,6 +130,8 @@
     .modal__close:hover{color:var(--ink);}
     .footer-trust{padding:32px 0 16px;font-size:.85rem;color:var(--ink-3);line-height:1.75;border-top:1px solid var(--line);}
     .disclaimer{padding:16px 0 20px;font-size:.78rem;color:var(--muted);line-height:1.7;}
+    .icon{width:14px;height:14px;display:inline-block;vertical-align:-2px;flex-shrink:0;}
+    .icon-lg{width:16px;height:16px;vertical-align:-3px;}
   
 /* CTA-klik zichtbaar laten landen: upload-zone licht kort op bij ankersprong */
 @keyframes mizTargetPulse{0%{box-shadow:0 0 0 0 rgba(45,84,153,.35);}100%{box-shadow:0 0 0 16px rgba(45,84,153,0);}}
@@ -156,13 +160,27 @@
 </head>
 <body>
 
+<svg style="display:none" aria-hidden="true">
+  <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="20 6 9 17 4 12"></polyline>
+  </symbol>
+  <symbol id="icon-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="5" y="11" width="14" height="9" rx="2"></rect>
+    <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
+  </symbol>
+  <symbol id="icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+    <path d="M3 7l9 6 9-6"></path>
+  </symbol>
+</svg>
+
 <div class="hinweis-banner">Mahnung oder Inkassoschreiben erhalten? Viele Schreiben wirken dringender, als sie auf den ersten Blick nachvollziehbar sind.</div>
 
 <header class="header">
   <div class="container">
     <div class="header__inner">
       <div class="logo"><span class="logo-dot"></span>MussIchZahlen</div>
-      <a href="#free-check" class="header-cta">Kostenlos einordnen lassen</a>
+      <a href="#free-check" class="header-cta">Schreiben kostenlos hochladen</a>
     </div>
   </div>
 </header>
@@ -172,7 +190,7 @@
     <h1>Mahnung erhalten?<br>Muss ich das wirklich bezahlen?</h1>
     <p class="hero__sub">Laden Sie Ihr Schreiben hoch — kostenlose Ersteinordnung, in der Regel bis zum n&auml;chsten Werktag.</p>
 
-    <a href="#free-check" class="hero-cta" style="margin-top:8px;margin-bottom:14px;display:inline-block;">Schreiben hochladen &rarr; kostenlose Einordnung</a>
+    <a href="#free-check" class="hero-cta" style="margin-top:8px;margin-bottom:14px;display:inline-block;">Schreiben kostenlos hochladen</a>
     <div class="hero-sub-note" style="line-height:1.3;margin-bottom:36px;">PDF, JPG oder PNG · kein Abo · ausführlichere Einordnung möglich</div>
 
     <div class="trust-triggers">
@@ -183,18 +201,21 @@
     <div style="max-width:600px;margin:24px auto 0;text-align:center;background:var(--soft);border:1px solid #c7d9f5;border-radius:12px;padding:18px 24px;font-size:.9rem;color:var(--ink-3);line-height:1.7;">
       Egal von welchem Inkassobüro das Schreiben stammt &mdash; <strong style="color:var(--accent);">wir ordnen jedes Schreiben unabhängig ein.</strong>
     </div>
+    <p style="text-align:center;font-size:.86rem;color:var(--muted);max-width:600px;margin:14px auto 0;line-height:1.6;">Vor einer Zahlung zu prüfen hält alle Möglichkeiten offen — auch die, gezielt Fragen zu stellen oder Nachweise anzufordern.</p>
   </div>
 </section>
 
-<section class="section" id="free-check" style="padding-top:16px;">
+<section class="section" id="free-check" style="padding-top:40px;">
   <div class="container" style="max-width:620px;">
     <p style="text-align:center;font-size:.88rem;color:var(--ink-3);line-height:1.5;margin-bottom:14px;">Eine Mahnung oder ein Inkassoschreiben kann viele Fragen aufwerfen. Verstehen Sie das Schreiben, bevor Sie entscheiden, wie Sie reagieren.</p>
-    <p style="text-align:center;font-size:.92rem;color:var(--muted);margin-bottom:10px;">Egal von welchem Inkassobüro: Culpa Inkasso &middot; Riverty &middot; coeo Inkasso &middot; EOS &middot; Infoscore &middot; Paigo &middot; Lowell &middot; und andere</p>
+    <p style="text-align:center;font-size:.92rem;color:var(--muted);margin-bottom:10px;">Unabh&auml;ngig davon, von welchem Inkassounternehmen das Schreiben stammt.</p>
     <p style="text-align:center;font-size:.8rem;color:var(--muted);max-width:560px;margin:0 auto 18px;line-height:1.55;"><strong>MussIchZahlen ist ein unabhängiger Dienst. Wir sind nicht mit den genannten Inkassounternehmen verbunden, werden nicht von ihnen unterstützt und handeln nicht in ihrem Auftrag.</strong> Die Namen dienen ausschließlich dazu, erhaltene Schreiben besser zu verstehen.</p>
-    <div class="offer-card" id="free-card">
+    <div class="offer-card" id="free-card" style="margin-top:28px;">
       <div class="offer-badge">Kostenlose Ersteinordnung</div>
       <div class="offer-title">Kostenlose Ersteinordnung erhalten</div>
       <p class="offer-desc">Laden Sie Ihre Mahnung, Ihr Inkassoschreiben oder Ihre Zahlungsaufforderung hoch. Sie erhalten eine erste Einordnung dazu, ob vor einer Zahlung noch Punkte gekl&auml;rt werden sollten &mdash; in der Regel bis zum n&auml;chsten Werktag.</p>
+
+      <p style="font-size:.85rem;color:var(--ink-3);background:var(--soft);border:1px solid #c7d9f5;border-radius:10px;padding:12px 16px;margin-bottom:16px;line-height:1.6;">Ein Mahnschreiben wirkt oft belastender, als es bei genauerem Hinsehen ist. Eine sachliche Einordnung erleichtert die Entscheidung, wie Sie reagieren.</p>
 
       <label id="gratis-upload-zone" class="upload-zone" for="gratis-file-input" style="touch-action:manipulation;-webkit-tap-highlight-color:rgba(0,0,0,0);">
         <div class="upload-label" style="pointer-events:none;position:relative;z-index:2;">Datei ausw&auml;hlen oder hierher ziehen</div>
@@ -213,10 +234,10 @@
         <input id="gratis-name" class="input" placeholder="Ihr Name" autocomplete="name">
         <input id="gratis-email" class="input" placeholder="Ihre E-Mail-Adresse" type="email" autocomplete="email">
         <div style="font-size:.8rem;color:var(--muted);margin-top:-6px;margin-bottom:4px;">Nur f&uuml;r Ihre Ersteinordnung &mdash; kein Newsletter, keine Werbung.</div>
-        <button id="gratis-btn" disabled class="offer-cta">Kostenlose Einordnung starten</button>
+        <button id="gratis-btn" disabled class="offer-cta">Schreiben kostenlos hochladen</button>
       </div>
       <div id="gratis-status" class="optie-status"></div>
-      <div class="offer-security">&#128274; Ihre Datei wird ausschlie&szlig;lich zur Erstellung Ihrer Einordnung verwendet und nicht an Dritte weitergegeben.</div>
+      <div class="offer-security"><svg class="icon"><use href="#icon-lock"></use></svg> Ihre Datei wird ausschlie&szlig;lich zur Erstellung Ihrer Einordnung verwendet und nicht an Dritte weitergegeben.</div>
       <div style="background:#fff8f0;border:1px solid #f5c6a0;border-radius:10px;padding:12px 18px;max-width:560px;margin:12px auto 0;text-align:center;">
         <p style="font-size:.82rem;color:#7a4000;line-height:1.65;margin:0;"><strong>Typische Warnsignale:</strong> Auslandskonto &middot; Auftraggeber unbekannt &middot; Kosten h&ouml;her als die Forderung &middot; Drohungen ohne Rechtstitel</p>
       </div>
@@ -228,7 +249,7 @@
 
     <!-- Bevestigingskaart na upload -->
     <div id="confirmation-card" style="opacity:0;position:absolute;width:1px;height:1px;pointer-events:none;;margin-top:24px;background:#f0fdf4;border:2px solid #86efac;border-radius:16px;padding:28px 28px 24px;max-width:580px;margin-left:auto;margin-right:auto;">
-      <div style="font-size:1.1rem;font-weight:700;color:#14532d;margin-bottom:10px;">&#10003; Wir haben Ihr Schreiben erhalten.</div>
+      <div style="font-size:1.1rem;font-weight:700;color:#14532d;margin-bottom:10px;"><svg class="icon-lg" style="color:#14532d;"><use href="#icon-check"></use></svg> Wir haben Ihr Schreiben erhalten.</div>
       <p style="font-size:.95rem;color:#166534;margin-bottom:16px;line-height:1.7;">
         Sie erhalten Ihre Ersteinordnung in K&uuml;rze per E-Mail &mdash; sp&auml;testens am n&auml;chsten Werktag bis 16:00 Uhr.
       </p>
@@ -259,29 +280,29 @@
 <section class="section section--alt">
   <div class="container">
     <div class="value-strip">
-      <span class="value-item"><span class="vi-check">&#10003;</span> Unklare Kosten</span>
-      <span class="value-item"><span class="vi-check">&#10003;</span> Nachweise und Unterlagen</span>
-      <span class="value-item"><span class="vi-check">&#10003;</span> Wer die Zahlung verlangt</span>
-      <span class="value-item"><span class="vi-check">&#10003;</span> Antwortvorlage bei Bedarf</span>
-      <span class="value-item"><span class="vi-check">&#10003;</span> Einmalig Ausführlichere Einordnung optional</span>
+      <span class="value-item"><span class="vi-check"><svg class="icon"><use href="#icon-check"></use></svg></span> Unklare Kosten</span>
+      <span class="value-item"><span class="vi-check"><svg class="icon"><use href="#icon-check"></use></svg></span> Nachweise und Unterlagen</span>
+      <span class="value-item"><span class="vi-check"><svg class="icon"><use href="#icon-check"></use></svg></span> Wer die Zahlung verlangt</span>
+      <span class="value-item"><span class="vi-check"><svg class="icon"><use href="#icon-check"></use></svg></span> Antwortvorlage bei Bedarf</span>
+      <span class="value-item"><span class="vi-check"><svg class="icon"><use href="#icon-check"></use></svg></span> Einmalig Ausführlichere Einordnung optional</span>
     </div>
     <div class="offer-card">
       <div class="offer-badge">Nach Ersteinordnung</div>
       <div class="offer-title">Ausf&uuml;hrlichere Einordnung + Antwortvorlage</div>
       <p class="offer-desc">Wir ordnen das Schreiben ausführlicher ein — Forderungsgrundlage, Kosten, Absender und offene Punkte. Sie erhalten bei Bedarf einen Formulierungsvorschlag. Sie entscheiden, was Sie tun.</p>
       <ul class="offer-list">
-        <li>Pr&uuml;fung der genannten Forderung und zus&auml;tzlicher Kosten</li>
-        <li>Hinweise zu unklaren Kostenbestandteilen</li>
-        <li>Pr&uuml;fung, ob Nachweise und Unterlagen nachvollziehbar beigef&uuml;gt sind</li>
-        <li>Einordnung offener Punkte im Schreiben</li>
-        <li>Formulierungsvorschlag für eine schriftliche Reaktion (anpassbar)</li>
-        <li>Klare n&auml;chste Schritte</li>
-        <li>Ergebnis per E-Mail</li>
+        <li><svg class="icon"><use href="#icon-check"></use></svg><span>Pr&uuml;fung der genannten Forderung und zus&auml;tzlicher Kosten</span></li>
+        <li><svg class="icon"><use href="#icon-check"></use></svg><span>Hinweise zu unklaren Kostenbestandteilen</span></li>
+        <li><svg class="icon"><use href="#icon-check"></use></svg><span>Pr&uuml;fung, ob Nachweise und Unterlagen nachvollziehbar beigef&uuml;gt sind</span></li>
+        <li><svg class="icon"><use href="#icon-check"></use></svg><span>Einordnung offener Punkte im Schreiben</span></li>
+        <li><svg class="icon"><use href="#icon-check"></use></svg><span>Formulierungsvorschlag für eine schriftliche Reaktion (anpassbar)</span></li>
+        <li><svg class="icon"><use href="#icon-check"></use></svg><span>Klare n&auml;chste Schritte</span></li>
+        <li><svg class="icon"><use href="#icon-check"></use></svg><span>Ergebnis per E-Mail</span></li>
       </ul>
       <hr class="offer-divider">
       <div class="offer-price">&euro;49 <span>einmalig &middot; kein Abo</span></div>
-      <a href="#free-check" class="offer-cta">Zuerst kostenlos einordnen lassen</a>
-      <div class="offer-security">&#128274; Sichere Zahlung &uuml;ber Stripe nach der Ersteinordnung</div>
+      <a href="#free-check" class="offer-cta">Zuerst kostenlos hochladen</a>
+      <div class="offer-security"><svg class="icon"><use href="#icon-lock"></use></svg> Sichere Zahlung &uuml;ber Stripe nach der Ersteinordnung</div>
       <div class="offer-refund">Wenn die Einordnung Ihr Schreiben nicht vollständig erfasst, melden Sie sich. Wir schauen es noch einmal an.</div>
       <p style="font-size:.82rem;color:var(--muted);line-height:1.6;margin-top:14px;text-align:left;">F&uuml;r manche reicht die kostenlose Ersteinordnung bereits aus. Wenn sie Ihre Frage schon beantwortet hat, brauchen Sie nicht weiterzugehen. Die ausf&uuml;hrlichere Einordnung ist f&uuml;r alle, die noch einen konkreten Punkt kl&auml;ren oder schriftlich festhalten m&ouml;chten.</p>
       <p style="font-size:.82rem;color:var(--muted);line-height:1.6;margin-top:10px;text-align:left;">Wir pr&uuml;fen jedes Schreiben auf die gleiche sorgf&auml;ltige Weise und halten das Ergebnis schriftlich fest, statt in einem Telefongespr&auml;ch, an dessen Einzelheiten Sie sich sp&auml;ter vielleicht nicht mehr erinnern. Das h&auml;lt die Kosten niedrig genug, damit es sich auch f&uuml;r eine einzelne Mahnung lohnt.</p>
@@ -318,11 +339,11 @@
     <div class="section-label">Passend f&uuml;r Sie?</div>
     <h2>F&uuml;r wen ist das geeignet?</h2>
     <div class="fit-rows">
-      <div class="fit-row"><span>✓</span><span>Sie haben eine Mahnung, ein Inkassoschreiben oder eine Zahlungsaufforderung erhalten</span></div>
-      <div class="fit-row"><span>✓</span><span>Sie sind unsicher, ob Betrag, Kosten oder beigefügte Nachweise vollständig und nachvollziehbar sind</span></div>
-      <div class="fit-row"><span>✓</span><span>Sie wissen nicht, ob das Schreiben von einem Inkassodienstleister oder dem ursprünglichen Gläubiger stammt</span></div>
-      <div class="fit-row"><span>✓</span><span>Sie möchten vor einer Zahlung oder Reaktion verstehen, was das Schreiben tatsächlich bedeutet</span></div>
-      <div class="fit-row"><span>✓</span><span>Egal von welchem Inkassobüro das Schreiben stammt — wir ordnen es unabhängig ein</span></div>
+      <div class="fit-row"><span><svg class="icon-lg"><use href="#icon-check"></use></svg></span><span>Sie haben eine Mahnung, ein Inkassoschreiben oder eine Zahlungsaufforderung erhalten</span></div>
+      <div class="fit-row"><span><svg class="icon-lg"><use href="#icon-check"></use></svg></span><span>Sie sind unsicher, ob Betrag, Kosten oder beigefügte Nachweise vollständig und nachvollziehbar sind</span></div>
+      <div class="fit-row"><span><svg class="icon-lg"><use href="#icon-check"></use></svg></span><span>Sie wissen nicht, ob das Schreiben von einem Inkassodienstleister oder dem ursprünglichen Gläubiger stammt</span></div>
+      <div class="fit-row"><span><svg class="icon-lg"><use href="#icon-check"></use></svg></span><span>Sie möchten vor einer Zahlung oder Reaktion verstehen, was das Schreiben tatsächlich bedeutet</span></div>
+      <div class="fit-row"><span><svg class="icon-lg"><use href="#icon-check"></use></svg></span><span>Egal von welchem Inkassobüro das Schreiben stammt — wir ordnen es unabhängig ein</span></div>
     </div>
   </div>
 </section>
@@ -350,7 +371,7 @@
   <div class="container">
     <h2>Erst verstehen — dann entscheiden.</h2>
     <p>Mahnung oder Inkassoschreiben erhalten? Eine kostenlose Ersteinordnung gibt Ihnen Klarheit — bevor Sie zahlen oder reagieren.</p>
-    <a href="#free-check" class="final-cta-btn">Kostenlose Ersteinordnung erhalten</a>
+    <a href="#free-check" class="final-cta-btn">Schreiben kostenlos hochladen</a>
     <div class="final-cta-note">PDF, JPG oder PNG · kein Abo · ausführlichere Einordnung möglich</div>
   </div>
 </section>
@@ -359,7 +380,8 @@
   <div class="container">
 
     <h2>Ratgeber zu häufigen Inkasso-Situationen</h2>
-    <p style="text-align:center;color:var(--muted);max-width:600px;margin:0 auto 28px;line-height:1.6;">Kurze, verständliche Erklärungen zu den Schreiben und Situationen, nach denen am häufigsten gefragt wird. Kostenlos zu lesen — kein Upload nötig.</p>
+    <p style="text-align:center;color:var(--muted);max-width:600px;margin:0 auto 10px;line-height:1.6;">Kurze, verständliche Erklärungen zu den Schreiben und Situationen, nach denen am häufigsten gefragt wird. Kostenlos zu lesen — kein Upload nötig.</p>
+    <p style="text-align:center;color:var(--muted);font-size:.84rem;max-width:600px;margin:0 auto 28px;line-height:1.6;">Darunter Schreiben von u.&nbsp;a. Culpa Inkasso, Riverty, coeo Inkasso, EOS, Infoscore, Paigo und Lowell.</p>
 
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;max-width:860px;margin:0 auto;">
 
@@ -423,7 +445,6 @@
       <a href="/impressum.html" style="color:var(--muted);margin:0 10px;">Impressum</a>
       <a href="/datenschutz.html" style="color:var(--muted);margin:0 10px;">Datenschutz</a>
       <a href="/agb.html" style="color:var(--muted);margin:0 10px;">AGB</a>
-      <a href="/kontakt.html" style="color:var(--muted);margin:0 10px;">Kontakt</a>
       <a href="/ueber-uns.html" style="color:var(--muted);margin:0 10px;">Über uns</a>
     </p>
   </div>
@@ -434,7 +455,7 @@
     <div class="sticky-footer__text" style="font-weight:400;font-size:.86rem;color:rgba(255,255,255,.9);">Schreiben noch nicht beantwortet?</div>
     <div class="sticky-footer__sub">Kein Abo · ausführlichere Einordnung optional</div>
   </div>
-  <a href="#free-check" class="sticky-cta">Kurz einordnen lassen</a>
+  <a href="#free-check" class="sticky-cta">Jetzt hochladen</a>
 </div>
 
 <!-- Modal — dynamisch befüllt nach Triage -->
@@ -447,13 +468,13 @@
     </div>
     <div class="modal__body">
       <div id="modal-features">
-        <div class="modal__feature"><span class="check">&#10003;</span><span>Einordnung der offenen Punkte</span></div>
-        <div class="modal__feature"><span class="check">&#10003;</span><span>Pr&uuml;fung von Kosten, Unterlagen und Nachweisen</span></div>
-        <div class="modal__feature"><span class="check">&#10003;</span><span>Fertiges Formulierungsvorschlag bei Bedarf</span></div>
+        <div class="modal__feature"><span class="check"><svg class="icon"><use href="#icon-check"></use></svg></span><span>Einordnung der offenen Punkte</span></div>
+        <div class="modal__feature"><span class="check"><svg class="icon"><use href="#icon-check"></use></svg></span><span>Pr&uuml;fung von Kosten, Unterlagen und Nachweisen</span></div>
+        <div class="modal__feature"><span class="check"><svg class="icon"><use href="#icon-check"></use></svg></span><span>Fertiges Formulierungsvorschlag bei Bedarf</span></div>
       </div>
       <div class="modal__disclaimer">Informative Einordnung und Formulierungsvorschlag. Keine rechtliche Vertretung.</div>
       <a id="modal-cta" href="#" class="modal__cta">Ausf&uuml;hrlichere Pr&uuml;fung starten &rarr;</a>
-      <div class="modal__security">&#128274; Sichere Zahlung via Stripe &middot; kein Abo</div>
+      <div class="modal__security"><svg class="icon"><use href="#icon-lock"></use></svg> Sichere Zahlung via Stripe &middot; kein Abo</div>
       <div class="modal__close" id="modal-close-btn">Zur&uuml;ck</div>
     </div>
   </div>
@@ -644,7 +665,7 @@ btn.addEventListener('click', async () => {
     );
 
     btn.disabled = false;
-    btn.textContent = 'Kostenlos einordnen lassen';
+    btn.textContent = 'Schreiben kostenlos hochladen';
   }
 });
 
@@ -682,7 +703,7 @@ function renderTeaser(data) {
   if (stripeLink && tier !== 'tier3') {
     teaserCta.innerHTML = `
       <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 16px;margin:16px 0 14px;font-size:.93rem;color:#14532d;line-height:1.6;">
-        <strong>📬 Was passiert nach der Zahlung?</strong><br>
+        <strong><svg class="icon" style="color:#14532d;"><use href="#icon-mail"></use></svg> Was passiert nach der Zahlung?</strong><br>
         Sie erhalten die ausführlichere Einordnung und bei Bedarf einen Formulierungsvorschlag per E-Mail —
         spätestens am nächsten Werktag bis 16:00 Uhr.
       </div>
@@ -761,7 +782,7 @@ function updateModalFeatures(triage) {
       .slice(0, 4)
       .map((feature) => `
         <div class="modal__feature">
-          <span class="check">✓</span>
+          <span class="check"><svg class="icon"><use href="#icon-check"></use></svg></span>
           <span>${escapeHtml(feature)}</span>
         </div>
       `)
