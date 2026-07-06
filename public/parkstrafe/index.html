@@ -48,7 +48,7 @@
     .offer-desc{color:var(--ink-3);font-size:.93rem;margin-bottom:20px;line-height:1.65;}
     .offer-list{list-style:none;margin-bottom:24px;display:grid;gap:8px;}
     .offer-list li{display:flex;align-items:flex-start;gap:10px;font-size:.93rem;color:var(--ink-2);line-height:1.55;}
-    .offer-list li::before{content:"✓";color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px;}
+    .offer-list li svg{color:var(--green);margin-top:3px;}
     hr.offer-divider{border:none;border-top:1px solid var(--line);margin:20px 0;}
     .offer-price{font-size:2rem;font-weight:700;color:var(--accent);font-family:'Lora',serif;}
     .offer-price span{font-size:.95rem;color:var(--muted);font-weight:400;font-family:'DM Sans',sans-serif;}
@@ -101,6 +101,8 @@
     @media(max-width:500px){.sticky-footer{flex-direction:column;text-align:center;}.sticky-cta{width:100%;}}
     .footer-trust{padding:32px 0 16px;font-size:.85rem;color:var(--ink-3);line-height:1.75;border-top:1px solid var(--line);}
     .disclaimer{padding:16px 0 20px;font-size:.78rem;color:var(--muted);line-height:1.7;}
+    .icon{width:14px;height:14px;display:inline-block;vertical-align:-2px;flex-shrink:0;}
+    .icon-lg{width:16px;height:16px;vertical-align:-3px;}
   </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18193666186"></script>
@@ -118,13 +120,23 @@
 </head>
 <body>
 
+<svg style="display:none" aria-hidden="true">
+  <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="20 6 9 17 4 12"></polyline>
+  </symbol>
+  <symbol id="icon-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="5" y="11" width="14" height="9" rx="2"></rect>
+    <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
+  </symbol>
+</svg>
+
 <div class="hinweis-banner">Bußgeldbescheid oder Parkforderung erhalten? Privat und behördlich gelten unterschiedliche Regeln und Fristen.</div>
 
 <header class="header">
   <div class="container">
     <div class="header__inner">
       <div class="logo"><span class="logo-dot"></span>MussIchZahlen</div>
-      <a href="#free-check" class="header-cta">Bescheid einordnen lassen</a>
+      <a href="#free-check" class="header-cta">Kostenlose Ersteinordnung erhalten</a>
     </div>
   </div>
 </header>
@@ -144,9 +156,10 @@
   </div>
 </section>
 
-<section class="section" id="free-check" style="padding-top:16px;">
+<section class="section" id="free-check" style="padding-top:40px;">
   <div class="container" style="max-width:620px;">
-    <p style="text-align:center;font-size:.88rem;color:var(--ink-3);line-height:1.7;margin-bottom:18px;">Ein Bu&szlig;geldbescheid oder eine Parkforderung sorgt oft erst einmal f&uuml;r Unsicherheit — das ist eine ganz normale Reaktion. Hinter MussIchZahlen.de steht Dick Groen, der diesen Service ins Leben gerufen hat, damit Sie genau in diesem Moment eine ruhige, sachliche erste Einordnung bekommen, bevor Sie zahlen oder reagieren.</p>
+    <p style="text-align:center;font-size:.88rem;color:var(--ink-3);line-height:1.7;margin-bottom:18px;">Ein Bu&szlig;geldbescheid oder eine Parkforderung kann viele Fragen aufwerfen. MussIchZahlen.de bietet eine unabhängige, sachliche Ersteinordnung der wichtigsten Punkte, bevor Sie zahlen oder reagieren.</p>
+    <p style="text-align:center;font-size:.85rem;color:var(--muted);margin:0 auto 18px;line-height:1.6;"><strong>MussIchZahlen.de ist ein unabhängiger Dienst.</strong> Wir sind nicht mit Behörden oder privaten Parkraumbetreibern verbunden und handeln nicht in deren Auftrag.</p>
     <div class="offer-card" id="free-card">
       <div class="offer-badge">Kostenlose Ersteinordnung</div>
       <div class="offer-title">Kostenlose Ersteinordnung erhalten</div>
@@ -163,7 +176,7 @@
         style="position:fixed;top:-9999px;left:-9999px;opacity:0;"
       />
       <div class="upload-hint" style="margin:-8px 0 4px;">Ein Handyfoto gen&uuml;gt &mdash; wichtig ist nur die Lesbarkeit.</div>
-      <div class="upload-hint" style="margin:0 0 14px;">Die meisten erhalten ihre kostenlose Ersteinordnung bis zum n&auml;chsten Werktag.</div>
+      <div class="upload-hint" style="margin:0 0 14px;">In der Regel erhalten Sie Ihre kostenlose Ersteinordnung bis zum n&auml;chsten Werktag.</div>
       <div id="gratis-contact-fields" class="contact-fields">
         <input id="gratis-name" class="input" placeholder="Ihr Name" autocomplete="name">
         <input id="gratis-email" class="input" placeholder="Ihre E-Mail-Adresse" type="email" autocomplete="email">
@@ -171,7 +184,7 @@
         <button id="gratis-btn" disabled class="offer-cta">Kostenlos einordnen lassen</button>
       </div>
       <div id="gratis-status" class="optie-status"></div>
-      <div class="offer-security">&#128274; Ihre Datei wird ausschlie&szlig;lich zur Erstellung Ihrer Einordnung verwendet und nicht an Dritte weitergegeben.</div>
+      <div class="offer-security"><svg class="icon"><use href="#icon-lock"></use></svg> Ihre Datei wird ausschlie&szlig;lich zur Erstellung Ihrer Einordnung verwendet und nicht an Dritte weitergegeben.</div>
     </div>
 
     <div style="background:var(--soft);border:1px solid var(--accent);border-radius:14px;padding:20px 22px;margin-top:20px;max-width:600px;margin-left:auto;margin-right:auto;">
@@ -185,7 +198,7 @@
 
     <!-- Bevestigingskaart na upload -->
     <div id="confirmation-card" style="display:none;margin-top:24px;background:#f0fdf4;border:2px solid #86efac;border-radius:16px;padding:28px 28px 24px;max-width:580px;margin-left:auto;margin-right:auto;">
-      <div style="font-size:1.1rem;font-weight:700;color:#14532d;margin-bottom:10px;">&#10003; Wir haben Ihr Schreiben erhalten.</div>
+      <div style="font-size:1.1rem;font-weight:700;color:#14532d;margin-bottom:10px;"><svg class="icon-lg" style="color:#14532d;"><use href="#icon-check"></use></svg> Wir haben Ihr Schreiben erhalten.</div>
       <p style="font-size:.95rem;color:#166534;margin-bottom:16px;line-height:1.7;">
         Sie erhalten Ihre erste Einordnung in der Regel bis zum n&auml;chsten Werktag per E-Mail.
       </p>
@@ -204,29 +217,29 @@
 <section class="section section--alt">
   <div class="container">
     <div class="value-strip">
-      <span class="value-item"><span class="vi-check">&#10003;</span> Fristen und Zustellung</span>
-      <span class="value-item"><span class="vi-check">&#10003;</span> Formangaben</span>
-      <span class="value-item"><span class="vi-check">&#10003;</span> Kostenbestandteile</span>
-      <span class="value-item"><span class="vi-check">&#10003;</span> Antwortvorlage bei Bedarf</span>
-      <span class="value-item"><span class="vi-check">&#10003;</span> Einmalig Ausführlichere Einordnung optional</span>
+      <span class="value-item"><span class="vi-check"><svg class="icon"><use href="#icon-check"></use></svg></span> Fristen und Zustellung</span>
+      <span class="value-item"><span class="vi-check"><svg class="icon"><use href="#icon-check"></use></svg></span> Formangaben</span>
+      <span class="value-item"><span class="vi-check"><svg class="icon"><use href="#icon-check"></use></svg></span> Kostenbestandteile</span>
+      <span class="value-item"><span class="vi-check"><svg class="icon"><use href="#icon-check"></use></svg></span> Antwortvorlage bei Bedarf</span>
+      <span class="value-item"><span class="vi-check"><svg class="icon"><use href="#icon-check"></use></svg></span> Einmalig Ausführlichere Einordnung optional</span>
     </div>
     <div class="offer-card">
       <div class="offer-badge">Wenn Sie mehr möchten</div>
       <div class="offer-title">Ausführlichere Einordnung + Antwortvorlage</div>
       <p class="offer-desc">Wir pr&uuml;fen Ihr Schreiben auf alle relevanten Punkte und erstellen ein fertiges Einspruchs- oder Antwortvorlage.</p>
       <ul class="offer-list">
-        <li>Hinweise auf formale Mängel und fehlende Pflichtangaben</li>
-        <li>Einordnung von Fristen, Zustellung und Tatvorwurf</li>
-        <li>Einordnung der Kostenbestandteile und Nachweise</li>
-        <li>Einordnung: privat oder behördlich — und was das bedeutet</li>
-        <li>Antwortvorlage (anpassbar)</li>
-        <li>Klare nächste Schritte</li>
-        <li>Ergebnis per E-Mail</li>
+        <li><svg class="icon"><use href="#icon-check"></use></svg><span>Hinweise auf formale Mängel und fehlende Pflichtangaben</span></li>
+        <li><svg class="icon"><use href="#icon-check"></use></svg><span>Einordnung von Fristen, Zustellung und Tatvorwurf</span></li>
+        <li><svg class="icon"><use href="#icon-check"></use></svg><span>Einordnung der Kostenbestandteile und Nachweise</span></li>
+        <li><svg class="icon"><use href="#icon-check"></use></svg><span>Einordnung: privat oder behördlich — und was das bedeutet</span></li>
+        <li><svg class="icon"><use href="#icon-check"></use></svg><span>Antwortvorlage (anpassbar)</span></li>
+        <li><svg class="icon"><use href="#icon-check"></use></svg><span>Klare nächste Schritte</span></li>
+        <li><svg class="icon"><use href="#icon-check"></use></svg><span>Ergebnis per E-Mail</span></li>
       </ul>
       <hr class="offer-divider">
       <div class="offer-price">&euro;19 <span>einmalig &middot; kein Abo</span></div>
       <a href="#free-check" class="offer-cta">Zuerst kostenlos einordnen lassen</a>
-      <div class="offer-security">&#128274; Sichere Zahlung &uuml;ber Stripe nach der Ersteinordnung</div>
+      <div class="offer-security"><svg class="icon"><use href="#icon-lock"></use></svg> Sichere Zahlung &uuml;ber Stripe nach der Ersteinordnung</div>
       <div class="offer-refund">Wenn die Prüfung Ihr Schreiben nicht vollständig abdeckt, melden Sie sich — wir stellen es richtig.</div>
       <div style="text-align:center;font-size:.76rem;color:var(--muted);margin-top:8px;">Bei Fahrverbot empfehlen wir einen Anwalt.</div>
       <p style="font-size:.82rem;color:var(--muted);line-height:1.6;margin-top:14px;text-align:left;">F&uuml;r manche reicht die kostenlose Ersteinordnung bereits aus. Wenn sie Ihre Frage schon beantwortet hat, brauchen Sie nicht weiterzugehen. Die ausf&uuml;hrlichere Einordnung ist f&uuml;r alle, die noch einen konkreten Punkt kl&auml;ren oder schriftlich festhalten m&ouml;chten.</p>
@@ -264,10 +277,10 @@
     <div class="section-label">Passend f&uuml;r Sie?</div>
     <h2>F&uuml;r wen ist das geeignet?</h2>
     <div class="fit-rows">
-      <div class="fit-row"><span>✓</span><span>Sie haben einen Bußgeldbescheid, Anhörungsbogen oder eine Parkforderung erhalten</span></div>
-      <div class="fit-row"><span>✓</span><span>Sie sind nicht sicher, ob das Schreiben von einer Behörde oder einem privaten Parkunternehmen stammt</span></div>
-      <div class="fit-row"><span>✓</span><span>Sie möchten verstehen, ob Fristen, Angaben und Kosten im Schreiben nachvollziehbar sind</span></div>
-      <div class="fit-row"><span>✓</span><span>Sie möchten vor einer Zahlung oder Reaktion wissen, welche Möglichkeiten Sie haben</span></div>
+      <div class="fit-row"><span><svg class="icon-lg"><use href="#icon-check"></use></svg></span><span>Sie haben einen Bußgeldbescheid, Anhörungsbogen oder eine Parkforderung erhalten</span></div>
+      <div class="fit-row"><span><svg class="icon-lg"><use href="#icon-check"></use></svg></span><span>Sie sind nicht sicher, ob das Schreiben von einer Behörde oder einem privaten Parkunternehmen stammt</span></div>
+      <div class="fit-row"><span><svg class="icon-lg"><use href="#icon-check"></use></svg></span><span>Sie möchten verstehen, ob Fristen, Angaben und Kosten im Schreiben nachvollziehbar sind</span></div>
+      <div class="fit-row"><span><svg class="icon-lg"><use href="#icon-check"></use></svg></span><span>Sie möchten vor einer Zahlung oder Reaktion wissen, welche Möglichkeiten Sie haben</span></div>
     </div>
   </div>
 </section>
@@ -308,6 +321,7 @@
       <a href="/impressum.html" style="color:var(--muted);margin:0 10px;">Impressum</a>
       <a href="/datenschutz.html" style="color:var(--muted);margin:0 10px;">Datenschutz</a>
       <a href="/agb.html" style="color:var(--muted);margin:0 10px;">AGB</a>
+      <a href="/ueber-uns.html" style="color:var(--muted);margin:0 10px;">Über uns</a>
     </p>
   </div>
 </footer>
@@ -317,7 +331,7 @@
     <div class="sticky-footer__text" style="font-weight:400;font-size:.86rem;color:rgba(255,255,255,.9);">Bescheid erhalten? Kostenlos einordnen lassen.</div>
     <div class="sticky-footer__sub">Kostenlose Ersteinordnung · kein Abo</div>
   </div>
-  <a href="#free-check" class="sticky-cta">Kostenlos einordnen lassen</a>
+  <a href="#free-check" class="sticky-cta">Jetzt einordnen lassen</a>
 </div>
 
 <script src="/app.js"></script>
@@ -436,7 +450,7 @@ btn.addEventListener('click', async () => {
   } catch (err) {
     setStatus('error', err.message || 'Pr\u00fcfung fehlgeschlagen. Bitte erneut versuchen.');
     btn.disabled = false;
-    btn.textContent = 'Kostenlose Einsch\u00e4tzung starten';
+    btn.textContent = 'Kostenlos einordnen lassen';
   }
 });
 
