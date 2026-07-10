@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://www.mussichzahlen.de/sitemap.xml
+Sitemap: https://mussichzahlen.de/sitemap.xml
