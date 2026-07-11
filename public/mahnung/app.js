@@ -20,7 +20,7 @@ let gratisFile = null;
 let selectedFile = null;
 let stripeLink = null;
 
-track('page_view', { type: TYPE });
+track('niche_page_view', { type: TYPE });
 
 // ── Free triage flow ─────────────────────────────────────────────────────────
 
