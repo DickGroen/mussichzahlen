@@ -23,6 +23,12 @@ function track(eventName, payload = {}) {
   } catch (_) {}
 
   try {
+    if (typeof window.gtag === "function") {
+      window.gtag("event", eventName, payload);
+    }
+  } catch (_) {}
+
+  try {
     const body = JSON.stringify(event);
 
     if (navigator.sendBeacon) {
