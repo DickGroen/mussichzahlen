@@ -1,89 +1,40 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="canonical" href="https://mussichzahlen.de/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MussIchZahlen.de &mdash; Muss ich das wirklich zahlen?</title>
-  <meta name="description" content="Mahnung, Inkassobrief, falsche Rechnung oder ungewolltes Abo? Dokument hochladen und kostenlos prüfen lassen, bevor Sie zahlen.">
+  <title>DoIPayThat &mdash; Do you really have to pay this?</title>
+  <link rel="canonical" href="https://doipaythat.co.uk/">
+
+  <meta name="description" content="Debt letter, parking notice, bill or subscription charge? Upload your document for a free first review.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{--ink:#0f1923;--ink-2:#2d3748;--ink-3:#4a5568;--muted:#718096;--line:#e2e8f0;--surface:#f7f9fc;--white:#ffffff;--accent:#1a3a6b;--accent-2:#2d5499;--green:#166534;--green-soft:#dcfce7;}
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    html{scroll-behavior:smooth;}
-    body{font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.65;color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased;}
-    h1,h2,h3{font-family:'Lora',Georgia,serif;line-height:1.2;}
-    a{color:var(--accent);}
-    .container{max-width:900px;margin:0 auto;padding:0 24px;}
-    .container--wide{max-width:1100px;margin:0 auto;padding:0 24px;}
-
-    /* Header */
-    .site-header{background:var(--white);border-bottom:1px solid var(--line);padding:16px 0;position:sticky;top:0;z-index:100;}
-    .site-header__inner{display:flex;align-items:center;justify-content:space-between;}
-    .logo{font-family:'Lora',serif;font-size:1.15rem;font-weight:700;color:var(--accent);text-decoration:none;}
-    .logo-dot{display:inline-block;width:8px;height:8px;background:var(--accent-2);border-radius:50%;margin-right:6px;vertical-align:middle;}
-
-    /* Hero */
-    .hero{padding:64px 0 32px;text-align:center;}
-    .hero__eyebrow{display:inline-block;background:var(--surface);border:1px solid var(--line);border-radius:100px;padding:6px 16px;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-2);margin-bottom:20px;}
-    .hero h1{font-size:clamp(1.9rem,5vw,2.8rem);margin-bottom:20px;max-width:680px;margin-left:auto;margin-right:auto;}
-    .hero__sub{font-size:1.05rem;color:var(--ink-3);max-width:580px;margin:0 auto 8px;line-height:1.7;}
-    .hero__note{font-size:.9rem;color:var(--muted);margin-bottom:4px;}
-    .hero__select{font-size:.9rem;color:var(--muted);margin-bottom:0;}
-
-    /* Category grid */
-    .category-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px;}
-    @media(max-width:720px){.category-grid{grid-template-columns:repeat(2,1fr);}}
-    @media(max-width:480px){.category-grid{grid-template-columns:1fr;}}
-
-    .category-card{display:block;text-decoration:none;background:var(--white);border:1.5px solid var(--line);border-radius:14px;padding:24px 20px;transition:.2s;color:var(--ink);}
-    .category-card:hover{border-color:var(--accent);box-shadow:0 4px 20px rgba(26,58,107,.1);transform:translateY(-2px);}
-    .category-card--featured{border-color:var(--accent);border-width:2px;background:#f0f5ff;}
-    .category-card__icon{font-size:1.8rem;margin-bottom:10px;line-height:1;}
-    .category-card__title{font-family:'Lora',serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:6px;}
-    .category-card__desc{font-size:.82rem;color:var(--ink-3);line-height:1.6;margin-bottom:10px;}
-    .category-card__price{font-size:.78rem;font-weight:700;color:var(--accent-2);}
-
-    /* Footer */
-    footer{border-top:1px solid var(--line);padding:24px 0;text-align:center;}
-  </style>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18193666186"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'AW-18193666186');
-</script>
-
-<!-- Google Analytics GA4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=GT-WR4P7PNB"></script>
-<script>gtag('config','GT-WR4P7PNB');</script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18193666186"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','AW-18193666186');gtag('config','G-BPWY44HWP5');</script>
 </head>
 <body>
 
 <header class="site-header">
   <div class="container--wide">
     <div class="site-header__inner">
-      <a href="/" class="logo"><span class="logo-dot"></span>MussIchZahlen</a>
+      <div class="logo"><span class="logo-dot"></span>DoIPayThat</div>
     </div>
   </div>
 </header>
 
-<section class="hero">
-  <div class="container">
-    <div class="hero__eyebrow">
-      Auf Basis des deutschen Verbraucherrechts &mdash; BGB, BDSG und Inkassorecht
+<section class="hero" style="padding-bottom:20px;">
+  <div class="container" style="text-align:center;">
+    <div class="hero__eyebrow" style="display:inline-block;margin-bottom:20px;">
+      Based on UK consumer law &mdash; Consumer Rights Act, Limitation Act and FCA guidelines
     </div>
-    <h1>Muss ich das zahlen &mdash; oder bin ich im Begriff zu viel zu zahlen?</h1>
-    <p class="hero__sub">
-      Viele zahlen ohne zu prüfen &mdash; und zahlen am Ende mehr als nötig. Mahnungen, Inkassobriefe, falsche Rechnungen und ungewollte Abos enthalten oft Punkte, die sich vor einer Zahlung lohnen zu prüfen.
+    <h1>Do you have to pay this &mdash; or are you about to pay too much?</h1>
+    <p class="hero__sub" style="max-width:600px;margin:0 auto 8px;">
+      Many people pay without checking &mdash; and end up paying more than they should. Debt letters, parking notices, incorrect bills and unwanted subscriptions can often contain details that are worth looking at before you pay.
     </p>
-    <p class="hero__note">Vielen wird das erst bewusst, nachdem die Zahlung bereits erfolgt ist.</p>
-    <p class="hero__select">Wählen Sie aus, was Sie erhalten haben:</p>
+    <p style="font-size:.95rem;color:var(--muted);margin-bottom:4px;">Many people only realise this once payment has already been made.</p>
+    <p style="font-size:.9rem;color:var(--muted);margin-bottom:4px;">Select what you've received:</p>
   </div>
 </section>
 
@@ -91,66 +42,74 @@
   <div class="container">
     <div class="category-grid">
 
-      <a href="/mahnung/" class="category-card category-card--featured" style="position:relative;">
-        <div style="position:absolute;top:-10px;left:20px;background:#1a3a6b;color:#fff;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;padding:3px 10px;border-radius:100px;">Am häufigsten geprüft</div>
+      <a href="/debt/" class="category-card category-card--featured" style="position:relative;">
+        <div style="position:absolute;top:-10px;left:20px;background:#1a3a6b;color:#fff;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;padding:3px 10px;border-radius:100px;">Most checked</div>
         <div class="category-card__icon">&#128196;</div>
-        <div class="category-card__title">Mahnung / Inkasso</div>
-        <div class="category-card__desc">Mahnschreiben, Inkassobrief oder Zahlungsaufforderung. Prüfen, ob Sie tatsächlich zahlen müssen.</div>
-        <div class="category-card__price">Prüfung + Antwortschreiben &mdash; €49</div>
+        <div class="category-card__title">Debt letter / Collection</div>
+        <div class="category-card__desc">Debt collection letter, solicitor letter or demand for payment. Check whether you actually have to pay.</div>
+        <div class="category-card__price">Review + response letter &mdash; &pound;49</div>
       </a>
 
-      <a href="/rechnung/" class="category-card">
-        <div class="category-card__icon">&#9889;</div>
-        <div class="category-card__title">Rechnung / Nachforderung</div>
-        <div class="category-card__desc">Strom-, Wasser-, Telefon- oder Handwerkerrechnung, die nicht stimmt. Erst prüfen, dann zahlen.</div>
-        <div class="category-card__price">Prüfung + Antwortschreiben &mdash; €29</div>
-      </a>
-
-      <a href="/vertrag/" class="category-card">
-        <div class="category-card__icon">&#128221;</div>
-        <div class="category-card__title">Vertrag / Vereinbarung</div>
-        <div class="category-card__desc">Vertrag, Dienstleistungsvereinbarung oder Kündigungsstreit. Prüfen, ob die Klauseln durchsetzbar sind.</div>
-        <div class="category-card__price">Prüfung + Antwortschreiben &mdash; €29</div>
-      </a>
-
-      <a href="/angebot/" class="category-card">
-        <div class="category-card__icon">&#128296;</div>
-        <div class="category-card__title">Angebot / Kostenvoranschlag</div>
-        <div class="category-card__desc">Handwerkerangebot oder Dienstleistungsvoranschlag. Prüfen, bevor Sie unterschreiben oder zustimmen.</div>
-        <div class="category-card__price">Prüfung + Antwortschreiben &mdash; €29</div>
-      </a>
-
-      <a href="/nebenkosten/" class="category-card">
-        <div class="category-card__icon">&#127968;</div>
-        <div class="category-card__title">Miete / Nebenkosten</div>
-        <div class="category-card__desc">Nebenkostenabrechnung, Vermieterrechnung oder Kautionsabzug. Prüfen, ob der Betrag korrekt ist.</div>
-        <div class="category-card__price">Prüfung + Antwortschreiben &mdash; €29</div>
-      </a>
-
-      <a href="/parkstrafe/" class="category-card">
+      <a href="/parking/" class="category-card">
         <div class="category-card__icon">&#128663;</div>
-        <div class="category-card__title">Bußgeldbescheid / Knöllchen</div>
-        <div class="category-card__desc">Parkstrafe, Bußgeldbescheid oder Verwarnung. Lohnt sich zu prüfen, bevor Sie zahlen oder Einspruch einlegen.</div>
-        <div class="category-card__price">Prüfung + Antwortschreiben &mdash; €19</div>
+        <div class="category-card__title">Parking notice / PCN</div>
+        <div class="category-card__desc">Parking charge notice, penalty charge notice or council fine. Worth checking the main points before you pay.</div>
+        <div class="category-card__price">Review + response letter &mdash; &pound;19</div>
+      </a>
+
+      <a href="/bill/" class="category-card">
+        <div class="category-card__icon">&#9889;</div>
+        <div class="category-card__title">Bill / Overcharge</div>
+        <div class="category-card__desc">Energy, water, phone or tradesperson bill that doesn't look right. Check before you pay.</div>
+        <div class="category-card__price">Review + response letter &mdash; &pound;29</div>
+      </a>
+
+      <a href="/subscription/" class="category-card">
+        <div class="category-card__icon">&#128260;</div>
+        <div class="category-card__title">Subscription / Contract</div>
+        <div class="category-card__desc">Subscription, membership or contract you want to cancel. Check whether the terms are actually binding.</div>
+        <div class="category-card__price">Review + response letter &mdash; &pound;29</div>
+      </a>
+
+      <a href="/quote/" class="category-card">
+        <div class="category-card__icon">&#128296;</div>
+        <div class="category-card__title">Quote / Estimate</div>
+        <div class="category-card__desc">Tradesperson quote, contractor estimate or service proposal. Check before you sign or agree.</div>
+        <div class="category-card__price">Review + response letter &mdash; &pound;29</div>
+      </a>
+
+      <a href="/contract/" class="category-card">
+        <div class="category-card__icon">&#128221;</div>
+        <div class="category-card__title">Contract / Agreement</div>
+        <div class="category-card__desc">Contract, service agreement or cancellation dispute. Check whether the terms are enforceable before you pay or sign.</div>
+        <div class="category-card__price">Review + response letter &mdash; &pound;29</div>
+      </a>
+
+      <a href="/housing/" class="category-card">
+        <div class="category-card__icon">&#127968;</div>
+        <div class="category-card__title">Housing / Service charge</div>
+        <div class="category-card__desc">Service charge, landlord charge or deposit deduction. Check whether the amount is correct before you pay.</div>
+        <div class="category-card__price">Review + response letter &mdash; &pound;29</div>
       </a>
 
     </div>
 
     <p style="text-align:center;font-size:.82rem;color:var(--muted);margin-top:8px;">
-      MussIchZahlen ist ein Dokumentenprüfservice &mdash; keine Rechtsberatung. &nbsp;&middot;&nbsp;
-      <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a>
+      DoIPayThat is a document review service &mdash; not legal advice. &nbsp;&middot;&nbsp;
+      <a href="mailto:support@doipaythat.co.uk">support@doipaythat.co.uk</a>
     </p>
   </div>
 </section>
 
-<footer>
+<footer style="border-top:1px solid var(--border,#e5e7eb);padding:24px 0;text-align:center;">
   <div class="container">
-    <p style="font-size:.82rem;color:var(--muted);margin:0;">
-      MussIchZahlen ist ein Dokumentenprüfservice &mdash; keine Rechtsberatung. &nbsp;&middot;&nbsp;
-      <a href="/datenschutz.html" style="color:inherit;margin:0 10px;">Datenschutz</a>
-      <a href="/agb.html" style="color:inherit;margin:0 10px;">AGB</a>
-      <a href="/kontakt.html" style="color:inherit;margin:0 10px;">Kontakt</a>
-      <a href="/impressum.html" style="color:inherit;margin:0 10px;">Impressum</a>
+    <p style="font-size:.82rem;color:var(--muted,#6b7280);margin:0 0 10px;line-height:1.6;">DoIPayThat.co.uk is operated by Dirk Jacob Groen, trading as DoIPayThat, through his registered business GroenvanTexel (Dutch Chamber of Commerce / KvK: 42072123), Den Burg, The Netherlands.</p>
+    <p style="font-size:.82rem;color:var(--muted,#6b7280);margin:0;">
+      DoIPayThat is a document review service &mdash; not legal advice. &nbsp;&middot;&nbsp;
+      <a href="/privacy.html" style="color:inherit;margin:0 10px;">Privacy Policy</a>
+      <a href="/terms.html" style="color:inherit;margin:0 10px;">Terms of Service</a>
+      <a href="/contact.html" style="color:inherit;margin:0 10px;">Contact</a>
+      <a href="/about.html" style="color:inherit;margin:0 10px;">About</a>
     </p>
   </div>
 </footer>
