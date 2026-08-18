@@ -10,6 +10,11 @@ import {
   notifyAdminPaid,
 } from "../services/resend.js";
 
+// ─── Constanten ───────────────────────────────────────────────────────────────
+
+const MAX_RETRIES = 3;
+const SENT_FLAG_TTL_SECONDS = 60 * 60 * 24 * 14; // 14 dagen
+
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function isTier3(entry) {
@@ -28,6 +33,25 @@ function getStripeLink(entry) {
     entry?.paymentLink ||
     null
   );
+}
+
+// Unieke sleutel per exacte reminder. Zelfde ontvanger + kind + type + stage
+// mag maar één keer verstuurd worden, ook als een vertraagde KV-list of een
+// overlappende cron-run dezelfde entry opnieuw als "due" teruggeeft.
+function sentFlagKey(entry) {
+  return `sent:${entry.kind}:${entry.email}:${entry.type || "-"}:${entry.stage || 1}`;
+}
+
+async function markSent(env, entry) {
+  await env.SESSIONS_KV.put(
+    sentFlagKey(entry),
+    new Date().toISOString(),
+    { expirationTtl: SENT_FLAG_TTL_SECONDS }
+  );
+}
+
+async function alreadySent(env, entry) {
+  return Boolean(await env.SESSIONS_KV.get(sentFlagKey(entry)));
 }
 
 // ─── Main handler ─────────────────────────────────────────────────────────────
@@ -69,6 +93,16 @@ export async function handleCron(env) {
         continue;
       }
 
+      // ── Idempotentie-check ───────────────────────────────────────────────
+      // Is deze exacte reminder al eerder verstuurd? Dan niet nogmaals sturen.
+      // Vangt dubbele verzending door eventual-consistency van KV list/delete
+      // en door cron-runs die over elkaar heen lopen.
+      if (await alreadySent(env, entry)) {
+        console.warn(`Cron: Duplikat unterdrückt (${sentFlagKey(entry)}) — gelöscht: ${key}`);
+        await deleteEntry(env, key);
+        continue;
+      }
+
       // ── Free recovery emails ─────────────────────────────────────────────
       if (entry.kind === "free") {
         const alreadyPaid = await hasPaid(env, entry.email);
@@ -96,6 +130,7 @@ export async function handleCron(env) {
           stage:      entry.stage || 1,
         });
 
+        await markSent(env, entry);
         console.log(`Cron: Free-Mail gesendet: ${entry.email}, stage ${entry.stage || 1}`);
       }
 
@@ -153,7 +188,6 @@ export async function handleCron(env) {
             console.error(`Cron: runAnalysis fehlgeschlagen für ${entry.email}:`, err.message, err.stack);
 
             const retryCount = (entry.retry_count || 0) + 1;
-            const MAX_RETRIES = 3;
 
             if (retryCount >= MAX_RETRIES) {
               console.error(`Cron: Eintrag nach ${retryCount} Versuchen aufgegeben: ${key}`);
@@ -198,6 +232,7 @@ export async function handleCron(env) {
           payment:  entry.payment || null,
         });
 
+        await markSent(env, entry);
         console.log(`Cron: Paid-Mail gesendet: ${entry.email}`);
 
         try {
@@ -247,6 +282,7 @@ export async function handleCron(env) {
           stage:      entry.stage || 1,
         });
 
+        await markSent(env, entry);
         console.log(`Cron: Abandoned-Mail gesendet: ${entry.email}, stage ${entry.stage || 1}`);
       }
 
@@ -257,8 +293,9 @@ export async function handleCron(env) {
         continue;
       }
 
+      // Verstuurd én gemarkeerd → nu pas verwijderen.
       await deleteEntry(env, key);
-      console.log(`Cron: Gesendet und gelöscht: ${key}`);
+      console.log(`Cron: Markiert, gesendet und gelöscht: ${key}`);
 
     } catch (err) {
       console.error(`Cron: Fehler bei ${key}:`, err?.message, err?.stack);
