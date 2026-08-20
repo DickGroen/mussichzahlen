@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{--ink:#0f1923;--ink-2:#2d3748;--ink-3:#4a5568;--muted:#718096;--line:#e2e8f0;--surface:#f7f9fc;--white:#ffffff;--accent:#1a3a6b;--accent-2:#2d5499;--green:#166534;--green-soft:#dcfce7;--warn:#eab308;--warn-soft:#fef9c3;}
+    :root{--ink:#0f1923;--ink-2:#2d3748;--ink-3:#4a5568;--muted:#718096;--line:#e2e8f0;--surface:#f7f9fc;--soft:#eef4ff;--white:#ffffff;--accent:#1a3a6b;--accent-2:#2d5499;--green:#166534;--green-soft:#dcfce7;--warn:#eab308;--warn-soft:#fef9c3;}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     html{scroll-behavior:smooth;}
     body{font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.65;color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased;}
@@ -137,19 +137,22 @@
 @keyframes mizTargetPulse{0%{box-shadow:0 0 0 0 rgba(45,84,153,.35);}100%{box-shadow:0 0 0 16px rgba(45,84,153,0);}}
 #free-check:target .upload-zone{animation:mizTargetPulse .9s ease-out 2;}
 </style>
-<!-- Google tag (gtag.js) -->
+<!-- Google tag (gtag.js) — één keer laden, daarna alle configs -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18193666186"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'AW-18193666186');
+  gtag('config', 'AW-18193666186');   // Google Ads (conversies)
+  gtag('config', 'GT-WR4P7PNB');      // GA4
+
+  // LET OP: tweede GA4-property uitgezet om dubbele pageviews te voorkomen.
+  // Als G-Y8MM18F3LE juist de live property is, verwissel dan de twee regels.
+  // gtag('config', 'G-Y8MM18F3LE');
 </script>
 
-  <!-- Google Analytics GA4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=GT-WR4P7PNB"></script>
-  <script>gtag('config','GT-WR4P7PNB');</script>
+<!-- Microsoft Clarity -->
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -157,7 +160,65 @@
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "x5a9eub8gn");
 </script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('config','G-Y8MM18F3LE');</script>
+<!-- FAQPage structured data (rich results) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Kann ich telefonisch mit jemandem sprechen?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Wir bieten keine telefonische Beratung an. Alles wird schriftlich per E-Mail zugestellt — so können wir jedes Schreiben sorgfältig prüfen und den Service bezahlbar halten. Sie erhalten etwas, das Sie in Ruhe lesen, speichern und später wieder nachlesen können." }
+    },
+    {
+      "@type": "Question",
+      "name": "Was passiert mit meinen Unterlagen?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Ihr Dokument wird ausschließlich für die Erstellung Ihrer Einordnung verarbeitet. Es wird nicht an Dritte weitergegeben und nicht für andere Zwecke verwendet." }
+    },
+    {
+      "@type": "Question",
+      "name": "Muss ich sofort zahlen, wenn ich eine Mahnung erhalte?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Nicht unbedingt. Mahnschreiben setzen eine Zahlungsfrist — Sie sind aber grundsätzlich berechtigt, vor einer Zahlung Nachweise oder Klärung anzufordern. Eine erste Einordnung kann helfen, die Situation zu verstehen." }
+    },
+    {
+      "@type": "Question",
+      "name": "Müssen Inkassokosten immer bezahlt werden?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Inkassokosten sind nicht automatisch zu zahlen. Wie hoch sie sein dürfen und ob sie berechtigt sind, hängt vom Vertrag und Ablauf ab. Eine Einordnung kann das klären." }
+    },
+    {
+      "@type": "Question",
+      "name": "Was passiert nach dem Hochladen?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Sie erhalten eine kostenlose Ersteinordnung per E-Mail — in der Regel bis zum nächsten Werktag bis 16:00 Uhr. Darin erfahren Sie, ob offene Punkte erkennbar sind, die vor einer Zahlung geklärt werden sollten. Eine ausführlichere Prüfung mit Formulierungsvorschlag ist für 49 € optional verfügbar." }
+    },
+    {
+      "@type": "Question",
+      "name": "Ist das Rechtsberatung?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Nein. MussIchZahlen.de erstellt informative Einordnungen und Formulierungsvorschlag in verständlicher Sprache. Keine Rechtsberatung und keine anwaltliche Vertretung." }
+    },
+    {
+      "@type": "Question",
+      "name": "Spielt es eine Rolle, von welchem Inkassobüro das Schreiben kommt?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Nein. Egal ob die Mahnung vom ursprünglichen Gläubiger selbst stammt oder von einem Inkassobüro — wir ordnen jedes Schreiben unabhängig ein." }
+    },
+    {
+      "@type": "Question",
+      "name": "Soll ich das Ratenzahlungsangebot unterschreiben?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Nicht ohne vorherige Prüfung. Eine Ratenzahlungsvereinbarung kann als Anerkennung der Forderung gewertet werden — auch wenn die Forderung selbst noch nicht geprüft wurde. Es ist sinnvoll, zunächst zu verstehen, ob die Forderung dem Grunde und der Höhe nach nachvollziehbar ist, bevor Sie etwas unterschreiben." }
+    },
+    {
+      "@type": "Question",
+      "name": "Ich habe nie eine Mahnung erhalten — trotzdem Inkasso?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Das ist möglich. In bestimmten Fällen — etwa wenn eine Lastschrift wegen fehlenden Kontoguthabens zurückgewiesen wurde — kann eine Inkassoforderung direkt ohne vorherige Mahnung entstehen. Ob das in Ihrem Fall zutrifft, lässt sich am ehesten durch eine Prüfung des konkreten Schreibens klären." }
+    },
+    {
+      "@type": "Question",
+      "name": "Was kann ich tun, wenn das Inkassounternehmen sich nicht an die Regeln hält?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Seit Januar 2025 können Verbraucher Beschwerden über Inkassounternehmen direkt beim Bundesamt für Justiz (BfJ) einreichen: rdg@bfj.bund.de. Das BfJ überwacht systematische Verstöße — zum Beispiel unzulässige Kostenberechnungen oder fehlende Informationspflichten." }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -286,7 +347,7 @@
       <span class="value-item"><span class="vi-check"><svg class="icon"><use href="#icon-check"></use></svg></span> Nachweise und Unterlagen</span>
       <span class="value-item"><span class="vi-check"><svg class="icon"><use href="#icon-check"></use></svg></span> Wer die Zahlung verlangt</span>
       <span class="value-item"><span class="vi-check"><svg class="icon"><use href="#icon-check"></use></svg></span> Antwortvorlage bei Bedarf</span>
-      <span class="value-item"><span class="vi-check"><svg class="icon"><use href="#icon-check"></use></svg></span> Einmalig Ausführlichere Einordnung optional</span>
+      <span class="value-item"><span class="vi-check"><svg class="icon"><use href="#icon-check"></use></svg></span> Einmalig · ausführlichere Einordnung optional</span>
     </div>
     <div class="offer-card">
       <div class="offer-badge">Nach Ersteinordnung</div>
@@ -525,7 +586,8 @@ try { if (window.initStickyFooter) initStickyFooter(); } catch(e) {}
 // waardoor de file-picker soms niet (zichtbaar) opende.
 
 // ── Mobile upload fix ────────────────────────────────────────────────────────
-// Android Chrome can silently swallow taps on file inputs inside labels when
+// Android Chrome can silently swallow taps on file inputs inside labels; the
+// dedicated openPicker() handler further down (installUploadFix) covers that.
 
 uploadZone.addEventListener('dragover', (event) => {
   event.preventDefault();
@@ -673,6 +735,9 @@ btn.addEventListener('click', async () => {
 });
 
 // ── Teaser rendering ──────────────────────────────────────────────────────────
+// TODO (opschonen): wordt in deze index.html nergens aangeroepen — het success-pad
+// toont de bevestigingskaart en verbergt de teaser (betaalknop zit in de e-mail).
+// Controleer of app.js renderTeaser() nog aanroept; zo niet, dit hele blok weg.
 function renderTeaser(data) {
   const triage     = data.triage || {};
   const tier       = data.tier || triage.tier || 'tier2';
@@ -850,9 +915,6 @@ function escapeHtmlAttribute(value = '') {
     }
 
     zone.addEventListener('click', openPicker);
-    zone.addEventListener('touchend', function(e) {
-    }, { passive: true });
-
   }
 
   if (document.readyState === 'loading') {
