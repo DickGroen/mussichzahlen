@@ -596,9 +596,11 @@ try { if (window.initStickyFooter) initStickyFooter(); } catch(e) {}
 // Een extra fileInput.click() hier veroorzaakte een dubbele trigger in Safari,
 // waardoor de file-picker soms niet (zichtbaar) opende.
 
-// ── Mobile upload fix ────────────────────────────────────────────────────────
-// Android Chrome can silently swallow taps on file inputs inside labels; the
-// dedicated openPicker() handler further down (installUploadFix) covers that.
+// ── File picker ──────────────────────────────────────────────────────────────
+// Both the upload zone and the hero CTA are <label for="gratis-file-input">, so
+// the browser opens the picker natively on tap. No programmatic input.click():
+// a JS click on top of the native label forward caused a double picker on
+// Safari/iOS. Drag-and-drop is handled below.
 
 uploadZone.addEventListener('dragover', (event) => {
   event.preventDefault();
@@ -935,33 +937,10 @@ function escapeHtmlAttribute(value = '') {
 <script>
   // Conversie-tracking verplaatst naar het upload-success-pad (zie handleSubmit)
 </script>
-<script>
-(function() {
-  function installUploadFix() {
-    var zone  = document.getElementById('gratis-upload-zone');
-    var input = document.getElementById('gratis-file-input');
-    if (!zone || !input) return;
+<!-- Upload zone opens the file picker via its native <label for="gratis-file-input">.
+     No JS input.click() — a programmatic click in addition to the native label
+     forward caused a double file-picker on Safari/iOS. -->
 
-    // double-trigger guard via 50ms timestamp — geen preventDefault/stopPropagation
-    var lastOpen = 0;
-    function openPicker(e) {
-      if (e.target === input) return;
-      var now = Date.now();
-      if (now - lastOpen < 50) return;
-      lastOpen = now;
-      input.click();
-    }
-
-    zone.addEventListener('click', openPicker);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', installUploadFix);
-  } else {
-    installUploadFix();
-  }
-})();
-</script>
 <script>
   function initFaq(){
     document.querySelectorAll('.faq-item').forEach(function(item){
