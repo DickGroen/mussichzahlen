@@ -236,7 +236,7 @@
   <div class="container">
     <div class="header__inner">
       <div class="logo"><span class="logo-dot"></span>MussIchZahlen</div>
-      <a href="#free-check" class="header-cta">Mahnung hochladen</a>
+      <a href="#free-check" class="header-cta">Kostenlos pr&uuml;fen lassen</a>
     </div>
   </div>
 </header>
@@ -248,7 +248,7 @@
 
     <p style="font-weight:600;color:var(--green);margin:0 auto 20px;font-size:1rem;">Kostenlose Ersteinordnung &middot; keine Zahlung erforderlich</p>
 
-    <label for="gratis-file-input" id="hero-upload-cta" class="hero-cta" style="margin-top:4px;margin-bottom:12px;display:inline-block;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:rgba(0,0,0,0);">Mahnung jetzt hochladen</label>
+    <label for="gratis-file-input" id="hero-upload-cta" class="hero-cta" style="margin-top:4px;margin-bottom:12px;display:inline-block;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:rgba(0,0,0,0);">Mahnung kostenlos pr&uuml;fen lassen</label>
     <div class="hero-sub-note" style="line-height:1.4;margin-bottom:8px;">PDF, JPG oder Handyfoto &middot; vertraulich &middot; kein Abo</div>
   </div>
 </section>
@@ -290,7 +290,7 @@
         <input id="gratis-name" class="input" placeholder="Ihr Name" autocomplete="name">
         <input id="gratis-email" class="input" placeholder="Ihre E-Mail-Adresse" type="email" autocomplete="email">
         <div style="font-size:.8rem;color:var(--muted);margin-top:-6px;margin-bottom:4px;">Nur f&uuml;r Ihre Ersteinordnung &mdash; kein Newsletter, keine Werbung.</div>
-        <button id="gratis-btn" disabled class="offer-cta">Schreiben kostenlos hochladen</button>
+        <button id="gratis-btn" disabled class="offer-cta">Kostenlos pr&uuml;fen lassen</button>
       </div>
       <div id="gratis-status" class="optie-status"></div>
       <div class="offer-security"><svg class="icon"><use href="#icon-lock"></use></svg> Ihre Datei wird ausschlie&szlig;lich zur Erstellung Ihrer Einordnung verwendet und nicht an Dritte weitergegeben.</div>
@@ -369,7 +369,7 @@
       </ul>
       <hr class="offer-divider">
       <div class="offer-price">&euro;49 <span>einmalig &middot; kein Abo</span></div>
-      <a href="#free-check" class="offer-cta">Zuerst kostenlos hochladen</a>
+      <a href="#free-check" class="offer-cta">Zuerst kostenlos pr&uuml;fen lassen</a>
       <div class="offer-security"><svg class="icon"><use href="#icon-lock"></use></svg> Sichere Zahlung &uuml;ber Stripe nach der Ersteinordnung</div>
       <div class="offer-refund">Wenn die Einordnung Ihr Schreiben nicht vollständig erfasst, melden Sie sich. Wir schauen es noch einmal an.</div>
       <p style="font-size:.82rem;color:var(--muted);line-height:1.6;margin-top:14px;text-align:left;">F&uuml;r manche reicht die kostenlose Ersteinordnung bereits aus. Wenn sie Ihre Frage schon beantwortet hat, brauchen Sie nicht weiterzugehen. Die ausf&uuml;hrlichere Einordnung ist f&uuml;r alle, die noch einen konkreten Punkt kl&auml;ren oder schriftlich festhalten m&ouml;chten.</p>
@@ -439,7 +439,7 @@
   <div class="container">
     <h2>Erst verstehen — dann entscheiden.</h2>
     <p>Mahnung oder Inkassoschreiben erhalten? Eine kostenlose Ersteinordnung gibt Ihnen Klarheit — bevor Sie zahlen oder reagieren.</p>
-    <a href="#free-check" class="final-cta-btn">Schreiben kostenlos hochladen</a>
+    <a href="#free-check" class="final-cta-btn">Mahnung kostenlos pr&uuml;fen lassen</a>
     <div class="final-cta-note">PDF, JPG oder PNG · kein Abo · ausführlichere Einordnung möglich</div>
   </div>
 </section>
@@ -752,7 +752,7 @@ btn.addEventListener('click', async () => {
     track('free_upload_error', { type: 'mahnung', message: err?.message || null });
 
     btn.disabled = false;
-    btn.textContent = 'Schreiben kostenlos hochladen';
+    btn.textContent = 'Kostenlos pr\u00fcfen lassen';
   }
 });
 
