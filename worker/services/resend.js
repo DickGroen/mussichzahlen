@@ -74,17 +74,21 @@ async function trackEvent(env, event, data = {}) {
   }
 }
 
-async function sendEmail(env, { to, subject, html, attachments = [] }) {
+async function sendEmail(env, { to, subject, html, attachments = [], bcc = [] }) {
   const body = {
     from: FROM,
     reply_to: REPLY_TO,
-    to:   Array.isArray(to) ? to : [to],
+    to: Array.isArray(to) ? to : [to],
     subject,
     html,
   };
-  if (attachments.length) body.attachments = attachments;
 
-  const res = await fetch("https://api.resend.com/emails", {
+  if (bcc.length) {
+    body.bcc = Array.isArray(bcc) ? bcc : [bcc];
+  }
+  
+  if (attachments.length) body.attachments = attachments;
+   const res = await fetch("https://api.resend.com/emails", {
     method:  "POST",
     headers: {
       Authorization:  `Bearer ${env.RESEND_API_KEY}`,
