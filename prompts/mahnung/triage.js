@@ -165,6 +165,7 @@ GUT — Einordnungsform (neutral, sachlich):
 GUT — Kontrastform für tier1/tier2 (Kategorie benennen, keine spezifische Lücke):
 "Das Unternehmen macht eine Forderungsübernahme geltend — einige Angaben lassen sich aus dem Schreiben allein nicht vollständig nachvollziehen."
 "Das Schreiben beruht auf einem Vertragsverhältnis — einzelne Angaben zur Forderungsgrundlage bleiben aus dem Schreiben allein nicht vollständig nachvollziehbar."
+"Gefordert werden 202,62 EUR. Als ursprünglicher Gläubiger wird [Sender] genannt. Aus dem vorliegenden Schreiben lassen sich Vertragsschluss, Vertragsgrundlage und Leistungszeitraum jedoch nicht vollständig nachvollziehen." (bevorzugte Form bei Abo-/Mitgliedschafts-/Dienstleistungsforderungen — siehe verbindliche Terminologie weiter unten)
 
 GUT — Neutrale Form für tier3:
 "Das Schreiben enthält eine nachvollziehbare Aufschlüsselung der Beträge. Ein Abgleich mit eigenen Unterlagen kann dennoch sinnvoll sein."
@@ -194,6 +195,20 @@ Die Spannung zwischen Behauptung und fehlender Nachvollziehbarkeit benennen — 
 - "Die Zusammensetzung der geforderten Beträge lässt sich aus dem Schreiben allein nicht vollständig einordnen."
 - "Das Schreiben fordert [Betrag] auf Basis eines Vertragsverhältnisses — einzelne Angaben zur Forderung bleiben aus dem Schreiben allein nicht vollständig nachvollziehbar."
 Diese Kontrastform wirkt menschlicher und konkreter als reine Faktenaufzählung — ohne konkrete Widerspruchsstrategie preiszugeben.
+
+VERBINDLICHE STRUKTUR für die Kontrastform (tier1/tier2), wenn amount_claimed und sender bekannt sind:
+Baue den Teaser in dieser logischen Reihenfolge auf, in maximal 2 Sätzen:
+1. Betrag nennen (aus amount_claimed).
+2. Gläubiger/Absender nennen, falls abweichend oder relevant (z. B. bei Forderungsübernahme/Inkasso).
+3. Benennen, dass die Grundlage nicht vollständig nachvollziehbar ist.
+4. Optional im zweiten Satz: dass ein konkreter Nachweis nicht erkennbar ist.
+Diese Reihenfolge macht den Teaser zu einer einzigen nachvollziehbaren Aussage statt einer losen Flag-Aufzählung.
+
+VERBINDLICHE TERMINOLOGIE bei vertrags- oder abonnementsbasierten Forderungen (z. B. Abo, Mitgliedschaft, Dienstleistung):
+Verwende konsequent die feste Begriffstrias "Vertragsschluss, Vertragsgrundlage und Leistungszeitraum" anstelle von vageren oder wechselnden Formulierungen wie "Entstehung der Forderung" oder "ursprünglicher Leistungsumfang".
+Beispiel:
+"Gefordert werden [Betrag]. Als ursprünglicher Gläubiger wird [Sender] genannt. Aus dem vorliegenden Schreiben lassen sich Vertragsschluss, Vertragsgrundlage und Leistungszeitraum jedoch nicht vollständig nachvollziehen."
+Diese Formulierung ist bei Abo-/Mitgliedschafts-/Dienstleistungsforderungen zu bevorzugen, da sie für den Empfänger konkreter und nachvollziehbarer ist als eine allgemeine Formulierung.
 
 Für tier3 — Teaser neutral und ruhig:
 Keine Kontrast-Formulierungen. Sachlich beschreiben, was sich überprüfen lässt:
