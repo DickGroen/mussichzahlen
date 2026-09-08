@@ -1,444 +1,544 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="nl">
 <head>
-  <meta charset="UTF-8">
-    <link rel="canonical" href="https://mussichzahlen.de/vertrag/">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vertrag erhalten? Erst einordnen, dann handeln &mdash; MussIchZahlen.de</title>
-  <meta name="description" content="Vertrag oder Kündigung? Kostenlose Ersteinordnung per E-Mail — bevor Sie unterschreiben, verlängern oder kündigen.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root { --ink:#0f1923; --ink-2:#2d3748; --ink-3:#4a5568; --muted:#718096; --line:#e2e8f0; --surface:#f7f9fc; --white:#ffffff; --accent:#1a3a6b; --accent-2:#2d5499; --green:#166534; --green-soft:#dcfce7; }
-    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
-    html { scroll-behavior:smooth; }
-    body { font-family:'DM Sans',sans-serif; font-size:16px; line-height:1.65; color:var(--ink); background:var(--white); -webkit-font-smoothing:antialiased; }
-    h1, h2, h3 { font-family:'Lora',Georgia,serif; line-height:1.2; }
-    a { color:var(--accent); }
-    .container { max-width:860px; margin:0 auto; padding:0 24px; }
-    .hinweis-banner { background:#fff7ed; border-bottom:2px solid #fdba74; padding:10px 0; text-align:center; font-size:.84rem; font-weight:600; color:#92400e; }
-    .header { background:var(--white); border-bottom:1px solid var(--line); padding:16px 0; position:sticky; top:0; z-index:100; }
-    .header__inner { display:flex; align-items:center; justify-content:space-between; }
-    .logo { font-family:'Lora',serif; font-size:1.15rem; font-weight:700; color:var(--accent); }
-    .logo-dot { display:inline-block; width:8px; height:8px; background:var(--accent-2); border-radius:50%; margin-right:6px; vertical-align:middle; }
-    .header-cta { background:var(--accent); color:var(--white); border:none; border-radius:8px; padding:10px 20px; font-family:'DM Sans',sans-serif; font-size:.88rem; font-weight:700; cursor:pointer; text-decoration:none; }
-    .header-cta:hover { background:var(--accent-2); }
-    .hero { padding:64px 0 48px; text-align:center; }
-    .hero h1 { font-size:clamp(1.9rem,5vw,2.9rem); margin-bottom:20px; max-width:700px; margin-left:auto; margin-right:auto; }
-    .hero__sub { font-size:1.05rem; color:var(--ink-3); max-width:560px; margin:0 auto 30px; line-height:1.7; }
-    .hero-cta { display:inline-block; background:var(--accent); color:var(--white); text-decoration:none; padding:17px 34px; border-radius:10px; font-size:1.05rem; font-weight:700; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; }
-    .hero-cta:hover { background:var(--accent-2); }
-    .hero-sub-note { font-size:.82rem; color:var(--muted); margin-top:10px; }
-    .trust-triggers { background:var(--green-soft); border:1px solid #bbf7d0; border-radius:12px; padding:20px 24px; margin:40px auto 0; display:grid; grid-template-columns:repeat(2,1fr); gap:16px; max-width:620px; }
-    @media (max-width:600px) { .trust-triggers { grid-template-columns:1fr; } }
-    .trust-trigger { display:flex; align-items:flex-start; gap:10px; font-size:.87rem; color:var(--green); line-height:1.55; }
-    .trust-trigger strong { display:block; font-weight:700; color:#14532d; margin-bottom:2px; }
-    .section { padding:72px 0; }
-    .section--alt { background:var(--surface); }
-    .section-label { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--accent-2); margin-bottom:10px; }
-    .section h2 { font-size:clamp(1.5rem,3vw,2rem); margin-bottom:32px; }
-    .value-strip { display:flex; flex-wrap:wrap; gap:10px; margin:0 0 36px; justify-content:center; }
-    .value-item { display:flex; align-items:center; gap:7px; background:var(--surface); border:1px solid var(--line); border-radius:100px; padding:8px 16px; font-size:.86rem; color:var(--ink-2); font-weight:500; }
-    .vi-check { color:var(--green); font-weight:700; }
-    .offer-card { background:var(--white); border:2px solid var(--accent); border-radius:16px; padding:36px 32px; max-width:580px; margin:0 auto; box-shadow:0 12px 40px rgba(26,58,107,.1); }
-    @media (max-width:600px) { .offer-card { padding:24px 20px; } }
-    .offer-badge { display:inline-block; background:var(--accent); color:var(--white); font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; padding:4px 12px; border-radius:100px; margin-bottom:16px; }
-    .offer-title { font-family:'Lora',serif; font-size:1.45rem; margin-bottom:8px; }
-    .offer-desc { color:var(--ink-3); font-size:.93rem; margin-bottom:20px; line-height:1.65; }
-    .offer-list { list-style:none; margin-bottom:24px; display:grid; gap:8px; }
-    .offer-list li { display:flex; align-items:flex-start; gap:10px; font-size:.93rem; color:var(--ink-2); line-height:1.55; }
-    .offer-list li svg { color:var(--green); margin-top:3px; }
-    hr.offer-divider { border:none; border-top:1px solid var(--line); margin:20px 0; }
-    .offer-price { font-size:2rem; font-weight:700; color:var(--accent); font-family:'Lora',serif; }
-    .offer-price span { font-size:.95rem; color:var(--muted); font-weight:400; font-family:'DM Sans',sans-serif; }
-    .offer-cta { display:block; background:var(--accent); color:var(--white); text-decoration:none; text-align:center; padding:17px; border-radius:10px; font-size:1.05rem; font-weight:700; margin-top:20px; border:none; width:100%; cursor:pointer; font-family:'DM Sans',sans-serif; }
-    .offer-cta:hover { background:var(--accent-2); }
-    .offer-security { text-align:center; font-size:.78rem; color:var(--muted); margin-top:10px; }
-    .offer-refund { text-align:center; font-size:.76rem; color:var(--muted); margin-top:6px; }
-    .upload-zone { display:block; position:relative; border:2px dashed var(--line); border-radius:14px; padding:28px; text-align:center; cursor:pointer; background:var(--surface); transition:.2s; }
-    .upload-zone:hover { border-color:var(--accent); background:#eef4ff; }
-    .upload-label { font-weight:700; color:var(--accent); position:relative; z-index:2; pointer-events:none; }
-    .upload-hint { font-size:.84rem; color:var(--muted); margin-top:6px; position:relative; z-index:2; pointer-events:none; }
-    .contact-fields { display:none; flex-direction:column; gap:10px; margin-top:18px; }
-    .input { width:100%; padding:13px 14px; border:1px solid var(--line); border-radius:10px; font-family:'DM Sans',sans-serif; font-size:1rem; }
-    .input:focus { outline:none; border-color:var(--accent); }
-    .optie-status { font-size:.9rem; margin-top:12px; }
-    .optie-status--error { color:#b91c1c; }
-    .optie-status--info { color:var(--accent); }
-    .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
-    @media (max-width:640px) { .steps { grid-template-columns:1fr; } }
-    .step__num { font-family:'Lora',serif; font-size:2.2rem; font-weight:700; color:var(--line); margin-bottom:10px; line-height:1; }
-    .step__title { font-weight:700; margin-bottom:6px; font-size:.98rem; }
-    .step__desc { font-size:.87rem; color:var(--ink-3); line-height:1.65; }
-    .trust-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
-    @media (max-width:680px) { .trust-grid { grid-template-columns:1fr; } }
-    .trust-item { background:var(--white); border:1px solid var(--line); border-radius:12px; padding:20px; }
-    .trust-item__label { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--accent); margin-bottom:8px; }
-    .trust-item__text { font-size:.87rem; color:var(--ink-3); line-height:1.65; }
-    .fit-rows { display:grid; gap:10px; max-width:560px; }
-    .fit-row { display:flex; align-items:flex-start; gap:12px; padding:14px 18px; background:var(--green-soft); border:1px solid #bbf7d0; border-radius:10px; font-size:.93rem; color:#14532d; }
-    .fit-row span:first-child { font-weight:700; flex-shrink:0; }
-    .faq-list { display:grid; gap:4px; }
-    .faq-item { border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--white); }
-    .faq-q { display:flex; align-items:center; justify-content:space-between; padding:17px 20px; cursor:pointer; font-weight:600; font-size:.93rem; user-select:none; gap:12px; }
-    .faq-q:hover { background:var(--surface); }
-    .faq-chevron { flex-shrink:0; color:var(--muted); transition:transform .25s; }
-    .faq-a { max-height:0; overflow:hidden; transition:max-height .3s ease; font-size:.9rem; color:var(--ink-3); line-height:1.7; padding:0 20px; }
-    .faq-item--open .faq-a { max-height:300px; padding:0 20px 17px; }
-    .faq-item--open .faq-chevron { transform:rotate(180deg); }
-    .final-cta { background:var(--accent); color:var(--white); padding:72px 0; text-align:center; }
-    .final-cta h2 { color:var(--white); font-size:clamp(1.6rem,3.5vw,2.1rem); margin-bottom:12px; }
-    .final-cta p { color:rgba(255,255,255,.75); margin-bottom:32px; }
-    .final-cta-btn { display:inline-block; background:var(--white); color:var(--accent); text-decoration:none; padding:17px 40px; border-radius:10px; font-size:1.05rem; font-weight:700; }
-    .final-cta-note { color:rgba(255,255,255,.6); font-size:.8rem; margin-top:12px; }
-    .sticky-footer { position:fixed; bottom:0; left:0; right:0; background:var(--ink); color:var(--white); padding:14px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; transform:translateY(100%); transition:transform .3s ease; z-index:200; }
-    .sticky-footer.visible, .sticky-footer--visible { transform:translateY(0); }
-    .sticky-footer__text { font-size:.9rem; font-weight:600; }
-    .sticky-footer__sub { font-size:.76rem; color:rgba(255,255,255,.6); margin-top:2px; }
-    .sticky-cta { background:var(--white); color:var(--accent); border:none; border-radius:8px; padding:10px 20px; font-family:'DM Sans',sans-serif; font-size:.88rem; font-weight:700; cursor:pointer; white-space:nowrap; flex-shrink:0; text-decoration:none; }
-    @media (max-width:500px) { .sticky-footer { flex-direction:column; text-align:center; } .sticky-cta { width:100%; } }
-    .footer-trust { padding:32px 0 16px; font-size:.85rem; color:var(--ink-3); line-height:1.75; border-top:1px solid var(--line); }
-    .disclaimer { padding:16px 0 20px; font-size:.78rem; color:var(--muted); line-height:1.7; }
-    .icon{width:14px;height:14px;display:inline-block;vertical-align:-2px;flex-shrink:0;}
-    .icon-lg{width:16px;height:16px;vertical-align:-3px;}
-  </style>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18193666186"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Impact Check — Heldere impactrapportage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAF7F1;
+    --paper-deep:#F1ECE1;
+    --ink:#1F2A24;
+    --ink-soft:#4A554E;
+    --moss:#4F6B57;
+    --moss-deep:#33473A;
+    --clay:#B5794C;
+    --line:#DDD5C4;
+    --white:#FFFFFF;
+    --warn-bg:#FBF3E8;
+    --warn-line:#E4C79A;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'DM Sans', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Lora', serif;
+    font-weight:500;
+    color:var(--ink);
+    margin:0;
+  }
+  a{color:inherit;}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 28px;}
+  .narrow{max-width:640px;}
 
-  gtag('config', 'AW-18193666186');
-</script>
+  /* NAV */
+  nav{
+    padding:22px 0;
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;}
+  .brandmark{
+    font-family:'Lora', serif;
+    font-size:19px;
+    letter-spacing:0.01em;
+  }
+  .brandmark span{color:var(--moss);}
+  .nav-links{display:flex;gap:28px;font-size:14px;color:var(--ink-soft);}
+  .nav-links a{text-decoration:none;}
+  .nav-links a:hover{color:var(--moss-deep);}
 
-  <!-- Google Analytics GA4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=GT-WR4P7PNB"></script>
-  <script>gtag('config','GT-WR4P7PNB');</script>
+  /* HERO */
+  .hero{padding:88px 0 72px;}
+  .hero .kicker{
+    font-size:14px;
+    color:var(--moss-deep);
+    margin-bottom:18px;
+    font-weight:600;
+  }
+  .hero h1{
+    font-size:42px;
+    line-height:1.22;
+    max-width:740px;
+    letter-spacing:-0.01em;
+  }
+  .hero .lede{
+    margin-top:22px;
+    font-size:18px;
+    color:var(--ink-soft);
+    max-width:540px;
+  }
+  .hero-actions{margin-top:34px;display:flex;gap:16px;flex-wrap:wrap;}
+  .btn{
+    display:inline-block;
+    padding:13px 24px;
+    border-radius:3px;
+    font-size:15px;
+    font-weight:600;
+    text-decoration:none;
+    cursor:pointer;
+    border:1px solid transparent;
+  }
+  .btn-primary{background:var(--moss-deep);color:var(--white);}
+  .btn-primary:hover{background:var(--ink);}
+  .btn-ghost{border-color:var(--ink);color:var(--ink);}
+  .btn-ghost:hover{background:var(--ink);color:var(--white);}
+
+  .disclaimer-bar{
+    margin-top:40px;
+    padding:14px 18px;
+    background:var(--warn-bg);
+    border:1px solid var(--warn-line);
+    border-radius:3px;
+    font-size:14px;
+    color:var(--ink-soft);
+    max-width:640px;
+  }
+  .disclaimer-bar strong{color:var(--ink);}
+
+  /* SECTION SHARED */
+  section{padding:64px 0;border-top:1px solid var(--line);}
+  .section-head{max-width:580px;margin-bottom:44px;}
+  .section-head .eyebrow{
+    font-size:14px;
+    color:var(--moss-deep);
+    font-weight:600;
+    margin-bottom:12px;
+  }
+  .section-head h2{font-size:30px;line-height:1.3;}
+  .section-head p{margin-top:14px;color:var(--ink-soft);font-size:16px;}
+
+  /* PROCESS */
+  .process-list{display:flex;flex-direction:column;}
+  .process-item{
+    display:grid;
+    grid-template-columns:56px 1fr;
+    gap:24px;
+    padding:26px 0;
+    border-top:1px solid var(--line);
+  }
+  .process-item:first-child{border-top:none;}
+  .process-num{
+    font-family:'Lora', serif;
+    font-size:22px;
+    color:var(--moss);
+  }
+  .process-item h3{font-size:18px;margin-bottom:6px;}
+  .process-item p{margin:0;color:var(--ink-soft);font-size:15px;max-width:520px;}
+  .process-item .inputs{
+    margin-top:10px;
+    display:flex;flex-wrap:wrap;gap:8px;
+  }
+  .tag{
+    font-size:12.5px;
+    padding:4px 10px;
+    background:var(--paper-deep);
+    border:1px solid var(--line);
+    border-radius:3px;
+    color:var(--ink-soft);
+  }
+
+  /* SAMPLE DOSSIER */
+  .dossier-mock{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:0;
+    overflow:hidden;
+    box-shadow:0 1px 0 var(--line);
+  }
+  .dossier-head{
+    padding:26px 30px;
+    border-bottom:1px solid var(--line);
+    background:var(--paper-deep);
+  }
+  .dossier-head .doc-label{font-size:12.5px;color:var(--moss-deep);font-weight:600;margin-bottom:6px;}
+  .dossier-head h3{font-size:21px;}
+  .dossier-body{padding:30px;}
+  .metric-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    margin-bottom:26px;
+  }
+  .metric{
+    background:var(--white);
+    padding:18px 16px;
+  }
+  .metric .num{
+    font-family:'Lora', serif;
+    font-size:26px;
+    color:var(--moss-deep);
+  }
+  .metric .num.neg{color:var(--clay);}
+  .metric .label{font-size:12.5px;color:var(--ink-soft);margin-top:4px;}
+  .dossier-body p.finding{
+    font-size:15px;
+    color:var(--ink-soft);
+    margin:0 0 14px;
+  }
+  .dossier-body .limits-box{
+    margin-top:18px;
+    padding:16px 18px;
+    background:var(--warn-bg);
+    border:1px solid var(--warn-line);
+    border-radius:3px;
+    font-size:14px;
+    color:var(--ink-soft);
+  }
+  .limits-box strong{color:var(--ink);display:block;margin-bottom:6px;font-size:13.5px;}
+
+  /* PRICING */
+  .price-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:15px;
+  }
+  .price-table th{
+    text-align:left;
+    font-family:'DM Sans', sans-serif;
+    font-weight:600;
+    font-size:13px;
+    color:var(--ink-soft);
+    padding:12px 16px;
+    border-bottom:1px solid var(--ink);
+  }
+  .price-table td{
+    padding:22px 16px;
+    border-bottom:1px solid var(--line);
+    vertical-align:top;
+  }
+  .price-table tr:last-child td{border-bottom:none;}
+  .price-table .prod-name{font-family:'Lora', serif;font-size:18px;color:var(--ink);}
+  .price-table .prod-desc{font-size:14px;color:var(--ink-soft);margin-top:5px;max-width:280px;}
+  .price-table .price{font-family:'Lora', serif;font-size:19px;color:var(--moss-deep);white-space:nowrap;}
+  .price-table .recommended{position:relative;}
+  .rec-flag{
+    display:inline-block;
+    font-size:11.5px;
+    font-weight:600;
+    color:var(--moss-deep);
+    background:#E7EDE6;
+    padding:3px 8px;
+    border-radius:3px;
+    margin-top:8px;
+  }
+
+  /* AUDIENCE */
+  .audience-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .audience-card{background:var(--paper);padding:24px;}
+  .audience-card h3{font-size:16px;margin-bottom:8px;}
+  .audience-card p{margin:0;font-size:14px;color:var(--ink-soft);}
+
+  /* UPLOAD DEMO */
+  .demo-panel{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:36px;
+  }
+  .drop-zone{
+    border:1.5px dashed var(--moss);
+    border-radius:4px;
+    padding:36px 24px;
+    text-align:center;
+    background:var(--paper-deep);
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+  .drop-zone:hover{background:#ECE6D8;}
+  .drop-zone p{margin:0;font-size:14.5px;color:var(--ink-soft);}
+  .drop-zone .dz-title{font-size:15.5px;color:var(--ink);font-weight:600;margin-bottom:6px;}
+  #fileList{margin-top:16px;font-size:13.5px;color:var(--ink-soft);}
+  #fileList div{padding:4px 0;}
+  .demo-note{
+    margin-top:18px;
+    font-size:13px;
+    color:var(--ink-soft);
+    font-style:italic;
+  }
+
+  footer{
+    padding:40px 0 60px;
+    border-top:1px solid var(--line);
+    font-size:13.5px;
+    color:var(--ink-soft);
+  }
+
+  @media (max-width:720px){
+    .hero h1{font-size:32px;}
+    .metric-grid{grid-template-columns:repeat(2,1fr);}
+    .audience-grid{grid-template-columns:1fr;}
+    .process-item{grid-template-columns:40px 1fr;}
+    .nav-links{display:none;}
+  }
+</style>
 </head>
 <body>
 
-<svg style="display:none" aria-hidden="true">
-  <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-    <polyline points="20 6 9 17 4 12"></polyline>
-  </symbol>
-  <symbol id="icon-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="5" y="11" width="14" height="9" rx="2"></rect>
-    <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
-  </symbol>
-</svg>
+<nav>
+  <div class="wrap">
+    <div class="brandmark">Social <span>Impact Check</span></div>
+    <div class="nav-links">
+      <a href="#werkwijze">Werkwijze</a>
+      <a href="#voorbeeld">Voorbeeld</a>
+      <a href="#voor-wie">Voor wie</a>
+      <a href="#prijzen">Prijzen</a>
+      <a href="#aanvragen">Check aanvragen</a>
+    </div>
+  </div>
+</nav>
 
-<div class="hinweis-banner">Vertrag erhalten? Vor einer Unterschrift oder K&uuml;ndigung lohnt es sich, Laufzeit und Bedingungen erst nachzuvollziehen.</div>
-
-<header class="header">
-  <div class="container">
-    <div class="header__inner">
-      <div class="logo"><span class="logo-dot"></span>MussIchZahlen</div>
-      <a href="#free-check" class="header-cta">Kostenlose Ersteinordnung erhalten</a>
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Voor buurtinitiatieven, welzijnsorganisaties, sportverenigingen en kunst-zorgprojecten</div>
+    <h1>Wat heeft uw project daadwerkelijk opgeleverd?</h1>
+    <p class="lede">U levert de projectdata die u al heeft. Wij leveren een helder, onderbouwd impactrapport terug — geschikt om te overleggen aan gemeente, fonds of bestuur.</p>
+    <div class="hero-actions">
+      <a href="#aanvragen" class="btn btn-primary">Check aanvragen</a>
+      <a href="#voorbeeld" class="btn btn-ghost">Bekijk een voorbeelddossier</a>
+    </div>
+    <div class="disclaimer-bar">
+      <strong>Wat dit wél en niet is.</strong> Wij signaleren en rapporteren wat de data laten zien — inclusief wat de data niet bewijzen. Geen keurmerk, geen wetenschappelijke goedkeuring van de interventie zelf.
     </div>
   </div>
 </header>
 
-<section class="hero">
-  <div class="container">
-    <h1>Vertrag erhalten?<br>Erst einordnen, bevor Sie handeln.</h1>
-    <p class="hero__sub">Laden Sie Ihren Vertrag hoch und erhalten Sie eine erste Einordnung der wichtigsten Punkte &mdash; bevor Sie unterschreiben, sich binden oder k&uuml;ndigen.</p>
-    <p style="font-size:.95rem;color:var(--muted);margin-bottom:18px;">Nicht immer ist vor einer Unterschrift klar, welche Verpflichtungen entstehen &mdash; und wie man sp&auml;ter wieder herauskommt.</p>
-    <div class="trust-triggers">
-      <div class="trust-trigger"><span>&#9679;</span><div><strong>K&uuml;ndigungsfristen</strong>Wann gek&uuml;ndigt werden muss, steht oft versteckt im Vertragstext.</div></div>
-      <div class="trust-trigger"><span>&#9679;</span><div><strong>Automatische Verl&auml;ngerung</strong>Viele Vertr&auml;ge verl&auml;ngern sich automatisch &mdash; wenn nicht rechtzeitig gek&uuml;ndigt wurde.</div></div>
-      <div class="trust-trigger"><span>&#9679;</span><div><strong>Alles schriftlich</strong>Kein Verkaufsgespr&auml;ch, kein Druck am Telefon. Sie erhalten eine schriftliche Einordnung, die Sie in Ruhe lesen k&ouml;nnen.</div></div>
+<section id="werkwijze">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Werkwijze</div>
+      <h2>Van projectdata naar verantwoordingsdossier, in vier stappen</h2>
+      <p>U levert aan wat u al heeft. Wij structureren, analyseren en schrijven het rapport.</p>
     </div>
-    <a href="#free-check" class="hero-cta">Kostenlose Ersteinordnung erhalten</a>
-    <div class="hero-sub-note">PDF, JPG oder PNG &middot; kein Abo &middot; ausf&uuml;hrlichere Einordnung optional</div>
-  </div>
-</section>
-
-<section class="section" id="free-check" style="padding-top:40px;">
-  <div class="container" style="max-width:620px;">
-    <p style="text-align:center;font-size:.88rem;color:var(--ink-3);line-height:1.7;margin-bottom:18px;">Ein unklarer Vertrag kann viele Fragen aufwerfen. MussIchZahlen.de bietet eine unabhängige, sachliche Ersteinordnung der wichtigsten Punkte, bevor Sie unterschreiben, kündigen oder reagieren.</p>
-    <p style="text-align:center;font-size:.85rem;color:var(--muted);margin:0 auto 18px;line-height:1.6;"><strong>MussIchZahlen.de ist ein unabhängiger Dienst.</strong> Wir sind nicht mit Anbietern oder Vertragspartnern verbunden und handeln nicht in deren Auftrag.</p>
-    <div class="offer-card" id="free-card">
-      <div class="offer-badge">Kostenlose Ersteinordnung</div>
-      <div class="offer-title">Kostenlose Ersteinordnung erhalten</div>
-      <p class="offer-desc">Laden Sie Ihren Vertrag, Ihr K&uuml;ndigungsschreiben oder die relevante Vertragsunterlage hoch. Sie erhalten eine erste Einordnung per E-Mail &mdash; in der Regel bis zum n&auml;chsten Werktag.</p>
-      <label id="gratis-upload-zone" class="upload-zone" for="gratis-file-input" style="touch-action:manipulation;-webkit-tap-highlight-color:rgba(0,0,0,0);">
-        <div class="upload-label" style="pointer-events:none;position:relative;z-index:2;">Datei ausw&auml;hlen oder hierher ziehen</div>
-        <div class="upload-hint" style="pointer-events:none;position:relative;z-index:2;">PDF, JPG oder PNG &middot; max. 8 MB</div>
-      </label>
-      <input
-        id="gratis-file-input"
-        type="file"
-        accept=".pdf,.jpg,.jpeg,.png"
-        aria-label="Datei ausw&auml;hlen"
-        style="position:fixed;top:-9999px;left:-9999px;opacity:0;"
-      />
-      <div class="upload-hint" style="margin:-8px 0 4px;">Ein Handyfoto gen&uuml;gt &mdash; wichtig ist nur die Lesbarkeit.</div>
-      <div class="upload-hint" style="margin:0 0 14px;">In der Regel erhalten Sie Ihre kostenlose Ersteinordnung bis zum n&auml;chsten Werktag.</div>
-      <div id="gratis-contact-fields" class="contact-fields">
-        <input id="gratis-name" class="input" placeholder="Ihr Name" autocomplete="name">
-        <input id="gratis-email" class="input" placeholder="Ihre E-Mail-Adresse" type="email" autocomplete="email">
-        <div style="font-size:.8rem;color:var(--muted);margin-top:-6px;margin-bottom:4px;">Nur f&uuml;r Ihre Ersteinordnung &mdash; kein Newsletter, keine Werbung.</div>
-        <button id="gratis-btn" disabled class="offer-cta">Kostenlos einordnen lassen</button>
+    <div class="process-list">
+      <div class="process-item">
+        <div class="process-num">01</div>
+        <div>
+          <h3>U levert aan wat u heeft</h3>
+          <p>Geen speciale voorbereiding nodig — bestaande documenten en data zijn voldoende.</p>
+          <div class="inputs">
+            <span class="tag">Projectplan</span>
+            <span class="tag">Deelnemersgegevens</span>
+            <span class="tag">Vragenlijsten</span>
+            <span class="tag">Excel / CSV</span>
+            <span class="tag">Evaluaties</span>
+            <span class="tag">Interviews / feedback</span>
+          </div>
+        </div>
       </div>
-      <div id="gratis-status" class="optie-status"></div>
-      <div class="offer-security"><svg class="icon"><use href="#icon-lock"></use></svg> Ihre Datei wird ausschlie&szlig;lich zur Erstellung Ihrer Einordnung verwendet und nicht an Dritte weitergegeben.</div>
-    </div>
-
-    <div style="background:var(--soft);border:1px solid var(--accent);border-radius:14px;padding:20px 22px;margin-top:20px;max-width:600px;margin-left:auto;margin-right:auto;">
-      <p style="font-weight:700;color:var(--accent);font-size:.95rem;margin-bottom:12px;">Passt eine andere Kategorie besser?</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;">
-        <a href="/nebenkosten/" style="background:var(--white);border:1px solid var(--line);border-radius:10px;padding:14px 16px;text-decoration:none;display:block;"><span style="font-size:.92rem;color:var(--ink);font-weight:600;">Nebenkostenabrechnung? &rarr;</span></a>
-        <a href="/rechnung/" style="background:var(--white);border:1px solid var(--line);border-radius:10px;padding:14px 16px;text-decoration:none;display:block;"><span style="font-size:.92rem;color:var(--ink);font-weight:600;">Bereits eine Rechnung erhalten? &rarr;</span></a>
-        <a href="/mahnung/" style="background:var(--white);border:1px solid var(--line);border-radius:10px;padding:14px 16px;text-decoration:none;display:block;"><span style="font-size:.92rem;color:var(--ink);font-weight:600;">Mahnung oder Inkasso? &rarr;</span></a>
+      <div class="process-item">
+        <div class="process-num">02</div>
+        <div>
+          <h3>Wij structureren de data</h3>
+          <p>Deelnemers, meetmomenten en indicatoren worden op één lijn gebracht — ook als de data uit verschillende documenten en formats komen.</p>
+        </div>
+      </div>
+      <div class="process-item">
+        <div class="process-num">03</div>
+        <div>
+          <h3>Analyse tegen de meetdoelen</h3>
+          <p>Welzijn, verbondenheid, deelname, uitval en andere relevante indicatoren worden berekend en getoetst aan wat het project wilde bereiken — met expliciete vermelding van methodologische beperkingen.</p>
+        </div>
+      </div>
+      <div class="process-item">
+        <div class="process-num">04</div>
+        <div>
+          <h3>U ontvangt het rapport</h3>
+          <p>Managementsamenvatting, resultaten, analyse, beperkingen en aanbevelingen — direct bruikbaar richting financier of bestuur.</p>
+        </div>
       </div>
     </div>
+  </div>
+</section>
 
-    <div id="confirmation-card" style="display:none;margin-top:24px;background:#f0fdf4;border:2px solid #86efac;border-radius:16px;padding:28px 28px 24px;">
-      <div style="font-size:1.1rem;font-weight:700;color:#14532d;margin-bottom:10px;"><svg class="icon-lg" style="color:#14532d;"><use href="#icon-check"></use></svg> Wir haben Ihren Vertrag erhalten.</div>
-      <p style="font-size:.95rem;color:#166534;margin-bottom:16px;line-height:1.75;">Wir sehen uns die Unterlagen nun genauer an. Sie erhalten Ihre erste Einordnung in der Regel bis zum n&auml;chsten Werktag per E-Mail.</p>
-      <div style="background:#fff;border:1px solid #bbf7d0;border-radius:10px;padding:14px 16px;margin-bottom:16px;">
-        <div style="font-weight:700;font-size:.9rem;color:#14532d;margin-bottom:6px;">Was passiert als n&auml;chstes?</div>
-        <p style="font-size:.88rem;color:#166534;line-height:1.65;margin:0;">Wir sehen uns die Vertragsbedingungen genauer an und ordnen ein, welche Punkte &mdash; etwa Laufzeit, K&uuml;ndigungsfristen oder automatische Verl&auml;ngerungsklauseln &mdash; vor einer Entscheidung noch Fragen offenlassen.</p>
+<section id="voorbeeld">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Voorbeeld</div>
+      <h2>Zo ziet een Social Impact Check eruit</h2>
+      <p>Uittreksel uit een rapport voor een buurtinitiatief gericht op eenzaamheid bij ouderen.</p>
+    </div>
+
+    <div class="dossier-mock">
+      <div class="dossier-head">
+        <div class="doc-label">SOCIAL IMPACT CHECK</div>
+        <h3>Buurtmaatjes Ouderen — Voorjaarscohort 2026</h3>
       </div>
-      <p style="font-size:.84rem;color:#166534;margin-bottom:6px;">Falls Sie keine E-Mail erhalten, schauen Sie bitte auch in Ihrem Spam-Ordner nach.</p>
-      <p style="font-size:.84rem;color:#166534;margin:0;">Vielen Dank f&uuml;r Ihr Vertrauen.</p>
+      <div class="dossier-body">
+        <div class="metric-grid">
+          <div class="metric">
+            <div class="num">38 / 45</div>
+            <div class="label">Afgerond (84%)</div>
+          </div>
+          <div class="metric">
+            <div class="num">+16%</div>
+            <div class="label">Sociale verbondenheid</div>
+          </div>
+          <div class="metric">
+            <div class="num">+11%</div>
+            <div class="label">Welzijn</div>
+          </div>
+          <div class="metric">
+            <div class="num neg">−13%</div>
+            <div class="label">Eenzaamheid</div>
+          </div>
+        </div>
+        <p class="finding">De resultaten wijzen op een positieve verandering in sociale verbondenheid en welzijn gedurende de looptijd van het programma. Deelname bleef stabiel hoog (87%).</p>
+        <div class="limits-box">
+          <strong>Beperkingen</strong>
+          Er is geen controlegroep gebruikt. Op basis van deze data kan niet worden vastgesteld dat de waargenomen verandering door de interventie is veroorzaakt, alleen dat zij samenvalt met deelname aan het programma.
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section section--alt">
-  <div class="container">
-    <div class="section-label">So funktioniert es</div>
-    <h2>Wie es funktioniert</h2>
-    <div class="steps">
-      <div class="step"><div class="step__num">01</div><div class="step__title">Vertrag hochladen</div><div class="step__desc">Sie laden Ihren Vertrag oder das relevante Schreiben hoch. PDF, JPG oder PNG.</div></div>
-      <div class="step"><div class="step__num">02</div><div class="step__title">Kostenlose Ersteinordnung</div><div class="step__desc">In der Regel bis zum n&auml;chsten Werktag erhalten Sie eine erste Einordnung per E-Mail.</div></div>
-      <div class="step"><div class="step__num">03</div><div class="step__title">Optional: ausführlichere Einordnung </div><div class="step__desc">Wenn Sie m&ouml;chten, erhalten Sie eine ausführlichere Einordnung mit Kündigungsvorlage per E-Mail.</div></div>
+<section id="voor-wie">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Voor wie</div>
+      <h2>Organisaties die moeten kunnen laten zien wat een project opleverde</h2>
+    </div>
+    <div class="audience-grid">
+      <div class="audience-card">
+        <h3>Buurt- en bewonersinitiatieven</h3>
+        <p>Buurthuizen, wijkcoöperaties en bewonersplatforms die gemeentelijke of fondsensubsidie moeten verantwoorden.</p>
+      </div>
+      <div class="audience-card">
+        <h3>Welzijnsorganisaties</h3>
+        <p>Kleine stichtingen en vrijwilligersorganisaties met sociale of inclusieprogramma’s.</p>
+      </div>
+      <div class="audience-card">
+        <h3>Sportverenigingen</h3>
+        <p>Clubs die maatschappelijke of inclusieprojecten draaien en daarover moeten rapporteren.</p>
+      </div>
+      <div class="audience-card">
+        <h3>Kunst &amp; zorg</h3>
+        <p>Muziek-, dans-, theater- en beeldende kunstprojecten in ouderenzorg, GGZ, revalidatie of gehandicaptenzorg.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section">
-  <div class="container">
-    <div class="section-label">Worauf es ankommt</div>
-    <h2>Was in Vertr&auml;gen oft unklar ist</h2>
-    <div class="trust-grid">
-      <div class="trust-item"><div class="trust-item__label">Laufzeit und Kündigung</div><div class="trust-item__text">Wie lange der Vertrag läuft, ab wann gekündigt werden kann und welche Frist gilt, ist nicht immer sofort erkennbar.</div></div>
-      <div class="trust-item"><div class="trust-item__label">Automatische Verlängerung</div><div class="trust-item__text">Ob sich ein Vertrag automatisch verlängert und um wie lange, sollte im Vertrag klar benannt sein.</div></div>
-      <div class="trust-item"><div class="trust-item__label">Klauseln und Bindung</div><div class="trust-item__text">Vage Formulierungen können den eigenen Spielraum später einschränken. Vorher zu verstehen, was gemeint ist, ist einfacher als danach.</div></div>
+<section id="prijzen">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Prijzen</div>
+      <h2>Eén rapport per project, geen abonnement nodig</h2>
+    </div>
+    <table class="price-table">
+      <thead>
+        <tr><th>Product</th><th>Voor</th><th>Prijs</th></tr>
+      </thead>
+      <tbody>
+        <tr class="recommended">
+          <td>
+            <div class="prod-name">Social Impact Check</div>
+            <div class="prod-desc">Volledige analyse en professioneel rapport, van projectdata tot managementsamenvatting.</div>
+            <span class="rec-flag">Startpunt</span>
+          </td>
+          <td>Eén afgerond of lopend project</td>
+          <td class="price">€595</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="prod-name">Social Impact Check + Meetplan</div>
+            <div class="prod-desc">Meetplan vooraf + eindrapport na afronding van het project.</div>
+          </td>
+          <td>Projecten die nog moeten starten</td>
+          <td class="price">€895</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="prod-name">Jaarpakket</div>
+            <div class="prod-desc">Meerdere projecten per jaar, doorlopend gedocumenteerd.</div>
+          </td>
+          <td>Organisaties met 3+ projecten per jaar</td>
+          <td class="price">Op aanvraag</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="aanvragen">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Check aanvragen</div>
+      <h2>Lever uw projectdata aan</h2>
+      <p>Dit eerste exemplaar wordt handmatig/AI-ondersteund samengesteld — geen account nodig.</p>
+    </div>
+    <div class="demo-panel">
+      <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+        <div class="dz-title">Sleep bestanden hierheen of klik om te uploaden</div>
+        <p>Projectplan, deelnemersgegevens, vragenlijsten, Excel/CSV, evaluaties, interviews</p>
+        <input type="file" id="fileInput" multiple style="display:none">
+      </div>
+      <div id="fileList"></div>
+      <p class="demo-note">Ontwerp-demo — bestanden worden lokaal getoond, niet verzonden. Voor een echte aanvraag: vervang dit door een e-mailformulier of upload-koppeling.</p>
     </div>
   </div>
 </section>
 
-<section class="section section--alt">
-  <div class="container">
-    <div class="value-strip">
-      <span class="value-item"><span class="vi-check"><svg class="icon"><use href="#icon-check"></use></svg></span> Laufzeit und Fristen</span>
-      <span class="value-item"><span class="vi-check"><svg class="icon"><use href="#icon-check"></use></svg></span> Automatische Verl&auml;ngerung</span>
-      <span class="value-item"><span class="vi-check"><svg class="icon"><use href="#icon-check"></use></svg></span> K&uuml;ndigungsfristen</span>
-      <span class="value-item"><span class="vi-check"><svg class="icon"><use href="#icon-check"></use></svg></span> Fertiges K&uuml;ndigungsschreiben</span>
-      <span class="value-item"><span class="vi-check"><svg class="icon"><use href="#icon-check"></use></svg></span> Einmalig Ausführlichere Einordnung optional</span>
-    </div>
-    <div class="offer-card">
-      <div class="offer-badge">Nach Ersteinordnung</div>
-      <div class="offer-title">Ausführlichere Einordnung + Kündigungsvorlage</div>
-      <p class="offer-desc">Wir ordnen die wichtigsten Vertragspunkte ein: Laufzeit, K&uuml;ndigungsfristen, automatische Verl&auml;ngerung, relevante Klauseln. In verst&auml;ndlicher Sprache, ohne juristische Fachbegriffe. Bei Bedarf erhalten Sie eine fertige K&uuml;ndigungsvorlage. Sie entscheiden, wie Sie weiter vorgehen.</p>
-      <ul class="offer-list">
-        <li><svg class="icon"><use href="#icon-check"></use></svg><span>Einordnung von Laufzeit, K&uuml;ndigungsfristen und Verl&auml;ngerungsklauseln</span></li>
-        <li><svg class="icon"><use href="#icon-check"></use></svg><span>Einordnung, ob Formulierungen klar und nachvollziehbar sind</span></li>
-        <li><svg class="icon"><use href="#icon-check"></use></svg><span>Hinweise auf Punkte, die vor einer Unterschrift oder K&uuml;ndigung relevant sein k&ouml;nnten</span></li>
-        <li><svg class="icon"><use href="#icon-check"></use></svg><span>Fertiges K&uuml;ndigungsschreiben bei Bedarf</span></li>
-        <li><svg class="icon"><use href="#icon-check"></use></svg><span>Klare n&auml;chste Schritte</span></li>
-        <li><svg class="icon"><use href="#icon-check"></use></svg><span>Per E-Mail zugestellt</span></li>
-      </ul>
-      <hr class="offer-divider">
-      <div class="offer-price">&euro;29 <span>einmalig &middot; kein Abo</span></div>
-      <a href="#free-check" class="offer-cta">Zuerst kostenlos einordnen lassen</a>
-      <div class="offer-security"><svg class="icon"><use href="#icon-lock"></use></svg> Sichere Zahlung &uuml;ber Stripe nach der Ersteinordnung</div>
-      <div class="offer-refund">Wenn die Einordnung Ihren Vertrag nicht vollständig erfasst, melden Sie sich. Wir schauen es uns noch einmal an.</div>
-      <p style="font-size:.82rem;color:var(--muted);line-height:1.6;margin-top:14px;text-align:left;">F&uuml;r manche reicht die kostenlose Ersteinordnung bereits aus. Wenn sie Ihre Frage schon beantwortet hat, brauchen Sie nicht weiterzugehen.</p>
-      <p style="font-size:.82rem;color:var(--muted);line-height:1.6;margin-top:10px;text-align:left;">Wir pr&uuml;fen jeden Vertrag auf die gleiche sorgf&auml;ltige Weise und halten das Ergebnis schriftlich fest, statt in einem Telefongespr&auml;ch, an dessen Einzelheiten Sie sich sp&auml;ter vielleicht nicht mehr erinnern.</p>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container">
-    <div class="section-label">Passend f&uuml;r Sie?</div>
-    <h2>F&uuml;r wen ist das geeignet?</h2>
-    <div class="fit-rows">
-      <div class="fit-row"><span><svg class="icon-lg"><use href="#icon-check"></use></svg></span><span>Sie haben einen Vertrag erhalten und m&ouml;chten ihn verstehen, bevor Sie unterschreiben oder sich binden</span></div>
-      <div class="fit-row"><span><svg class="icon-lg"><use href="#icon-check"></use></svg></span><span>Sie sind unsicher, ob K&uuml;ndigungsfristen, Laufzeit oder automatische Verl&auml;ngerung nachvollziehbar geregelt sind</span></div>
-      <div class="fit-row"><span><svg class="icon-lg"><use href="#icon-check"></use></svg></span><span>Sie m&ouml;chten einen bestehenden Vertrag k&uuml;ndigen und suchen eine sachliche Vorlage</span></div>
-      <div class="fit-row"><span><svg class="icon-lg"><use href="#icon-check"></use></svg></span><span>Sie m&ouml;chten vor einer Bindung wissen, worauf Sie achten sollten</span></div>
-    </div>
-  </div>
-</section>
-
-<section class="section section--alt">
-  <div class="container">
-    <div class="section-label">Häufige Fragen</div>
-    <h2>Häufige Fragen zu Verträgen und Kündigungen</h2>
-    <div class="faq-list">
-      <div class="faq-item"><div class="faq-q">Kann ich telefonisch mit jemandem sprechen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Wir bieten keine telefonische Beratung an. Alles wird schriftlich per E-Mail zugestellt — so können wir jedes Schreiben sorgfältig prüfen und den Service bezahlbar halten. Sie erhalten etwas, das Sie in Ruhe lesen, speichern und später wieder nachlesen können.</div></div>
-      <div class="faq-item"><div class="faq-q">Was passiert mit meinen Unterlagen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Ihr Dokument wird ausschließlich für die Erstellung Ihrer Einordnung verarbeitet. Es wird nicht an Dritte weitergegeben und nicht für andere Zwecke verwendet.</div></div>
-      <div class="faq-item"><div class="faq-q">Wie lange ist die K&uuml;ndigungsfrist in meinem Vertrag? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Das h&auml;ngt vom Vertrag ab. K&uuml;ndigungsfristen von einem bis drei Monaten sind h&auml;ufig. Viele Vertr&auml;ge erlauben eine K&uuml;ndigung nur zum Ende einer Laufzeitperiode. Die genauen Fristen stehen im Vertrag selbst.</div></div>
-      <div class="faq-item"><div class="faq-q">Was bedeutet automatische Verl&auml;ngerung? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Wenn ein Vertrag nicht rechtzeitig gek&uuml;ndigt wird, verl&auml;ngert er sich oft automatisch &mdash; meist um die urspr&uuml;ngliche Laufzeit. Ob und wie das gilt, l&auml;sst sich aus dem Vertrag einordnen.</div></div>
-      <div class="faq-item"><div class="faq-q">Muss ich schriftlich k&uuml;ndigen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Die meisten Vertr&auml;ge verlangen eine K&uuml;ndigung in Textform &mdash; per Brief oder E-Mail. Manche fordern eine eigenh&auml;ndige Unterschrift. Was gilt, steht im Vertrag. Eine fertige Vorlage hilft, die richtigen Angaben zu machen.</div></div>
-      <div class="faq-item"><div class="faq-q">Was passiert nach dem Hochladen? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Sie erhalten eine kostenlose Ersteinordnung per E-Mail &mdash; in der Regel bis zum nächsten Werktag bis 16:00 Uhr. Darin erfahren Sie, welche Punkte vor einer Entscheidung relevant sein könnten. Eine ausführlichere Einordnung mit Kündigungsvorlage ist für 29&nbsp;€ optional verfügbar.</div></div>
-      <div class="faq-item"><div class="faq-q">Ist das Rechtsberatung? <span class="faq-chevron">&#8964;</span></div><div class="faq-a">Nein. MussIchZahlen.de erstellt informative Einordnungen in verständlicher Sprache sowie Vorlagen bei Bedarf. Keine Rechtsberatung, keine anwaltliche Vertretung.</div></div>
-    </div>
-  </div>
-</section>
-
-<section class="final-cta">
-  <div class="container">
-    <h2>Erst verstehen &mdash; dann unterschreiben.</h2>
-    <p>Vertrag erhalten? Eine kostenlose Ersteinordnung gibt Ihnen Klarheit &uuml;ber die wichtigsten Punkte &mdash; bevor Sie sich binden oder k&uuml;ndigen.</p>
-    <a href="#free-check" class="final-cta-btn">Kostenlose Ersteinordnung erhalten</a>
-    <div class="final-cta-note">PDF, JPG oder PNG &middot; kein Abo &middot; ausf&uuml;hrlichere Einordnung optional</div>
-  </div>
-</section>
-
-<div class="container">
-  <div class="footer-trust"><strong>MussIchZahlen.de</strong> hilft Verbrauchern, Verträge und Kündigungsbedingungen besser zu verstehen, bevor sie unterschreiben oder handeln.<br>Fragen? <a href="mailto:support@mussichzahlen.de">support@mussichzahlen.de</a></div>
-  <div class="disclaimer">MussIchZahlen.de erstellt verständliche Einordnungen und Vorlagen. Keine Rechtsberatung, keine Rechtsvertretung. Dokumente werden nach Verarbeitung gelöscht. &copy; 2026 MussIchZahlen.de</div>
-</div>
-
-<footer style="border-top:1px solid var(--line);padding:20px 0;text-align:center;background:var(--white);">
-  <div class="container">
-    <p style="font-size:.78rem;color:var(--muted);margin:0 0 10px;line-height:1.6;">MussIchZahlen.de wird betrieben von Dirk Jacob Groen, handelnd unter dem Namen MussIchZahlen, über sein eingetragenes Unternehmen GroenvanTexel (niederländische Handelskammer / KvK: 42072123), Den Burg, Niederlande.</p>
-    <p style="font-size:.78rem;color:var(--muted);margin:0;">
-      <a href="/impressum.html" style="color:var(--muted);margin:0 10px;">Impressum</a>
-      <a href="/datenschutz.html" style="color:var(--muted);margin:0 10px;">Datenschutz</a>
-      <a href="/agb.html" style="color:var(--muted);margin:0 10px;">AGB</a>
-      <a href="/ueber-uns.html" style="color:var(--muted);margin:0 10px;">Über uns</a>
-    </p>
+<footer>
+  <div class="wrap">
+    Social Impact Check levert een data-analyse en rapportage op basis van aangeleverde projectgegevens. Het is geen wetenschappelijke validatie van de interventie zelf.
   </div>
 </footer>
 
-<div class="sticky-footer" id="sticky-footer">
-  <div>
-    <div class="sticky-footer__text" style="font-weight:400;font-size:.86rem;color:rgba(255,255,255,.9);">Vertrag erhalten? Einordnung kostenlos anfordern.</div>
-    <div class="sticky-footer__sub">Kein Abo &middot; ausführlichere Einordnung optional</div>
-  </div>
-  <a href="#free-check" class="sticky-cta">Jetzt einordnen lassen</a>
-</div>
-
-<script src="/app.js"></script>
 <script>
-function initFaq(){document.querySelectorAll('.faq-item').forEach(function(item){var q=item.querySelector('.faq-q');if(q){q.setAttribute('tabindex','0');}function toggle(e){e.stopPropagation();var isOpen=item.classList.contains('faq-item--open');document.querySelectorAll('.faq-item--open').forEach(function(x){x.classList.remove('faq-item--open');});if(!isOpen)item.classList.add('faq-item--open');}item.addEventListener('touchend',function(e){e.preventDefault();toggle(e);},{passive:false});item.addEventListener('click',toggle);});}
-  if(document.readyState==='loading'){
-    document.addEventListener('DOMContentLoaded',initFaq);
-  } else {
-    initFaq();
+  const dropZone = document.getElementById('dropZone');
+  const fileInput = document.getElementById('fileInput');
+  const fileList = document.getElementById('fileList');
+
+  function renderFiles(files){
+    fileList.innerHTML = '';
+    Array.from(files).forEach(f => {
+      const row = document.createElement('div');
+      row.textContent = '— ' + f.name;
+      fileList.appendChild(row);
+    });
   }
-function initStickyFooter(){const sf=document.getElementById('sticky-footer');if(!sf)return;let t=false;window.addEventListener('scroll',()=>{if(!t){requestAnimationFrame(()=>{const y=window.scrollY;const nb=y+window.innerHeight>document.documentElement.scrollHeight-200;sf.classList.toggle('visible',y>400&&!nb);t=false;});t=true;}},{passive:true});}
-</script>
 
-<script>
-initStickyFooter();
-let selectedFile = null;
-const uploadZone = document.getElementById('gratis-upload-zone');
-const fileInput = document.getElementById('gratis-file-input');
-const contactFields = document.getElementById('gratis-contact-fields');
-const nameEl = document.getElementById('gratis-name');
-const emailEl = document.getElementById('gratis-email');
-const btn = document.getElementById('gratis-btn');
-const statusEl = document.getElementById('gratis-status');
-// Picker wird nativ über <label for="gratis-file-input"> geöffnet — kein JS nötig.
-uploadZone.addEventListener('dragover', (e) => { e.preventDefault(); uploadZone.style.borderColor = 'var(--accent)'; });
-uploadZone.addEventListener('dragleave', () => { uploadZone.style.borderColor = ''; });
-uploadZone.addEventListener('drop', (e) => { e.preventDefault(); uploadZone.style.borderColor = ''; const f = e.dataTransfer?.files?.[0]; if (f) handleFile(f); });
-fileInput.addEventListener('change', () => { if (fileInput.files?.[0]) handleFile(fileInput.files[0]); });
-function handleFile(file) {
-  const err = validateFile(file);
-  if (err) { setStatus('error', err); fileInput.value = ''; return; }
-  selectedFile = file;
-  uploadZone.querySelector('.upload-label').textContent = file.name;
-  uploadZone.querySelector('.upload-hint').textContent = formatFileSize(file.size);
-  fileInput.value = '';
-  contactFields.style.display = 'flex';
-  setStatus('', '');
-  updateBtn();
-  track('file_selected', { type: 'vertrag', fileType: file.type, fileSize: file.size });
-}
-function updateBtn() { btn.disabled = !(selectedFile && nameEl.value.trim() && emailEl.value.trim()); }
-['input', 'change', 'blur'].forEach((evt) => {
-  nameEl.addEventListener(evt, updateBtn);
-  emailEl.addEventListener(evt, updateBtn);
-});
-btn.addEventListener('click', async () => {
-  const name = nameEl.value.trim(), email = emailEl.value.trim();
-  if (!selectedFile || !name || !email) return;
-  btn.disabled = true;
-  btn.textContent = 'Wird gepr\u00fcft\u2026';
-  setStatus('info', 'Ihr Vertrag wird gepr\u00fcft\u2026');
-  try {
-    await submitFree({ file: selectedFile, name, email, type: 'vertrag', onStatus: (k, m) => setStatus(k, m) });
-    const c = document.getElementById('confirmation-card');
-    if (c) { c.style.display = 'block'; c.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-    const fc = document.getElementById('free-card');
-    if (fc) fc.style.display = 'none';
-    setStatus('', '');
-  } catch (err) {
-    setStatus('error', err.message || 'Pr\u00fcfung fehlgeschlagen. Bitte erneut versuchen.');
-    btn.disabled = false;
-    btn.textContent = 'Kostenlos einordnen lassen';
-  }
-});
-function setStatus(kind, msg) { statusEl.textContent = msg; statusEl.className = 'optie-status' + (kind ? ' optie-status--' + kind : ''); }
-</script>
+  fileInput.addEventListener('change', e => renderFiles(e.target.files));
 
-<script>
-  // Google Ads upload conversion
-  document.addEventListener('DOMContentLoaded', function(){
-    var el = document.getElementById('gratis-status');
-    if(!el) return;
-    var fired = false;
-    new MutationObserver(function(){
-      if(fired) return;
-      if(el.classList.contains('optie-status--success')){
-        fired = true;
-        if(typeof gtag !== 'undefined'){
-          gtag('event', 'conversion', {'send_to': 'AW-18193666186/hTTyCMbF67gcEIqhteND'});
-        }
-      }
-    }).observe(el, {attributes: true, attributeFilter: ['class']});
+  ['dragover'].forEach(evt => {
+    dropZone.addEventListener(evt, e => {
+      e.preventDefault();
+      dropZone.style.background = '#ECE6D8';
+    });
+  });
+  ['dragleave','drop'].forEach(evt => {
+    dropZone.addEventListener(evt, e => {
+      e.preventDefault();
+      dropZone.style.background = '';
+    });
+  });
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    if(e.dataTransfer.files.length){
+      fileInput.files = e.dataTransfer.files;
+      renderFiles(e.dataTransfer.files);
+    }
   });
 </script>
-<script>
-(function() {
-  function installUploadFix() {
-    var zone  = document.getElementById('gratis-upload-zone');
-    var input = document.getElementById('gratis-file-input');
-    if (!zone || !input) return;
 
-    var lastOpen = 0;
-    function openPicker(e) {
-      if (e.target === input) return;
-      var now = Date.now();
-      if (now - lastOpen < 50) return;
-      lastOpen = now;
-      input.click();
-    }
-
-    zone.addEventListener('click', openPicker);
-    zone.addEventListener('touchend', function() {
-      console.log('[upload] touchend on zone');
-    }, { passive: true });
-
-    console.log('[upload] fix installed on /vertrag/');
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', installUploadFix);
-  } else {
-    installUploadFix();
-  }
-})();
-</script>
 </body>
 </html>
